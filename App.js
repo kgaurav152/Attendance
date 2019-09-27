@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-
 import AttendanceNavigator from './navigation/AttendanceNavigator';
 
 const fetchFonts = () => {
