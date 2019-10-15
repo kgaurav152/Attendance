@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
-import AttendanceNavigator from './navigation/AttendanceNavigator';
+import LoginNavigator from './navigation/LoginNavigator';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -23,5 +23,5 @@ export default function App() {
     );
   }
 
-  return <AttendanceNavigator />;
+  return <LoginNavigator />;
 }

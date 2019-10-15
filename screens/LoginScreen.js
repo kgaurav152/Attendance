@@ -4,7 +4,7 @@ import Colors from '../constants/Colors';
 import Card from '../components/Card';
 import { NavigationEvents } from 'react-navigation';
 
-const Welcome = props => {
+const Login = props => {
   return (
     <View style={styles.screen}>
        
@@ -22,7 +22,7 @@ const Welcome = props => {
       />
         <View style={styles.buttonContainer}>
           <Button title="Login" onPress={() =>props.navigation.navigate({
-            routeName: 'Dashboard'
+            routeName: 'AddDashboard'
           }) } />
           
         </View>
@@ -30,13 +30,13 @@ const Welcome = props => {
     </View>
   );
 };
-Welcome.navigationOptions = {
+Login.navigationOptions = {
     headerTitle: 'Katihar Engg. College, Katihar',
     headerStyle: {
       backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
     },
     headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor
-  };
+  }; 
   
 
 const styles = StyleSheet.create({
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Welcome;
+export default Login;

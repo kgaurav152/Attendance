@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {
     View,
     StyleSheet,
-    Text,
+   Text,
   Platform,
   Picker,
   Button
@@ -31,7 +31,7 @@ class Dashboard extends Component {
           <View>
               <Text style={{fontSize:25,marginLeft:'18%'}}>Select Branch</Text>
              <Picker selectedValue = {this.state.user} onValueChange = {this.updateUser}>
-                <Picker.Item label = "Civi Engineering" value = "Civi Engineering." />
+                <Picker.Item label = "Civil Engineering" value = "Civil Engineering." />
                 <Picker.Item label = "Mechanical Engineering" value = "Mechanical Engineering." />
                 <Picker.Item label = "Computer Sc. and Engg." value = "Computer Sc. and Engg." />
              </Picker>
