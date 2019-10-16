@@ -13,26 +13,11 @@ const Login = props => {
       <Card style={styles.inputContainer}>
       <Text style={styles.InputBox}>Full Name :</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
       /> 
-      <Text  style={styles.InputBox}>Registration No:</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
+      <Text  style={styles.InputBox}>Department:</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
       />
-      <Text  style={styles.InputBox}>Branch:</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
+      <Text  style={styles.InputBox}>Registration No.:</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
       />
-      <Text  style={styles.InputBox}>Sessions:</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
-      <Text  style={styles.InputBox}>Mobile No:</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
-      <Text style={styles.InputBox}> Address Line 1</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
-      <Text style={styles.InputBox}> Address Line 2</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
-      <Text style={styles.InputBox}> Address Line 3</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
-      <Text style={styles.InputBox}> PIN</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
-      <Text style={styles.InputBox}> City</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
-      <Text style={styles.InputBox}> State</Text><TextInput style={{ width :'60%',height: 40, borderColor: 'gray', borderWidth: 2 }}
-      />
+      
         <View style={styles.buttonContainer}>
           <Button title="Submit" onPress={() =>props.navigation.navigate({
             routeName: 'AddAttendance'
