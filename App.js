@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-
-import * as Font from 'expo-font';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import { AppLoading } from 'expo';
+import * as Font from 'expo-font';
+import ReduxThunk from 'redux-thunk';
 import LoginNavigator from './navigation/LoginNavigator';
 
+import studentReducer from './userDetails/reducers/student';
+const rootReducer = combineReducers({
+  student: studentReducer
+});
+
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const fetchFonts = () => {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -22,6 +30,13 @@ export default function App() {
       />
     );
   }
+  return (
+    <Provider store ={store}>
+      <LoginNavigator />;
 
-  return <LoginNavigator />;
+    </Provider>
+   
+  
+  
+  );
 }

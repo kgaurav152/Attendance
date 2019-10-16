@@ -6,7 +6,7 @@ import AddDashboard from '../screens/AddDashboard';
 import SummaryDashboard from '../screens/SummaryDashboard';
 import AddStudentScreen from '../screens/AddStudentScreen'
 import {Ionicons} from '@expo/vector-icons'
-import AddAttendance from '../screens/AddAttendance';
+import EditStudentScreen from '../screens/EditStudentScreen';
 
 const AddDashboardNavigator = createBottomTabNavigator({
   AddDashboard :{

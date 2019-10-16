@@ -1,10 +1,10 @@
 
-export const CREATE_PRODUCT = 'CREATE_STUDENT';
+export const CREATE_STUDENT = 'CREATE_STUDENT';
 
 
 
 
-export const createProduct = (name, department, reg_no) => {
+export const createStudent = (name, department, reg_no) => {
   return async dispatch => {
     // any async code you want!
     const response = await fetch('https://attendance-9b23e.firebaseio.com/student.json', {
