@@ -1,42 +1,26 @@
-import React, { useState } from 'react';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import { AppLoading } from 'expo';
-import * as Font from 'expo-font';
-import ReduxThunk from 'redux-thunk';
-import LoginNavigator from './navigation/LoginNavigator';
+import React, { Component } from 'react';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import Home from './screens/Home';
 
-import studentReducer from './userDetails/reducers/student';
-const rootReducer = combineReducers({
-  student: studentReducer
-});
+// we will use these two screens later in our AppNavigator
+import AddItem from './screens/AddItem';
+import List from './screens/List';
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
-const fetchFonts = () => {
-  return Font.loadAsync({
-    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
-  });
-};
-
-export default function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
-  if (!fontLoaded) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => setFontLoaded(true)}
-      />
-    );
+const AppNavigator = createStackNavigator(
+  {
+    Home,
+    AddItem,
+    List
+  },
+  {
+    initialRouteName: 'Home'
   }
-  return (
-    <Provider store ={store}>
-      <LoginNavigator />;
+);
 
-    </Provider>
-   
-  
-  
-  );
+const AppContainer = createAppContainer(AppNavigator);
+
+export default class App extends Component {
+  render() {
+    return <AppContainer />;
+  }
 }
