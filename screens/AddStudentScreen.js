@@ -47,6 +47,10 @@ const EditStudentScreen = props => {
   );
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(student.fetchStudents());
+  },[dispatch]);
+
   const [formState, dispatchFormState] = useReducer(formReducer, {
     inputValues: {
       name: editedStudent ? editedStudent.name : '',

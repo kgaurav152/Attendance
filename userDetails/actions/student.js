@@ -1,7 +1,18 @@
 
 export const CREATE_STUDENT = 'CREATE_STUDENT';
+export  const SET_STUDENTS = 'SET_STUDENTS';
 
+export const fetchStudents = () => {
+  return  async dispatch => {
+    const response = await fetch{
+      'https://attendance-9b23e.firebaseio.com/student.json'
+    };
 
+    const resData = await response.json();
+    console.log(resData);
+    dispatch({tpe: SET_STUDENTS, students: []})
+  };
+};
 
 
 export const createStudent = (name, department, reg_no) => {
