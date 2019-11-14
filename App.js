@@ -1,26 +1,28 @@
-import React, { Component } from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Home from './screens/Home';
+import React, { useState } from 'react';
+import { Text, View } from 'react-native';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
 
-// we will use these two screens later in our AppNavigator
-import AddItem from './screens/AddItem';
-import List from './screens/List';
+import LoginNavigator from './navigation/LoginNavigator';
 
-const AppNavigator = createStackNavigator(
-  {
-    Home,
-    AddItem,
-    List
-  },
-  {
-    initialRouteName: 'Home'
+const fetchFonts = () => {
+  return Font.loadAsync({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+  });
+};
+
+export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+      />
+    );
   }
-);
 
-const AppContainer = createAppContainer(AppNavigator);
-
-export default class App extends Component {
-  render() {
-    return <AppContainer />;
-  }
+  return <LoginNavigator />;
 }
