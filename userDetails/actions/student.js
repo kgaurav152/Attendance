@@ -4,9 +4,9 @@ export  const SET_STUDENTS = 'SET_STUDENTS';
 
 export const fetchStudents = () => {
   return  async dispatch => {
-    const response = await fetch{
+    const response = await fetch(
       'https://attendance-9b23e.firebaseio.com/student.json'
-    };
+    );
 
     const resData = await response.json();
     console.log(resData);
