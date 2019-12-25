@@ -1,11 +1,13 @@
-import Firebase from 'firebase';
-let config = {
-  apiKey: 'AIzaSyBLYIcYvYSzUFdDnlS-lGkhe_YCuuf4zNc',
-  authDomain: 'attendance-c4d70.firebaseapp.com',
-  databaseURL: 'https://attendance-c4d70.firebaseio.com/',
-  projectId: 'attendance-c4d70',
-  storageBucket: 'gs://attendance-c4d70.appspot.com/',
-  messagingSenderId: '242643882944'
+import * as firebase from 'firebase'
+
+
+const config = {
+    apiKey: "AIzaSyBtwRJAl7LTKHu0ZSAJsmapmgva1XDCwos",
+    authDomain: "attendance-5d980.firebaseio.com",
+    databaseURL: "https://attendance-5d980.firebaseio.com/",
+    projectId: "attendance-5d980"
 };
-let app = Firebase.initializeApp(config);
-export const db = app.database();
+
+const fire = firebase.initializeApp(config);
+
+export default fire;

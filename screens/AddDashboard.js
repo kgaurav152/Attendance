@@ -16,8 +16,8 @@ const AddDashboard = props => {
         </Card>
         <Card style={styles.inputContainer}>
           <View style={styles.buttonContainer}>
-            <Button title="Add Faculty" onPress={() =>props.navigation.navigate({
-              routeName: 'AddFaculty'
+            <Button title="Student Details" onPress={() =>props.navigation.navigate({
+              routeName: 'ShowStudent'
             }) } />
           </View>
         </Card>

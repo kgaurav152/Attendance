@@ -4,10 +4,10 @@ import { createStackNavigator, createAppContainer,createSwitchNavigator, createB
 import LoginScreen from '../screens/LoginScreen';
 import AddDashboard from '../screens/AddDashboard';
 import SummaryDashboard from '../screens/SummaryDashboard';
-import AddStudentScreen from '../screens/AddStudentScreen'
+import StudentOverViewScreen from '../screens/StudentOverViewScreen'
 import {Ionicons} from '@expo/vector-icons'
 import EditStudentScreen from '../screens/EditStudentScreen';
-
+import AddStudentScreen from '../screens/AddStudentScreen'
 const AddDashboardNavigator = createBottomTabNavigator({
   AddDashboard :{
     screen:AddDashboard,
@@ -27,10 +27,12 @@ const AddDashboardNavigator = createBottomTabNavigator({
 
 });
 
+
 const MainNavigator = createStackNavigator({
   Login :LoginScreen,
   AddDashboard :AddDashboardNavigator,
-  AddStudent: AddStudentScreen,
+  AddStudent :AddStudentScreen,
+  ShowStudent :StudentOverViewScreen
   
   
 })
