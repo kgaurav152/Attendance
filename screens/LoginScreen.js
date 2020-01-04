@@ -22,7 +22,7 @@ const Login = props => {
       />
         <View style={styles.buttonContainer}>
           <Button title="Login" onPress={() =>props.navigation.navigate({
-            routeName: 'AddDashboard'
+            routeName: ''
           }) } />
           
         </View>

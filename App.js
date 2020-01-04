@@ -1,15 +1,11 @@
-
-
-
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import {createStore, combineReducers} from 'redux';
 import LoginNavigator from './navigation/LoginNavigator';
-import ReduxThunk from 'redux-thunk'; 
 import {Provider} from 'react-redux';
-import studentReducers from './userDetails/reducers/student'
+
 const fetchFonts = () => {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
