@@ -7,12 +7,12 @@ import Dashboard from 'react-native-dashboard'
 
 const items = [
   { name: 'Login', background: '#3498db', icon: 'user', routeName:'HomeScreen' },
-  { name: 'KEC Katihar', background: '#3498db', icon: 'gratipay' },
-  { name: 'About', background: '#3489db', icon: 'heart' },
-  { name: 'Social Network', background: '#3489db', icon: 'users' },
+  { name: 'KEC Katihar', background: '#ef0202', icon: 'gratipay' },
+  { name: 'About', background: '#efcf02', icon: 'heart' },
+  { name: 'Social Network', background: '#02ef1d', icon: 'users' },
 ];
 
-export default class Login extends Component {
+export default class HomeScreen extends Component {
   _card = el => {
     console.log('Card: ' + el.name)
   };
@@ -25,7 +25,7 @@ export default class Login extends Component {
     );
   }
 }
-Login.navigationOptions = {
+HomeScreen.navigationOptions = {
     headerTitle: 'Katihar Engg. College, Katihar',
     headerStyle: {
       backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''

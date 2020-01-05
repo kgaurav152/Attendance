@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import {createStore, combineReducers} from 'redux';
-import LoginNavigator from './navigation/LoginNavigator';
+import MainNavigator from './navigation/MainNavigator';
 import {Provider} from 'react-redux';
 
 const fetchFonts = () => {
@@ -12,18 +12,19 @@ const fetchFonts = () => {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
   });
 };
-const rootReducer = combineReducers ({
-  students:studentReducers
-});
-const store =createStore(rootReducer)
+
+
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   if (!fontLoaded) {
     return (
-      <Provider store ={store}>
-      <LoginNavigator/>
-      </Provider>
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+      />
     );
   }
+
+  return <MainNavigator />;
 }
