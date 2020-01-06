@@ -1,4 +1,5 @@
-import React,{Component} from 'react';
+
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, Button,Image,Platform,  } from 'react-native';
 import Colors from '../constants/Colors';
 import Card from '../components/Card';
@@ -12,6 +13,7 @@ const items = [
   { name: 'Social Network', background: '#02ef1d', icon: 'users' },
 ];
 
+ 
 export default class HomeScreen extends Component {
   _card = el => {
     console.log('Card: ' + el.name)
@@ -26,14 +28,12 @@ export default class HomeScreen extends Component {
   }
 }
 HomeScreen.navigationOptions = {
-    headerTitle: 'Katihar Engg. College, Katihar',
-    headerStyle: {
-      backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
-    },
-    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor
-  }; 
-  
-
+  headerTitle: 'Katihar Engg. College, Katihar',
+  headerStyle: {
+    backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
+  },
+  headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor
+}; 
 const styles = StyleSheet.create({
   screen: {
     
@@ -54,5 +54,3 @@ const styles = StyleSheet.create({
 
  
 });
-
-
