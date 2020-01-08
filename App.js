@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import {createAppContainer} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
+import {createBottomTabNavigator} from 'react-navigation'
 import Screen1 from './screens/HomeScreen';
 import Screen2 from './screens/Screen2';
 import Screen3 from './screens/Screen3';
@@ -94,7 +95,12 @@ const Drawer = createDrawerNavigator(
     drawerWidth: Dimensions.get('window').width - 120,
   }
 );
-export default createAppContainer(Drawer);
+
+const ScreenTabNavigator = createBottomTabNavigator({
+  Home: Drawer,
+  Screen: Screen2
+});
+export default createAppContainer(ScreenTabNavigator);
 
 /*export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);

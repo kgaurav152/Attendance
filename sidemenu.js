@@ -15,7 +15,7 @@ class SideMenu extends Component {
       {
         mainHeading: 'Main Heading 1',
         subOptions: [
-          { secondaryHeading: 'First Screen', navigationPath: 'First' },
+          { secondaryHeading: 'HomeScreen', navigationPath: 'First' },
         ],
       },
       {
