@@ -7,6 +7,7 @@ import { Icon, Button } from "react-native-elements";
 function Separator() {
   return <View style={styles.separator} />;
 }
+
  export default function HomeScreen()  {
   
   return (
@@ -33,7 +34,7 @@ function Separator() {
           />
 
           <Button
-            onPress={() => Alert.alert("Right upper button pressed")}
+            onPress={() => Alert.alert("KEC Katihar")}
             titleStyle={{
               color: "#fffff0",
               fontSize: 20,
@@ -56,7 +57,7 @@ function Separator() {
       <View>
         <View style={styles.fixToText}>
           <Button
-            onPress={() => Alert.alert("Left button pressed")}
+            onPress={() => Alert.alert("Developers Desk")}
             titleStyle={{
               color: "#fffaf0",
               fontSize: 23
@@ -72,7 +73,7 @@ function Separator() {
             title="Developers"
           />
           <Button
-            onPress={() => Alert.alert("Left button pressed")}
+            onPress={() => Alert.alert("About the App")}
             titleStyle={{
               color: "#334",
               fontSize: 23
