@@ -1,22 +1,33 @@
-import React,{Component} from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert} from "react-native";
+import React, {Component} from "react";
+import { StyleSheet, View, SafeAreaView, Text, Alert, ShadowPropTypesIOS} from "react-native";
 import Constants from "expo-constants";
+import LoginScreen from './LoginScreen'
 import { Icon, Button } from "react-native-elements";
+import { setRecoveryProps } from "expo/build/ErrorRecovery/ErrorRecovery";
+import { render } from "react-dom";
+
+
+
+
+
 
 
 function Separator() {
   return <View style={styles.separator} />;
 }
 
- export default function HomeScreen()  {
-  
-  return (
+export default class Homescreen extends Component  {
+  render() {
+    const {navigate} = this.props.navigation;
+    return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.title}>Online Attendance System</Text>
         <View style={styles.fixToText}>
           <Button
-          onPress={() => this.props.navigation.goBack('Second')}
+          onPress={() => {
+            navigate('Login',{name: 'Login'})
+          }}
             titleStyle={{
               color: "#fffaf0",
               fontSize: 23,
@@ -94,11 +105,14 @@ function Separator() {
       </View>
     </SafeAreaView>
   );
+  }
+  
+          
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 5,
     marginTop: Constants.statusBarHeight,
     marginHorizontal: 16,
     
