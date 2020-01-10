@@ -54,7 +54,7 @@ export default class LoginScreen extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight  onPress={() => this.onClickListener('register')}>
-            <Text style={styles.registerButton}>Register</Text>
+            <Text style={styles.registerButton}>Register.</Text>
         </TouchableHighlight>
         </View>
       </View>

@@ -159,7 +159,7 @@ export default class App extends React.Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>UX Designer</Text>
+              <Text style={styles.paragraph}>UX Designer.</Text>
               <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
               <Text style={styles.paragraph }>shardabharti.kri@gmail.com</Text>
             </View>

@@ -15,7 +15,7 @@ export default class Homescreen extends Component  {
     return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text style={styles.title}>Online Attendance System</Text>
+        <Text style={styles.title}>Online Attendance System.</Text>
         <View style={styles.fixToText}>
           <Button
           onPress={() => this.props.navigation.navigate('Login')}

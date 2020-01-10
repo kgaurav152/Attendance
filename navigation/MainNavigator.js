@@ -31,7 +31,7 @@ class NavigationDrawerStructure extends Component {
           {/*Donute Button Image */}
           <Image
             source={require("../images/drawer.png")}
-            style={{ width: 25, height: 25, marginLeft: 5 }}
+            style={{ width: 25, height: 25, marginLeft: 6 }}
           />
         </TouchableOpacity>
       </View>
