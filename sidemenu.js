@@ -21,7 +21,7 @@ class SideMenu extends Component {
       {
         mainHeading: 'Main Heading 2',
         subOptions: [
-          { secondaryHeading: 'Developers Info', navigationPath: 'Login' },
+          { secondaryHeading: 'Developers Info', navigationPath: 'Developers' },
           { secondaryHeading: 'About the App', navigationPath: 'Third' },
         ],
       },

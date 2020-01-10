@@ -5,33 +5,20 @@ import LoginScreen from './LoginScreen'
 import { Icon, Button } from "react-native-elements";
 import { setRecoveryProps } from "expo/build/ErrorRecovery/ErrorRecovery";
 import { render } from "react-dom";
-<<<<<<< HEAD
-import DeveloperScreen from '../screens/DeveloperScreen';
-=======
 
-
-
-
-
-
-
->>>>>>> a9467b78f508007fdb6f5fbd72609f28af423a83
 function Separator() {
   return <View style={styles.separator} />;
 }
 
 export default class Homescreen extends Component  {
   render() {
-    const {navigate} = this.props.navigation;
     return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.title}>Online Attendance System</Text>
         <View style={styles.fixToText}>
           <Button
-          onPress={() => {
-            navigate('Login',{name: 'Login'})
-          }}
+          onPress={() => this.props.navigation.navigate('Login')}
             titleStyle={{
               color: "#fffaf0",
               fontSize: 23,
@@ -111,27 +98,8 @@ export default class Homescreen extends Component  {
   );
   }
   
-<<<<<<< HEAD
-});
-const DeveloperScreen_StackNavigator = createStackNavigator({
-  Developers: {
-    screen: DeveloperScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: "Demo Screen 2",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-
-      headerStyle: {
-        backgroundColor: "blue"
-      },
-      headerTintColor: "#fff"
-    })
-  }
-  
-});
-=======
           
 }
->>>>>>> a9467b78f508007fdb6f5fbd72609f28af423a83
 
 const styles = StyleSheet.create({
   container: {
@@ -174,4 +142,3 @@ const styles = StyleSheet.create({
 
   }
 });
-

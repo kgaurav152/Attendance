@@ -16,6 +16,7 @@ import LoginScreen from '../screens/LoginScreen'
 import Screen2 from "../screens/Screen2";
 import Screen3 from "../screens/Screen3";
 import SideMenu from "../sidemenu";
+import DeveloperScreen from '../screens/DeveloperScreen';
 
 import ActionBarImage from "../components/ActionBarImage";
 
@@ -42,7 +43,6 @@ const FirstActivity_StackNavigator = createStackNavigator({
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
-      headerTitleStyle: {},
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
@@ -52,31 +52,32 @@ const FirstActivity_StackNavigator = createStackNavigator({
     })
   }
 });
-const Screen2_StackNavigator = createStackNavigator({
-  Second: {
-    screen: Screen2,
+const LoginScreen_StackNavigator = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
     navigationOptions: ({ navigation }) => ({
-      title: "Demo Screen 2",
+      title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-
+      headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "blue"
+        backgroundColor: "#fff"
       },
-      headerTintColor: "#fff"
+      headerTintColor: "black"
     })
   }
 });
-const Screen3_StackNavigator = createStackNavigator({
+const DeveloperScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  Third: {
-    screen: Screen3,
+  Developers: {
+    screen: DeveloperScreen,
     navigationOptions: ({ navigation }) => ({
-      title: "Demo Screen 3",
+      title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "blue"
+        backgroundColor: "#fff"
       },
-      headerTintColor: "#fff"
+      headerTintColor: "black"
     })
   }
 });
@@ -84,8 +85,8 @@ const Drawer = createDrawerNavigator(
   {
     //Drawer Optons and indexing
     NavScreen1: { screen: FirstActivity_StackNavigator },
-    NavScreen2: { screen: Screen2_StackNavigator },
-    NavScreen3: { screen: Screen3_StackNavigator }
+    NavScreen2: { screen: LoginScreen_StackNavigator },
+    NavScreen3: { screen: DeveloperScreen_StackNavigator }
   },
   {
     contentComponent: SideMenu,
