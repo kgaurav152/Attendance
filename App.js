@@ -19,6 +19,7 @@ import Screen3 from "./screens/Screen3";
 import SideMenu from "./sidemenu";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from './screens/LoginScreen';
+import DeveloperScreen from './screens/DeveloperScreen';
 
 import ActionBarImage from "./components/ActionBarImage";
 
@@ -89,12 +90,28 @@ const Screen3_StackNavigator = createStackNavigator({
     })
   }
 });
+const DeveloperScreen_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  Developers: {
+    screen: DeveloperScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  }
+});
 const Drawer = createDrawerNavigator(
   {
     //Drawer Optons and indexing
     NavScreen1: { screen: FirstActivity_StackNavigator },
     NavScreen2: { screen: Screen2_StackNavigator },
-    NavScreen3: { screen: Screen3_StackNavigator }
+    NavScreen3: { screen: Screen3_StackNavigator },
+    NavScreen4: { screen: DeveloperScreen_StackNavigator }
   },
   {
     contentComponent: SideMenu,

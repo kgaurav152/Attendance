@@ -5,6 +5,7 @@ import Constants from "expo-constants";
 import { Icon, Button } from "react-native-elements";
 import LoginScreen from '../screens/LoginScreen';
 import { render } from "react-dom";
+import DeveloperScreen from '../screens/DeveloperScreen';
 function Separator() {
   return <View style={styles.separator} />;
 }
@@ -59,7 +60,7 @@ function Separator() {
       <View>
         <View style={styles.fixToText}>
           <Button
-            onPress={() => Alert.alert("Developers Desk")}
+            onPress={() => this.props.navigation.navigate('Developers')}
             titleStyle={{
               color: "#fffaf0",
               fontSize: 23
@@ -110,6 +111,22 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "#fff"
     })
   }
+  
+});
+const DeveloperScreen_StackNavigator = createStackNavigator({
+  Developers: {
+    screen: DeveloperScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Demo Screen 2",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+
+      headerStyle: {
+        backgroundColor: "blue"
+      },
+      headerTintColor: "#fff"
+    })
+  }
+  
 });
 
 const styles = StyleSheet.create({
