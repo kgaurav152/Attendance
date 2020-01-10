@@ -1,25 +1,37 @@
-import React,{Component} from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert, Linking} from "react-native";
-import {createStackNavigator} from 'react-navigation-stack';
+import React, {Component} from "react";
+import { StyleSheet, View, SafeAreaView, Text, Alert, ShadowPropTypesIOS} from "react-native";
 import Constants from "expo-constants";
+import LoginScreen from './LoginScreen'
 import { Icon, Button } from "react-native-elements";
-import LoginScreen from '../screens/LoginScreen';
+import { setRecoveryProps } from "expo/build/ErrorRecovery/ErrorRecovery";
 import { render } from "react-dom";
+<<<<<<< HEAD
 import DeveloperScreen from '../screens/DeveloperScreen';
+=======
+
+
+
+
+
+
+
+>>>>>>> a9467b78f508007fdb6f5fbd72609f28af423a83
 function Separator() {
   return <View style={styles.separator} />;
 }
 
- class HomeScreen extends Component  {
-   render(){
-  
-  return (
+export default class Homescreen extends Component  {
+  render() {
+    const {navigate} = this.props.navigation;
+    return (
     <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.title}>Online Attendance System</Text>
         <View style={styles.fixToText}>
           <Button
-          onPress={() => this.props.navigation.navigate('Login')}
+          onPress={() => {
+            navigate('Login',{name: 'Login'})
+          }}
             titleStyle={{
               color: "#fffaf0",
               fontSize: 23,
@@ -97,21 +109,9 @@ function Separator() {
       </View>
     </SafeAreaView>
   );
-}}
-const LoginScreen_StackNavigator = createStackNavigator({
-  Login: {
-    screen: LoginScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: "Demo Screen 2",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-
-      headerStyle: {
-        backgroundColor: "blue"
-      },
-      headerTintColor: "#fff"
-    })
   }
   
+<<<<<<< HEAD
 });
 const DeveloperScreen_StackNavigator = createStackNavigator({
   Developers: {
@@ -128,10 +128,14 @@ const DeveloperScreen_StackNavigator = createStackNavigator({
   }
   
 });
+=======
+          
+}
+>>>>>>> a9467b78f508007fdb6f5fbd72609f28af423a83
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 5,
     marginTop: Constants.statusBarHeight,
     marginHorizontal: 16,
     
@@ -170,4 +174,4 @@ const styles = StyleSheet.create({
 
   }
 });
-export default HomeScreen
+

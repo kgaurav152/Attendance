@@ -11,6 +11,7 @@ import {
   Button
 } from "react-native";
 import * as Font from "expo-font";
+<<<<<<< HEAD
 import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack";
@@ -20,8 +21,14 @@ import SideMenu from "./sidemenu";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from './screens/LoginScreen';
 import DeveloperScreen from './screens/DeveloperScreen';
+=======
+
+import {AppLoading} from 'expo'
+>>>>>>> a9467b78f508007fdb6f5fbd72609f28af423a83
 
 import ActionBarImage from "./components/ActionBarImage";
+import MainNavigator from "./navigation/MainNavigator";
+
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -29,6 +36,7 @@ const fetchFonts = () => {
     "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
   });
 };
+<<<<<<< HEAD
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
@@ -120,8 +128,10 @@ const Drawer = createDrawerNavigator(
 );
 
 export default createAppContainer(Drawer);
+=======
+>>>>>>> a9467b78f508007fdb6f5fbd72609f28af423a83
 
-/*export default function App() {
+export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   if (!fontLoaded) {
@@ -133,5 +143,6 @@ export default createAppContainer(Drawer);
     );
   }
 
-  return <MainNavigator />;
-}*/
+  return <MainNavigator/>
+  
+}

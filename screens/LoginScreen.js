@@ -10,7 +10,7 @@ import {
   Alert
 } from 'react-native';
 
-export default class LoginScreen extends Component {
+export default class LoginView extends Component {
 
   constructor(props) {
     super(props);
@@ -28,7 +28,7 @@ export default class LoginScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={require('../assets/mailIcon.jpg')}/>
+          <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/message/ultraviolet/50/3498db'}}/>
           <TextInput style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
@@ -37,26 +37,25 @@ export default class LoginScreen extends Component {
         </View>
         
         <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={require('../assets/pwdIcon.png')}/>
+          <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/key-2/ultraviolet/50/3498db'}}/>
           <TextInput style={styles.inputs}
               placeholder="Password"
               secureTextEntry={true}
               underlineColorAndroid='transparent'
               onChangeText={(password) => this.setState({password})}/>
         </View>
-        
+
         <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
-        <View style={styles.fixTotext}>
-        <TouchableHighlight  onPress={() => this.onClickListener('restore_password')}>
-            <Text style={styles.forgotButton}>Forgot Password?</Text>
+
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
+            <Text>Forgot your password?</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight  onPress={() => this.onClickListener('register')}>
-            <Text style={styles.registerButton}>Register</Text>
+        <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('register')}>
+            <Text>Register</Text>
         </TouchableHighlight>
-        </View>
       </View>
     );
   }
@@ -67,10 +66,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    
+    backgroundColor: '#DCDCDC',
   },
   inputContainer: {
-      borderBottomColor: '#fff8dc',
+      borderBottomColor: '#F5FCFF',
       backgroundColor: '#FFFFFF',
       borderRadius:30,
       borderBottomWidth: 1,
@@ -106,21 +105,6 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: 'white',
-  },
-  fixTotext:{
-    justifyContent:'space-between',
-    flexDirection:'row'
-  },
-  forgotButton:{
-    marginRight:40,
-    fontWeight:'900',
-    color:'#00ffff',
-    fontSize:17
-  },
-  registerButton:{
-    marginLeft:40,
-    fontWeight:'900',
-    color:'#00ffff',
-    fontSize:17
   }
 });
+ 
