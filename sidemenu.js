@@ -15,14 +15,14 @@ class SideMenu extends Component {
       {
         mainHeading: 'Main Heading 1',
         subOptions: [
-          { secondaryHeading: 'HomeScreen', navigationPath: 'First' },
+          { secondaryHeading: 'Home', navigationPath: 'First' },
         ],
       },
       {
         mainHeading: 'Main Heading 2',
         subOptions: [
-          { secondaryHeading: 'Second Screen', navigationPath: 'Second' },
-          { secondaryHeading: 'Third Screen', navigationPath: 'Third' },
+          { secondaryHeading: 'Developers Info', navigationPath: 'Login' },
+          { secondaryHeading: 'About the App', navigationPath: 'Third' },
         ],
       },
     ];
