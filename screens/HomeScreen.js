@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert, ShadowPropTypesIOS} from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, Alert, Linking} from "react-native";
 import Constants from "expo-constants";
 import LoginScreen from './LoginScreen'
 import { Icon, Button } from "react-native-elements";

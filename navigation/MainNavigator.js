@@ -94,20 +94,11 @@ const Drawer = createDrawerNavigator(
   }
 );
 
-const ScreenTabNavigator = createBottomTabNavigator({
-  Home:Drawer,
-  Screen:Screen2
-});
 
 
 
 
 
-const MainNavigator = createStackNavigator({
 
-  Home:ScreenTabNavigator,
-  Login:LoginScreen
-  
-});
 
-export default createAppContainer(MainNavigator);
+export default createAppContainer(Drawer);
