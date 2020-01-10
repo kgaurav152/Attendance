@@ -15,10 +15,10 @@ import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation";
-import Screen2 from "./screens/Screen2";
 import Screen3 from "./screens/Screen3";
 import SideMenu from "./sidemenu";
 import HomeScreen from "./screens/HomeScreen";
+import LoginScreen from './screens/LoginScreen';
 
 import ActionBarImage from "./components/ActionBarImage";
 
@@ -62,16 +62,16 @@ const FirstActivity_StackNavigator = createStackNavigator({
   }
 });
 const Screen2_StackNavigator = createStackNavigator({
-  Second: {
-    screen: Screen2,
+  Login: {
+    screen: LoginScreen,
     navigationOptions: ({ navigation }) => ({
-      title: "Demo Screen 2",
+      title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-
+      headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "blue"
+        backgroundColor: "#fff"
       },
-      headerTintColor: "#fff"
+      headerTintColor: "black"
     })
   }
 });
@@ -102,11 +102,7 @@ const Drawer = createDrawerNavigator(
   }
 );
 
-const ScreenTabNavigator = createBottomTabNavigator({
-  Home: Drawer,
-  Screen: Screen2
-});
-export default createAppContainer(ScreenTabNavigator);
+export default createAppContainer(Drawer);
 
 /*export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);

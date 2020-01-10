@@ -1,14 +1,16 @@
 import React,{Component} from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert} from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, Alert, Linking} from "react-native";
+import {createStackNavigator} from 'react-navigation-stack';
 import Constants from "expo-constants";
 import { Icon, Button } from "react-native-elements";
-
-
+import LoginScreen from '../screens/LoginScreen';
+import { render } from "react-dom";
 function Separator() {
   return <View style={styles.separator} />;
 }
 
- export default function HomeScreen()  {
+ class HomeScreen extends Component  {
+   render(){
   
   return (
     <SafeAreaView style={styles.container}>
@@ -16,7 +18,7 @@ function Separator() {
         <Text style={styles.title}>Online Attendance System</Text>
         <View style={styles.fixToText}>
           <Button
-          onPress={() => this.props.navigation.goBack('Second')}
+          onPress={() => this.props.navigation.navigate('Login')}
             titleStyle={{
               color: "#fffaf0",
               fontSize: 23,
@@ -34,7 +36,7 @@ function Separator() {
           />
 
           <Button
-            onPress={() => Alert.alert("KEC Katihar")}
+            onPress={() => Linking.openURL('http://keck.ac.in')}
             titleStyle={{
               color: "#fffff0",
               fontSize: 20,
@@ -49,7 +51,7 @@ function Separator() {
               marginLeft: 10,
               marginBottom: 10
             }}
-            title="KEC Katihar"
+            title="KEC Katihar "
           />
         </View>
       </View>
@@ -94,7 +96,21 @@ function Separator() {
       </View>
     </SafeAreaView>
   );
-}
+}}
+const LoginScreen_StackNavigator = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Demo Screen 2",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+
+      headerStyle: {
+        backgroundColor: "blue"
+      },
+      headerTintColor: "#fff"
+    })
+  }
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -137,3 +153,4 @@ const styles = StyleSheet.create({
 
   }
 });
+export default HomeScreen
