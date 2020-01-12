@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import { createStackNavigator, createAppContainer,createDrawerNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createStackNavigator,createSwitchNavigator, createAppContainer,createDrawerNavigator, createBottomTabNavigator } from 'react-navigation';
 import {
   Text,
   View,
@@ -19,8 +19,11 @@ import DeveloperScreen from '../screens/DeveloperScreen';
 import Screen2 from "../screens/Screen2";
 import Screen3 from "../screens/Screen3";
 import SideMenu from "../sidemenu";
-
+import DeveloperScreen from '../screens/DeveloperScreen';
+import SignUp from '../screens/SignUp';
 import ActionBarImage from "../components/ActionBarImage";
+import WelcomeUserScreen from '../screens/WelcomeUserScreen';
+import AddStudentScreen from '../screens/AddStudentScreen';
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -33,7 +36,7 @@ class NavigationDrawerStructure extends Component {
           {/*Donute Button Image */}
           <Image
             source={require("../images/drawer.png")}
-            style={{ width: 25, height: 25, marginLeft: 5 }}
+            style={{ width: 25, height: 25, marginLeft: 6 }}
           />
         </TouchableOpacity>
       </View>
@@ -45,7 +48,6 @@ const FirstActivity_StackNavigator = createStackNavigator({
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
-      headerTitleStyle: {},
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
@@ -55,40 +57,84 @@ const FirstActivity_StackNavigator = createStackNavigator({
     })
   }
 });
-const Screen2_StackNavigator = createStackNavigator({
-  Second: {
-    screen: Screen2,
+const LoginScreen_StackNavigator = createStackNavigator({
+  Login: {
+    screen: LoginScreen,
     navigationOptions: ({ navigation }) => ({
-      title: "Demo Screen 2",
+      title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-
+      headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "blue"
+        backgroundColor: "#fff"
       },
-      headerTintColor: "#fff"
+      headerTintColor: "black"
+    })
+  },
+  WelcomeUser :{
+    screen: WelcomeUserScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  AddStudents :{
+    screen: AddStudentScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
     })
   }
 });
-const Screen3_StackNavigator = createStackNavigator({
+const DeveloperScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  Third: {
-    screen: Screen3,
+  Developers: {
+    screen: DeveloperScreen,
     navigationOptions: ({ navigation }) => ({
-      title: "Demo Screen 3",
+      title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "blue"
+        backgroundColor: "#fff"
       },
-      headerTintColor: "#fff"
+      headerTintColor: "black"
     })
   }
 });
+const SignUp_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  
+});
+
 const Drawer = createDrawerNavigator(
   {
     //Drawer Optons and indexing
     NavScreen1: { screen: FirstActivity_StackNavigator },
-    NavScreen2: { screen: Screen2_StackNavigator },
-    NavScreen3: { screen: Screen3_StackNavigator }
+    NavScreen2: { screen: LoginScreen_StackNavigator },
+    NavScreen3: { screen: SignUp_StackNavigator },
+    NavScreen4: { screen: DeveloperScreen_StackNavigator },
+    
   },
   {
     contentComponent: SideMenu,
@@ -96,23 +142,11 @@ const Drawer = createDrawerNavigator(
   }
 );
 
-const ScreenTabNavigator = createBottomTabNavigator({
-  Home:Drawer,
-  Screen:Screen2
-});
 
 
 
 
 
-const MainNavigator = createStackNavigator({
 
-  Home:ScreenTabNavigator,
-  Login:LoginScreen,
-  KEC_Katihar: CollegeScreen,
-  //Developer:DeveloperScreen,
-  //About:AboutAppScreen
-  
-});
 
-export default createAppContainer(MainNavigator);
+export default createAppContainer(Drawer);
