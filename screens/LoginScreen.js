@@ -45,7 +45,7 @@ export default class LoginScreen extends Component {
               onChangeText={(password) => this.setState({password})}/>
         </View>
 
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.onClickListener('login')}>
+        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() =>this.props.navigation.navigate('WelcomeUser')}>
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
         <View style={styles.fixTotext}>
@@ -53,7 +53,7 @@ export default class LoginScreen extends Component {
             <Text style={styles.forgotButton}>Forgot Password?</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight  onPress={() => this.onClickListener('register')}>
+        <TouchableHighlight  onPress={() => this.props.navigation.navigate('SignUp')}>
             <Text style={styles.registerButton}>Register.</Text>
         </TouchableHighlight>
         </View>

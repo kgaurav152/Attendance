@@ -164,7 +164,7 @@ export default class App extends React.Component {
               <Text style={styles.paragraph }>shardabharti.kri@gmail.com</Text>
             </View>
             <Image
-              source={require("../images/shanu.jpeg")}
+              source={require("../images/shanu.jpg")}
               style={{
                 width: 105,
                 height: 105,
