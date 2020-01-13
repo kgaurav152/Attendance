@@ -8,12 +8,7 @@ export default class KecKatihar extends Component {
     render() {  
         return (  
             <View style = {styles.container}>  
-                {/*<WebView 
-                    source={{html: '<h1>Hello javaTpoint</h1>'}} 
-                />*/}  
-             {/*   <WebView 
-                    source={require("./resources/index.html")} 
-                />*/}  
+                
                 <WebView  
                     source = {{ uri:'http://www.keck.ac.in' }}  
                 />  
