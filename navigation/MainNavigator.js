@@ -19,21 +19,17 @@ import {
 } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
-import HomeScreen from '../screens/HomeScreen';
-import LoginScreen from '../screens/LoginScreen'
-import AboutAppScreen from '../screens/AboutAppScreen';
-import CollegeScreen from '../screens/CollegeScreen';
-import DeveloperScreen from '../screens/DeveloperScreen';
-import Screen2 from "../screens/Screen2";
-import Screen3 from "../screens/Screen3";
+
+import AboutAppScreen from "../screens/AboutAppScreen";
+import CollegeScreen from "../screens/CollegeScreen";
 import SideMenu from "../sidemenu";
 import DeveloperScreen from "../screens/DeveloperScreen";
 import SignUp from "../screens/SignUp";
 import ActionBarImage from "../components/ActionBarImage";
 import WelcomeUserScreen from "../screens/WelcomeUserScreen";
 import AddStudentScreen from "../screens/AddStudentScreen";
-import AttendanceScreen from '../screens/AttendanceScreen';
-import AddAttendanceScreen from '../screens/AddAttendanceScreen';
+import AttendanceScreen from "../screens/AttendanceScreen";
+import AddAttendanceScreen from "../screens/AddAttendanceScreen";
 import KecKatihar from "../screens/KecKatihar";
 
 class NavigationDrawerStructure extends Component {
@@ -163,7 +159,7 @@ const DeveloperScreen_StackNavigator = createStackNavigator({
 });
 const KecKatihar_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  KecKatihar: {
+  KEC_Katihar: {
     screen: KecKatihar,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
@@ -176,6 +172,7 @@ const KecKatihar_StackNavigator = createStackNavigator({
     })
   }
 });
+
 const SignUp_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
   SignUp: {

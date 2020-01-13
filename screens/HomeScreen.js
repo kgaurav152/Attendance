@@ -36,10 +36,8 @@ export default class Homescreen extends Component  {
           />
 
           <Button
-            onPress={() =>  {
-              navigate('KEC_Katihar',{name: 'KEC_Katihar'})
-            }}
-            titleStyle={{
+            onPress={() =>this.props.navigation.navigate('KEC_Katihar')}
+              titleStyle={{
               color: "#fffff0",
               fontSize: 20,
               fontWeight:'700'

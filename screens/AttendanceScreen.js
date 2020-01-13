@@ -73,8 +73,8 @@ class AttendanceScreen extends Component {
               value="Mechanical Engg."
             />
             <Picker.Item
-              label='Computer Sc. & Engg. '
-              value='Computer Sc. & Engg.'
+              label="Computer Sc. & Engg. "
+              value="Computer Sc. & Engg."
             />
           </Picker>
           <Text style={styles.text}>{this.state.department}</Text>
@@ -85,14 +85,14 @@ class AttendanceScreen extends Component {
             onValueChange={this.updateSemester}
           >
             <Picker.Item label="Select Semester" value="Select Semester" />
-            <Picker.Item label="1st" value="1st" />
-            <Picker.Item label="2nd" value="2nd" />
-            <Picker.Item label="3rd " value="3rd" />
-            <Picker.Item label="4th " value="4th" />
-            <Picker.Item label="5th" value="5th" />
-            <Picker.Item label="6th " value="6th" />
-            <Picker.Item label="7th " value="7th" />
-            <Picker.Item label="8th " value="8th" />
+            <Picker.Item label="1" value="1" />
+            <Picker.Item label="2" value="2" />
+            <Picker.Item label="3" value="3" />
+            <Picker.Item label="4 " value="4" />
+            <Picker.Item label="5" value="5" />
+            <Picker.Item label="6 " value="6" />
+            <Picker.Item label="7 " value="7" />
+            <Picker.Item label="8 " value="8" />
           </Picker>
           <Text style={styles.text}>{this.state.semester}</Text>
         </View>
@@ -116,7 +116,7 @@ class AttendanceScreen extends Component {
               department: this.state.department,
               semester: this.state.semseter,
               subject: this.state.subject,
-              date:this.state.date
+              date: this.state.date
             })
           }
         >
