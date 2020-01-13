@@ -1,40 +1,33 @@
 import React,{Component} from 'react'
 import { StyleSheet, Text, TextInput, View, Button,Image, TouchableHighlight} from 'react-native'
-
+import firebase from '../components/config';
 export default class SignUp extends Component {
-  state = { email: '', password: '',name:"", department:"", errorMessage: null }
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
+  handleSignUp = (email,password) => {
+    
+    firebase.auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => this.props.navigation.navigate('Login'))
+        .catch(error => console.log(error))
+}
 
 render() {
   return (
     <View style={styles.container}>
-<View style={styles.inputContainer}>
-        <Image style={styles.inputIcon} source={require('../images/name.png')}/>
-        <TextInput style={styles.inputs}
-            placeholder="Name"
-            keyboardType="default"
-            underlineColorAndroid='transparent'
-            onChangeText={(name) => this.setState({name})}
-            value ={this.state.name}
-            />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image style={styles.inputIcon} source={require('../images/department.jpg')}/>
-        <TextInput style={styles.inputs}
-            placeholder="Department"
-            keyboardType="autoCapitalizie"
-            underlineColorAndroid='transparent'
-            onChangeText={(department) => this.setState({department})}
-            value ={this.state.department}
-            />
-      </View>
+
       <View style={styles.inputContainer}>
         <Image style={styles.inputIcon} source={require('../assets/mailIcon.jpg')}/>
         <TextInput style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
-            underlineColorAndroid='transparent'
-            onChangeText={(email) => this.setState({email})}
-            value ={this.state.email}
+           value={this.state.email}
+                    onChangeText={email => this.setState({ email })}
+                    placeholder='Email'
+                    autoCapitalize='none'
             />
       </View>
 
@@ -48,14 +41,14 @@ render() {
             value={this.state.password}
             />
       </View>
-      <TouchableHighlight style={[styles.buttonContainer, styles.registerButton]} onPress={() => this.onClickListener('login')}>
+      <TouchableHighlight style={[styles.buttonContainer, styles.registerButton]} onPress={() =>this.handleSignUp(this.state.email, this.state.password)}>
         <Text style={styles.registerText}>Register</Text>
       </TouchableHighlight>
       <View style={styles.fixTotext}>
       <TouchableHighlight>
           <Text style={styles.loginButton}>Have an account ?</Text>
       </TouchableHighlight>
-      <TouchableHighlight onPress={() => this.props.navigation.navigate('Login')}>
+      <TouchableHighlight onPress={() => this.handleSignUp()}>
         <Text style={styles.loginButton, styles.loginText}>Login Here</Text>
       </TouchableHighlight>
       </View>

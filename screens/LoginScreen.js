@@ -9,6 +9,7 @@ import {
   Image,
   Alert
 } from "react-native";
+import firebase from '../components/config'
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -19,8 +20,16 @@ export default class LoginScreen extends Component {
     };
   }
 
-  onClickListener = viewId => {
-    Alert.alert("Alert", "Button pressed " + viewId);
+  handleLogin = () => {
+    try {
+      const { email, pasword } = this.state
+      firebase
+         .auth()
+         .signInWithEmailAndPassword(email, password)
+         .then(() => this.props.navigation.navigate('WelcomeUser'));
+} catch (error) {
+      console.log(error.toString(error));
+    }
   };
 
   render() {
@@ -68,7 +77,7 @@ export default class LoginScreen extends Component {
           </TouchableHighlight>
 
           <TouchableHighlight
-            onPress={() => this.props.navigation.navigate("SignUp")}
+            onPress={() => this.props.navigation.navigate("handleLogin")}
           >
             <Text style={styles.registerButton}>Register.</Text>
           </TouchableHighlight>
