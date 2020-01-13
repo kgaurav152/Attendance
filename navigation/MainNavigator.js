@@ -19,6 +19,11 @@ import {
 } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
+import HomeScreen from '../screens/HomeScreen';
+import LoginScreen from '../screens/LoginScreen'
+import AboutAppScreen from '../screens/AboutAppScreen';
+import CollegeScreen from '../screens/CollegeScreen';
+import DeveloperScreen from '../screens/DeveloperScreen';
 import Screen2 from "../screens/Screen2";
 import Screen3 from "../screens/Screen3";
 import SideMenu from "../sidemenu";
