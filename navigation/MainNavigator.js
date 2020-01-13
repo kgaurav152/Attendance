@@ -1,5 +1,11 @@
-import React,{Component} from 'react';
-import { createStackNavigator,createSwitchNavigator, createAppContainer,createDrawerNavigator, createBottomTabNavigator } from 'react-navigation';
+import React, { Component } from "react";
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createAppContainer,
+  createDrawerNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 import {
   Text,
   View,
@@ -11,16 +17,19 @@ import {
   Dimensions,
   Button
 } from "react-native";
-import HomeScreen from '../screens/HomeScreen';
-import LoginScreen from '../screens/LoginScreen'
+import HomeScreen from "../screens/HomeScreen";
+import LoginScreen from "../screens/LoginScreen";
 import Screen2 from "../screens/Screen2";
 import Screen3 from "../screens/Screen3";
 import SideMenu from "../sidemenu";
-import DeveloperScreen from '../screens/DeveloperScreen';
-import SignUp from '../screens/SignUp';
+import DeveloperScreen from "../screens/DeveloperScreen";
+import SignUp from "../screens/SignUp";
 import ActionBarImage from "../components/ActionBarImage";
-import WelcomeUserScreen from '../screens/WelcomeUserScreen';
-import AddStudentScreen from '../screens/AddStudentScreen';
+import WelcomeUserScreen from "../screens/WelcomeUserScreen";
+import AddStudentScreen from "../screens/AddStudentScreen";
+import AttendanceScreen from '../screens/AttendanceScreen';
+import AddAttendanceScreen from '../screens/AddAttendanceScreen';
+import KecKatihar from "../screens/KecKatihar";
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -67,7 +76,7 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "black"
     })
   },
-  WelcomeUser :{
+  WelcomeUser: {
     screen: WelcomeUserScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
@@ -79,7 +88,7 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "black"
     })
   },
-  AddStudents :{
+  AddStudents: {
     screen: AddStudentScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
@@ -92,10 +101,65 @@ const LoginScreen_StackNavigator = createStackNavigator({
     })
   }
 });
+const Attendance_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  WelcomeUser: {
+    screen: WelcomeUserScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  Attendance: {
+    screen: AttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  AddAttendance: {
+    screen: AddAttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  }
+});
+
 const DeveloperScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
   Developers: {
     screen: DeveloperScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  }
+});
+const KecKatihar_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  KecKatihar: {
+    screen: KecKatihar,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -120,8 +184,7 @@ const SignUp_StackNavigator = createStackNavigator({
       },
       headerTintColor: "black"
     })
-  },
-  
+  }
 });
 
 const Drawer = createDrawerNavigator(
@@ -131,19 +194,13 @@ const Drawer = createDrawerNavigator(
     NavScreen2: { screen: LoginScreen_StackNavigator },
     NavScreen3: { screen: SignUp_StackNavigator },
     NavScreen4: { screen: DeveloperScreen_StackNavigator },
-    
+    NavScreen5: { screen: Attendance_StackNavigator },
+    NavScreen6: { screen: KecKatihar_StackNavigator }
   },
   {
     contentComponent: SideMenu,
     drawerWidth: Dimensions.get("window").width - 120
   }
 );
-
-
-
-
-
-
-
 
 export default createAppContainer(Drawer);

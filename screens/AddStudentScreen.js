@@ -25,7 +25,8 @@ export default class AddStudent extends Component {
     let { image } = this.state;
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
+      <ScrollView >
         <View style={styles.inputContainer}>
           <Image
             style={styles.inputIcon}
@@ -163,6 +164,7 @@ export default class AddStudent extends Component {
           <Text style={styles.clickText}>Add Student</Text>
         </TouchableHighlight>
       </ScrollView>
+      </View>
     );
   }
   componentDidMount() {
@@ -200,7 +202,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40
+    marginTop: 25,
+    marginLeft:45,
+    paddingBottom:20
   },
   inputContainer: {
     borderBottomColor: "#fff8dc",
@@ -231,9 +235,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width:300,
+    width:250,
     borderRadius: 10,
-    marginTop: 50,
+    marginTop: 20,
     marginRight: 15
   },
   clickButton: {
@@ -248,7 +252,7 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 10,
     marginRight: 15,
-    marginTop:40
+    marginTop:20
   },
   imageChooseclickButton: {
     backgroundColor: "#a0522d"
@@ -256,5 +260,12 @@ const styles = StyleSheet.create({
   clickText: {
     color: "white",
     fontWeight: "800"
-  }
+  },
+  studentDetail: {
+    textAlign: "center",
+    fontSize: 18,
+    paddingTop: 30,
+    fontWeight: "600",
+    color: "#d2691e"
+  },
 });

@@ -36,7 +36,7 @@ export default class Homescreen extends Component  {
           />
 
           <Button
-            onPress={() => Linking.openURL('http://keck.ac.in')}
+            onPress={() => this.props.navigation.navigate('KecKatihar')}
             titleStyle={{
               color: "#fffff0",
               fontSize: 20,

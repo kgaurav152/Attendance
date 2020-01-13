@@ -51,7 +51,7 @@ export default class LoginScreen extends Component {
 
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("WelcomeUser")}
+            onPress={() => this.props.navigation.navigate("Attendance")}
           >
             <Text style={styles.clickText}>Click Here</Text>
           </TouchableHighlight>
