@@ -22,7 +22,7 @@ export default class LoginScreen extends Component {
 
   handleLogin = () => {
     try {
-      const { email, pasword } = this.state
+      const { email, password } = this.state
       firebase
          .auth()
          .signInWithEmailAndPassword(email, password)
@@ -65,23 +65,18 @@ export default class LoginScreen extends Component {
 
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.props.navigation.navigate("WelcomeUser")}
+          onPress={() => this.props.navigation.navigate('WelcomeUser')}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
-        <View style={styles.fixTotext}>
-          <TouchableHighlight
-            onPress={() => this.onClickListener("restore_password")}
-          >
-            <Text style={styles.forgotButton}>Forgot Password?</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            onPress={() => this.props.navigation.navigate("handleLogin")}
-          >
-            <Text style={styles.registerButton}>Register.</Text>
-          </TouchableHighlight>
-        </View>
+        
+        <TouchableHighlight
+          style={[styles.buttonContainerForgot, styles.forgotButton]}
+          onPress={() => this.forgotPassword()}
+        >
+          <Text style={styles.forgotText}>Forgot Password</Text>
+        </TouchableHighlight>
+        
       </View>
     );
   }
@@ -141,10 +136,21 @@ const styles = StyleSheet.create({
     color: "#00ffff",
     fontSize: 17
   },
-  registerButton: {
-    marginLeft: 40,
-    fontWeight: "900",
-    color: "#00ffff",
-    fontSize: 17
-  }
+  
+  buttonContainerForgot:{
+    height: 35,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 120,
+    borderRadius: 15,
+    marginLeft:'5%'
+  },
+  forgotButton: {
+    backgroundColor: "#D16713"
+  },
+  forgotText:{
+    fontWeight:'800'
+  } 
 });

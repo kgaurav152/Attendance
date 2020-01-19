@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import * as studentActions from "../User/Actions/UserAction";
+
 import { Spinner } from "native-base";
 import firebase from '../components/config';
 

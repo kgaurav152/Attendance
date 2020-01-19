@@ -1,4 +1,6 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
+
+import * as Font from "expo-font";
 import {
   Text,
   View,
@@ -10,13 +12,9 @@ import {
   Dimensions,
   Button
 } from "react-native";
-import * as Font from "expo-font";
+import { AppLoading } from "expo";
 
-import {AppLoading} from 'expo'
-
-import ActionBarImage from "./components/ActionBarImage";
 import MainNavigator from "./navigation/MainNavigator";
-
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -37,6 +35,5 @@ export default function App() {
     );
   }
 
-  return <MainNavigator/>
-  
+  return <MainNavigator />;
 }
