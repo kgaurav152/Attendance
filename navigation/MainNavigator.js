@@ -16,14 +16,15 @@ import LoginScreen from '../screens/LoginScreen'
 import AboutAppScreen from '../screens/AboutAppScreen';
 import CollegeScreen from '../screens/CollegeScreen';
 import DeveloperScreen from '../screens/DeveloperScreen';
-import Screen2 from "../screens/Screen2";
+
 import Screen3 from "../screens/Screen3";
 import SideMenu from "../sidemenu";
-import DeveloperScreen from '../screens/DeveloperScreen';
+import AddRoleScreen from '../screens/AddRoleScreen';
 import SignUp from '../screens/SignUp';
 import ActionBarImage from "../components/ActionBarImage";
 import WelcomeUserScreen from '../screens/WelcomeUserScreen';
 import AddStudentScreen from '../screens/AddStudentScreen';
+
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -44,7 +45,7 @@ class NavigationDrawerStructure extends Component {
   }
 }
 const FirstActivity_StackNavigator = createStackNavigator({
-  First: {
+  Home: {
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
@@ -72,6 +73,18 @@ const LoginScreen_StackNavigator = createStackNavigator({
   },
   WelcomeUser :{
     screen: WelcomeUserScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  AddRole :{
+    screen: AddRoleScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -110,6 +123,36 @@ const DeveloperScreen_StackNavigator = createStackNavigator({
     })
   }
 });
+const CollegeScreen_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  KEC_Katihar: {
+    screen: CollegeScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  }
+});
+const AboutAppScreen_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  AboutApp: {
+    screen: AboutAppScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  }
+});
 const SignUp_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
   SignUp: {
@@ -127,6 +170,7 @@ const SignUp_StackNavigator = createStackNavigator({
   
 });
 
+
 const Drawer = createDrawerNavigator(
   {
     //Drawer Optons and indexing
@@ -134,6 +178,8 @@ const Drawer = createDrawerNavigator(
     NavScreen2: { screen: LoginScreen_StackNavigator },
     NavScreen3: { screen: SignUp_StackNavigator },
     NavScreen4: { screen: DeveloperScreen_StackNavigator },
+    NavScreen5: { screen: CollegeScreen_StackNavigator},
+    NavScreen6: { screen: AboutAppScreen_StackNavigator},
     
   },
   {
@@ -141,12 +187,4 @@ const Drawer = createDrawerNavigator(
     drawerWidth: Dimensions.get("window").width - 120
   }
 );
-
-
-
-
-
-
-
-
 export default createAppContainer(Drawer);

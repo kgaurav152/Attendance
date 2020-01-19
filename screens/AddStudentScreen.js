@@ -9,7 +9,7 @@ import {
   Image,
   TouchableHighlight
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+//import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
 export default class AddStudent extends Component {
@@ -179,7 +179,7 @@ export default class AddStudent extends Component {
     }
   };
 
-  _pickImage = async () => {
+  /*_pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -192,7 +192,7 @@ export default class AddStudent extends Component {
     if (!result.cancelled) {
       this.setState({ image: result.uri });
     }
-  };
+  };*/
 }
 
 const styles = StyleSheet.create({

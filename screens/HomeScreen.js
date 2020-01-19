@@ -36,9 +36,7 @@ export default class Homescreen extends Component  {
           />
 
           <Button
-            onPress={() =>  {
-              navigate('KEC_Katihar',{name: 'KEC_Katihar'})
-            }}
+            onPress={() => this.props.navigation.navigate('KEC_Katihar')}
             titleStyle={{
               color: "#fffff0",
               fontSize: 20,
@@ -53,7 +51,7 @@ export default class Homescreen extends Component  {
               marginLeft: 10,
               marginBottom: 10
             }}
-            title="KEC_Katihar "
+            title="KEC_Katihar"
           />
         </View>
       </View>
@@ -77,7 +75,7 @@ export default class Homescreen extends Component  {
             title="Developers"
           />
           <Button
-            onPress={() => Alert.alert("About the App")}
+            onPress={() => this.props.navigation.navigate('AboutApp')}
             titleStyle={{
               color: "#334",
               fontSize: 23

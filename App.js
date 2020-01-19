@@ -11,11 +11,14 @@ import {
   Button
 } from "react-native";
 import * as Font from "expo-font";
-
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunkMiddleware from 'redux-thunk'
 import {AppLoading} from 'expo'
-
+import reducer from './reducers/auth'
 import ActionBarImage from "./components/ActionBarImage";
 import MainNavigator from "./navigation/MainNavigator";
+import { Drawer } from "native-base";
 
 
 const fetchFonts = () => {
@@ -24,6 +27,9 @@ const fetchFonts = () => {
     "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf")
   });
 };
+const middleware = applyMiddleware(thunkMiddleware)
+const store = createStore(reducer, middleware)
+
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -37,6 +43,10 @@ export default function App() {
     );
   }
 
-  return <MainNavigator/>
+  return( 
+    <Provider store={store}>
+        <MainNavigator/>
+    </Provider>
+  )
   
 }

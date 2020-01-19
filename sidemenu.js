@@ -15,14 +15,17 @@ class SideMenu extends Component {
       {
         mainHeading: 'Main Heading 1.',
         subOptions: [
-          { secondaryHeading: 'Home', navigationPath: 'First' },
+          { secondaryHeading: 'Home', navigationPath: 'Home' },
         ],
       },
       {
         mainHeading: 'Main Heading 2',
         subOptions: [
           { secondaryHeading: 'Developers Info', navigationPath: 'Developers' },
-          { secondaryHeading: 'About the App', navigationPath: 'Third' },
+          { secondaryHeading: 'About the App', navigationPath: 'AboutApp' },
+          { secondaryHeading: 'About College', navigationPath: 'KEC_Katihar' },
+          { secondaryHeading: 'SignUp', navigationPath: 'SignUp' }
+
         ],
       },
     ];
@@ -54,9 +57,7 @@ class SideMenu extends Component {
             ))}
           </View>
         </ScrollView>
-        <View style={styles.footerContainer}>
-          <Text>This is my fixed footer</Text>
-        </View>
+        
       </View>
     );
   }

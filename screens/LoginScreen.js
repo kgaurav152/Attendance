@@ -1,66 +1,158 @@
-import React, { Component } from 'react';
+import React,  { useState,useReducer, useCallback,useEffect }  from 'react';
 import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator,
   TextInput,
   Button,
+  
   TouchableHighlight,
   Image,
   Alert
 } from 'react-native';
+import Input from '../components/Input';
+import { useDispatch } from 'react-redux';
+import * as authActions from '../actions/auth';
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
-export default class LoginScreen extends Component {
-
-  constructor(props) {
-    super(props);
-    state = {
-      email   : '',
-      password: '',
+const formReducer = (state, action) => {
+  if (action.type === FORM_INPUT_UPDATE) {
+    const updatedValues = {
+      ...state.inputValues,
+      [action.input]: action.value
+    };
+    const updatedValidities = {
+      ...state.inputValidities,
+      [action.input]: action.isValid
+    };
+    let updatedFormIsValid = true;
+    for (const key in updatedValidities) {
+      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
     }
+    return {
+      formIsValid: updatedFormIsValid,
+      inputValidities: updatedValidities,
+      inputValues: updatedValues
+    };
   }
+  return state;
+};
 
-  onClickListener = (viewId) => {
-    Alert.alert("Alert", "Button pressed "+viewId);
-  }
+const Login = props => {
+  const dispatch = useDispatch();
+  
+  const [error, setError] = useState();
+  
 
-  render() {
+
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputValues: {
+      email: '',
+      password: ''
+    },
+    inputValidities: {
+      email: false,
+      password: false
+    },
+    formIsValid: false
+  });
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert('An Error Occurred!', error, [{ text: 'Okay' }]);
+    }
+  }, [error]);
+
+  const loginHandler = async () => {
+    let action;
+      action = authActions.login(
+        formState.inputValues.email,
+        formState.inputValues.password
+      );
+    
+    
+    try{
+       dispatch(action);
+      //props.navigation.navigate('WelcomeUser');
+    }
+    catch (err) {
+      setError(err.message);
+     
+      
+    }
+  };
+
+  const inputChangeHandler = useCallback(
+    (inputIdentifier, inputValue, inputValidity) => {
+      dispatchFormState({
+        type: FORM_INPUT_UPDATE,
+        value: inputValue,
+        isValid: inputValidity,
+        input: inputIdentifier
+      });
+    },
+    [dispatchFormState]
+  );
+
+
+ 
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={require('../assets/mailIcon.jpg')}/>
-          <TextInput style={styles.inputs}
-              placeholder="Email"
+          <Input style={styles.inputs}
+              id="email"
+              label="E-Mail"
               keyboardType="email-address"
-              underlineColorAndroid='transparent'
-              onChangeText={(email) => this.setState({email})}/>
+              required
+              emailid="email"
+              autoCapitalize="none"
+              errorText="Please enter a valid email address."
+              onInputChange={inputChangeHandler}
+              initialValue=""
+            />  
         </View>
 
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={require('../assets/pwdIcon.png')}/>
-          <TextInput style={styles.inputs}
-              placeholder="Password"
-              secureTextEntry={true}
-              underlineColorAndroid='transparent'
-              onChangeText={(password) => this.setState({password})}/>
+          <Input
+              id="password"
+              label="Password"
+              keyboardType="default"
+              secureTextEntry
+              required
+              minLength={5}
+              autoCapitalize="none"
+              errorText="Please enter a valid password."
+              onInputChange={inputChangeHandler}
+              initialValue=""
+            />
         </View>
 
-        <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() =>this.props.navigation.navigate('WelcomeUser')}>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
+        <View style={styles.buttonContainer}>
+              <Button
+                title="Login"
+                
+                onPress={loginHandler}
+              />
+            </View>
         <View style={styles.fixTotext}>
-        <TouchableHighlight  onPress={() => this.onClickListener('restore_password')}>
+          <TouchableHighlight
+            onPress={() => this.onClickListener("restore_password")}
+          >
             <Text style={styles.forgotButton}>Forgot Password?</Text>
-        </TouchableHighlight>
+          </TouchableHighlight>
 
-        <TouchableHighlight  onPress={() => this.props.navigation.navigate('SignUp')}>
+          <TouchableHighlight
+            onPress={() => this.props.navigation.navigate("SignUp")}
+          >
             <Text style={styles.registerButton}>Register.</Text>
-        </TouchableHighlight>
+          </TouchableHighlight>
         </View>
       </View>
     );
   }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -124,3 +216,4 @@ const styles = StyleSheet.create({
     fontSize:17
   }
 })
+export default Login
