@@ -1,4 +1,6 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
+
+import * as Font from "expo-font";
 import {
   Text,
   View,
@@ -17,9 +19,10 @@ import thunkMiddleware from 'redux-thunk'
 import {AppLoading} from 'expo'
 import reducer from './reducers/auth'
 import ActionBarImage from "./components/ActionBarImage";
+import { AppLoading } from "expo";
+
 import MainNavigator from "./navigation/MainNavigator";
 import { Drawer } from "native-base";
-
 
 const fetchFonts = () => {
   return Font.loadAsync({

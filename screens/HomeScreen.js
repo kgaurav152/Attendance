@@ -1,117 +1,113 @@
-import React, {Component} from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert, Linking} from "react-native";
+import React, { Component } from "react";
+import { StyleSheet, View, SafeAreaView, Text, Alert } from "react-native";
 import Constants from "expo-constants";
-import LoginScreen from './LoginScreen'
-import { Icon, Button } from "react-native-elements";
-import { setRecoveryProps } from "expo/build/ErrorRecovery/ErrorRecovery";
-import { render } from "react-dom";
+
+import { Button } from "react-native-elements";
 
 function Separator() {
   return <View style={styles.separator} />;
 }
 
-export default class Homescreen extends Component  {
+export default class Homescreen extends Component {
   render() {
     return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <Text style={styles.title}>Online Attendance System.</Text>
-        <View style={styles.fixToText}>
-          <Button
-          onPress={() => this.props.navigation.navigate('Login')}
-            titleStyle={{
-              color: "#fffaf0",
-              fontSize: 23,
-              fontWeight:'bold'
-            }}
-            buttonStyle={{
-              backgroundColor: "#3498db",
-              borderRadius: 10,
-              flex: 1,
-              height: 70,
-              width: 150,
-              marginBottom: 10
-            }}
-            title="Login"
-          />
+      <SafeAreaView style={styles.container}>
+        <View>
+          <Text style={styles.title}>Online Attendance System</Text>
+          <View style={styles.fixToText}>
+            <Button
+              onPress={() => this.props.navigation.navigate("Login")}
+              titleStyle={{
+                color: "#fffaf0",
+                fontSize: 23,
+                fontWeight: "bold"
+              }}
+              buttonStyle={{
+                backgroundColor: "#FD8804",
+                borderRadius: 10,
+                flex: 1,
+                height: "20%",
+                width: "90%",
+                marginBottom: "2%"
+              }}
+              title="Login"
+            />
 
-          <Button
-            onPress={() => this.props.navigation.navigate('KEC_Katihar')}
-            titleStyle={{
-              color: "#fffff0",
-              fontSize: 20,
-              fontWeight:'700'
-            }}
-            buttonStyle={{
-              backgroundColor: "#cd5",
-              borderRadius: 10,
-              flex: 1,
-              height: 70,
-              width: 150,
-              marginLeft: 10,
-              marginBottom: 10
-            }}
-            title="KEC_Katihar"
-          />
+            <Button
+              onPress={() => this.props.navigation.navigate("KEC_Katihar")}
+              titleStyle={{
+                color: "#fffff0",
+                fontSize: 20,
+                fontWeight: "700"
+              }}
+              buttonStyle={{
+                backgroundColor: "#FD8804",
+                borderRadius: 10,
+                flex: 1,
+                height: "20%",
+                width: "80%",
+                marginLeft: "2%",
+                marginBottom: "2%"
+              }}
+              title="KEC_Katihar "
+            />
+          </View>
         </View>
-      </View>
-      <Separator />
-      <View>
-        <View style={styles.fixToText}>
-          <Button
-            onPress={() => this.props.navigation.navigate('Developers')}
-            titleStyle={{
-              color: "#fffaf0",
-              fontSize: 23
-            }}
-            buttonStyle={{
-              backgroundColor: "#dcdcdc",
-              borderRadius: 10,
-              flex: 1,
-              height: 70,
-              width: 150,
-              marginTop: 10
-            }}
-            title="Developers"
-          />
-          <Button
-            onPress={() => this.props.navigation.navigate('AboutApp')}
-            titleStyle={{
-              color: "#334",
-              fontSize: 23
-            }}
-            buttonStyle={{
-              backgroundColor: "#20b2aa",
-              borderRadius: 10,
-              flex: 1,
-              height: 70,
-              width: 150,
-              marginLeft: 10,
-              marginTop: 10
-            }}
-            title="About"
-          />
+        <Separator />
+        <View>
+          <View style={styles.fixToText}>
+            <Button
+              onPress={() => this.props.navigation.navigate("Developers")}
+              titleStyle={{
+                color: "#fffaf0",
+                fontSize: 23
+              }}
+              buttonStyle={{
+                backgroundColor: "#FD8804",
+                borderRadius: 10,
+                flex: 1,
+                height: "20%",
+                width: "83%",
+                marginTop: 10
+              }}
+              title="Developers"
+            />
+            <Button
+              onPress={() => Alert.alert("About the App")}
+              titleStyle={{
+                color: "#fffaf0",
+                fontSize: 23
+              }}
+              buttonStyle={{
+                backgroundColor: "#FD8804",
+                borderRadius: 10,
+                flex: 1,
+                height: "20%",
+                width: "85%",
+
+                marginTop: 10
+              }}
+              title="About"
+            />
+          </View>
+          <Text style={styles.footer}>{"\u00A9"} 2020 KEC Katihar</Text>
         </View>
-        <Text style={styles.footer}>{'\u00A9'} 2020 KEC Katihar</Text>
-      </View>
-    </SafeAreaView>
-  );
+      </SafeAreaView>
+    );
   }
-  
-          
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 5,
+    flex: 1,
     marginTop: Constants.statusBarHeight,
-    marginHorizontal: 16,
-    
+    marginHorizontal: "2%"
   },
   title: {
     textAlign: "center",
     marginVertical: 8,
-    marginBottom: 30,
+    marginBottom: "10%",
+    marginLeft: "12%",
     fontSize: 20,
     color: "#008b8b",
     fontWeight: "bold"
@@ -119,13 +115,13 @@ const styles = StyleSheet.create({
   fixToText: {
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 130,
+    height: 100,
     width: 300,
     textAlign: "center",
     marginLeft: 15
   },
   separator: {
-    marginVertical: 8,
+    marginVertical: "3%",
     borderBottomColor: "#737373",
     borderBottomWidth: StyleSheet.hairlineWidth
   },
@@ -133,12 +129,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 21
   },
-  footer :{
-    fontWeight:'900',
-    fontSize:22,
-    color: '#7b68ee',
-    textAlign:'center',
-    marginTop:40,
-
+  footer: {
+    fontWeight: "900",
+    fontSize: 22,
+    color: "#7b68ee",
+    textAlign: "center",
+    marginTop: 40
   }
 });

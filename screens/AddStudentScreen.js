@@ -12,157 +12,196 @@ import {
 //import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 
+import { Spinner } from "native-base";
+import firebase from '../components/config';
+
+
+ 
+
 export default class AddStudent extends Component {
-  state = {
+  constructor(props){
+    super();
+    this.state={
     email: "",
     name: "",
     department: "",
     errorMessage: null,
-    image: null
-  };
+    image: null,
+    semester: "",
+    session: "",
+    year: "",
+    mobile: "",
+    reg_no:""
+    }
+  }
+  writeStudentData(name,department,email,image,semester,session,year,mobile,reg_no) {
+    firebase.database().ref('\students').push({
+    email:this.state.email,
+    name:this.state.name,
+    department: this.state.department,
+    image:this.state.image,
+    session:this.state.session,
+    semester:this.state.semester,
+    mobile:this.state.mobile,
+    year:this.state.year,
+    registration_num:this.state.reg_no
+    
+    })
+    .then(() => this.props.navigation.navigate('WelcomeUser'))
+    .catch(error => this.setState({ errorMessage: error.message }))
 
+  }
   render() {
     let { image } = this.state;
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../images/name.png")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Name"
-            keyboardType="default"
-            underlineColorAndroid="transparent"
-            onChangeText={name => this.setState({ name })}
-            value={this.state.name}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../images/reg.png")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Registration no."
-            underlineColorAndroid="transparent"
-            onChangeText={reg_no => this.setState({ reg_no })}
-            value={this.state.reg_no}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../images/department.jpg")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Department"
-            keyboardType="autoCapitalizie"
-            underlineColorAndroid="transparent"
-            onChangeText={department => this.setState({ department })}
-            value={this.state.department}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../images/semester.png")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Semester"
-            underlineColorAndroid="transparent"
-            onChangeText={semester => this.setState({ semester})}
-            value={this.state.semester}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../images/year.jpg")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Year"
-            underlineColorAndroid="transparent"
-            onChangeText={year => this.setState({ year })}
-            value={this.state.year}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../images/sessions.png")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Session"
-            underlineColorAndroid="transparent"
-            onChangeText={session => this.setState({ session })}
-            value={this.state.session}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../assets/mailIcon.jpg")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({ email })}
-            value={this.state.email}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../images/mobile.png")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Mobile"
-            underlineColorAndroid="transparent"
-            onChangeText={mobile => this.setState({ mobile })}
-            value={this.state.mobile}
-          />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "space-between"
-          }}
-        >
-          <TouchableHighlight
-            style={[
-              styles.imageChooseButtonContainer,
-              styles.imageChooseclickButton
-            ]}
-            onPress={this._pickImage}
-          >
-            <Text style={styles.clickText}>Choose Photo</Text>
-          </TouchableHighlight>
-          {image && (
+      <View style={styles.container}>
+     
+        <ScrollView>
+          <View style={styles.inputContainer}>
             <Image
-              source={{ uri: image }}
-              style={{ width: 100, height: 100, marginLeft: 50, borderRadius:100/2}}
+              style={styles.inputIcon}
+              source={require("../images/name.png")}
             />
-          )}
-        </View>
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.clickButton]}
-          onPress={() => this.onClickListener("login")}
-        >
-          <Text style={styles.clickText}>Add Student</Text>
-        </TouchableHighlight>
-      </ScrollView>
+            <TextInput
+              style={styles.inputs}
+              placeholder="Name"
+              keyboardType="default"
+              underlineColorAndroid="transparent"
+              onChangeText={name => this.setState({ name })}
+              value={this.state.name}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../images/reg.png")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Registration no."
+              underlineColorAndroid="transparent"
+              onChangeText={reg_no => this.setState({ reg_no })}
+              value={this.state.reg_no}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../images/department.jpg")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Department"
+              keyboardType="autoCapitalizie"
+              underlineColorAndroid="transparent"
+              onChangeText={department => this.setState({ department })}
+              value={this.state.department}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../images/semester.png")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Semester"
+              underlineColorAndroid="transparent"
+              onChangeText={semester => this.setState({ semester })}
+              value={this.state.semester}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../images/year.jpg")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Year"
+              underlineColorAndroid="transparent"
+              onChangeText={year => this.setState({ year })}
+              value={this.state.year}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../images/sessions.png")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Session"
+              underlineColorAndroid="transparent"
+              onChangeText={session => this.setState({ session })}
+              value={this.state.session}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../assets/mailIcon.jpg")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Email"
+              keyboardType="email-address"
+              underlineColorAndroid="transparent"
+              onChangeText={email => this.setState({ email })}
+              value={this.state.email}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../images/mobile.png")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Mobile"
+              underlineColorAndroid="transparent"
+              onChangeText={mobile => this.setState({ mobile })}
+              value={this.state.mobile}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
+            <TouchableHighlight
+              style={[
+                styles.imageChooseButtonContainer,
+                styles.imageChooseclickButton
+              ]}
+              onPress={this._pickImage}
+            >
+              <Text style={styles.clickText}>Choose Photo</Text>
+            </TouchableHighlight>
+            {image && (
+              <Image
+                source={{ uri: image }}
+                style={{
+                  width: 100,
+                  height: 100,
+                  marginLeft: 50,
+                  borderRadius: 100 / 2
+                }}
+              />
+            )}
+          </View>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={()=>this.writeStudentData()}
+          >
+            <Text style={styles.clickText}>Add Student</Text>
+          </TouchableHighlight>
+        </ScrollView>
+
+      </View>
     );
   }
   componentDidMount() {
@@ -200,7 +239,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40
+    marginTop: 25,
+    marginLeft: 45,
+    paddingBottom: 20
   },
   inputContainer: {
     borderBottomColor: "#fff8dc",
@@ -231,9 +272,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width:300,
+    width: 250,
     borderRadius: 10,
-    marginTop: 50,
+    marginTop: 20,
     marginRight: 15
   },
   clickButton: {
@@ -248,7 +289,7 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 10,
     marginRight: 15,
-    marginTop:40
+    marginTop: 20
   },
   imageChooseclickButton: {
     backgroundColor: "#a0522d"
@@ -256,5 +297,12 @@ const styles = StyleSheet.create({
   clickText: {
     color: "white",
     fontWeight: "800"
+  },
+  studentDetail: {
+    textAlign: "center",
+    fontSize: 18,
+    paddingTop: 30,
+    fontWeight: "600",
+    color: "#d2691e"
   }
 });

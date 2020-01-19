@@ -4,28 +4,31 @@ import { Text, View, StyleSheet, ScrollView, Image } from "react-native";
 
 import { Card } from "react-native-elements";
 
-
-
-export default class App extends React.Component {
+export default class DevelopersScreen extends React.Component {
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.desk}>Developers Desk</Text>
-        <Card 
+      
+      
+      <View style={styles.container}>
+      <Text style={styles.desk}>Developers Desk</Text>
+      <ScrollView>
+        
+        <Card
           title="Md TALIB AHMAD"
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
             paddingLeft: 10,
             fontSize: 15,
-            
-            fontWeight:'800'
+
+            fontWeight: "800"
           }}
-           
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>Project Guide & Assistant Prof.</Text>
+              <Text style={styles.paragraph}>
+                Project Guide & Assistant Prof.
+              </Text>
               <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
               <Text style={styles.paragraph}>+91 9108006551</Text>
               <Text style={styles.paragraph}>mdtalibahmad@gmail.com</Text>
@@ -52,7 +55,9 @@ export default class App extends React.Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>Project Guide & Assistant Prof. </Text>
+              <Text style={styles.paragraph}>
+                Project Guide & Assistant Prof.{" "}
+              </Text>
               <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
               <Text style={styles.paragraph}>+91 8876024875</Text>
               <Text style={styles.paragraph}>cspradeepindia@gmail.com</Text>
@@ -67,7 +72,8 @@ export default class App extends React.Component {
               }}
             />
           </View>
-        </Card><Card
+        </Card>
+        <Card
           title="ANKIT DUTTA"
           titleStyle={{
             color: "#3498db",
@@ -105,7 +111,9 @@ export default class App extends React.Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>UI Designer & Backend Developer</Text>
+              <Text style={styles.paragraph}>
+                UI Designer & Backend Developer
+              </Text>
               <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
               <Text style={styles.paragraph}>+91 7091177725</Text>
               <Text style={styles.paragraph}>apcbadal@gmail.com</Text>
@@ -161,7 +169,7 @@ export default class App extends React.Component {
             <View>
               <Text style={styles.paragraph}>UX Designer.</Text>
               <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
-              <Text style={styles.paragraph }>shardabharti.kri@gmail.com</Text>
+              <Text style={styles.paragraph}>shardabharti.kri@gmail.com</Text>
             </View>
             <Image
               source={require("../images/shanu.jpg")}
@@ -175,6 +183,8 @@ export default class App extends React.Component {
           </View>
         </Card>
       </ScrollView>
+      </View>
+      
     );
   }
 }
@@ -196,7 +206,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingTop: 10,
     fontWeight: "600",
-    color: "#dc143c"
+    color: "#dc143c",
+    marginBottom:10
   },
   fixImage: {
     justifyContent: "space-around",

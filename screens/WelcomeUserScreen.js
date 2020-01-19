@@ -3,16 +3,20 @@ import {
   StyleSheet,
   Text,
   View,
+  SafeAreaView,
   TouchableHighlight,
   Image,
   ScrollView
 } from "react-native";
 import { Card } from "react-native-elements";
-
+import { Button } from "react-native-elements";
+function Separator() {
+  return <View style={styles.separator} />;
+}
 export default class LoginScreen extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
@@ -45,60 +49,38 @@ export default class LoginScreen extends Component {
             />
           </View>
         </Card>
-        <ScrollView>
-        <View style={styles.fixTotext}>
-          <Text style={styles.headText}>To Make Attendnace</Text>
 
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("WelcomeUser")}
-          >
-            <Text style={styles.clickText}>Click Here</Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.fixTotext}>
-          <Text style={styles.headText}>Generate Daily Report</Text>
-
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("WelcomeUser")}
-          >
-            <Text style={styles.clickText}>Click Here</Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.fixTotext}>
-          <Text style={styles.headText}>Generate Monthly Report</Text>
-
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("WelcomeUser")}
-          >
-            <Text style={styles.clickText}>Click Here</Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.fixTotext}>
-          <Text style={styles.headText}>Add Student details</Text>
-
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AddStudents")}
-          >
-            <Text style={styles.clickText}>Click Here</Text>
-          </TouchableHighlight>
-        </View>
         
-        <View style={styles.fixTotext}>
-          <Text style={styles.headText}>View Student details</Text>
-
+        <View style={styles.fixToText}>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AddStudents")}
+            onPress={() => this.props.navigation.navigate('Attendance')}
           >
-            <Text style={styles.clickText}>Click Here</Text>
+            <Text style={styles.clickText}>Attendance</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate('AddStudents')}
+          >
+            <Text style={styles.clickText}>Student</Text>
           </TouchableHighlight>
         </View>
-        </ScrollView>
-      </View>
+        <Separator />
+        <View style={styles.fixToText}>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.handleLogin()}
+          >
+            <Text style={styles.clickText}>Report</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.handleLogin()}
+          >
+            <Text style={styles.clickText}>Student Detail</Text>
+          </TouchableHighlight>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -126,26 +108,30 @@ const styles = StyleSheet.create({
     color: "#d2691e"
   },
   buttonContainer: {
-    height: 35,
+    height: 65,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width: 100,
-    borderRadius: 10,
+    width: 150,
+    borderRadius: 20,
     marginTop: 20,
     marginRight: 15
   },
   clickButton: {
-    backgroundColor: "#00b5ec"
+    backgroundColor: "#F9872E"
   },
   clickText: {
     color: "white",
     fontWeight: "800"
   },
-  fixTotext: {
+  fixToText: {
+    flexDirection: "row",
     justifyContent: "space-between",
-    flexDirection: "row"
+    height: 100,
+    width: 300,
+    textAlign: "center",
+    marginLeft: 15
   },
   headText: {
     fontWeight: "900",
@@ -153,5 +139,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 20,
     marginLeft: 14
+  },
+  separator: {
+    marginVertical: "3%",
+    borderBottomColor: "#737373",
+    borderBottomWidth: StyleSheet.hairlineWidth
   }
 });

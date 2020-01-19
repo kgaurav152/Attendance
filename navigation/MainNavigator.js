@@ -1,5 +1,11 @@
-import React,{Component} from 'react';
-import { createStackNavigator,createSwitchNavigator, createAppContainer,createDrawerNavigator, createBottomTabNavigator } from 'react-navigation';
+import React, { Component } from "react";
+import {
+  createStackNavigator,
+  createSwitchNavigator,
+  createAppContainer,
+  createDrawerNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 import {
   Text,
   View,
@@ -22,8 +28,11 @@ import SideMenu from "../sidemenu";
 import AddRoleScreen from '../screens/AddRoleScreen';
 import SignUp from '../screens/SignUp';
 import ActionBarImage from "../components/ActionBarImage";
-import WelcomeUserScreen from '../screens/WelcomeUserScreen';
-import AddStudentScreen from '../screens/AddStudentScreen';
+import WelcomeUserScreen from "../screens/WelcomeUserScreen";
+import AddStudentScreen from "../screens/AddStudentScreen";
+import AttendanceScreen from "../screens/AttendanceScreen";
+import AddAttendanceScreen from "../screens/AddAttendanceScreen";
+import KecKatihar from "../screens/KecKatihar";
 
 
 class NavigationDrawerStructure extends Component {
@@ -71,7 +80,7 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "black"
     })
   },
-  WelcomeUser :{
+  WelcomeUser: {
     screen: WelcomeUserScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
@@ -95,7 +104,8 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "black"
     })
   },
-  AddStudents :{
+  
+  AddStudents: {
     screen: AddStudentScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
@@ -108,6 +118,46 @@ const LoginScreen_StackNavigator = createStackNavigator({
     })
   }
 });
+const Attendance_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  WelcomeUser: {
+    screen: WelcomeUserScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  Attendance: {
+    screen: AttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  AddAttendance: {
+    screen: AddAttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  }
+});
+
 const DeveloperScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
   Developers: {
@@ -153,6 +203,7 @@ const AboutAppScreen_StackNavigator = createStackNavigator({
     })
   }
 });
+
 const SignUp_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
   SignUp: {
@@ -166,8 +217,7 @@ const SignUp_StackNavigator = createStackNavigator({
       },
       headerTintColor: "black"
     })
-  },
-  
+  }
 });
 
 
@@ -181,10 +231,13 @@ const Drawer = createDrawerNavigator(
     NavScreen5: { screen: CollegeScreen_StackNavigator},
     NavScreen6: { screen: AboutAppScreen_StackNavigator},
     
+    NavScreen7: { screen: Attendance_StackNavigator },
+    
   },
   {
     contentComponent: SideMenu,
     drawerWidth: Dimensions.get("window").width - 120
   }
 );
+
 export default createAppContainer(Drawer);
