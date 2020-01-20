@@ -3,7 +3,7 @@ import { StyleSheet, View, SafeAreaView, Text, Alert } from "react-native";
 import Constants from "expo-constants";
 
 import { Button } from "react-native-elements";
-
+import { LinearGradient } from "expo-linear-gradient";
 function Separator() {
   return <View style={styles.separator} />;
 }
@@ -12,86 +12,99 @@ export default class Homescreen extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View>
-          <Text style={styles.title}>Online Attendance System</Text>
-          <View style={styles.fixToText}>
-            <Button
-              onPress={() => this.props.navigation.navigate("Login")}
-              titleStyle={{
-                color: "#fffaf0",
-                fontSize: 23,
-                fontWeight: "bold"
-              }}
-              buttonStyle={{
-                backgroundColor: "#09C5F7",
-                borderRadius: 10,
-                flex: 1,
-                height: "20%",
-                width: "90%",
-                marginBottom: "2%"
-              }}
-              title="Login"
-            />
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: "100%"
+          }}
+          start={{ x: 0, y: 1}}
+          end={{ x: 1, y: 1}}
+        >
+          <View>
+            <Text style={styles.title}>Online Attendance System</Text>
+            <View style={styles.fixToText}>
+              <Button
+                onPress={() => this.props.navigation.navigate("Login")}
+                titleStyle={{
+                  color: "#fffaf0",
+                  fontSize: 23,
+                  fontWeight: "bold"
+                }}
+                buttonStyle={{
+                  backgroundColor: "#09C5F7",
+                  borderRadius: 10,
+                  flex: 1,
+                  height: "20%",
+                  width: "90%",
+                  marginBottom: "2%"
+                }}
+                title="Login"
+              />
 
-            <Button
-              onPress={() => this.props.navigation.navigate("KEC_Katihar")}
-              titleStyle={{
-                color: "#fffff0",
-                fontSize: 20,
-                fontWeight: "700"
-              }}
-              buttonStyle={{
-                backgroundColor: "#09C5F7",
-                borderRadius: 10,
-                flex: 1,
-                height: "20%",
-                width: "80%",
-                marginLeft: "2%",
-                marginBottom: "2%"
-              }}
-              title="KEC Katihar "
-            />
+              <Button
+                onPress={() => this.props.navigation.navigate("KEC_Katihar")}
+                titleStyle={{
+                  color: "#fffff0",
+                  fontSize: 20,
+                  fontWeight: "700"
+                }}
+                buttonStyle={{
+                  backgroundColor: "#09C5F7",
+                  borderRadius: 10,
+                  flex: 1,
+                  height: "20%",
+                  width: "80%",
+                  marginLeft: "2%",
+                  marginBottom: "2%"
+                }}
+                title="KEC Katihar "
+              />
+            </View>
           </View>
-        </View>
-        <Separator />
-        <View>
-          <View style={styles.fixToText}>
-            <Button
-              onPress={() => this.props.navigation.navigate("Developers")}
-              titleStyle={{
-                color: "#fffaf0",
-                fontSize: 23
-              }}
-              buttonStyle={{
-                backgroundColor: "#09C5F7",
-                borderRadius: 10,
-                flex: 1,
-                height: "20%",
-                width: "83%",
-                marginTop: 10
-              }}
-              title="Developers"
-            />
-            <Button
-              onPress={() => Alert.alert("About the App")}
-              titleStyle={{
-                color: "#fffaf0",
-                fontSize: 23
-              }}
-              buttonStyle={{
-                backgroundColor: "#09C5F7",
-                borderRadius: 10,
-                flex: 1,
-                height: "20%",
-                width: "85%",
+          <Separator />
+          <View>
+            <View style={styles.fixToText}>
+              <Button
+                onPress={() => this.props.navigation.navigate("Developers")}
+                titleStyle={{
+                  color: "#fffaf0",
+                  fontSize: 23
+                }}
+                buttonStyle={{
+                  backgroundColor: "#09C5F7",
+                  borderRadius: 10,
+                  flex: 1,
+                  height: "20%",
+                  width: "83%",
+                  marginTop: 10
+                }}
+                title="Developers"
+              />
+              <Button
+                onPress={() => Alert.alert("About the App")}
+                titleStyle={{
+                  color: "#fffaf0",
+                  fontSize: 23
+                }}
+                buttonStyle={{
+                  backgroundColor: "#09C5F7",
+                  borderRadius: 10,
+                  flex: 1,
+                  height: "20%",
+                  width: "85%",
 
-                marginTop: 10
-              }}
-              title="About"
-            />
+                  marginTop: 10
+                }}
+                title="About"
+              />
+            </View>
+            <Text style={styles.footer}>{"\u00A9"} 2020 KEC Katihar</Text>
           </View>
-          <Text style={styles.footer}>{"\u00A9"} 2020 KEC Katihar</Text>
-        </View>
+        </LinearGradient>
       </SafeAreaView>
     );
   }
@@ -99,10 +112,7 @@ export default class Homescreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
-    marginHorizontal: "2%",
-    
+    flex: 1
   },
   title: {
     textAlign: "center",
@@ -110,7 +120,7 @@ const styles = StyleSheet.create({
     marginBottom: "10%",
     marginLeft: "6%",
     fontSize: 20,
-    color: "#D16713",
+    color: "#09C5F7",
     fontWeight: "bold"
   },
   fixToText: {

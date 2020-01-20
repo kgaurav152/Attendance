@@ -5,17 +5,23 @@ import {
   Picker,
   StyleSheet,
   TouchableHighlight,
-  ScrollView
+  TouchableOpacity,
+  ScrollView,
+  Dimensions
 } from "react-native";
 import { Card } from "react-native-elements";
-import { RadioButton } from "react-native-paper";
-
+import { Button } from "react-native-elements";
 export default class AddAttendanceScreen extends React.Component {
-  state = {
-    checked: ""
+  state = { ButtonText: "001", Remove: "" };
+  Add = () => {
+    this.setState({
+      ButtonText: "Present"
+    });
   };
-  state = {
-    checkedabs: ""
+  Remove = () => {
+    this.setState({
+      ButtonText: "001"
+    });
   };
 
   render() {
@@ -24,8 +30,6 @@ export default class AddAttendanceScreen extends React.Component {
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
-    const { checked } = this.state;
-    const { checkedabs } = this.state;
 
     return (
       <View>
@@ -58,33 +62,80 @@ export default class AddAttendanceScreen extends React.Component {
           </View>
         </Card>
         <ScrollView>
-          <View style={styles.fixTotext}>
-            <Text style={styles.regText}>Registration No.</Text>
-
-            <Text style={styles.preText}>Present</Text>
-            <Text style={styles.absText}>Absent</Text>
+        <View style={styles.fixTotext}>
+          <TouchableHighlight
+            style={{
+              borderRadius:
+                Math.round(
+                  Dimensions.get("window").width +
+                    Dimensions.get("window").height
+                ) / 2,
+              width: Dimensions.get("window").width * 0.24,
+              height: Dimensions.get("window").width * 0.24,
+              backgroundColor: "#fff",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+              marginLeft: 10,
+             borderWidth:5,
+             borderColor:'green'
+            }}
+            underlayColor="black"
+            onPress={() => this.Add()}
+            onLongPress={() => this.Remove()}
+            delayLongPress={400}
+          >
+            <Text>{this.state.ButtonText}</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={{
+              borderRadius:
+                Math.round(
+                  Dimensions.get("window").width +
+                    Dimensions.get("window").height
+                ) / 2,
+              width: Dimensions.get("window").width * 0.24,
+              height: Dimensions.get("window").width * 0.24,
+              backgroundColor: "#fff",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+              marginLeft: 10,
+             borderWidth:5,
+             borderColor:'green'
+            }}
+            underlayColor="black"
+            onPress={() => this.Add()}
+            onLongPress={() => this.Remove()}
+            delayLongPress={400}
+          >
+            <Text>{this.state.ButtonText}</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={{
+              borderRadius:
+                Math.round(
+                  Dimensions.get("window").width +
+                    Dimensions.get("window").height
+                ) / 2,
+              width: Dimensions.get("window").width * 0.24,
+              height: Dimensions.get("window").width * 0.24,
+              backgroundColor: "#fff",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 10,
+              marginLeft: 10,
+             borderWidth:5,
+             borderColor:'green'
+            }}
+            underlayColor="black"
+            onPress={() => this.Add()}
+            onLongPress={() => this.Remove()}
+            delayLongPress={400}
+          >
+            <Text>{this.state.ButtonText}</Text>
+          </TouchableHighlight>
           </View>
-          <View style={styles.fixTotext}>
-            <Text style={styles.regNo}>16105129001</Text>
-
-            <RadioButton
-              style={styles.preText}
-              value="present"
-              status={checked === "present" ? "checked" : "unchecked"}
-              onPress={() => {
-                this.setState({ checked: "present" });
-              }}
-            />
-            <RadioButton
-              style={styles.absText}
-              value="absent"
-              status={checked === "absent" ? "checked" : "unchecked"}
-              onPress={() => {
-                this.setState({ checked: "absent" });
-              }}
-            />
-          </View>
-          
         </ScrollView>
       </View>
     );
@@ -94,6 +145,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 1
+  },
+  ButtonStyle: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: "#009688",
+    borderRadius: 5,
+    marginBottom: 20
+  },
+
+  TextStyle: {
+    color: "#fff",
+    textAlign: "center"
   },
   paragraph: {
     margin: 1.5,
@@ -110,7 +173,7 @@ const styles = StyleSheet.create({
     marginLeft: 6
   },
   fixTotext: {
-    justifyContent: "space-between",
+    justifyContent: "center",
     flexDirection: "row"
   },
   preText: {

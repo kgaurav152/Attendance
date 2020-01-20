@@ -22,8 +22,8 @@ import LoginScreen from "../screens/LoginScreen";
 import AboutAppScreen from "../screens/AboutAppScreen";
 import CollegeScreen from "../screens/CollegeScreen";
 import DeveloperScreen from "../screens/DeveloperScreen";
+import {LinearGradient} from 'expo-linear-gradient'
 
-import Screen3 from "../screens/Screen3";
 import SideMenu from "../sidemenu";
 import AddRoleScreen from "../screens/AddRoleScreen";
 import SignUp from "../screens/SignUp";
@@ -52,17 +52,37 @@ class NavigationDrawerStructure extends Component {
     );
   }
 }
+const GradientHeader = props => (
+  <View style={{ backgroundColor: '#eee' }}>
+      <LinearGradient
+        colors={['red', 'blue']}
+        style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
+      >
+        <Header {...props} />
+      </LinearGradient>
+    </View>
+  )
 const FirstActivity_StackNavigator = createStackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
+      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor:'#09C5F7'
+        
       },
-      headerTintColor: "#fff"
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
     })
   }
 });
@@ -119,8 +139,8 @@ const LoginScreen_StackNavigator = createStackNavigator({
 });
 const Attendance_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  WelcomeUser: {
-    screen: WelcomeUserScreen,
+  FacultyWelcome: {
+    screen: FacultyWelcomeScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
