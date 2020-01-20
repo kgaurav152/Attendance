@@ -1,158 +1,160 @@
-import React,  { useState,useReducer, useCallback,useEffect }  from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator,
   TextInput,
   Button,
-  
   TouchableHighlight,
   Image,
-  Alert
-} from 'react-native';
-import Input from '../components/Input';
-import { useDispatch } from 'react-redux';
-import * as authActions from '../actions/auth';
-const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
-
-const formReducer = (state, action) => {
-  if (action.type === FORM_INPUT_UPDATE) {
-    const updatedValues = {
-      ...state.inputValues,
-      [action.input]: action.value
-    };
-    const updatedValidities = {
-      ...state.inputValidities,
-      [action.input]: action.isValid
-    };
-    let updatedFormIsValid = true;
-    for (const key in updatedValidities) {
-      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
-    }
-    return {
-      formIsValid: updatedFormIsValid,
-      inputValidities: updatedValidities,
-      inputValues: updatedValues
+  Alert,
+  Picker
+} from "react-native";
+import firebase from "../components/config";
+import {Dropdown} from 'react-native-material-dropdown'
+export default class LoginScreen extends Component {
+  constructor(props) {
+    super(props);
+    state = {
+      email: "",
+      password: "",
+      language: ""
     };
   }
-  return state;
-};
-
-const Login = props => {
-  const dispatch = useDispatch();
-  
-  const [error, setError] = useState();
-  
-
-
-  const [formState, dispatchFormState] = useReducer(formReducer, {
-    inputValues: {
-      email: '',
-      password: ''
-    },
-    inputValidities: {
-      email: false,
-      password: false
-    },
-    formIsValid: false
-  });
-
-  useEffect(() => {
-    if (error) {
-      Alert.alert('An Error Occurred!', error, [{ text: 'Okay' }]);
+  handleLogin = () => {
+    try {
+      const { role } = this.state;
+      firebase
+        .database()
+        .ref("users")
+        .orderByChild("role")
+        .equalTo(this.state.role)
+        .once("value")
+        .then(snapshot => {
+        
+        let userInfo = snapshot.val();
+        let role = null;
+        for( var attributes in userInfo){ 
+          role = userInfo[attributes].role;
+        }
+        
+        if (role == 'faculty'){
+          this.props.navigation.navigate('WelcomeUser')
+        }
+        else if(role =='admin'){
+          this.props.navigation.navigate('KEC_Katihar')
+        }
+        else{
+          this.props.navigation.navigate('SignUp')
+        }
+        });
+    } catch (error) {
+      console.log(error.toString(error));
     }
-  }, [error]);
-
-  const loginHandler = async () => {
-    let action;
-      action = authActions.login(
-        formState.inputValues.email,
-        formState.inputValues.password
-      );
-    
-    
-    try{
-       dispatch(action);
-      //props.navigation.navigate('WelcomeUser');
-    }
-    catch (err) {
-      setError(err.message);
-     
-      
+  };
+  handlePass = () => {
+    try {
+      const { password } = this.state;
+      firebase
+        .database()
+        .ref("users")
+        .orderByChild("password")
+        .equalTo(this.state.password)
+        .once("value")
+        .then(snapshot => {
+          if (snapshot.val()) {
+            this.handleLogin();
+          }
+        });
+    } catch (error) {
+      console.log(error.toString(error));
     }
   };
 
-  const inputChangeHandler = useCallback(
-    (inputIdentifier, inputValue, inputValidity) => {
-      dispatchFormState({
-        type: FORM_INPUT_UPDATE,
-        value: inputValue,
-        isValid: inputValidity,
-        input: inputIdentifier
-      });
-    },
-    [dispatchFormState]
-  );
+  handleEmail = () => {
+    try {
+      const { email } = this.state;
+      firebase
+        .database()
+        .ref("users")
+        .orderByChild("email")
+        .equalTo(this.state.email)
+        .once("value")
+        .then(snapshot => {
+          if (snapshot.val()) {
+            this.handlePass();
+          }
+        });
+    } catch (error) {
+      console.log(error.toString(error));
+    }
+  };
 
-
- 
+  render() {
+   
     return (
       <View style={styles.container}>
+      <View style={styles.inputContainer}>
+      <Image
+        style={styles.inputIcon}
+        source={require("../assets/mailIcon.jpg")}
+      />
+      <TextInput
+        style={styles.inputs}
+        placeholder="Role"
+        keyboardType="email-address"
+        underlineColorAndroid="transparent"
+        onChangeText={role => this.setState({ role })}
+      />
+    </View>
+
+    
         <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={require('../assets/mailIcon.jpg')}/>
-          <Input style={styles.inputs}
-              id="email"
-              label="E-Mail"
-              keyboardType="email-address"
-              required
-              emailid="email"
-              autoCapitalize="none"
-              errorText="Please enter a valid email address."
-              onInputChange={inputChangeHandler}
-              initialValue=""
-            />  
+          <Image
+            style={styles.inputIcon}
+            source={require("../assets/mailIcon.jpg")}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder="Email"
+            keyboardType="email-address"
+            underlineColorAndroid="transparent"
+            onChangeText={email => this.setState({ email })}
+          />
         </View>
 
         <View style={styles.inputContainer}>
-          <Image style={styles.inputIcon} source={require('../assets/pwdIcon.png')}/>
-          <Input
-              id="password"
-              label="Password"
-              keyboardType="default"
-              secureTextEntry
-              required
-              minLength={5}
-              autoCapitalize="none"
-              errorText="Please enter a valid password."
-              onInputChange={inputChangeHandler}
-              initialValue=""
-            />
+          <Image
+            style={styles.inputIcon}
+            source={require("../assets/mailIcon.jpg")}
+          />
+          <TextInput
+            style={styles.inputs}
+            placeholder="Password"
+            keyboardType="password"
+            secureTextEntry
+            underlineColorAndroid="transparent"
+            onChangeText={password => this.setState({ password })}
+          />
         </View>
+        
+        <TouchableHighlight
+          style={[styles.buttonContainer, styles.loginButton]}
+          onPress={() => this.handleLogin()}
+        >
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableHighlight>
 
-        <View style={styles.buttonContainer}>
-              <Button
-                title="Login"
-                
-                onPress={loginHandler}
-              />
-            </View>
-        <View style={styles.fixTotext}>
-          <TouchableHighlight
-            onPress={() => this.onClickListener("restore_password")}
-          >
-            <Text style={styles.forgotButton}>Forgot Password?</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            onPress={() => this.props.navigation.navigate("SignUp")}
-          >
-            <Text style={styles.registerButton}>Register.</Text>
-          </TouchableHighlight>
-        </View>
+        <TouchableHighlight
+          style={[styles.buttonContainerForgot, styles.forgotButton]}
+          onPress={() => this.forgotPassword()}
+        >
+          <Text style={styles.forgotText}>Forgot Password</Text>
+        </TouchableHighlight>
       </View>
     );
   }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -208,11 +210,21 @@ const styles = StyleSheet.create({
     color: "#00ffff",
     fontSize: 17
   },
-  registerButton:{
-    marginLeft:40,
-    fontWeight:'900',
-    color:'#00ffff',
-    fontSize:17
+
+  buttonContainerForgot: {
+    height: 35,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 120,
+    borderRadius: 15,
+    marginLeft: "5%"
+  },
+  forgotButton: {
+    backgroundColor: "#D16713"
+  },
+  forgotText: {
+    fontWeight: "800"
   }
-})
-export default Login
+});

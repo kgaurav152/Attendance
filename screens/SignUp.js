@@ -1,157 +1,151 @@
+import React,{Component} from 'react'
+import { StyleSheet, Text, TextInput, View, Button,Image, TouchableHighlight,Picker} from 'react-native';
+import Firebase from '../components/config';
 
-import React, { useReducer, useCallback } from 'react';
-import {
-  ScrollView,
-  View,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Button
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useDispatch } from 'react-redux';
 
-import Input from '../components/Input';
-import Card from '../components/Card';
-
-import * as authActions from '../actions/auth';
-
-const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
-
-const formReducer = (state, action) => {
-  if (action.type === FORM_INPUT_UPDATE) {
-    const updatedValues = {
-      ...state.inputValues,
-      [action.input]: action.value
-    };
-    const updatedValidities = {
-      ...state.inputValidities,
-      [action.input]: action.isValid
-    };
-    let updatedFormIsValid = true;
-    for (const key in updatedValidities) {
-      updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+export default class SignUp extends Component {
+  state = { email: '', password: '',role:''};
+  
+  handleSignUp= () =>{
+ 
+    Firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then((user)=>{
+      if (Firebase.auth().currentUser) {
+        userId = Firebase.auth().currentUser.uid;
+        if (userId) {
+            Firebase.database().ref('users/' + userId).set({
+              email:this.state.email,
+              password:this.state.password,
+              role:this.state.role,
+              uid:userId,
+              
+            })
+        }
+      }
+    }).catch(function(error) {
+      
+        
+        console.log('Register!');
+        console.log(error);
+    })
     }
-    return {
-      formIsValid: updatedFormIsValid,
-      inputValidities: updatedValidities,
-      inputValues: updatedValues
-    };
-  }
-  return state;
-};
-
-const SignUp = props => {
-  const dispatch = useDispatch();
-
-  const [formState, dispatchFormState] = useReducer(formReducer, {
-    inputValues: {
-      email: '',
-      password: ''
-    },
-    inputValidities: {
-      email: false,
-      password: false
-    },
-    formIsValid: false
-  });
-
-  const signupHandler = () => {
-    dispatch(
-      authActions.signup(
-        formState.inputValues.email,
-        formState.inputValues.password
-      )
-    );
-    props.navigation.navigate(
-      {
-        routeName:'AddRole',
-        params:{
-          userId: authActions.userId,
-          email: authActions.email 
-    }});
-  };
-
-  const inputChangeHandler = useCallback(
-    (inputIdentifier, inputValue, inputValidity) => {
-      dispatchFormState({
-        type: FORM_INPUT_UPDATE,
-        value: inputValue,
-        isValid: inputValidity,
-        input: inputIdentifier
-      });
-    },
-    [dispatchFormState]
-  );
-
+render() {
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={50}
-      style={styles.screen}
-    >
-      <LinearGradient colors={['#ffedff', '#ffe3ff']} style={styles.gradient}>
-        <Card style={styles.authContainer}>
-          <ScrollView>
-            <Input
-              id="email"
-              label="E-Mail"
-              keyboardType="email-address"
-              required
-              emailid="email"
-              autoCapitalize="none"
-              errorText="Please enter a valid email address."
-              onInputChange={inputChangeHandler}
-              initialValue=""
+    <View style={styles.container}>
+
+      <View style={styles.inputContainer}>
+        <Image style={styles.inputIcon} source={require('../assets/mailIcon.jpg')}/>
+        <TextInput style={styles.inputs}
+            placeholder="Email"
+            keyboardType="email-address"
+            underlineColorAndroid='transparent'
+            onChangeText={(email) => this.setState({email})}
+            value ={this.state.email}
             />
-            <Input
-              id="password"
-              label="Password"
-              keyboardType="default"
-              secureTextEntry
-              required
-              minLength={5}
-              autoCapitalize="none"
-              errorText="Please enter a valid password."
-              onInputChange={inputChangeHandler}
-              initialValue=""
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Image style={styles.inputIcon} source={require('../assets/pwdIcon.png')}/>
+        <TextInput style={styles.inputs}
+            placeholder="Password"
+            secureTextEntry={true}
+            underlineColorAndroid='transparent'
+            onChangeText={(password) => this.setState({password})}
+            value={this.state.password}
             />
-            <View style={styles.buttonContainer}>
-              <Button
-                title="SignUp"
-                
-                onPress={signupHandler}
-              />
-            </View>
-            
-          </ScrollView>
-        </Card>
-      </LinearGradient>
-    </KeyboardAvoidingView>
+      </View>
+      
+      <Picker
+  selectedValue={this.state.role}
+  style={{height: 50, width: 180}}
+  onValueChange={(itemValue, itemIndex) =>
+    this.setState({role: itemValue})
+  }>
+  <Picker.Item label="Select Role" value="Role" />
+  <Picker.Item label="Admin" value="admin" />
+  <Picker.Item label="Faculty" value="faculty" />
+  <Picker.Item label="Student" value="student" />
+</Picker>
+
+      <TouchableHighlight style={[styles.buttonContainer, styles.registerButton]} onPress={()=>this.handleSignUp()}>
+        <Text style={styles.registerText}>Register</Text>
+      </TouchableHighlight>
+      <View style={styles.fixTotext}>
+      <TouchableHighlight>
+          <Text style={styles.loginButton}>Have an account ?</Text>
+      </TouchableHighlight>
+      <TouchableHighlight onPress={() => this.props.navigation.navigate('Login')}>
+        <Text style={styles.loginButton, styles.loginText}>Login Here</Text>
+      </TouchableHighlight>
+      </View>
+    </View>
   );
-};
-
-SignUp.navigationOptions = {
-  headerTitle: 'Authenticate'
-};
-
+}
+}
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1
-  },
-  gradient: {
+  container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+
   },
-  authContainer: {
-    width: '80%',
-    maxWidth: 400,
-    maxHeight: 400,
-    padding: 20
+  inputContainer: {
+      borderBottomColor: '#fff8dc',
+      backgroundColor: '#FFFFFF',
+      borderRadius:30,
+      borderBottomWidth: 1,
+      width:250,
+      height:45,
+      marginBottom:20,
+      flexDirection: 'row',
+      alignItems:'center'
+  },
+  inputs:{
+      height:45,
+      marginLeft:16,
+      borderBottomColor: '#FFFFFF',
+      flex:1,
+  },
+  text: {
+    fontSize: 20,
+    alignSelf: "center",
+    color: "#87ceeb",
+    fontWeight: "800"
+  },
+  inputIcon:{
+    width:30,
+    height:30,
+    marginLeft:15,
+    justifyContent: 'center'
   },
   buttonContainer: {
-    marginTop: 10
-  }
-});
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom:20,
+    width:250,
+    borderRadius:30,
+  },
+  registerButton: {
+    backgroundColor: "#00b5ec",
+    marginTop:30
+  },
+  registerText: {
+    color: 'white',
+  },
 
-export default SignUp
+  loginButton:{
+    marginLeft:22,
+    fontWeight:'900',
+    color:'#00ffff',
+    fontSize:17
+  },
+  loginText:{
+    textAlign:'center',
+    fontWeight:'900',
+    color:'#deb887',
+    fontSize:17,
+    marginLeft:12,
+    paddingTop:5
+}
+})

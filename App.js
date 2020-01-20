@@ -12,17 +12,17 @@ import {
   Dimensions,
   Button
 } from "react-native";
-import * as Font from "expo-font";
+
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import {AppLoading} from 'expo'
 import reducer from './reducers/auth'
 import ActionBarImage from "./components/ActionBarImage";
-import { AppLoading } from "expo";
+
 
 import MainNavigator from "./navigation/MainNavigator";
-import { Drawer } from "native-base";
+
 
 const fetchFonts = () => {
   return Font.loadAsync({
