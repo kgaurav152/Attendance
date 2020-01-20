@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingTop: 30,
     fontWeight: "600",
-    color: "#d2691e"
+    color: "#D16713"
   },
   buttonContainer: {
     height: 65,

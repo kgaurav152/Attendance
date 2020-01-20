@@ -105,6 +105,11 @@ const styles = StyleSheet.create({
       borderBottomColor: '#FFFFFF',
       flex:1,
   },
+  fixTotext:{
+    flexDirection:'row',
+    justifyContent:'space-between'
+
+  },
   text: {
     fontSize: 20,
     alignSelf: "center",
@@ -137,15 +142,15 @@ const styles = StyleSheet.create({
   loginButton:{
     marginLeft:22,
     fontWeight:'900',
-    color:'#00ffff',
+    color:'#D16713',
     fontSize:17
   },
   loginText:{
     textAlign:'center',
     fontWeight:'900',
-    color:'#deb887',
+    color:'#D16713',
     fontSize:17,
     marginLeft:12,
-    paddingTop:5
+    
 }
 })

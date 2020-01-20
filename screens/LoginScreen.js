@@ -27,8 +27,8 @@ export default class LoginScreen extends Component {
       firebase
         .database()
         .ref("users")
-        .orderByChild("role")
-        .equalTo(this.state.role)
+        .orderByChild("email")
+        .equalTo(this.state.email)
         .once("value")
         .then(snapshot => {
         
@@ -94,21 +94,6 @@ export default class LoginScreen extends Component {
    
     return (
       <View style={styles.container}>
-      <View style={styles.inputContainer}>
-      <Image
-        style={styles.inputIcon}
-        source={require("../assets/mailIcon.jpg")}
-      />
-      <TextInput
-        style={styles.inputs}
-        placeholder="Role"
-        keyboardType="email-address"
-        underlineColorAndroid="transparent"
-        onChangeText={role => this.setState({ role })}
-      />
-    </View>
-
-    
         <View style={styles.inputContainer}>
           <Image
             style={styles.inputIcon}
@@ -140,7 +125,7 @@ export default class LoginScreen extends Component {
         
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.handleLogin()}
+          onPress={() => this.props.navigation.navigate('WelcomeUser')}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>

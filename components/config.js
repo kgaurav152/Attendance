@@ -2,10 +2,10 @@ import * as firebase from 'firebase'
 
 
 const config = {
-    apiKey: "AIzaSyBLYIcYvYSzUFdDnlS-lGkhe_YCuuf4zNc",
-    authDomain: "attendance-c4d70.firebaseio.com",
-    databaseURL: "https://attendance-c4d70.firebaseio.com/",
-    projectId: "attendance-c4d70"
+    apiKey: "AIzaSyCg8Uid5MiewwVtFmjcTDCuUL6jU8Qsc34",
+    authDomain: "online-attendance-7e3c3.firebaseio.com",
+    databaseURL: "https://online-attendance-7e3c3.firebaseio.com/",
+    projectId: "online-attendance-7e3c3"
 };
 
 const fire = firebase.initializeApp(config);
