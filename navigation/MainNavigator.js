@@ -17,23 +17,21 @@ import {
   Dimensions,
   Button
 } from "react-native";
-import HomeScreen from '../screens/HomeScreen';
-import LoginScreen from '../screens/LoginScreen'
-import AboutAppScreen from '../screens/AboutAppScreen';
-import CollegeScreen from '../screens/CollegeScreen';
-import DeveloperScreen from '../screens/DeveloperScreen';
+import HomeScreen from "../screens/HomeScreen";
+import LoginScreen from "../screens/LoginScreen";
+import AboutAppScreen from "../screens/AboutAppScreen";
+import CollegeScreen from "../screens/CollegeScreen";
+import DeveloperScreen from "../screens/DeveloperScreen";
 
 import Screen3 from "../screens/Screen3";
 import SideMenu from "../sidemenu";
-import AddRoleScreen from '../screens/AddRoleScreen';
-import SignUp from '../screens/SignUp';
+import AddRoleScreen from "../screens/AddRoleScreen";
+import SignUp from "../screens/SignUp";
 import ActionBarImage from "../components/ActionBarImage";
 import WelcomeUserScreen from "../screens/WelcomeUserScreen";
 import AddStudentScreen from "../screens/AddStudentScreen";
 import AttendanceScreen from "../screens/AttendanceScreen";
 import AddAttendanceScreen from "../screens/AddAttendanceScreen";
-
-
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -61,9 +59,9 @@ const FirstActivity_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "green"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   }
 });
@@ -92,8 +90,8 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "black"
     })
   },
-  AddRole :{
-    screen: AddRoleScreen,
+  AddRole: {
+    screen: AddRoleScreen
     /*navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -104,7 +102,7 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "black"
     })*/
   },
-  
+
   AddStudents: {
     screen: AddStudentScreen,
     navigationOptions: ({ navigation }) => ({
@@ -220,7 +218,6 @@ const SignUp_StackNavigator = createStackNavigator({
   }
 });
 
-
 const Drawer = createDrawerNavigator(
   {
     //Drawer Optons and indexing
@@ -228,11 +225,10 @@ const Drawer = createDrawerNavigator(
     NavScreen2: { screen: LoginScreen_StackNavigator },
     NavScreen3: { screen: SignUp_StackNavigator },
     NavScreen4: { screen: DeveloperScreen_StackNavigator },
-    NavScreen5: { screen: CollegeScreen_StackNavigator},
-    NavScreen6: { screen: AboutAppScreen_StackNavigator},
-    
-    NavScreen7: { screen: Attendance_StackNavigator },
-    
+    NavScreen5: { screen: CollegeScreen_StackNavigator },
+    NavScreen6: { screen: AboutAppScreen_StackNavigator },
+
+    NavScreen7: { screen: Attendance_StackNavigator }
   },
   {
     contentComponent: SideMenu,

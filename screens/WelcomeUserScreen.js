@@ -50,17 +50,16 @@ export default class LoginScreen extends Component {
           </View>
         </Card>
 
-        
         <View style={styles.fixToText}>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate('Attendance')}
+            onPress={() => this.props.navigation.navigate("Attendance")}
           >
             <Text style={styles.clickText}>Attendance</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate('AddStudents')}
+            onPress={() => this.props.navigation.navigate("AddStudents")}
           >
             <Text style={styles.clickText}>Student</Text>
           </TouchableHighlight>

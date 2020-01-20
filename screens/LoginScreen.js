@@ -11,7 +11,7 @@ import {
   Picker
 } from "react-native";
 import firebase from "../components/config";
-import {Dropdown} from 'react-native-material-dropdown'
+
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -31,22 +31,19 @@ export default class LoginScreen extends Component {
         .equalTo(this.state.email)
         .once("value")
         .then(snapshot => {
-        
-        let userInfo = snapshot.val();
-        let role = null;
-        for( var attributes in userInfo){ 
-          role = userInfo[attributes].role;
-        }
-        
-        if (role == 'faculty'){
-          this.props.navigation.navigate('WelcomeUser')
-        }
-        else if(role =='admin'){
-          this.props.navigation.navigate('KEC_Katihar')
-        }
-        else{
-          this.props.navigation.navigate('SignUp')
-        }
+          let userInfo = snapshot.val();
+          let role = null;
+          for (var attributes in userInfo) {
+            role = userInfo[attributes].role;
+          }
+
+          if (role == "faculty") {
+            this.props.navigation.navigate("WelcomeUser");
+          } else if (role == "admin") {
+            this.props.navigation.navigate("KEC_Katihar");
+          } else {
+            this.props.navigation.navigate("SignUp");
+          }
         });
     } catch (error) {
       console.log(error.toString(error));
@@ -91,7 +88,6 @@ export default class LoginScreen extends Component {
   };
 
   render() {
-   
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
@@ -111,7 +107,7 @@ export default class LoginScreen extends Component {
         <View style={styles.inputContainer}>
           <Image
             style={styles.inputIcon}
-            source={require("../assets/mailIcon.jpg")}
+            source={require("../assets/pwdIcon.png")}
           />
           <TextInput
             style={styles.inputs}
@@ -122,10 +118,10 @@ export default class LoginScreen extends Component {
             onChangeText={password => this.setState({ password })}
           />
         </View>
-        
+
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.props.navigation.navigate('WelcomeUser')}
+          onPress={() => this.props.navigation.navigate("WelcomeUser")}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>

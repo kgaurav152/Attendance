@@ -23,7 +23,7 @@ export default class Homescreen extends Component {
                 fontWeight: "bold"
               }}
               buttonStyle={{
-                backgroundColor: "#FD8804",
+                backgroundColor: "green",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",
@@ -41,7 +41,7 @@ export default class Homescreen extends Component {
                 fontWeight: "700"
               }}
               buttonStyle={{
-                backgroundColor: "#FD8804",
+                backgroundColor: "green",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",
@@ -63,7 +63,7 @@ export default class Homescreen extends Component {
                 fontSize: 23
               }}
               buttonStyle={{
-                backgroundColor: "#FD8804",
+                backgroundColor: "green",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",
@@ -79,7 +79,7 @@ export default class Homescreen extends Component {
                 fontSize: 23
               }}
               buttonStyle={{
-                backgroundColor: "#FD8804",
+                backgroundColor: "green",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",
@@ -101,15 +101,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
-    marginHorizontal: "2%"
+    marginHorizontal: "2%",
+    
   },
   title: {
     textAlign: "center",
     marginVertical: 8,
     marginBottom: "10%",
-    marginLeft: "12%",
+    marginLeft: "6%",
     fontSize: 20,
-    color: "#008b8b",
+    color: "#D16713",
     fontWeight: "bold"
   },
   fixToText: {
