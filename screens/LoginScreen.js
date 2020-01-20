@@ -38,11 +38,11 @@ export default class LoginScreen extends Component {
           }
 
           if (role == "faculty") {
-            this.props.navigation.navigate("WelcomeUser");
+            this.props.navigation.navigate("FacultyWelcome");
           } else if (role == "admin") {
-            this.props.navigation.navigate("KEC_Katihar");
+            this.props.navigation.navigate("AdminWelcome");
           } else {
-            this.props.navigation.navigate("SignUp");
+            this.props.navigation.navigate("StudentWelcome");
           }
         });
     } catch (error) {

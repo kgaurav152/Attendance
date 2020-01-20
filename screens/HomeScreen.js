@@ -23,7 +23,7 @@ export default class Homescreen extends Component {
                 fontWeight: "bold"
               }}
               buttonStyle={{
-                backgroundColor: "green",
+                backgroundColor: "#09C5F7",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",
@@ -41,7 +41,7 @@ export default class Homescreen extends Component {
                 fontWeight: "700"
               }}
               buttonStyle={{
-                backgroundColor: "green",
+                backgroundColor: "#09C5F7",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",
@@ -49,7 +49,7 @@ export default class Homescreen extends Component {
                 marginLeft: "2%",
                 marginBottom: "2%"
               }}
-              title="KEC_Katihar "
+              title="KEC Katihar "
             />
           </View>
         </View>
@@ -63,7 +63,7 @@ export default class Homescreen extends Component {
                 fontSize: 23
               }}
               buttonStyle={{
-                backgroundColor: "green",
+                backgroundColor: "#09C5F7",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",
@@ -79,7 +79,7 @@ export default class Homescreen extends Component {
                 fontSize: 23
               }}
               buttonStyle={{
-                backgroundColor: "green",
+                backgroundColor: "#09C5F7",
                 borderRadius: 10,
                 flex: 1,
                 height: "20%",

@@ -22,7 +22,7 @@ import ActionBarImage from "./components/ActionBarImage";
 
 
 import MainNavigator from "./navigation/MainNavigator";
-
+console.disableYellowBox =true;
 
 const fetchFonts = () => {
   return Font.loadAsync({

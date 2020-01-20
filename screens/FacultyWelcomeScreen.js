@@ -13,7 +13,7 @@ import { Button } from "react-native-elements";
 function Separator() {
   return <View style={styles.separator} />;
 }
-export default class LoginScreen extends Component {
+export default class FacultyWelcomeScreen extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingTop: 30,
     fontWeight: "600",
-    color: "#D16713"
+    color: "#09C5F7"
   },
   buttonContainer: {
     height: 65,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   clickButton: {
-    backgroundColor: "#F9872E"
+    backgroundColor: "#09C5F7"
   },
   clickText: {
     color: "white",

@@ -12,15 +12,11 @@ class SideMenu extends Component {
     Heading, Subheading and screen to navigate.*/
     //Sreen to navigate can be any screen defined in Drawer Navigator in App.js
     this.options = [
+      
       {
-        mainHeading: 'Main Heading 1.',
+        mainHeading: 'Katihar Engineering College, Katihar',
         subOptions: [
           { secondaryHeading: 'Home', navigationPath: 'Home' },
-        ],
-      },
-      {
-        mainHeading: 'Main Heading 2',
-        subOptions: [
           { secondaryHeading: 'Developers Info', navigationPath: 'Developers' },
           { secondaryHeading: 'About the App', navigationPath: 'AboutApp' },
           { secondaryHeading: 'About College', navigationPath: 'KEC_Katihar' },

@@ -28,10 +28,11 @@ import SideMenu from "../sidemenu";
 import AddRoleScreen from "../screens/AddRoleScreen";
 import SignUp from "../screens/SignUp";
 import ActionBarImage from "../components/ActionBarImage";
-import WelcomeUserScreen from "../screens/WelcomeUserScreen";
+import WelcomeUserScreen from "../screens/FacultyWelcomeScreen";
 import AddStudentScreen from "../screens/AddStudentScreen";
 import AttendanceScreen from "../screens/AttendanceScreen";
 import AddAttendanceScreen from "../screens/AddAttendanceScreen";
+import FacultyWelcomeScreen from "../screens/FacultyWelcomeScreen";
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -59,7 +60,7 @@ const FirstActivity_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "green"
+        backgroundColor: "#09C5F7"
       },
       headerTintColor: "#fff"
     })
@@ -73,21 +74,21 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   },
-  WelcomeUser: {
-    screen: WelcomeUserScreen,
+  FacultyWelcome: {
+    screen: FacultyWelcomeScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   },
   AddRole: {
@@ -110,9 +111,9 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   }
 });
@@ -125,9 +126,9 @@ const Attendance_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   },
   Attendance: {
@@ -137,9 +138,9 @@ const Attendance_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   },
   AddAttendance: {
@@ -149,9 +150,9 @@ const Attendance_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   }
 });
@@ -165,9 +166,9 @@ const DeveloperScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   }
 });
@@ -180,9 +181,9 @@ const CollegeScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   }
 });
@@ -195,9 +196,9 @@ const AboutAppScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   }
 });
@@ -211,9 +212,9 @@ const SignUp_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#09C5F7"
       },
-      headerTintColor: "black"
+      headerTintColor: "#fff"
     })
   }
 });
