@@ -32,7 +32,7 @@ import WelcomeUserScreen from "../screens/WelcomeUserScreen";
 import AddStudentScreen from "../screens/AddStudentScreen";
 import AttendanceScreen from "../screens/AttendanceScreen";
 import AddAttendanceScreen from "../screens/AddAttendanceScreen";
-import KecKatihar from "../screens/KecKatihar";
+
 
 
 class NavigationDrawerStructure extends Component {
@@ -94,7 +94,7 @@ const LoginScreen_StackNavigator = createStackNavigator({
   },
   AddRole :{
     screen: AddRoleScreen,
-    navigationOptions: ({ navigation }) => ({
+    /*navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
@@ -102,7 +102,7 @@ const LoginScreen_StackNavigator = createStackNavigator({
         backgroundColor: "#fff"
       },
       headerTintColor: "black"
-    })
+    })*/
   },
   
   AddStudents: {
