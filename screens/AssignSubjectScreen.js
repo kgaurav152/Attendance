@@ -29,7 +29,7 @@ export default class AssignSubject extends Component{
             .once("value")){
                 Firebase.database()
                 .ref("Faculty/"+id+"/Subject/")
-                .update({
+                .push({
                 subjectName: this.state.subjectName,
                 subjectSem: this.state.subjectSem,
                     }).catch(function(error) {
