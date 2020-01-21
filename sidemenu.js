@@ -18,9 +18,10 @@ class SideMenu extends Component {
         subOptions: [
           { secondaryHeading: 'Home', navigationPath: 'Home' },
           { secondaryHeading: 'Developers Info', navigationPath: 'Developers' },
-          { secondaryHeading: 'About the App', navigationPath: 'AboutApp' },
+          { secondaryHeading: 'Assign Subject', navigationPath: 'AssignSubject' },
           { secondaryHeading: 'About College', navigationPath: 'KEC_Katihar' },
-          { secondaryHeading: 'SignUp', navigationPath: 'SignUp' }
+          { secondaryHeading: 'SignUp', navigationPath: 'SignUp' },
+          { secondaryHeading: 'Admin', navigationPath: 'Admin' }
 
         ],
       },

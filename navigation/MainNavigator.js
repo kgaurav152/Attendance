@@ -23,7 +23,7 @@ import AboutAppScreen from "../screens/AboutAppScreen";
 import CollegeScreen from "../screens/CollegeScreen";
 import DeveloperScreen from "../screens/DeveloperScreen";
 import {LinearGradient} from 'expo-linear-gradient'
-
+import AdminScreen from '../screens/AdminScreen'
 import SideMenu from "../sidemenu";
 import AddRoleScreen from "../screens/AddRoleScreen";
 import SignUp from "../screens/SignUp";
@@ -33,6 +33,8 @@ import AddStudentScreen from "../screens/AddStudentScreen";
 import AttendanceScreen from "../screens/AttendanceScreen";
 import AddAttendanceScreen from "../screens/AddAttendanceScreen";
 import FacultyWelcomeScreen from "../screens/FacultyWelcomeScreen";
+import AssignSubjectScreen from "../screens/AssignSubjectScreen"
+
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -111,9 +113,9 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "#fff"
     })
   },
-  AddRole: {
-    screen: AddRoleScreen
-    /*navigationOptions: ({ navigation }) => ({
+  Admin: {
+    screen: AdminScreen,
+    navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
@@ -121,9 +123,20 @@ const LoginScreen_StackNavigator = createStackNavigator({
         backgroundColor: "#fff"
       },
       headerTintColor: "black"
-    })*/
+    })
   },
-
+  AssignSubject: {
+    screen: AssignSubjectScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
   AddStudents: {
     screen: AddStudentScreen,
     navigationOptions: ({ navigation }) => ({

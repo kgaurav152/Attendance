@@ -21,6 +21,7 @@ export default class SignUp extends Component {
       .then(user => {
         if (Firebase.auth().currentUser) {
           userId = Firebase.auth().currentUser.uid;
+          role = this.state.role;
           if (userId) {
             Firebase.database()
               .ref("users/" + userId)
@@ -31,7 +32,16 @@ export default class SignUp extends Component {
                 uid: userId
               });
           }
+          if(role == "faculty"){
+            Firebase.database()
+              .ref("Faculty/")
+              .push({
+                email: this.state.email,
+               
+              }).child("Subject")
+          }
         }
+        
       })
       .catch(function(error) {
         console.log("Register !");
