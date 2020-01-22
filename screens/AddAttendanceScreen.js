@@ -7,22 +7,51 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ScrollView,
-  Dimensions
+  Dimensions,
+  FlatList,
+  StatusBar,
+  Image
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
+import AttendanceBoxes from "../components/AttendanceBoxes";
+
 export default class AddAttendanceScreen extends React.Component {
-  state = { ButtonText: "001", Remove: "" };
-  Add = () => {
-    this.setState({
-      ButtonText: "Present"
-    });
-  };
-  Remove = () => {
-    this.setState({
-      ButtonText: "001"
-    });
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [
+        "001",
+        "002",
+        "003",
+        "004",
+        "005",
+        "006",
+        "007",
+        "008",
+        "009",
+        "010",
+        "011",
+        "012",
+        "013",
+        "014",
+        "015",
+        "016",
+        "017",
+        "018",
+        "019",
+        "020",
+        "021",
+        "022",
+        "023",
+        "024",
+        "025",
+        "026",
+        "027",
+        "028"
+      ]
+    };
+  }
 
   render() {
     const { navigation } = this.props;
@@ -32,7 +61,7 @@ export default class AddAttendanceScreen extends React.Component {
     const date = navigation.getParam("date");
 
     return (
-      <View>
+      <ScrollView>
         <Card
           title="Make today Attendance"
           titleStyle={{
@@ -61,83 +90,10 @@ export default class AddAttendanceScreen extends React.Component {
             </View>
           </View>
         </Card>
-        <ScrollView>
-        <View style={styles.fixTotext}>
-          <TouchableHighlight
-            style={{
-              borderRadius:
-                Math.round(
-                  Dimensions.get("window").width +
-                    Dimensions.get("window").height
-                ) / 2,
-              width: Dimensions.get("window").width * 0.24,
-              height: Dimensions.get("window").width * 0.24,
-              backgroundColor: "#fff",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 10,
-              marginLeft: 10,
-             borderWidth:5,
-             borderColor:'green'
-            }}
-            underlayColor="black"
-            onPress={() => this.Add()}
-            onLongPress={() => this.Remove()}
-            delayLongPress={400}
-          >
-            <Text>{this.state.ButtonText}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={{
-              borderRadius:
-                Math.round(
-                  Dimensions.get("window").width +
-                    Dimensions.get("window").height
-                ) / 2,
-              width: Dimensions.get("window").width * 0.24,
-              height: Dimensions.get("window").width * 0.24,
-              backgroundColor: "#fff",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 10,
-              marginLeft: 10,
-             borderWidth:5,
-             borderColor:'green'
-            }}
-            underlayColor="black"
-            onPress={() => this.Add()}
-            onLongPress={() => this.Remove()}
-            delayLongPress={400}
-          >
-            <Text>{this.state.ButtonText}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={{
-              borderRadius:
-                Math.round(
-                  Dimensions.get("window").width +
-                    Dimensions.get("window").height
-                ) / 2,
-              width: Dimensions.get("window").width * 0.24,
-              height: Dimensions.get("window").width * 0.24,
-              backgroundColor: "#fff",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 10,
-              marginLeft: 10,
-             borderWidth:5,
-             borderColor:'green'
-            }}
-            underlayColor="black"
-            onPress={() => this.Add()}
-            onLongPress={() => this.Remove()}
-            delayLongPress={400}
-          >
-            <Text>{this.state.ButtonText}</Text>
-          </TouchableHighlight>
-          </View>
-        </ScrollView>
-      </View>
+        
+        {<AttendanceBoxes data={this.state.data} />}
+        
+      </ScrollView>
     );
   }
 }

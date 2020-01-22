@@ -66,7 +66,7 @@ const GradientHeader = props => (
   )
 const FirstActivity_StackNavigator = createStackNavigator({
   Home: {
-    screen: HomeScreen,
+    screen:HomeScreen,
     navigationOptions: ({ navigation }) => ({
       
       title: "Katihar Engg. College",

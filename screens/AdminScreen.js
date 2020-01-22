@@ -49,7 +49,7 @@ export default class AdminScreen extends Component {
             />
           </View>
         </Card>
-        
+        <Separator/>
         <View>
             <View style={styles.fixToText}>
               <Button
@@ -57,14 +57,14 @@ export default class AdminScreen extends Component {
                 titleStyle={{
                   color: "#fffaf0",
                   fontSize: 23,
-                  fontWeight: "bold"
+                  fontWeight: "800"
                 }}
                 buttonStyle={{
                   backgroundColor: "#09C5F7",
                   borderRadius: 10,
                   flex: 1,
                   height: "20%",
-                  width: "90%",
+                  width: "70%",
                   marginBottom: "2%"
                 }}
                 title="Assign Subject"
@@ -82,7 +82,7 @@ export default class AdminScreen extends Component {
                   borderRadius: 10,
                   flex: 1,
                   height: "20%",
-                  width: "80%",
+                  width: "70%",
                   marginLeft: "2%",
                   marginBottom: "2%"
                 }}
