@@ -43,7 +43,7 @@ class AttendanceScreen extends Component {
       department: this.state.department,
       semester: this.state.semester,
       subject: this.state.subject,
-      date: this.state.date
+      date: date
     })
     
   

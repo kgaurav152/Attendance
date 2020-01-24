@@ -59,6 +59,7 @@ class AttendanceBoxes extends React.Component {
           })
         })
         
+        
   }  
 
  
@@ -72,7 +73,8 @@ class AttendanceBoxes extends React.Component {
           renderItem={({ item }) => <AttendanceBox id={item} addRegNo={this.addPresentStudent }/>}
         />
         <Button
-        title="Press me"
+        title="Submit"
+        marginTop="5%"
         color="#f194ff"
         onPress={() => this.submitHandler()}/>
       </ScrollView>
