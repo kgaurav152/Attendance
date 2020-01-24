@@ -15,7 +15,7 @@ import {
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
-
+import Firebase from '../components/config'
 export default class AddAttendanceScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -49,16 +49,19 @@ export default class AddAttendanceScreen extends React.Component {
         "026",
         "027",
         "028"
-      ]
+      ],
+      
     };
   }
 
+  
   render() {
     const { navigation } = this.props;
     const department = navigation.getParam("department");
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
+   
 
     return (
       <ScrollView>
@@ -76,22 +79,22 @@ export default class AddAttendanceScreen extends React.Component {
           <View style={styles.fixImage}>
             <View>
               <Text style={styles.paragraph}>
-                Department : {JSON.stringify(department)}
+                Department : {JSON.stringify(department).replace(/\"/g, "")}
               </Text>
               <Text style={styles.paragraph}>
-                Subject : {JSON.stringify(subject)}
+                Subject : {JSON.stringify(subject).replace(/\"/g, "")}
               </Text>
               <Text style={styles.paragraph}>
-                semester : {JSON.stringify(semester)}
+                semester : {JSON.stringify(semester).replace(/\"/g, "")}
               </Text>
               <Text style={styles.paragraph}>
-                Date : {JSON.stringify(date)}
+                Date : {JSON.stringify(date).replace(/\"/g, "")}
               </Text>
             </View>
           </View>
         </Card>
         
-        {<AttendanceBoxes data={this.state.data} />}
+        {<AttendanceBoxes data={this.state.data} department={this.props.department} />}
         
       </ScrollView>
     );

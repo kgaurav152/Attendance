@@ -38,11 +38,46 @@ export default class LoginScreen extends Component {
           }
 
           if (role == "faculty") {
-            this.props.navigation.navigate("FacultyWelcome");
+            this.props.navigation.navigate("FacultyWelcome", {
+              email: this.state.email
+            });
           } else if (role == "admin") {
-            this.props.navigation.navigate("AdminWelcome");
+            this.props.navigation.navigate("AdminWelcome", {
+              email: this.state.email,
+              
+            });
           } else {
-            this.props.navigation.navigate("StudentWelcome");
+            const { name } = this.state;
+            firebase
+              .database()
+              .ref("students")
+              .orderByChild("email")
+              .equalTo(this.state.email)
+              .once("value")
+              .then(snapshot => {
+                let studentInfo = snapshot.val();
+                let name = null;
+                let reg_no=null;
+                let mobile=null;
+                let department=null;
+                let image=null;
+                
+                for (var attributes in studentInfo) {
+                  name = studentInfo[attributes].name;
+                  reg_no=studentInfo[attributes].registration_num;
+                  mobile=studentInfo[attributes].mobile;
+                  department=studentInfo[attributes].department;
+                  image=studentInfo[attributes].image;
+                }
+              
+            this.props.navigation.navigate("StudentWelcome", {
+              email: this.state.email,
+              name,
+              reg_no,
+              department,
+              mobile,
+              image
+            });});
           }
         });
     } catch (error) {
@@ -121,7 +156,7 @@ export default class LoginScreen extends Component {
 
         <TouchableHighlight
           style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.props.navigation.navigate("FacultyWelcome")}
+          onPress={() => this.handleEmail()}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>

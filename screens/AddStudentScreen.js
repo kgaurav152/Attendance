@@ -5,58 +5,68 @@ import {
   TextInput,
   View,
   ScrollView,
-  Button,
+  Picker,
   Image,
   TouchableHighlight,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-
-
-import firebase from '../components/config';
-
-
- 
+import Constants from 'expo-constants';
+import Firebase from "../components/config";
 
 export default class AddStudent extends Component {
-  constructor(props){
+  constructor(props) {
     super();
-    this.state={
-    email: "",
-    name: "",
-    department: "",
-    errorMessage: null,
-    image: null,
-    semester: "",
-    session: "",
-    year: "",
-    mobile: "",
-    reg_no:""
-    }
+    this.state = {
+      email: "",
+      name: "",
+      department: "",
+      errorMessage: null,
+      image: null,
+      semester: "",
+      session: "",
+      year: "",
+      mobile: "",
+      reg_no: ""
+    };
   }
-  writeStudentData(name,department,email,image,semester,session,year,mobile,reg_no) {
-    firebase.database().ref('\students').push({
-    email:this.state.email,
-    name:this.state.name,
-    department: this.state.department,
-    image:this.state.image,
-    session:this.state.session,
-    semester:this.state.semester,
-    mobile:this.state.mobile,
-    year:this.state.year,
-    registration_num:this.state.reg_no
+  writeStudentData() {
     
-    })
-    .then(() => this.props.navigation.navigate('WelcomeUser'))
-    .catch(error => this.setState({ errorMessage: error.message }))
-
+      Firebase.database()
+        .ref("students/")
+        .orderByChild("email")
+        .equalTo(this.state.email)
+        .once("value")
+        .then(res=>{
+          res.forEach(record=>{
+            Firebase.database()
+            .ref("students/"+record.key)
+            .set({
+              name: this.state.name,
+              department: this.state.department,
+              image: this.state.image,
+              session: this.state.session,
+              semester: this.state.semester,
+              mobile: this.state.mobile,
+              year: this.state.year,
+              registration_num: this.state.reg_no,
+              email: this.state.email
+            })
+            .catch(function(error) {
+              console.log("Wrong Choice");
+              console.log(error);
+            });
+            this.props.navigation.navigate('FacultyWelcome')          })
+        })
+    
+      
+    
   }
   render() {
     let { image } = this.state;
 
     return (
       <View style={styles.container}>
-     
         <ScrollView>
           <View style={styles.inputContainer}>
             <Image
@@ -90,27 +100,42 @@ export default class AddStudent extends Component {
               style={styles.inputIcon}
               source={require("../images/department.jpg")}
             />
-            <TextInput
-              style={styles.inputs}
-              placeholder="Department"
-              keyboardType="autoCapitalizie"
-              underlineColorAndroid="transparent"
-              onChangeText={department => this.setState({ department })}
-              value={this.state.department}
-            />
-          </View>
+            
+            <Picker
+          selectedValue={this.state.department}
+          style={{ height: 50, width: 180, marginLeft:"5%"}}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState({ department: itemValue })
+          }
+        >
+          <Picker.Item label="Select Department" value="department" />
+          <Picker.Item label="Civil Engineering" value="Civil Engineering" />
+          <Picker.Item label="Mechanical Engineering" value="Mechanical Engineering" />
+          <Picker.Item label="Computer Sc. & Engineering" value="Computer Sc. & Engineering" />
+        </Picker>  
+        </View>       
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
               source={require("../images/semester.png")}
             />
-            <TextInput
-              style={styles.inputs}
-              placeholder="Semester"
-              underlineColorAndroid="transparent"
-              onChangeText={semester => this.setState({ semester })}
-              value={this.state.semester}
-            />
+            <Picker
+            selectedValue={this.state.semester}
+            style={{ height: 50, width: 180, marginLeft:"5%"}}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ semester: itemValue })
+            }
+          >
+            <Picker.Item label="Select Semester" value="semester" />
+            <Picker.Item label="1" value="1" />
+            <Picker.Item label="2" value="2" />
+            <Picker.Item label="3" value="3" />
+            <Picker.Item label="4" value="4" />
+            <Picker.Item label="5" value="5" />            
+            <Picker.Item label="6" value="6" />            
+            <Picker.Item label="7" value="7" />
+            <Picker.Item label="8" value="8" />            
+          </Picker>
           </View>
           <View style={styles.inputContainer}>
             <Image
@@ -195,12 +220,11 @@ export default class AddStudent extends Component {
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={()=>this.writeStudentData()}
+            onPress={() => this.writeStudentData()}
           >
             <Text style={styles.clickText}>Add Student</Text>
           </TouchableHighlight>
         </ScrollView>
-
       </View>
     );
   }

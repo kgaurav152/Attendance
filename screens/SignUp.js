@@ -40,6 +40,12 @@ export default class SignUp extends Component {
                
               }).child("Subject")
           }
+          else if (role=='student')
+          Firebase.database()
+          .ref("students/")
+          .push({
+            email:this.state.email
+          })
         }
         
       })
@@ -47,6 +53,7 @@ export default class SignUp extends Component {
         console.log("Register !");
         console.log(error);
       });
+      this.props.navigation.navigate('Home')
   };
   render() {
     return (

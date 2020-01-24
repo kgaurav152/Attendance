@@ -33,8 +33,8 @@ import AddStudentScreen from "../screens/AddStudentScreen";
 import AttendanceScreen from "../screens/AttendanceScreen";
 import AddAttendanceScreen from "../screens/AddAttendanceScreen";
 import FacultyWelcomeScreen from "../screens/FacultyWelcomeScreen";
-import AssignSubjectScreen from "../screens/AssignSubjectScreen"
-
+import AssignSubjectScreen from "../screens/AssignSubjectScreen";
+import StudentWelcomeScreen from "../screens/StudentWelcomeScreen";
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -149,7 +149,32 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerTintColor: "#fff"
     })
   }
+
 });
+const Student_StackNavigator = createStackNavigator({
+  StudentWelcome:{
+    screen:StudentWelcomeScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+  }
+})
 const Attendance_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
   FacultyWelcome: {
@@ -262,7 +287,8 @@ const Drawer = createDrawerNavigator(
     NavScreen5: { screen: CollegeScreen_StackNavigator },
     NavScreen6: { screen: AboutAppScreen_StackNavigator },
 
-    NavScreen7: { screen: Attendance_StackNavigator }
+    NavScreen7: { screen: Attendance_StackNavigator },
+    NavScreen8:{screen:Student_StackNavigator}
   },
   {
     contentComponent: SideMenu,

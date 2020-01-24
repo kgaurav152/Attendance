@@ -1,4 +1,4 @@
-import firebase from 'firebase'
+{/*import firebase from 'firebase'
 
 
 const firebaseConfig = {
@@ -15,4 +15,4 @@ const firebaseConfig = {
 // Initialize Firebase
 let Firebase = firebase.initializeApp(firebaseConfig)
 
-export default Firebase
+export default Firebase*/}

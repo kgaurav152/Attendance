@@ -7,8 +7,13 @@ import {
   TouchableHighlight
 } from "react-native";
 import DatePicker from "react-native-datepicker";
+import Firebase from '../components/config'
+
+var today = new Date();
+date=today.getDate() + "-"+ parseInt(today.getMonth()+1) +"-"+ today.getFullYear();
+console.log(date);
 class AttendanceScreen extends Component {
-  state = { department: "", semseter: "", subject: "" };
+  state = { department: "", semseter: "", subject: "", date:date };
   updateDepartment = department => {
     this.setState({ department: department });
   };
@@ -23,43 +28,33 @@ class AttendanceScreen extends Component {
 
     this.state = { date: null };
   }
+  attendanceHandler=()=>{
+    Firebase.database()
+        .ref("attendance/")
+        .push(
+          {
+            department:this.state.department,
+            date:date,
+            subject:this.state.subject,
+            semester:this.state.semester
+          }
+        )
+    this.props.navigation.navigate("AddAttendance", {
+      department: this.state.department,
+      semester: this.state.semester,
+      subject: this.state.subject,
+      date: this.state.date
+    })
+    
+  
+  }
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.fixSize}>
-          <Text style={styles.headText}>Select Date</Text>
-          <DatePicker
-            style={{ width: 200 }}
-            date={this.state.date} //initial date from state
-            mode="date" //The enum of date, datetime and time
-            placeholder="Select Date"
-            format="DD-MM-YYYY"
-            minDate="01-01-2016"
-            maxDate="01-01-2099"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: "absolute",
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-                marginTop: 4.2,
-                marginBottom: 25
-              },
-              dateInput: {
-                marginLeft: 36,
-                marginTop: 25,
-                marginBottom: 20,
-                fontWeight: "700",
-                marginRight: 10
-              }
-            }}
-            onDateChange={date => {
-              this.setState({ date: date });
-            }}
-          />
-        </View>
+      <View style={styles.fixSize}>
+      <Text style={styles.headText}> Date :</Text>
+      <Text style={styles.headText}> {date}</Text>
+      </View>
 
         <View>
           <Picker
@@ -111,14 +106,8 @@ class AttendanceScreen extends Component {
         </View>
         <TouchableHighlight
           style={[styles.buttonContainer, styles.clickButton]}
-          onPress={() =>
-            this.props.navigation.navigate("AddAttendance", {
-              department: this.state.department,
-              semester: this.state.semester,
-              subject: this.state.subject,
-              date: this.state.date
-            })
-          }
+          onPress={() =>this.attendanceHandler()}
+            
         >
           <Text style={styles.clickText}>Submit</Text>
         </TouchableHighlight>
