@@ -13,12 +13,12 @@ class AttendanceBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = { studentState: false, backgroundColor: "" };
-    this.attendanceHandler = this.attendanceHandler.bind( id );
+    this.attendanceHandler = this.attendanceHandler.bind( this );
   }
   attendanceHandler = ( id ) => {
     state = { backgroundColor: "#fff" };
     this.setState({
-      backgroundColor: "green",
+      backgroundColor: "green", 
       studentState : true
     });
 

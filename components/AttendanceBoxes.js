@@ -16,6 +16,7 @@ class AttendanceBoxes extends React.Component {
       studentList: [],
       attendanceList: new Map()
     };
+    this.addPresentStudent = this.addPresentStudent.bind( this );
   }
 
   componentDidMount() {
@@ -24,7 +25,7 @@ class AttendanceBoxes extends React.Component {
 
   addPresentStudent( regNo){
     console.log("add Registration is being called.")
-    const { attendanceList } = this.setState;
+    const { attendanceList } = this.state;
     attendanceList[regNo] = true;
     this.setState({
         attendanceList : attendanceList
@@ -42,7 +43,7 @@ class AttendanceBoxes extends React.Component {
           marginLeft="3%"
           numColumns={4}
           data={this.state.studentList}
-          renderItem={({ item }) => <AttendanceBox id={item} addRegNo={ () => this.state.addPresentStudent( regNo) }/>}
+          renderItem={({ item }) => <AttendanceBox id={item} addRegNo={this.addPresentStudent }/>}
         />
       </ScrollView>
     );
