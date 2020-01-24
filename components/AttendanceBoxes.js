@@ -21,6 +21,18 @@ class AttendanceBoxes extends React.Component {
   componentDidMount() {
     studentList: [], this.setState({ studentList: this.props.data });
   }
+
+  addPresentStudent( regNo){
+    console.log("add Registration is being called.")
+    const { attendanceList } = this.setState;
+    attendanceList[regNo] = true;
+    this.setState({
+        attendanceList : attendanceList
+        }, () =>{
+          console.log(this.state.attendanceList);
+        }
+    )
+  }
   
 
   render() {
@@ -30,7 +42,7 @@ class AttendanceBoxes extends React.Component {
           marginLeft="3%"
           numColumns={4}
           data={this.state.studentList}
-          renderItem={({ item }) => <AttendanceBox id={item} />}
+          renderItem={({ item }) => <AttendanceBox id={item} addRegNo={ () => this.state.addPresentStudent( regNo) }/>}
         />
       </ScrollView>
     );

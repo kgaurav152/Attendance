@@ -12,20 +12,33 @@ import {
 class AttendanceBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { studentState: new Boolean() };
+    this.state = { studentState: false, backgroundColor: "" };
+    this.attendanceHandler = this.attendanceHandler.bind( id );
   }
-  attendanceHandler = () => {
+  attendanceHandler = ( id ) => {
     state = { backgroundColor: "#fff" };
     this.setState({
-      backgroundColor: "green"
+      backgroundColor: "green",
+      studentState : true
     });
+
+    this.setState({ studentState : true}, () =>{
+      console.log(this.state.backgroundColor)
+      console.log(this.state.studentState);
+      console.log( id );
+    })
+
+    this.props.addRegNo( id );
+                    
   };
-  longPressHandler = () => {
+  longPressHandler = (  ) => {
     state = { backgroundColor: "green" };
     this.setState({
       backgroundColor: "#fff",
       studentState: false
     });
+  
+    console.log(this.state);
   };
 
   render() {
@@ -47,8 +60,9 @@ class AttendanceBox extends React.Component {
           borderColor: "green"
         }}
         underlayColor="black"
-        onPress={() => this.attendanceHandler()}
-        onLongPress={() => this.longPressHandler()}
+        onPress={() => this.attendanceHandler( this.props.id )}
+        onLongPress={() => this.longPressHandler( this.props.id )}
+        delayLongPress={10000}
       >
         <Text>{this.props.id}</Text>
       </TouchableHighlight>
