@@ -65,7 +65,7 @@ class AttendanceBox extends React.Component {
         underlayColor="black"
         onPress={ ()=>this.attendanceHandler(this.props.id)}
         onLongPress={() => this.longPressHandler(this.props.id)}
-        delayLongPress={320}
+        delayLongPress={500}
       >
         <Text >{this.props.id}</Text>
         
