@@ -4,11 +4,8 @@ import {
   Text,
   TextInput,
   View,
-  Button,
-  Image,
   TouchableHighlight,
-  Picker,
-  Alert
+  Picker
 } from "react-native";
 import Firebase from "../components/config";
 
@@ -34,26 +31,20 @@ export default class AssignSubject extends Component {
         });
     }
   };
-  componentDidMount(){
-    let subjectList=[];
+  componentDidMount() {
+    var subjectList = [];
     Firebase.database()
-    .ref('Subjects')
-    .orderByChild('subjectName')
-    .once('value')
-    .then(
-      snapshot=>{
-        let SubjectInfo=snapshot.val();
-        
-        for(var attributes in SubjectInfo){
-          subjectList=SubjectInfo[attributes].subjectName;
+      .ref("Subjects")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(function(childSnapshot) {
+          var subjectData=childSnapshot.val().subjectName;
+          subjectList.push(subjectData)
           
-        }
-        
-        console.log(subjectList)
-      }
-    )
+        })
+        console.log(subjectList);
+      });
   }
-  
 
   render() {
     return (
