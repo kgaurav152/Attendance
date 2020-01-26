@@ -2,18 +2,11 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  Picker,
   StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
   ScrollView,
-  Dimensions,
-  FlatList,
-  StatusBar,
-  Image
+  
 } from "react-native";
 import { Card } from "react-native-elements";
-import { Button } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
 import Firebase from '../components/config'
 export default class AddAttendanceScreen extends React.Component {
@@ -53,7 +46,9 @@ export default class AddAttendanceScreen extends React.Component {
       
     };
   }
+componentDidMount(){
 
+}
   
   render() {
     const { navigation } = this.props;
@@ -94,7 +89,7 @@ export default class AddAttendanceScreen extends React.Component {
           </View>
         </Card>
         
-        {<AttendanceBoxes data={this.state.data} department={this.props.department} />}
+        {<AttendanceBoxes data={this.state.data} />}
         
       </ScrollView>
     );

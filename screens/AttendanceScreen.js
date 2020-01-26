@@ -130,14 +130,14 @@ const styles = StyleSheet.create({
   },
   headText: {
     fontWeight: "900",
-    color: "#f4a460",
+    color: "#008b8b",
     fontSize: 18,
     marginTop: 8,
-    marginLeft: 14,
-    marginBottom: 26
+    marginLeft: '5%',
+    marginBottom: '5%'
   },
   fixSize: {
-    justifyContent: "space-between",
+    justifyContent: "center",
     flexDirection: "row"
   },
   buttonContainer: {

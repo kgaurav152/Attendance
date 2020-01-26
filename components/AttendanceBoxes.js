@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
-  View,
+  
+  StyleSheet,
   Text,
   TouchableHighlight,
-  Dimensions,
   FlatList,
-  Button
+  
 } from "react-native";
 import AttendanceBox from "./AttendanceBox";
 import { ScrollView } from "react-native-gesture-handler";
@@ -27,7 +27,7 @@ class AttendanceBoxes extends React.Component {
 
   componentDidMount() {
     this.setState({ studentList: this.props.data});
-    this.setState({department: this.props.department})
+    
   }
 
   addPresentStudent( regNo){
@@ -58,8 +58,6 @@ class AttendanceBoxes extends React.Component {
               })
           })
         })
-        
-        
   }  
 
  
@@ -72,14 +70,37 @@ class AttendanceBoxes extends React.Component {
           data={this.state.studentList}
           renderItem={({ item }) => <AttendanceBox id={item} addRegNo={this.addPresentStudent }/>}
         />
-        <Button
-        title="Submit"
-        marginTop="5%"
-        color="#f194ff"
-        onPress={() => this.submitHandler()}/>
+        <TouchableHighlight
+        style={[styles.buttonContainer, styles.clickButton]}
+        onPress={() =>this.submitHandler()}
+          
+      >
+        <Text style={styles.clickText}>Submit</Text>
+      </TouchableHighlight>
       </ScrollView>
     );
   }
 }
+const styles =StyleSheet.create({
+  buttonContainer: {
+    height: 32,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 10,
+    marginTop: 20,
+    marginRight: 15,
+    marginLeft: 40
+  },
+  clickButton: {
+    backgroundColor: "#00b5ec"
+  },
+  clickText: {
+    color: "white",
+    fontWeight: "800"
+  }
+})
 
 export default AttendanceBoxes;

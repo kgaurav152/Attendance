@@ -20,7 +20,7 @@ export default class AdminScreen extends Component {
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
-        <Card style={styles.card}
+        <Card
           title="Md TALIB AHMAD"
           titleStyle={{
             color: "#3498db",
@@ -49,73 +49,48 @@ export default class AdminScreen extends Component {
             />
           </View>
         </Card>
-        <Separator/>
-        <View>
-            <View style={styles.fixToText}>
-              <Button
-                onPress={() => this.props.navigation.navigate("AssignSubject")}
-                titleStyle={{
-                  color: "#fffaf0",
-                  fontSize: 23,
-                  fontWeight: "800"
-                }}
-                buttonStyle={{
-                  backgroundColor: "#09C5F7",
-                  borderRadius: 10,
-                  flex: 1,
-                  height: "20%",
-                  width: "70%",
-                  marginBottom: "2%"
-                }}
-                title="Assign Subject"
-              />
 
-              <Button
-                onPress={() => this.props.navigation.navigate("GenerateReport")}
-                titleStyle={{
-                  color: "#fffff0",
-                  fontSize: 20,
-                  fontWeight: "700"
-                }}
-                buttonStyle={{
-                  backgroundColor: "#09C5F7",
-                  borderRadius: 10,
-                  flex: 1,
-                  height: "20%",
-                  width: "70%",
-                  marginLeft: "2%",
-                  marginBottom: "2%"
-                }}
-                title="Generate Report "
-              />
-            </View>
-          </View>
-          <Separator />
-        </SafeAreaView>
+        <View style={styles.fixToText}>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("AddFaculty")}
+          >
+            <Text style={styles.clickText}>Add Faculty</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("AddSubject")}
+          >
+            <Text style={styles.clickText}>Add Subject</Text>
+          </TouchableHighlight>
+        </View>
+        <Separator />
+        <View style={styles.fixToText}>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("AssignSubject")}
+          >
+            <Text style={styles.clickText}>Assign Subject</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("GenerateReport")}
+          >
+            <Text style={styles.clickText}>Generate sReport</Text>
+          </TouchableHighlight>
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-        marginBottom: 50        
-    },
-   fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    height: 100,
-    width: 300,
-    textAlign: "center",
-    marginLeft: 15
-  },
-  card: {
-      marginBottom: 50, 
+  container: {
+    flex: 1
   },
   fixImage: {
     justifyContent: "space-around",
-    flexDirection: "row",
-    
+    flexDirection: "row"
   },
   paragraph: {
     margin: 1.5,
