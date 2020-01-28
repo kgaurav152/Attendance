@@ -5,48 +5,61 @@ import {
   TextInput,
   View,
   TouchableHighlight,
-  Picker
+  Picker,
+  Image
 } from "react-native";
 import Firebase from "../components/config";
 
 export default class AssignSubject extends Component {
-  state = { email: "", subject: "" };
+  state = { email: "", selectedSubject: "", subjectList: [], semester: "" };
+
   assignSubject = () => {
-    if (
-      Firebase.database()
-        .ref("Faculty/")
-        .orderByChild("email")
-        .equalTo(this.state.email)
-        .once("value")
-    ) {
-      Firebase.database()
-        .ref("Faculty/" + record.key + "/Subject/")
-        .push({
-          subjectName: this.state.subjectName,
-          subjectSem: this.state.subjectSem
-        })
-        .catch(function(error) {
-          console.log("Wrong Choice");
-          console.log(error);
+    Firebase.database()
+      .ref("Faculty/")
+      .orderByChild("email")
+      .equalTo(this.state.email)
+      .once("value")
+      .then(res => {
+        res.forEach(record => {
+          Firebase.database()
+            .ref("Faculty/" + record.key + "/Subject/")
+            .push({
+              subjectName: this.state.selectedSubject,
+              subjectSem: this.state.semester
+            })
+            .catch(function(error) {
+              console.log("Wrong Choice");
+              console.log(error);
+            });
         });
-    }
+      });
   };
-  componentDidMount() {
+  componentDidUpdate() {
     var subjectList = [];
     Firebase.database()
       .ref("Subjects")
+      .orderByChild("semester")
+      .equalTo(this.state.semester)
       .once("value")
+
       .then(snapshot => {
         snapshot.forEach(function(childSnapshot) {
-          var subjectData=childSnapshot.val().subjectName;
-          subjectList.push(subjectData)
-          
-        })
+          var subjectData = childSnapshot.val().subjectName;
+          subjectList.push(subjectData);
+         });
         console.log(subjectList);
+
+        this.setState({
+          subjectList: subjectList
+        });
       });
   }
 
   render() {
+    let subjectItems = this.state.subjectList.map((s, i) => {
+      return <Picker.Item key={i} value={s} label={s} />;
+    });
+
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
@@ -59,24 +72,69 @@ export default class AssignSubject extends Component {
             value={this.state.email}
           />
         </View>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={require("../images/department.jpg")}
+          />
 
-        <Picker
-          selectedValue={this.state.subjectSem}
-          style={{ height: 50, width: 180 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ subjectSem: itemValue })
-          }
-        >
-          <Picker.Item label="Select Sem" value="Sem" />
-          <Picker.Item label="1" value="1" />
-          <Picker.Item label="2" value="2" />
-          <Picker.Item label="3" value="3" />
-          <Picker.Item label="4" value="4" />
-          <Picker.Item label="5" value="5" />
-          <Picker.Item label="6" value="6" />
-          <Picker.Item label="7" value="7" />
-          <Picker.Item label="8" value="8" />
-        </Picker>
+          <Picker
+            selectedValue={this.state.department}
+            style={{ height: 50, width: 180, marginLeft: "5%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ department: itemValue })
+            }
+          >
+            <Picker.Item label="Department" value="department" />
+            <Picker.Item label="Civil Engineering" value="Civil Engineering" />
+            <Picker.Item
+              label="Mechanical Engineering"
+              value="Mechanical Engineering"
+            />
+            <Picker.Item
+              label="Computer Sc. & Engineering"
+              value="Computer Sc. & Engineering"
+            />
+          </Picker>
+        </View>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={require("../images/semester.png")}
+          />
+          <Picker
+            selectedValue={this.state.semester}
+            style={{ height: 50, width: 180, marginLeft: "5%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ semester: itemValue })
+            }
+          >
+            <Picker.Item label="Select Semester" value="Select Semester" />
+            <Picker.Item label="1st" value="1st" />
+            <Picker.Item label="2nd" value="2nd" />
+            <Picker.Item label="3rd" value="3rd" />
+            <Picker.Item label="4th" value="4th" />
+            <Picker.Item label="5th" value="5th" />
+            <Picker.Item label="6th" value="6th" />
+            <Picker.Item label="7th" value="7th" />
+            <Picker.Item label="8th" value="8th" />
+          </Picker>
+        </View>
+
+        <View>
+          <Picker
+            selectedValue={this.state.selectedSubject}
+            style={{ height: 50, width: 180, marginLeft: "10%" }}
+            onValueChange={subjectLists =>
+              this.setState({ selectedSubject: subjectLists })
+            }
+          >
+            <Picker.Item label="Choose Subject" value="1" />
+
+            {subjectItems}
+          </Picker>
+        </View>
+
         <TouchableHighlight
           style={[styles.buttonContainer, styles.registerButton]}
           onPress={() => this.assignSubject()}

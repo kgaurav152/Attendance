@@ -8,9 +8,13 @@ import {
   TouchableHighlight,
   Image,
   Alert,
-  Picker
+  Picker,
+  AsyncStorage
 } from "react-native";
 import firebase from "../components/config";
+import AwesomeButton from "react-native-really-awesome-button";
+
+import { LinearGradient } from "expo-linear-gradient";
 
 export default class LoginScreen extends Component {
   constructor(props) {
@@ -21,6 +25,7 @@ export default class LoginScreen extends Component {
       language: ""
     };
   }
+
   handleLogin = () => {
     try {
       const { role } = this.state;
@@ -43,8 +48,7 @@ export default class LoginScreen extends Component {
             });
           } else if (role == "admin") {
             this.props.navigation.navigate("AdminWelcome", {
-              email: this.state.email,
-              
+              email: this.state.email
             });
           } else {
             const { name } = this.state;
@@ -57,27 +61,28 @@ export default class LoginScreen extends Component {
               .then(snapshot => {
                 let studentInfo = snapshot.val();
                 let name = null;
-                let reg_no=null;
-                let mobile=null;
-                let department=null;
-                let image=null;
-                
+                let reg_no = null;
+                let mobile = null;
+                let department = null;
+                let image = null;
+
                 for (var attributes in studentInfo) {
                   name = studentInfo[attributes].name;
-                  reg_no=studentInfo[attributes].registration_num;
-                  mobile=studentInfo[attributes].mobile;
-                  department=studentInfo[attributes].department;
-                  image=studentInfo[attributes].image;
+                  reg_no = studentInfo[attributes].registration_num;
+                  mobile = studentInfo[attributes].mobile;
+                  department = studentInfo[attributes].department;
+                  image = studentInfo[attributes].image;
                 }
-              
-            this.props.navigation.navigate("StudentWelcome", {
-              email: this.state.email,
-              name,
-              reg_no,
-              department,
-              mobile,
-              image
-            });});
+
+                this.props.navigation.navigate("StudentWelcome", {
+                  email: this.state.email,
+                  name,
+                  reg_no,
+                  department,
+                  mobile,
+                  image
+                });
+              });
           }
         });
     } catch (error) {
@@ -124,50 +129,67 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../assets/mailIcon.jpg")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Email"
-            keyboardType="email-address"
-            underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({ email })}
-          />
+      <LinearGradient
+        colors={["#a13388", "#10356c"]}
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: 0,
+          height: "100%"
+        }}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <View style={styles.container}>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../assets/mailIcon.jpg")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Email"
+              keyboardType="email-address"
+              autoFocus
+              underlineColorAndroid="transparent"
+              onChangeText={email => this.setState({ email })}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../assets/pwdIcon.png")}
+            />
+            <TextInput
+              style={styles.inputs}
+              placeholder="Password"
+              keyboardType="password"
+              secureTextEntry
+              underlineColorAndroid="transparent"
+              onChangeText={password => this.setState({ password })}
+            />
+          </View>
+          <AwesomeButton
+            progress
+            onPress={next => {
+              this.handleEmail();
+              next();
+            }}
+            backgroundColor="#9400d3"
+          >
+            Login
+          </AwesomeButton>
+
+          <TouchableHighlight
+            style={[styles.buttonContainerForgot, styles.forgotButton]}
+            onPress={() => this.forgotPassword()}
+          >
+            <Text style={styles.forgotText}>Forgot Password</Text>
+          </TouchableHighlight>
         </View>
-
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../assets/pwdIcon.png")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Password"
-            keyboardType="password"
-            secureTextEntry
-            underlineColorAndroid="transparent"
-            onChangeText={password => this.setState({ password })}
-          />
-        </View>
-
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.handleEmail()}
-        >
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          style={[styles.buttonContainerForgot, styles.forgotButton]}
-          onPress={() => this.forgotPassword()}
-        >
-          <Text style={styles.forgotText}>Forgot Password</Text>
-        </TouchableHighlight>
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -226,16 +248,16 @@ const styles = StyleSheet.create({
     color: "#00ffff",
     fontSize: 17
   },
-
   buttonContainerForgot: {
+    marginTop:'4%',
     height: 35,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width: 120,
+    width: "40%",
     borderRadius: 15,
-    marginLeft: "5%"
+    marginLeft: "4%"
   },
   forgotButton: {
     backgroundColor: "#D16713"

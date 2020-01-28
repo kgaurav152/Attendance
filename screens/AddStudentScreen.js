@@ -90,6 +90,7 @@ export default class AddStudent extends Component {
             <TextInput
               style={styles.inputs}
               placeholder="Registration no."
+              keyboardType='default'
               underlineColorAndroid="transparent"
               onChangeText={reg_no => this.setState({ reg_no })}
               value={this.state.reg_no}
@@ -185,6 +186,7 @@ export default class AddStudent extends Component {
             <TextInput
               style={styles.inputs}
               placeholder="Mobile"
+              keyboardType='numeric'
               underlineColorAndroid="transparent"
               onChangeText={mobile => this.setState({ mobile })}
               value={this.state.mobile}

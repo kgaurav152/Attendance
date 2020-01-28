@@ -1,4 +1,5 @@
 {
     "git.autofetch": true,
-    "VSCodeCounter.showInStatusBar": true
+    "VSCodeCounter.showInStatusBar": true,
+    "npm-scripts.showStartNotification": false
 }

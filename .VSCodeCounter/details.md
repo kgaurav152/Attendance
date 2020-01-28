@@ -1,10 +1,10 @@
 # Details
 
-Date : 2020-01-26 07:21:04
+Date : 2020-01-27 14:51:54
 
 Directory e:\Attendance
 
-Total : 41 files,  12846 codes, 44 comments, 281 blanks, all 13171 lines
+Total : 41 files,  12829 codes, 44 comments, 282 blanks, all 13155 lines
 
 [summary](results.md)
 
@@ -12,7 +12,7 @@ Total : 41 files,  12846 codes, 44 comments, 281 blanks, all 13171 lines
 | filename | language | code | comment | blank | total |
 | :--- | :--- | ---: | ---: | ---: | ---: |
 | [.watchmanconfig](file:///e%3A/Attendance/.watchmanconfig) | JSON | 1 | 0 | 1 | 2 |
-| [App.js](file:///e%3A/Attendance/App.js) | JavaScript | 45 | 0 | 11 | 56 |
+| [App.js](file:///e%3A/Attendance/App.js) | JavaScript | 45 | 0 | 10 | 55 |
 | [Home.js](file:///e%3A/Attendance/Home.js) | JavaScript | 20 | 0 | 1 | 21 |
 | [actions\auth.js](file:///e%3A/Attendance/actions/auth.js) | JavaScript | 77 | 0 | 6 | 83 |
 | [actions\user.js](file:///e%3A/Attendance/actions/user.js) | JavaScript | 30 | 1 | 5 | 36 |
@@ -40,7 +40,7 @@ Total : 41 files,  12846 codes, 44 comments, 281 blanks, all 13171 lines
 | [screens\AddStudentScreen.js](file:///e%3A/Attendance/screens/AddStudentScreen.js) | JavaScript | 320 | 0 | 13 | 333 |
 | [screens\AddSubjectScreen.js](file:///e%3A/Attendance/screens/AddSubjectScreen.js) | JavaScript | 188 | 0 | 10 | 198 |
 | [screens\AdminScreen.js](file:///e%3A/Attendance/screens/AdminScreen.js) | JavaScript | 144 | 0 | 4 | 148 |
-| [screens\AssignSubjectScreen.js](file:///e%3A/Attendance/screens/AssignSubjectScreen.js) | JavaScript | 171 | 0 | 4 | 175 |
+| [screens\AssignSubjectScreen.js](file:///e%3A/Attendance/screens/AssignSubjectScreen.js) | JavaScript | 154 | 0 | 6 | 160 |
 | [screens\AttendanceScreen.js](file:///e%3A/Attendance/screens/AttendanceScreen.js) | JavaScript | 154 | 0 | 9 | 163 |
 | [screens\CollegeScreen.js](file:///e%3A/Attendance/screens/CollegeScreen.js) | JavaScript | 110 | 1 | 11 | 122 |
 | [screens\DeveloperScreen.js](file:///e%3A/Attendance/screens/DeveloperScreen.js) | JavaScript | 207 | 0 | 10 | 217 |

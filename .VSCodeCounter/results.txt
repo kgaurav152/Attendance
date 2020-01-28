@@ -1,20 +1,20 @@
-Date : 2020-01-26 07:21:04
+Date : 2020-01-27 14:51:54
 Directory : e:\Attendance
-Total : 41 files,  12846 codes, 44 comments, 281 blanks, all 13171 lines
+Total : 41 files,  12829 codes, 44 comments, 282 blanks, all 13155 lines
 
 Languages
 +------------+------------+------------+------------+------------+------------+
 | language   | files      | code       | comment    | blank      | total      |
 +------------+------------+------------+------------+------------+------------+
 | JSON       |          4 |      9,096 |          7 |          3 |      9,106 |
-| JavaScript |         37 |      3,750 |         37 |        278 |      4,065 |
+| JavaScript |         37 |      3,733 |         37 |        279 |      4,049 |
 +------------+------------+------------+------------+------------+------------+
 
 Directories
 +-----------------------------------------------+------------+------------+------------+------------+------------+
 | path                                          | files      | code       | comment    | blank      | total      |
 +-----------------------------------------------+------------+------------+------------+------------+------------+
-| .                                             |         41 |     12,846 |         44 |        281 |     13,171 |
+| .                                             |         41 |     12,829 |         44 |        282 |     13,155 |
 | actions                                       |          2 |        107 |          1 |         11 |        119 |
 | components                                    |          7 |        326 |          0 |         48 |        374 |
 | config                                        |          1 |          2 |         16 |          0 |         18 |
@@ -22,7 +22,7 @@ Directories
 | models                                        |          1 |          9 |          0 |          3 |         12 |
 | navigation                                    |          1 |        324 |          6 |         18 |        348 |
 | reducers                                      |          2 |         49 |          0 |          7 |         56 |
-| screens                                       |         18 |      2,789 |         10 |        167 |      2,966 |
+| screens                                       |         18 |      2,772 |         10 |        169 |      2,951 |
 +-----------------------------------------------+------------+------------+------------+------------+------------+
 
 Files
@@ -30,7 +30,7 @@ Files
 | filename                                      | language   | code       | comment    | blank      | total      |
 +-----------------------------------------------+------------+------------+------------+------------+------------+
 | e:\Attendance\.watchmanconfig                 | JSON       |          1 |          0 |          1 |          2 |
-| e:\Attendance\App.js                          | JavaScript |         45 |          0 |         11 |         56 |
+| e:\Attendance\App.js                          | JavaScript |         45 |          0 |         10 |         55 |
 | e:\Attendance\Home.js                         | JavaScript |         20 |          0 |          1 |         21 |
 | e:\Attendance\actions\auth.js                 | JavaScript |         77 |          0 |          6 |         83 |
 | e:\Attendance\actions\user.js                 | JavaScript |         30 |          1 |          5 |         36 |
@@ -58,7 +58,7 @@ Files
 | e:\Attendance\screens\AddStudentScreen.js     | JavaScript |        320 |          0 |         13 |        333 |
 | e:\Attendance\screens\AddSubjectScreen.js     | JavaScript |        188 |          0 |         10 |        198 |
 | e:\Attendance\screens\AdminScreen.js          | JavaScript |        144 |          0 |          4 |        148 |
-| e:\Attendance\screens\AssignSubjectScreen.js  | JavaScript |        171 |          0 |          4 |        175 |
+| e:\Attendance\screens\AssignSubjectScreen.js  | JavaScript |        154 |          0 |          6 |        160 |
 | e:\Attendance\screens\AttendanceScreen.js     | JavaScript |        154 |          0 |          9 |        163 |
 | e:\Attendance\screens\CollegeScreen.js        | JavaScript |        110 |          1 |         11 |        122 |
 | e:\Attendance\screens\DeveloperScreen.js      | JavaScript |        207 |          0 |         10 |        217 |
@@ -70,5 +70,5 @@ Files
 | e:\Attendance\screens\SignUp.js               | JavaScript |        187 |          0 |          9 |        196 |
 | e:\Attendance\screens\StudentWelcomeScreen.js | JavaScript |        138 |          0 |         10 |        148 |
 | e:\Attendance\sidemenu.js                     | JavaScript |         69 |          4 |          9 |         82 |
-| Total                                         |            |     12,846 |         44 |        281 |     13,171 |
+| Total                                         |            |     12,829 |         44 |        282 |     13,155 |
 +-----------------------------------------------+------------+------------+------------+------------+------------+

@@ -7,7 +7,7 @@ import {
   ScrollView,
   Picker,
   Image,
-  TouchableHighlight,
+  TouchableHighlight
 } from "react-native";
 import Firebase from "../components/config";
 
@@ -18,70 +18,76 @@ export default class AddFacultyScreen extends Component {
       subjectCode: "",
       subjectName: "",
       department: "",
-      errorMessage: null,
+      semester:"",
+      errorMessage: null
     };
-    
   }
- writeSubjectData=()=>{
-     Firebase.database()
-     .ref("Subjects/")
-     .push({
-         department:this.state.department,
-         subjectName: this.state.subjectName,
-         SubjectCode:this.state.subjectCode,
-         semester: this.state.semester
-     })
- }
+  writeSubjectData = () => {
+    Firebase.database()
+      .ref("Subjects/")
+      .push({
+        department: this.state.department,
+        subjectName: this.state.subjectName,
+        SubjectCode: this.state.subjectCode,
+        semester: this.state.semester
+      });
+  };
   render() {
-
     return (
       <View style={styles.container}>
         <ScrollView>
-          
-          
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
               source={require("../images/department.jpg")}
             />
-            
+
             <Picker
-          selectedValue={this.state.department}
-          style={{ height: 50, width: 180, marginLeft:"5%"}}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ department: itemValue })
-          }
-        >
-          <Picker.Item label="Department" value="department" />
-          <Picker.Item label="Civil Engineering" value="Civil Engineering" />
-          <Picker.Item label="Mechanical Engineering" value="Mechanical Engineering" />
-          <Picker.Item label="Computer Sc. & Engineering" value="Computer Sc. & Engineering" />
-        </Picker>  
-        </View>
-        <View style={styles.inputContainer}>
-        <Image
-        style={styles.inputIcon}
-        source={require("../images/semester.png")}
-      />
-          <Picker
-            selectedValue={this.state.semester}
-            style={{ height: 50, width: 180, marginLeft:"5%"}}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ semester: itemValue })
-            }
-          >
-            <Picker.Item label="Select Semester" value="Select Semester" />
-            <Picker.Item label="1st" value="1st" />
-            <Picker.Item label="2nd" value="2nd" />
-            <Picker.Item label="3rd" value="3rd" />
-            <Picker.Item label="4th" value="4th" />
-            <Picker.Item label="5th" value="5th" />
-            <Picker.Item label="6th" value="6th" />
-            <Picker.Item label="7th" value="7th" />
-            <Picker.Item label="8th" value="8th" />
-          </Picker>
-        </View>
-        <View style={styles.inputContainer}>
+              selectedValue={this.state.department}
+              style={{ height: 50, width: 180, marginLeft: "5%" }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ department: itemValue })
+              }
+            >
+              <Picker.Item label="Department" value="department" />
+              <Picker.Item
+                label="Civil Engineering"
+                value="Civil Engineering"
+              />
+              <Picker.Item
+                label="Mechanical Engineering"
+                value="Mechanical Engineering"
+              />
+              <Picker.Item
+                label="Computer Sc. & Engineering"
+                value="Computer Sc. & Engineering"
+              />
+            </Picker>
+          </View>
+          <View style={styles.inputContainer}>
+            <Image
+              style={styles.inputIcon}
+              source={require("../images/semester.png")}
+            />
+            <Picker
+              selectedValue={this.state.semester}
+              style={{ height: 50, width: 180, marginLeft: "5%" }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ semester: itemValue })
+              }
+            >
+              <Picker.Item label="Select Semester" value="Select Semester" />
+              <Picker.Item label="1st" value="1st" />
+              <Picker.Item label="2nd" value="2nd" />
+              <Picker.Item label="3rd" value="3rd" />
+              <Picker.Item label="4th" value="4th" />
+              <Picker.Item label="5th" value="5th" />
+              <Picker.Item label="6th" value="6th" />
+              <Picker.Item label="7th" value="7th" />
+              <Picker.Item label="8th" value="8th" />
+            </Picker>
+          </View>
+          <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
               source={require("../images/name.png")}
@@ -94,8 +100,8 @@ export default class AddFacultyScreen extends Component {
               onChangeText={subjectName => this.setState({ subjectName })}
               value={this.state.subjectName}
             />
-          </View>       
-          
+          </View>
+
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
@@ -106,7 +112,7 @@ export default class AddFacultyScreen extends Component {
               placeholder="Subject Code"
               keyboardType="numeric"
               underlineColorAndroid="transparent"
-              onChangeText={subjectCode=> this.setState({subjectCode })}
+              onChangeText={subjectCode => this.setState({ subjectCode })}
               value={this.state.subjectCode}
             />
           </View>
@@ -120,7 +126,6 @@ export default class AddFacultyScreen extends Component {
       </View>
     );
   }
-  
 }
 
 const styles = StyleSheet.create({
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: '25%',
+    marginTop: "25%",
     marginLeft: 45,
     paddingBottom: 20
   },

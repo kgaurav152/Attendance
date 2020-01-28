@@ -13,7 +13,7 @@ var today = new Date();
 date=today.getDate() + "-"+ parseInt(today.getMonth()+1) +"-"+ today.getFullYear();
 console.log(date);
 class AttendanceScreen extends Component {
-  state = { department: "", semseter: "", subject: "", date:date };
+  state = { department: "", semester: "", subject: "", date:date };
   updateDepartment = department => {
     this.setState({ department: department });
   };

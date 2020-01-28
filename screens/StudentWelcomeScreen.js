@@ -67,7 +67,7 @@ export default class StudentWelcomeScreen extends Component {
         <View style={styles.fixToText}>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("ViewAttendance")}
+            onPress={() => this.props.navigation.navigate("StudentAttendance")}
           >
             <Text style={styles.clickText}>Attendance</Text>
           </TouchableHighlight>

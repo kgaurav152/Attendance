@@ -1,6 +1,6 @@
 filename, language, JSON, JavaScript, comment, blank, total
 e:\Attendance\.watchmanconfig, JSON, 1, 0, 0, 1, 2
-e:\Attendance\App.js, JavaScript, 0, 45, 0, 11, 56
+e:\Attendance\App.js, JavaScript, 0, 45, 0, 10, 55
 e:\Attendance\Home.js, JavaScript, 0, 20, 0, 1, 21
 e:\Attendance\actions\auth.js, JavaScript, 0, 77, 0, 6, 83
 e:\Attendance\actions\user.js, JavaScript, 0, 30, 1, 5, 36
@@ -28,7 +28,7 @@ e:\Attendance\screens\AddRoleScreen.js, JavaScript, 0, 120, 0, 18, 138
 e:\Attendance\screens\AddStudentScreen.js, JavaScript, 0, 320, 0, 13, 333
 e:\Attendance\screens\AddSubjectScreen.js, JavaScript, 0, 188, 0, 10, 198
 e:\Attendance\screens\AdminScreen.js, JavaScript, 0, 144, 0, 4, 148
-e:\Attendance\screens\AssignSubjectScreen.js, JavaScript, 0, 171, 0, 4, 175
+e:\Attendance\screens\AssignSubjectScreen.js, JavaScript, 0, 154, 0, 6, 160
 e:\Attendance\screens\AttendanceScreen.js, JavaScript, 0, 154, 0, 9, 163
 e:\Attendance\screens\CollegeScreen.js, JavaScript, 0, 110, 1, 11, 122
 e:\Attendance\screens\DeveloperScreen.js, JavaScript, 0, 207, 0, 10, 217
@@ -40,4 +40,4 @@ e:\Attendance\screens\Screen3.js, JavaScript, 0, 20, 4, 2, 26
 e:\Attendance\screens\SignUp.js, JavaScript, 0, 187, 0, 9, 196
 e:\Attendance\screens\StudentWelcomeScreen.js, JavaScript, 0, 138, 0, 10, 148
 e:\Attendance\sidemenu.js, JavaScript, 0, 69, 4, 9, 82
-Total, -, 9096, 3750, 44, 281, 13171
+Total, -, 9096, 3733, 44, 282, 13155
