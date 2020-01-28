@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
+import { LinearGradient } from "expo-linear-gradient";
 function Separator() {
   return <View style={styles.separator} />;
 }
@@ -51,33 +52,62 @@ export default class FacultyWelcomeScreen extends Component {
         </Card>
 
         <View style={styles.fixToText}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("Attendance")}
+          <LinearGradient
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
           >
-            <Text style={styles.clickText}>Attendance</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AddStudents")}
+            <TouchableHighlight
+              onPress={() => this.props.navigation.navigate("Attendance")}
+            >
+              <Text style={styles.clickText}>Attendance</Text>
+            </TouchableHighlight>
+            </LinearGradient>
+            <LinearGradient
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
           >
-            <Text style={styles.clickText}>Student</Text>
-          </TouchableHighlight>
+            <TouchableHighlight
+              
+              onPress={() => this.props.navigation.navigate("AddStudents")}
+            >
+              <Text style={styles.clickText}>Student</Text>
+            </TouchableHighlight>
+            </LinearGradient>
+          
         </View>
         <Separator />
         <View style={styles.fixToText}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.handleLogin()}
+          <LinearGradient
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
           >
-            <Text style={styles.clickText}>Report</Text>
-          </TouchableHighlight>
+            <TouchableHighlight onPress={() => this.handleLogin()}>
+              <Text style={styles.clickText}>Report</Text>
+            </TouchableHighlight>
+          </LinearGradient>
+          <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+          style={[styles.buttonContainer]}
+        >
           <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
+            
             onPress={() => this.handleLogin()}
           >
             <Text style={styles.clickText}>Student Detail</Text>
           </TouchableHighlight>
+          </LinearGradient>
         </View>
       </SafeAreaView>
     );

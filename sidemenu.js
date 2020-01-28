@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
- 
+import {LinearGradient} from 'expo-linear-gradient'
 class SideMenu extends Component {
   constructor() {
     super();
@@ -37,7 +37,9 @@ class SideMenu extends Component {
  
   render() {
     return (
+      
       <View style={styles.container}>
+      
         <ScrollView>
           <View>
             {this.options.map((option,i) => (
@@ -56,6 +58,7 @@ class SideMenu extends Component {
         </ScrollView>
         
       </View>
+      
     );
   }
 }
@@ -67,6 +70,10 @@ const styles = StyleSheet.create({
   },
   secondaryHeading: {
     padding: 10,
+    fontWeight:'800',
+    fontSize:30,
+    color:'#fffff0'
+    
   },
   mainHeading: {
     paddingVertical: 10,

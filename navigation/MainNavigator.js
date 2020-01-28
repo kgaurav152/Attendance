@@ -120,7 +120,16 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerStyle: {
         backgroundColor: "#09C5F7"
       },
-      headerTintColor: "#fff"
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+      
     })
   },
   Admin: {
