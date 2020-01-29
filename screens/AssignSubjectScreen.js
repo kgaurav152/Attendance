@@ -11,7 +11,7 @@ import {
 import Firebase from "../components/config";
 
 export default class AssignSubject extends Component {
-  state = { email: "", selectedSubject: "", subjectList: [], semester: "" };
+  state = { email: "", selectedSubject: "", subjectList: [], semester: "" , department: ""};
 
   assignSubject = () => {
     Firebase.database()
@@ -36,7 +36,7 @@ export default class AssignSubject extends Component {
   };
   componentDidUpdate( prevProps, prevState) {
     if( prevState.email != this.state.email || 
-          prevState.selectedSubject != this.state.selectedSubject || 
+          prevState.department != this.state.department || 
           prevState.semester != this.state.semester ){
     console.log("Component did mound is being callled...");
     var subjectList = [];
