@@ -34,7 +34,11 @@ export default class AssignSubject extends Component {
         });
       });
   };
-  componentDidUpdate() {
+  componentDidUpdate( prevProps, prevState) {
+    if( prevState.email != this.state.email || 
+          prevState.selectedSubject != this.state.selectedSubject || 
+          prevState.semester != this.state.semester ){
+    console.log("Component did mound is being callled...");
     var subjectList = [];
     Firebase.database()
       .ref("Subjects")
@@ -53,6 +57,7 @@ export default class AssignSubject extends Component {
           subjectList: subjectList
         });
       });
+    }
   }
 
   render() {
