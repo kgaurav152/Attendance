@@ -37,6 +37,8 @@ import AssignSubjectScreen from "../screens/AssignSubjectScreen";
 import StudentWelcomeScreen from "../screens/StudentWelcomeScreen";
 import AddFacultyScreen from "../screens/AddFacultyScreen";
 import AddSubjectScreen from "../screens/AddSubjectScreen";
+import ShowAttendanceScreen from "../screens/ShowAttendanceScreen"
+
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -241,6 +243,28 @@ const Student_StackNavigator = createStackNavigator({
   },
   StudentAttendance:{
     screen:StudentAttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+  },
+  ShowAttendance:{
+    screen:ShowAttendanceScreen,
     navigationOptions: ({ navigation }) => ({
       
       title: "Katihar Engg. College",

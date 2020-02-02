@@ -65,11 +65,11 @@ class AttendanceScreen extends Component {
             <Picker.Item label="Civil Engineering" value="Civil Engineering" />
             <Picker.Item
               label="Mechanical Engineering"
-              value="Mechanical Engg."
+              value="Mechanical Engineering"
             />
             <Picker.Item
-              label="Computer Sc. & Engg. "
-              value="Computer Sc. & Engg."
+              label="Computer Sc. & Engineering"
+              value="Computer Sc. & Engineering"
             />
           </Picker>
           <Text style={styles.text}>{this.state.department}</Text>

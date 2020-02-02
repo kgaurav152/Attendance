@@ -13,10 +13,11 @@ import {
 } from "react-native";
 import firebase from "../components/config";
 import AwesomeButton from "react-native-really-awesome-button";
-
+import DatePicker from 'react-native-datepicker'
 import { LinearGradient } from "expo-linear-gradient";
 
 export default class LoginScreen extends Component {
+  state = {date:""}
   constructor(props) {
     super(props);
     state = {
@@ -29,6 +30,11 @@ export default class LoginScreen extends Component {
   handleLogin = () => {
     try {
       const { role } = this.state;
+      
+      
+    
+
+      
       firebase
         .database()
         .ref("users")
@@ -65,13 +71,14 @@ export default class LoginScreen extends Component {
                 let mobile = null;
                 let department = null;
                 let image = null;
-
+                let sem = null;
                 for (var attributes in studentInfo) {
                   name = studentInfo[attributes].name;
                   reg_no = studentInfo[attributes].registration_num;
                   mobile = studentInfo[attributes].mobile;
                   department = studentInfo[attributes].department;
                   image = studentInfo[attributes].image;
+                  sem = studentInfo[attributes].semester;
                 }
 
                 this.props.navigation.navigate("StudentWelcome", {
@@ -80,7 +87,8 @@ export default class LoginScreen extends Component {
                   reg_no,
                   department,
                   mobile,
-                  image
+                  image,
+                  sem
                 });
               });
           }
@@ -88,6 +96,7 @@ export default class LoginScreen extends Component {
     } catch (error) {
       console.log(error.toString(error));
     }
+    
   };
   handlePass = () => {
     try {
@@ -171,6 +180,10 @@ export default class LoginScreen extends Component {
               onChangeText={password => this.setState({ password })}
             />
           </View>
+          <DatePicker
+                date={this.state.date}
+                onDateChange={(date) => {this.setState({date: date})}}
+              />
           <AwesomeButton
             progress
             onPress={next => {

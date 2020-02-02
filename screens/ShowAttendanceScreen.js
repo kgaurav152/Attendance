@@ -16,7 +16,7 @@ function Separator() {
 }
 
   
-export default class StudentWelcomeScreen extends Component {
+export default class ShowAttendanceScreen extends Component {
 
 
   
@@ -24,11 +24,11 @@ export default class StudentWelcomeScreen extends Component {
   render() {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
+    //const name = navigation.getParam("name");
     const reg_no=navigation.getParam("reg_no");
-    const mobile =navigation.getParam("mobile");
+    const date =navigation.getParam("date");
     const department =navigation.getParam("department");
-    const image = navigation.getParam("image")
+    const presentState = navigation.getParam("presentState")
     const sem = navigation.getParam("sem")
     return (
       <SafeAreaView style={styles.container}>
@@ -36,7 +36,7 @@ export default class StudentWelcomeScreen extends Component {
           Welcome to Online Attendance System
         </Text>
         <Card
-          title={JSON.stringify(name).replace(/\"/g, "")}
+          
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -50,39 +50,18 @@ export default class StudentWelcomeScreen extends Component {
             <View>
               <Text style={styles.paragraph}>Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}</Text>
               <Text style={styles.paragraph}>{JSON.stringify(department).replace(/\"/g, "")}</Text>
-              <Text style={styles.paragraph}>{JSON.stringify(mobile).replace(/\"/g, "")}</Text>
+              
               <Text style={styles.paragraph}>{JSON.stringify(email).replace(/\"/g, "")}</Text>
             </View>
-            <Image
-              source={{uri:image}}
-              style={{
-                width: 105,
-                height: 105,
-                marginLeft: 5,
-                borderRadius: 100 / 2
-              }}
-            />
+            
           </View>
         </Card>
 
         <View style={styles.fixToText}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("StudentAttendance",{
-              email,
-              reg_no,
-              department,
-              sem
-            })}
-          >
-            <Text style={styles.clickText}>Attendance</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.readStudentData()}
-          >
-            <Text style={styles.clickText}>My Profile</Text>
-          </TouchableHighlight>
+          
+        <Text style={styles.paragraph}>Date  {JSON.stringify(date).replace(/\"/g, "")}</Text>
+        <Text style={styles.paragraph}>Present State {JSON.stringify(presentState).replace(/\"/g, "")}</Text>
+          
         </View>
         <Separator />
       </SafeAreaView>

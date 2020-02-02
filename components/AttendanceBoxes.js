@@ -51,8 +51,8 @@ class AttendanceBoxes extends React.Component {
         .then(res=>{
           res.forEach(record=>{
               Firebase.database()
-              .ref("attendance/"+record.key+"/date/")
-              .set({
+              .ref("attendance/"+record.key)
+              .update({
                 date:date,
                 attendanceList:this.state.attendanceList
               })

@@ -6,18 +6,90 @@ import {
   SafeAreaView,
   TouchableHighlight,
   Image,
+  Picker,
   ScrollView
 } from "react-native";
+import DatePicker from 'react-native-datepicker';
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import Firebase from "../components/config";
+import AwesomeButton from "react-native-really-awesome-button";
 function Separator() {
   return <View style={styles.separator} />;
 }
 
 export default class StudentAttendanceScreen extends Component { 
+  state = {date:"",subject:""};
+  updateSubject = subject => {
+    this.setState({ subject: subject });
+  };
+  constructor(props){
+    super(props)
+    this.state = {date:""}
+  }
+  handleAttendance = () => {
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const reg_no=navigation.getParam("reg_no");
+    const department = "Computer Sc. & Engg.";
+    const sem = "8th";
+    const date = "2020-01-30"
+    const subject = "Operating System"
+    const Reg_no = reg_no.substring(8,reg_no.length)
     
+    var db_department = "";
+    var db_semester = "";
+    var db_date = "";
+    var db_subject = "";
+    Firebase.database().ref("attendance").once("value").then(snapshot =>{
+      const attendanceInfo = snapshot.val();
+      
+      for(var attributes in attendanceInfo){
+        db_department = attendanceInfo[attributes].department
+        db_semester = attendanceInfo[attributes].semester
+        db_date = attendanceInfo[attributes].date
+        db_subject = attendanceInfo[attributes].subject
+        if(db_department === department) {
+              if(db_semester === sem){
+                if(db_date === "2020-01-30"){
+                  if(db_subject ===  subject){
+              //const studentattnd = attendanceInfo[attributes].attendanceList
+              
+              var presentState = attendanceInfo[attributes].attendanceList[Reg_no]
+              
+            }
+          }
+          }
+            
+        }
+        
+      }
+      
+      if(presentState){
+        this.props.navigation.navigate("ShowAttendance",{
+          email,
+          name,
+          reg_no,
+          department,
+          sem,
+          presentState,
+          date
+        })
+      }
+    })
+    
+  }
+  
   render() {
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const reg_no=navigation.getParam("reg_no");
+    const department =navigation.getParam("department");
+    const sem = navigation.getParam("sem");
+    
+    
     return (
       <SafeAreaView style={styles.container}>
 
@@ -35,8 +107,34 @@ export default class StudentAttendanceScreen extends Component {
           <View style={styles.fixImage}>
             <View>
               <Text style={styles.paragraph}>Choose date </Text>
-            
+              <DatePicker
+                date={this.state.date}
+                onDateChange={(date) => {this.setState({date: date})}}
+              />  
             </View>
+            <View>
+          <Picker
+            selectedValue={this.state.subject}
+            onValueChange={this.updateSubject}
+          >
+            <Picker.Item label="Select Subject" value="Select Subject" />
+            <Picker.Item label="Operating System" value="Operating System" />
+            <Picker.Item label="Java" value="JAVA" />
+            <Picker.Item label="DBMS" value="DBMS" />
+          </Picker>
+          <Text style={styles.text}>{this.state.subject}</Text>
+        </View>
+            <AwesomeButton
+            progress
+            onPress={next => {
+              this.handleAttendance();
+              next();
+            }}
+            backgroundColor="#9400d3"
+          >
+            Show
+          </AwesomeButton>
+
              </View>
         </Card>
 

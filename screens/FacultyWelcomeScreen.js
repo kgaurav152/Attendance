@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Firebase from '../components/config'
 import {
   StyleSheet,
   Text,
@@ -16,6 +17,10 @@ function Separator() {
 }
 export default class FacultyWelcomeScreen extends Component {
   render() {
+    handleRegNo = () =>{
+      const Reg_No = Firebase.database().ref("students/").orderByChild("registration_num")
+      console.log(Reg_No)
+    }
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
@@ -90,7 +95,7 @@ export default class FacultyWelcomeScreen extends Component {
             end={{ x: 1, y: 0 }}
             style={[styles.buttonContainer]}
           >
-            <TouchableHighlight onPress={() => this.handleLogin()}>
+            <TouchableHighlight onPress={() => this.handleRegNo}>
               <Text style={styles.clickText}>Report</Text>
             </TouchableHighlight>
           </LinearGradient>

@@ -10,44 +10,57 @@ import { Card } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
 import Firebase from '../components/config'
 export default class AddAttendanceScreen extends React.Component {
-  constructor(props) {
+    constructor(props) {
     super(props);
-    this.state = {
-      data: [
-        "001",
-        "002",
-        "003",
-        "004",
-        "005",
-        "006",
-        "007",
-        "008",
-        "009",
-        "010",
-        "011",
-        "012",
-        "013",
-        "014",
-        "015",
-        "016",
-        "017",
-        "018",
-        "019",
-        "020",
-        "021",
-        "022",
-        "023",
-        "024",
-        "025",
-        "026",
-        "027",
-        "028"
-      ],
-      
-    };
-  }
+    state ={
+      data:[]
+    }
+    }
+  
 componentDidMount(){
-
+  const { navigation } = this.props;
+    const department = navigation.getParam("department");
+    const semester = navigation.getParam("semester");
+  var db_department = "";
+  var db_semester = "";
+  var regNoList=[];
+    Firebase.database().ref("students").once("value").then(snapshot =>{
+      const studentInfo = snapshot.val();
+      
+      for(var attributes in studentInfo){
+        db_department = studentInfo[attributes].department
+        db_semester = studentInfo[attributes].semester
+        if(db_department === department) {
+              if(db_semester === semester){
+            
+              
+              var regNo = studentInfo[attributes].registraion_num;
+              regNo=regNo.substring(8,regNo.length);
+              regNoList.push(regNo)
+          
+          }
+            
+        }
+        this.setState({
+          data:regNoList
+        })
+        console.log(data)
+      }
+      
+      if(presentState){
+        this.props.navigation.navigate("ShowAttendance",{
+          email,
+          name,
+          reg_no,
+          department,
+          sem,
+          presentState,
+          date
+        })
+      }
+    })
+    
+  
 }
   
   render() {
@@ -56,8 +69,8 @@ componentDidMount(){
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
-   
-
+    
+    
     return (
       <ScrollView>
         <Card
