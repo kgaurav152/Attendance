@@ -6,7 +6,9 @@ import {
   SafeAreaView,
   TouchableHighlight,
   Image,
-  ScrollView
+  ScrollView,
+  FlatList,
+  ListItem
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
@@ -15,21 +17,43 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-  
+
+
 export default class ShowAttendanceScreen extends Component {
-
-
-  
-    
+  state = {dateSelectedList:[], presentStateList:[]}  
+  renderDate = ({item}) => {
+    return (
+      <Text style={styles.paragraph}>
+        {item}
+      </Text>
+    )
+  }
+  renderState = ({item}) => {
+    return (
+      <Text style ={styles.paragraph} >
+        Present State {item}
+      </Text>
+    )
+  }
+  componentDidMount(){
+      const { navigation } = this.props;
+      const dateSelectedList =navigation.getParam("dateSelected");
+      const presentStateList = navigation.getParam("presentStatelist")
+      this.setState({
+        dateSelectedList: dateSelectedList,
+        presentStateList: presentStateList
+      })
+     }
   render() {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     //const name = navigation.getParam("name");
     const reg_no=navigation.getParam("reg_no");
-    const date =navigation.getParam("date");
+   
     const department =navigation.getParam("department");
-    const presentState = navigation.getParam("presentState")
+   
     const sem = navigation.getParam("sem")
+    
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
@@ -58,10 +82,16 @@ export default class ShowAttendanceScreen extends Component {
         </Card>
 
         <View style={styles.fixToText}>
-          
-        <Text style={styles.paragraph}>Date  {JSON.stringify(date).replace(/\"/g, "")}</Text>
-        <Text style={styles.paragraph}>Present State {JSON.stringify(presentState).replace(/\"/g, "")}</Text>
-          
+          <FlatList
+            data = {this.state.dateSelectedList}
+            renderItem = {this.renderDate}
+          />
+        </View>
+        <View style = {styles.fixToText}>
+          <FlatList
+            data = {this.state.presentStateList}
+            renderItem = {this.renderState}
+          />
         </View>
         <Separator />
       </SafeAreaView>

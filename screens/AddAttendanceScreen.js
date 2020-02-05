@@ -10,11 +10,12 @@ import { Card } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
 import Firebase from '../components/config'
 export default class AddAttendanceScreen extends React.Component {
-    constructor(props) {
+  state ={
+    regNoList:[]
+  }
+  constructor(props) {
     super(props);
-    state ={
-      data:[]
-    }
+    
     }
   
 componentDidMount(){
@@ -34,7 +35,7 @@ componentDidMount(){
               if(db_semester === semester){
             
               
-              var regNo = studentInfo[attributes].registraion_num;
+              var regNo = studentInfo[attributes].registration_num;
               regNo=regNo.substring(8,regNo.length);
               regNoList.push(regNo)
           
@@ -42,22 +43,11 @@ componentDidMount(){
             
         }
         this.setState({
-          data:regNoList
+          regNoList:regNoList
         })
         console.log(data)
       }
       
-      if(presentState){
-        this.props.navigation.navigate("ShowAttendance",{
-          email,
-          name,
-          reg_no,
-          department,
-          sem,
-          presentState,
-          date
-        })
-      }
     })
     
   
@@ -102,7 +92,7 @@ componentDidMount(){
           </View>
         </Card>
         
-        {<AttendanceBoxes data={this.state.data} />}
+        {<AttendanceBoxes data={this.state.regNoList} />}
         
       </ScrollView>
     );

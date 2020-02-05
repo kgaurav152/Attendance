@@ -19,7 +19,7 @@ function Separator() {
 }
 
 export default class StudentAttendanceScreen extends Component { 
-  state = {date:"",subject:""};
+  state = {startDate:"",subject:"",endDate:""};
   updateSubject = subject => {
     this.setState({ subject: subject });
   };
@@ -42,9 +42,15 @@ export default class StudentAttendanceScreen extends Component {
     var db_semester = "";
     var db_date = "";
     var db_subject = "";
-    Firebase.database().ref("attendance").once("value").then(snapshot =>{
+    Firebase.database().ref("attendance").orderByChild("date").startAt(this.state.startDate).endAt(this.state.endDate).once("value").then(snapshot =>{
       const attendanceInfo = snapshot.val();
-      
+      const dateSelected = [];
+      const presentStatelist = [];
+      for(var attributes in attendanceInfo){
+        var dateDb = attendanceInfo[attributes].date
+        dateSelected.push(dateDb);
+      }
+    for(var date in dateSelected){ 
       for(var attributes in attendanceInfo){
         db_department = attendanceInfo[attributes].department
         db_semester = attendanceInfo[attributes].semester
@@ -52,12 +58,12 @@ export default class StudentAttendanceScreen extends Component {
         db_subject = attendanceInfo[attributes].subject
         if(db_department === department) {
               if(db_semester === sem){
-                if(db_date === "2020-01-30"){
+                if(db_date === dateSelected[date]){
                   if(db_subject ===  subject){
               //const studentattnd = attendanceInfo[attributes].attendanceList
               
               var presentState = attendanceInfo[attributes].attendanceList[Reg_no]
-              
+              presentStatelist.push(presentState);
             }
           }
           }
@@ -65,6 +71,7 @@ export default class StudentAttendanceScreen extends Component {
         }
         
       }
+    }
       
       if(presentState){
         this.props.navigation.navigate("ShowAttendance",{
@@ -73,8 +80,8 @@ export default class StudentAttendanceScreen extends Component {
           reg_no,
           department,
           sem,
-          presentState,
-          date
+          presentStatelist,
+          dateSelected
         })
       }
     })
@@ -106,10 +113,17 @@ export default class StudentAttendanceScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>Choose date </Text>
+              <Text style={styles.paragraph}>Choose Start Date </Text>
               <DatePicker
-                date={this.state.date}
-                onDateChange={(date) => {this.setState({date: date})}}
+                date={this.state.startDate}
+                onDateChange={(startDate) => {this.setState({startDate: startDate})}}
+              />  
+            </View>
+            <View>
+              <Text style={styles.paragraph}>Choose End Date </Text>
+              <DatePicker
+                date={this.state.endDate}
+                onDateChange={(endDate) => {this.setState({endDate: endDate})}}
               />  
             </View>
             <View>
