@@ -21,20 +21,7 @@ function Separator() {
 
 export default class ShowAttendanceScreen extends Component {
   state = {dateSelectedList:[], presentStateList:[]}  
-  renderDate = ({item}) => {
-    return (
-      <Text style={styles.paragraph}>
-        {item}
-      </Text>
-    )
-  }
-  renderState = ({item}) => {
-    return (
-      <Text style ={styles.paragraph} >
-        Present State {item}
-      </Text>
-    )
-  }
+ 
   componentDidMount(){
       const { navigation } = this.props;
       const dateSelectedList =navigation.getParam("dateSelected");
@@ -84,13 +71,17 @@ export default class ShowAttendanceScreen extends Component {
         <View style={styles.fixToText}>
           <FlatList
             data = {this.state.dateSelectedList}
-            renderItem = {this.renderDate}
+            renderItem = {({item}) =>
+            <Text styles={styles.paragraph}>{item}</Text>
+          }
           />
         </View>
         <View style = {styles.fixToText}>
           <FlatList
             data = {this.state.presentStateList}
-            renderItem = {this.renderState}
+            renderItem = {({item}) =>
+        <Text styles={styles.paragraph}>Present State {JSON.stringify(item).replace(/\"/g, "")}</Text>
+          }
           />
         </View>
         <Separator />
