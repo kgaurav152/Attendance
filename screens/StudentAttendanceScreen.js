@@ -34,7 +34,7 @@ export default class StudentAttendanceScreen extends Component {
     const reg_no=navigation.getParam("reg_no");
     const department = "Computer Sc. & Engg.";
     const sem = "8th";
-    const date = "2020-01-30"
+    
     const subject = "Operating System"
     const Reg_no = reg_no.substring(8,reg_no.length)
     
