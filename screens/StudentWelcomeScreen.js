@@ -15,21 +15,16 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-  
 export default class StudentWelcomeScreen extends Component {
-
-
-  
-    
   render() {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
-    const reg_no=navigation.getParam("reg_no");
-    const mobile =navigation.getParam("mobile");
-    const department =navigation.getParam("department");
-    const image = navigation.getParam("image")
-    const sem = navigation.getParam("sem")
+    const reg_no = navigation.getParam("reg_no");
+    const mobile = navigation.getParam("mobile");
+    const department = navigation.getParam("department");
+    const image = navigation.getParam("image");
+    const sem = navigation.getParam("sem");
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
@@ -48,13 +43,21 @@ export default class StudentWelcomeScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}</Text>
-              <Text style={styles.paragraph}>{JSON.stringify(department).replace(/\"/g, "")}</Text>
-              <Text style={styles.paragraph}>{JSON.stringify(mobile).replace(/\"/g, "")}</Text>
-              <Text style={styles.paragraph}>{JSON.stringify(email).replace(/\"/g, "")}</Text>
+              <Text style={styles.paragraph}>
+                Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}
+              </Text>
+              <Text style={styles.paragraph}>
+                {JSON.stringify(department).replace(/\"/g, "")}
+              </Text>
+              <Text style={styles.paragraph}>
+                {JSON.stringify(mobile).replace(/\"/g, "")}
+              </Text>
+              <Text style={styles.paragraph}>
+                {JSON.stringify(email).replace(/\"/g, "")}
+              </Text>
             </View>
             <Image
-              source={{uri:image}}
+              source={{ uri: image }}
               style={{
                 width: 105,
                 height: 105,
@@ -68,12 +71,14 @@ export default class StudentWelcomeScreen extends Component {
         <View style={styles.fixToText}>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("StudentAttendance",{
-              email,
-              reg_no,
-              department,
-              sem
-            })}
+            onPress={() =>
+              this.props.navigation.navigate("StudentAttendance", {
+                email,
+                reg_no,
+                department,
+                sem
+              })
+            }
           >
             <Text style={styles.clickText}>Attendance</Text>
           </TouchableHighlight>

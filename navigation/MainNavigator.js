@@ -218,6 +218,31 @@ const LoginScreen_StackNavigator = createStackNavigator({
     })
 
   },
+  Attendance: {
+    screen: AttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7"
+      },
+      headerTintColor: "#fff"
+    })
+  },
+  AddAttendance: {
+    screen: AddAttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7"
+      },
+      headerTintColor: "#fff"
+    })
+  },
+
   AttendanceInfo:{
     screen:AttendanceInfoScreen,
     navigationOptions: ({ navigation }) => ({
@@ -348,18 +373,7 @@ const Attendance_StackNavigator = createStackNavigator({
       headerTintColor: "#fff"
     })
   },
-  Attendance: {
-    screen: AttendanceScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor: "#09C5F7"
-      },
-      headerTintColor: "#fff"
-    })
-  },
+ 
   AddAttendance: {
     screen: AddAttendanceScreen,
     navigationOptions: ({ navigation }) => ({

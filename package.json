@@ -16,6 +16,7 @@
     "expo-permissions": "^8.0.0",
     "firebase": "^7.2.1",
     "link": "^0.1.5",
+    "moment": "^2.24.0",
     "native-base": "^2.13.8",
     "react": "16.8.3",
     "react-datepicker": "^2.11.0",

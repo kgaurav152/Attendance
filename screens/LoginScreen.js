@@ -13,11 +13,11 @@ import {
 } from "react-native";
 import firebase from "../components/config";
 import AwesomeButton from "react-native-really-awesome-button";
-import DatePicker from 'react-native-datepicker'
+import DatePicker from "react-native-datepicker";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default class LoginScreen extends Component {
-  state = {date:""}
+  state = { date: "" };
   constructor(props) {
     super(props);
     state = {
@@ -30,11 +30,7 @@ export default class LoginScreen extends Component {
   handleLogin = () => {
     try {
       const { role } = this.state;
-      
-      
-    
 
-      
       firebase
         .database()
         .ref("users")
@@ -49,8 +45,28 @@ export default class LoginScreen extends Component {
           }
 
           if (role == "faculty") {
+            firebase.database()
+            .ref("Faculty")
+            .orderByChild('email')
+            .equalTo(this.state.email)
+            .once('value')
+            .then(snapshot=>{
+              let facultyInfo =snapshot.val();
+              let name = null;
+              let department = null;
+              let mobile = null;
+              for(var attributes in facultyInfo){
+                name = facultyInfo[attributes].name;
+                department = facultyInfo[attributes].department;
+                mobile = facultyInfo[attributes].mobile;
+              }
+            
             this.props.navigation.navigate("FacultyWelcome", {
-              email: this.state.email
+              email: this.state.email,
+              name,
+              department,
+              mobile
+            });
             });
           } else if (role == "admin") {
             this.props.navigation.navigate("AdminWelcome", {
@@ -96,7 +112,6 @@ export default class LoginScreen extends Component {
     } catch (error) {
       console.log(error.toString(error));
     }
-    
   };
   handlePass = () => {
     try {
@@ -174,18 +189,15 @@ export default class LoginScreen extends Component {
             <TextInput
               style={styles.inputs}
               placeholder="Password"
-              keyboardType="password"
+              keyboardType="default"
               secureTextEntry
               underlineColorAndroid="transparent"
               onChangeText={password => this.setState({ password })}
             />
           </View>
-          <DatePicker
-                date={this.state.date}
-                onDateChange={(date) => {this.setState({date: date})}}
-              />
           <AwesomeButton
             progress
+            progressLoadingTime="20"
             onPress={next => {
               this.handleEmail();
               next();
@@ -262,7 +274,7 @@ const styles = StyleSheet.create({
     fontSize: 17
   },
   buttonContainerForgot: {
-    marginTop:'4%',
+    marginTop: "4%",
     height: 35,
     flexDirection: "row",
     justifyContent: "center",

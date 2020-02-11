@@ -9,11 +9,9 @@ import {
 import DatePicker from "react-native-datepicker";
 import Firebase from '../components/config'
 
-var today = new Date();
-date=today.getDate() + "-"+ parseInt(today.getMonth()+1) +"-"+ today.getFullYear();
-console.log(date);
+
 class AttendanceScreen extends Component {
-  state = { department: "", semester: "", subject: "", date:date };
+  state = { department: "", semester: "", subject: "", date:"" };
   updateDepartment = department => {
     this.setState({ department: department });
   };
@@ -23,18 +21,14 @@ class AttendanceScreen extends Component {
   updateSubject = subject => {
     this.setState({ subject: subject });
   };
-  constructor(props) {
-    super(props);
-
-    this.state = { date: null };
-  }
+  
   attendanceHandler=()=>{
     Firebase.database()
         .ref("attendance/")
         .push(
           {
             department:this.state.department,
-            date:date,
+            date:this.state.date,
             subject:this.state.subject,
             semester:this.state.semester
           }
@@ -43,7 +37,7 @@ class AttendanceScreen extends Component {
       department: this.state.department,
       semester: this.state.semester,
       subject: this.state.subject,
-      date: date
+      date: this.state.date
     })
     
   
@@ -52,9 +46,38 @@ class AttendanceScreen extends Component {
     return (
       <View style={styles.container}>
       <View style={styles.fixSize}>
-      <Text style={styles.headText}> Date :</Text>
-      <Text style={styles.headText}> {date}</Text>
-      </View>
+      <Text style={styles.headText}>Select Date</Text>
+      <DatePicker
+        style={{ width: 200 }}
+        date={this.state.date} //initial date from state
+        mode="date" //The enum of date, datetime and time
+        placeholder="Select Date"
+        format="YYYY-MM-DD"
+        
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: "absolute",
+            left: 0,
+            top: 4,
+            marginLeft: 0,
+            marginTop: 4.2,
+            marginBottom: 25
+          },
+          dateInput: {
+            marginLeft: 36,
+            marginTop: 25,
+            marginBottom: 20,
+            fontWeight: "700",
+            marginRight: 10
+          }
+        }}
+        onDateChange={date => {
+          this.setState({ date: date });
+        }}
+      />
+    </View>
 
         <View>
           <Picker

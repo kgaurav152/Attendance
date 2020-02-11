@@ -17,37 +17,34 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-
-
 export default class ShowAttendanceScreen extends Component {
-  state = {dateSelectedList:[], presentStateList:[]}  
- 
-  componentDidMount(){
-      const { navigation } = this.props;
-      const dateSelectedList =navigation.getParam("dateSelected");
-      const presentStateList = navigation.getParam("presentStatelist")
-      this.setState({
-        dateSelectedList: dateSelectedList,
-        presentStateList: presentStateList
-      })
-     }
+  state = { dateSelectedList: [], presentStateList: [] };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const dateSelectedList = navigation.getParam("dateSelected");
+    const presentStateList = navigation.getParam("presentStatelist");
+    this.setState({
+      dateSelectedList: dateSelectedList,
+      presentStateList: presentStateList
+    });
+  }
   render() {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     //const name = navigation.getParam("name");
-    const reg_no=navigation.getParam("reg_no");
-   
-    const department =navigation.getParam("department");
-   
-    const sem = navigation.getParam("sem")
-    
+    const reg_no = navigation.getParam("reg_no");
+
+    const department = navigation.getParam("department");
+
+    const sem = navigation.getParam("sem");
+
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
         <Card
-          
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -59,31 +56,41 @@ export default class ShowAttendanceScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}</Text>
-              <Text style={styles.paragraph}>{JSON.stringify(department).replace(/\"/g, "")}</Text>
-              
-              <Text style={styles.paragraph}>{JSON.stringify(email).replace(/\"/g, "")}</Text>
+              <Text style={styles.paragraph}>
+                Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}
+              </Text>
+              <Text style={styles.paragraph}>
+                {JSON.stringify(department).replace(/\"/g, "")}
+              </Text>
+
+              <Text style={styles.paragraph}>
+                {JSON.stringify(email).replace(/\"/g, "")}
+              </Text>
             </View>
-            
           </View>
         </Card>
-
+        <View style={styles.fixDate}>
+        <Text style={styles.paragraph}>Date</Text>
+        <Text style={styles.paragraph1}>Present State</Text>
+       </View>
         <View style={styles.fixToText}>
           <FlatList
-            data = {this.state.dateSelectedList}
-            renderItem = {({item}) =>
-            <Text styles={styles.paragraph}>{item}</Text>
-          }
+            data={this.state.dateSelectedList}
+            renderItem={({ item }) => (
+              <Text style={styles.paragraph}>{item}</Text>
+            )}
           />
-        </View>
-        <View style = {styles.fixToText}>
+
           <FlatList
-            data = {this.state.presentStateList}
-            renderItem = {({item}) =>
-        <Text styles={styles.paragraph}>Present State {JSON.stringify(item).replace(/\"/g, "")}</Text>
-          }
+            data={this.state.presentStateList}
+            renderItem={({ item }) => (
+              <Text style={styles.paragraph}>
+                {JSON.stringify(item).replace(/\"/g, "")}
+              </Text>
+            )}
           />
         </View>
+
         <Separator />
       </SafeAreaView>
     );
@@ -104,6 +111,14 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     paddingLeft: 12,
     color: "#008b8b"
+  },
+  paragraph1: {
+    margin: 1.5,
+    fontSize: 14,
+    fontWeight: "700",
+    paddingLeft: 12,
+    color: "#008b8b",
+    marginRight:"20%"
   },
   welcomeUser: {
     textAlign: "center",
@@ -133,8 +148,14 @@ const styles = StyleSheet.create({
   fixToText: {
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 100,
-    width: 300,
+    
+    textAlign: "center",
+    marginLeft: 15
+  },
+  fixDate: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    
     textAlign: "center",
     marginLeft: 15
   },

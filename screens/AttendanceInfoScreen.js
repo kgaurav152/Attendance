@@ -93,12 +93,14 @@ class AttendanceInfoScreen extends Component {
       <View style={styles.container}>
       <View style={styles.fixSize}>
       <DatePicker
+      format="YYYY-MM-DD"
                 date={this.state.startDate}
                 onDateChange={(startDate) => {this.setState({startDate: startDate})}}
         />
       </View>
       <View style={styles.fixSize}>
       <DatePicker
+      format="YYYY-MM-DD"   
                 date={this.state.endDate}
                 onDateChange={(endDate) => {this.setState({endDate: endDate})}}
         />

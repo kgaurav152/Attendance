@@ -15,19 +15,24 @@ import { LinearGradient } from "expo-linear-gradient";
 function Separator() {
   return <View style={styles.separator} />;
 }
+
 export default class FacultyWelcomeScreen extends Component {
+  
   render() {
-    handleRegNo = () =>{
-      const Reg_No = Firebase.database().ref("students/").orderByChild("registration_num")
-      console.log(Reg_No)
-    }
-    return (
+   
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const department = navigation.getParam("department");
+    const mobile = navigation.getParam("mobile");
+      return (
+      
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
         <Card
-          title="Md TALIB AHMAD"
+          title={name}
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -40,12 +45,12 @@ export default class FacultyWelcomeScreen extends Component {
           <View style={styles.fixImage}>
             <View>
               <Text style={styles.paragraph}>Assistant Prof.</Text>
-              <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
-              <Text style={styles.paragraph}>+91 9108006551</Text>
-              <Text style={styles.paragraph}>mdtalibahmad@gmail.com</Text>
+              <Text style={styles.paragraph}>{department}</Text>
+              <Text style={styles.paragraph}>{mobile}</Text>
+              <Text style={styles.paragraph}>{email}</Text>
             </View>
             <Image
-              source={require("../assets/mta.jpg")}
+              source={require("../images/name.png")}
               style={{
                 width: 105,
                 height: 105,

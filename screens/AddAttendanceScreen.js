@@ -1,65 +1,65 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  
-} from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Card } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
-import Firebase from '../components/config'
+import Firebase from "../components/config";
 export default class AddAttendanceScreen extends React.Component {
-  state ={
-    regNoList:[]
-  }
+  
   constructor(props) {
     super(props);
-    
+    this.state={
+      regNoList:[],
+      semester:"",
+      department:"",
+      subject:"",
+      date:""
     }
-  
-componentDidMount(){
-  const { navigation } = this.props;
-    const department = navigation.getParam("department");
-    const semester = navigation.getParam("semester");
-  var db_department = "";
-  var db_semester = "";
-  var regNoList=[];
-    Firebase.database().ref("students").once("value").then(snapshot =>{
-      const studentInfo = snapshot.val();
-      
-      for(var attributes in studentInfo){
-        db_department = studentInfo[attributes].department
-        db_semester = studentInfo[attributes].semester
-        if(db_department === department) {
-              if(db_semester === semester){
-            
-              
-              var regNo = studentInfo[attributes].registration_num;
-              regNo=regNo.substring(8,regNo.length);
-              regNoList.push(regNo)
-          
-          }
-            
-        }
-        this.setState({
-          regNoList:regNoList
-        })
-        console.log(data)
-      }
-      
-    })
-    
-  
-}
-  
-  render() {
+  }
+  componentDidMount() {
     const { navigation } = this.props;
     const department = navigation.getParam("department");
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
     
+    var db_department = "";
+    var db_semester = "";
+    var regNoList = [];
+    Firebase.database()
+      .ref("students")
+      .once("value")
+      .then(snapshot => {
+        const studentInfo = snapshot.val();
+
+        for (var attributes in studentInfo) {
+          db_department = studentInfo[attributes].department;
+          db_semester = studentInfo[attributes].semester;
+          if (db_department === department) {
+            if (db_semester === semester) {
+              var regNo = studentInfo[attributes].registration_num;
+              regNo = regNo.substring(8, regNo.length);
+              regNoList.push(regNo);
+              
+            }
+          }
+          this.setState({
+            regNoList: regNoList,
+            semester:semester,
+      subject:subject,
+      department:department,
+      date:date
+          });
+          console.log(regNoList);
+        }
+      });
+  }
+
+  render() {
+    const { navigation } = this.props;
+    const department = navigation.getParam("department");
+    const semester = navigation.getParam("semester");
+    const subject = navigation.getParam("subject");
+    const date = navigation.getParam("date");
     
     return (
       <ScrollView>
@@ -89,11 +89,10 @@ componentDidMount(){
                 Date : {JSON.stringify(date).replace(/\"/g, "")}
               </Text>
             </View>
-          </View>
+          </View> 
         </Card>
-        
-        {<AttendanceBoxes data={this.state.regNoList} />}
-        
+
+        {<AttendanceBoxes data={this.state.regNoList} date={this.state.date} dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} />}
       </ScrollView>
     );
   }
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
   },
   ButtonStyle: {
     paddingTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 10,  
     backgroundColor: "#009688",
     borderRadius: 5,
     marginBottom: 20
