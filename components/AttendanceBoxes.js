@@ -58,13 +58,13 @@ class AttendanceBoxes extends React.Component {
           db_department = attendanceInfo[attributes].department;
           db_semester = attendanceInfo[attributes].semester;
           db_subject = attendanceInfo[attributes].subject;
+          db_date = attendanceInfo[attributes].date
           if (db_department === this.state.department) {
             if (db_semester === this.state.semester) {
               if (db_subject === this.state.subject) {
+              if(db_date === this.state.date){
                 Firebase.database()
                   .ref("attendance/")
-                  .orderByChild("date")
-                  .equalTo(this.state.date)
                   .once("value")
                   .then(res => {
                     res.forEach(record => {
@@ -77,6 +77,7 @@ class AttendanceBoxes extends React.Component {
                     });
                   });
               }
+            }
             }
           }
         }
