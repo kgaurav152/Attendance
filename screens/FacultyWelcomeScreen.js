@@ -25,6 +25,7 @@ export default class FacultyWelcomeScreen extends Component {
     const name = navigation.getParam("name");
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
+    const imageUrl = navigation.getParam("imageUrl");
       return (
       
       <SafeAreaView style={styles.container}>
@@ -44,13 +45,14 @@ export default class FacultyWelcomeScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
+            Assig
               <Text style={styles.paragraph}>Assistant Prof.</Text>
               <Text style={styles.paragraph}>{department}</Text>
               <Text style={styles.paragraph}>{mobile}</Text>
               <Text style={styles.paragraph}>{email}</Text>
             </View>
             <Image
-              source={require("../images/name.png")}
+              source={{uri:imageUrl}}
               style={{
                 width: 105,
                 height: 105,

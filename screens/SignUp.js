@@ -13,12 +13,13 @@ import {
 import Firebase from "../components/config";
 
 export default class SignUp extends Component {
-  state = { email: "", password: "", role: "" };
+  state = { email: "", password: "", role: ""};
 
   handleSignUp = () => {
     Firebase.auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(user => {
+      .then(res => {
+        
         if (Firebase.auth().currentUser) {
           userId = Firebase.auth().currentUser.uid;
           role = this.state.role;

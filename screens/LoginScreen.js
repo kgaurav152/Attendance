@@ -59,13 +59,15 @@ export default class LoginScreen extends Component {
                 name = facultyInfo[attributes].name;
                 department = facultyInfo[attributes].department;
                 mobile = facultyInfo[attributes].mobile;
+                imageUrl = facultyInfo[attributes].image
               }
             
             this.props.navigation.navigate("FacultyWelcome", {
               email: this.state.email,
               name,
               department,
-              mobile
+              mobile,
+              imageUrl
             });
             });
           } else if (role == "admin") {

@@ -40,23 +40,38 @@ export default class AssignSubject extends Component {
           prevState.semester != this.state.semester ){
     console.log("Component did mound is being callled...");
     var subjectList = [];
-    Firebase.database()
-      .ref("Subjects")
-      .orderByChild("semester")
-      .equalTo(this.state.semester)
-      .once("value")
-
-      .then(snapshot => {
-        snapshot.forEach(function(childSnapshot) {
-          var subjectData = childSnapshot.val().subjectName;
-          subjectList.push(subjectData);
-         });
-        console.log(subjectList);
-
-        this.setState({
-          subjectList: subjectList
-        });
-      });
+    Firebase.database().ref("Subjects").once("value").then(snapshot =>{
+      var subjectInfo = snapshot.val();
+      var db_department = "";
+      var db_semester ="";
+      for(var attributes in subjectInfo)
+    {
+      
+        db_department = subjectInfo[attributes].department
+        db_semester = subjectInfo[attributes].semester
+        if(db_department === this.state.department){
+          if(db_semester === this.state.semester){
+            Firebase.database()
+          .ref("Subjects")
+          .once("value")
+          .then(snapshot => {
+            snapshot.forEach(function(childSnapshot) {
+              var subjectData = childSnapshot.val().subjectName;
+              subjectList.push(subjectData);
+             });
+            console.log(subjectList);
+    
+            this.setState({
+              subjectList: subjectList
+            });
+          });
+          }
+        }
+    }
+    
+    })
+    
+    
     }
   }
 
