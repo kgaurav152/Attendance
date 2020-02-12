@@ -12,21 +12,12 @@ import {
   AsyncStorage
 } from "react-native";
 import firebase from "../components/config";
-import AwesomeButton from "react-native-really-awesome-button";
-import DatePicker from "react-native-datepicker";
+import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default class LoginScreen extends Component {
-  state = { date: "" };
-  constructor(props) {
-    super(props);
-    state = {
-      email: "",
-      password: "",
-      language: ""
-    };
-  }
-
+  state = { date: "",email:"", password:"", language:""};
+  
   handleLogin = () => {
     try {
       const { role } = this.state;
@@ -45,31 +36,38 @@ export default class LoginScreen extends Component {
           }
 
           if (role == "faculty") {
-            firebase.database()
-            .ref("Faculty")
-            .orderByChild('email')
-            .equalTo(this.state.email)
-            .once('value')
-            .then(snapshot=>{
-              let facultyInfo =snapshot.val();
-              let name = null;
-              let department = null;
-              let mobile = null;
-              for(var attributes in facultyInfo){
-                name = facultyInfo[attributes].name;
-                department = facultyInfo[attributes].department;
-                mobile = facultyInfo[attributes].mobile;
-                imageUrl = facultyInfo[attributes].image
-              }
-            
-            this.props.navigation.navigate("FacultyWelcome", {
-              email: this.state.email,
-              name,
-              department,
-              mobile,
-              imageUrl
-            });
-            });
+            firebase
+              .database()
+              .ref("Faculty")
+              .orderByChild("email")
+              .equalTo(this.state.email)
+              .once("value")
+              .then(snapshot => {
+                let facultyInfo = snapshot.val();
+                let name = null;
+                let department = null;
+                let mobile = null;
+                for (var attributes in facultyInfo) {
+                  name = facultyInfo[attributes].name;
+                  department = facultyInfo[attributes].department;
+                  mobile = facultyInfo[attributes].mobile;
+                  imageUrl = facultyInfo[attributes].image;
+                }
+                  this.setState({
+                    name:name,
+                    department:department,
+                    mobile:mobile,
+                    imageUrl:imageUrl
+                  })
+                  
+               this.props.navigation.navigate("FacultyWelcome", {
+                email: this.state.email,
+                 name,
+                 department,
+                 mobile,
+                 imageUrl
+               });
+              });
           } else if (role == "admin") {
             this.props.navigation.navigate("AdminWelcome", {
               email: this.state.email
@@ -88,14 +86,14 @@ export default class LoginScreen extends Component {
                 let reg_no = null;
                 let mobile = null;
                 let department = null;
-                let image = null;
+                let imageUrl = null;
                 let sem = null;
                 for (var attributes in studentInfo) {
                   name = studentInfo[attributes].name;
                   reg_no = studentInfo[attributes].registration_num;
                   mobile = studentInfo[attributes].mobile;
                   department = studentInfo[attributes].department;
-                  image = studentInfo[attributes].image;
+                  imageUrl = studentInfo[attributes].image;
                   sem = studentInfo[attributes].semester;
                 }
 
@@ -105,7 +103,7 @@ export default class LoginScreen extends Component {
                   reg_no,
                   department,
                   mobile,
-                  image,
+                  imageUrl,
                   sem
                 });
               });
@@ -127,6 +125,8 @@ export default class LoginScreen extends Component {
         .then(snapshot => {
           if (snapshot.val()) {
             this.handleLogin();
+          }else{
+            this.passwordValid();
           }
         });
     } catch (error) {
@@ -146,14 +146,34 @@ export default class LoginScreen extends Component {
         .then(snapshot => {
           if (snapshot.val()) {
             this.handlePass();
+          }else{
+            this.emailValid();
           }
         });
     } catch (error) {
       console.log(error.toString(error));
     }
   };
+  emailValid = () => {
+    this.setState({
+      emailValid: true
+    });
+  };
+  hideAlert = () => {
+    this.setState({
+      passwordValid: false,
+      emailValid: false,
+
+    });
+  };
+  passwordValid=()=>{
+    this.setState({
+    passwordValid:true
+    })
+  }
 
   render() {
+    const { passwordValid, emailValid, } = this.state;
     return (
       <LinearGradient
         colors={["#a13388", "#10356c"]}
@@ -197,24 +217,65 @@ export default class LoginScreen extends Component {
               onChangeText={password => this.setState({ password })}
             />
           </View>
-          <AwesomeButton
-            progress
-            progressLoadingTime="20"
-            onPress={next => {
-              this.handleEmail();
-              next();
-            }}
-            backgroundColor="#9400d3"
-          >
-            Login
-          </AwesomeButton>
-
+          
+          <TouchableHighlight
+          style={[styles.buttonContainer, styles.loginButton]}
+          onPress={() => this.handleEmail()}
+        >
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableHighlight>
           <TouchableHighlight
             style={[styles.buttonContainerForgot, styles.forgotButton]}
             onPress={() => this.forgotPassword()}
           >
             <Text style={styles.forgotText}>Forgot Password</Text>
           </TouchableHighlight>
+          <AwesomeAlert
+          show={emailValid }
+          showProgress={false}
+          title="Oops"
+          message="Wrong Email. Try again"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+        show={passwordValid }
+        showProgress={false}
+        title="Oops !"
+        message="Wrong Password. Try again"
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={true}
+        //cancelText="No, cancel"
+        confirmText="OK !"
+        contentContainerStyle={{
+          backgroundColor: "white"
+        }}
+        confirmButtonColor="#10356c"
+        onCancelPressed={() => {
+          this.hideAlert();
+        }}
+        onConfirmPressed={() => {
+          this.hideAlert();
+        }}
+      />
+      
+
         </View>
       </LinearGradient>
     );

@@ -23,7 +23,7 @@ export default class StudentWelcomeScreen extends Component {
     const reg_no = navigation.getParam("reg_no");
     const mobile = navigation.getParam("mobile");
     const department = navigation.getParam("department");
-    const image = navigation.getParam("image");
+    const imageUrl = navigation.getParam("imageUrl");
     const sem = navigation.getParam("sem");
     return (
       <SafeAreaView style={styles.container}>
@@ -57,7 +57,7 @@ export default class StudentWelcomeScreen extends Component {
               </Text>
             </View>
             <Image
-              source={{ uri: image }}
+              source={{ uri: imageUrl }}
               style={{
                 width: 105,
                 height: 105,

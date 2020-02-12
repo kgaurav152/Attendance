@@ -45,7 +45,7 @@ export default class FacultyWelcomeScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-            Assig
+            
               <Text style={styles.paragraph}>Assistant Prof.</Text>
               <Text style={styles.paragraph}>{department}</Text>
               <Text style={styles.paragraph}>{mobile}</Text>
