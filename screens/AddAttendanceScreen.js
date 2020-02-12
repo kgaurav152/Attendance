@@ -45,9 +45,9 @@ export default class AddAttendanceScreen extends React.Component {
           this.setState({
             regNoList: regNoList,
             semester:semester,
-      subject:subject,
-      department:department,
-      date:date
+            subject:subject,
+            department:department,
+            date:date
           });
           console.log(regNoList);
         }
@@ -92,7 +92,7 @@ export default class AddAttendanceScreen extends React.Component {
           </View> 
         </Card>
 
-        {<AttendanceBoxes data={this.state.regNoList} date={this.state.date} dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} />}
+        {<AttendanceBoxes data={this.state.regNoList} date={this.state.date} dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} date = {this.state.date} />}
       </ScrollView>
     );
   }

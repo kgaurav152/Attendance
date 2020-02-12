@@ -14,7 +14,7 @@ class AttendanceBoxes extends React.Component {
       department: "",
       subject: "",
       semester: "",
-      
+      date:""
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -26,7 +26,7 @@ class AttendanceBoxes extends React.Component {
       department: this.props.dept,
       subject: this.props.sub,
       semester: this.props.sem,
-      
+      date: this.props.date
     });
   }
 
@@ -58,20 +58,20 @@ class AttendanceBoxes extends React.Component {
           db_department = attendanceInfo[attributes].department;
           db_semester = attendanceInfo[attributes].semester;
           db_subject = attendanceInfo[attributes].subject;
-          if (db_department === department) {
-            if (db_semester === semester) {
-              if (db_subject === subject) {
+          if (db_department === this.state.department) {
+            if (db_semester === this.state.semester) {
+              if (db_subject === this.state.subject) {
                 Firebase.database()
                   .ref("attendance/")
                   .orderByChild("date")
-                  .equalTo("2020-02-11")
+                  .equalTo(this.state.date)
                   .once("value")
                   .then(res => {
                     res.forEach(record => {
                       Firebase.database()
                         .ref("attendance/" + record.key)
                         .update({
-                          date:"2020-02-11",
+                          date: this.state.date,
                           attendanceList: this.state.attendanceList
                         });
                     });
