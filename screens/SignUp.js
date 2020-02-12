@@ -11,15 +11,36 @@ import {
   Alert
 } from "react-native";
 import Firebase from "../components/config";
+import AwesomeAlert from "react-native-awesome-alerts";
+
 
 export default class SignUp extends Component {
-  state = { email: "", password: "", role: ""};
+  state = { email: "", password: "", role: "", error: "", showAlert: false };
+  emailUsed = () => {
+    this.setState({
+      emailUsed: true
+    });
+  };
+
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+      emailUsed: false,
+      email: "",
+      password: "",
+      role: ""
+    });
+  };
+  showAlert = () => [
+    this.setState({
+      showAlert: true
+    })
+  ];
 
   handleSignUp = () => {
     Firebase.auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(res => {
-        
+      .then(user => {
         if (Firebase.auth().currentUser) {
           userId = Firebase.auth().currentUser.uid;
           role = this.state.role;
@@ -33,30 +54,42 @@ export default class SignUp extends Component {
                 uid: userId
               });
           }
-          if(role == "faculty"){
+          if (role == "faculty") {
             Firebase.database()
               .ref("Faculty/")
               .push({
-                email: this.state.email,
-               
-              }).child("Subject")
+                email: this.state.email
+              })
+              .child("Subject");
+          } else if (role == "student") {
+            Firebase.database()
+              .ref("students/")
+              .push({
+                email: this.state.email
+              });
+          } else {
+            Firebase.database()
+              .ref("admins/")
+              .push({
+                email: this.state.email
+              });
           }
-          else if (role=='student')
-          Firebase.database()
-          .ref("students/")
-          .push({
-            email:this.state.email
-          })
+          this.showAlert();
         }
-        
       })
-      .catch(function(error) {
-        console.log("Register !");
-        console.log(error);
+      .catch(error => {
+        this.setState({
+          error: error.code
+        });
+        if (this.state.error === "auth/email-already-in-use") {
+          this.emailUsed();
+        } else {
+        }
       });
-      this.props.navigation.navigate('Home')
   };
   render() {
+    const { showAlert, emailUsed } = this.state;
+
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
@@ -68,6 +101,7 @@ export default class SignUp extends Component {
             style={styles.inputs}
             placeholder="Email"
             keyboardType="email-address"
+            autoCapitalize="none"
             underlineColorAndroid="transparent"
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
@@ -108,18 +142,57 @@ export default class SignUp extends Component {
         >
           <Text style={styles.registerText}>Register</Text>
         </TouchableHighlight>
-        <View style={styles.fixTotext}>
-          <TouchableHighlight>
-            <Text style={styles.loginButton}>Have an account ?</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            onPress={() => this.props.navigation.navigate("Login")}
-          >
-            <Text style={(styles.loginButton, styles.loginText)}>
-              Login Here
-            </Text>
-          </TouchableHighlight>
-        </View>
+        <TouchableHighlight
+          style={[styles.buttonContainerLogin, styles.loginButton]}
+          onPress={() => this.props.navigation.navigate("Login")}
+        >
+          <Text style={styles.loginText}>Have an Account ? Login Here</Text>
+        </TouchableHighlight>
+
+        <AwesomeAlert
+          show={emailUsed}
+          showProgress={false}
+          title="SignUp alert"
+          message="Email already in use"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="SignUp alert"
+          message="User Registration Successful"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
       </View>
     );
   }
@@ -168,29 +241,30 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
     width: 250,
     borderRadius: 30
   },
   registerButton: {
-    backgroundColor: "#00b5ec",
+    backgroundColor: "#10356c",
     marginTop: 30
   },
   registerText: {
     color: "white"
   },
+  buttonContainerLogin: {
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
 
+    width: 250,
+    borderRadius: 30
+  },
   loginButton: {
-    marginLeft: 22,
-    fontWeight: "900",
-    color: "#D16713",
-    fontSize: 17
+    backgroundColor: "#10356c",
+    marginTop: 30
   },
   loginText: {
-    textAlign: "center",
-    fontWeight: "900",
-    color: "#D16713",
-    fontSize: 17,
-    marginLeft: 12
+    color: "white"
   }
 });
