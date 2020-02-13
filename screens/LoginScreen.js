@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,19 +9,44 @@ import {
   Image,
   Alert,
   Picker,
+  ActivityIndicator,
   AsyncStorage
 } from "react-native";
 import firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
 
+const [isLoading, setIsLoading] = useState(false) 
+useEffect(() => {
+  const loadCredentials = async () => {
+    setIsLoading(true);
+    await dispatch(() => this.handleLogin());
+    setIsLoading(false);
+  };
+  loadCredentials();
+}, [dispatch]);
+
 export default class LoginScreen extends Component {
   state = { date: "",email:"", password:"", language:""};
+  componentDidUpdate(){
+     
+  useEffect(() => {
+    const loadCredentials = async () => {
+      setIsLoading(true);
+      await dispatch(() => this.handleLogin());
+      setIsLoading(false);
+    };
+    loadCredentials();
+  },[dispatch]);
+  }
+ 
   
+  
+
   handleLogin = () => {
     try {
       const { role } = this.state;
-
+      
       firebase
         .database()
         .ref("users")
@@ -112,6 +137,7 @@ export default class LoginScreen extends Component {
     } catch (error) {
       console.log(error.toString(error));
     }
+    
   };
   handlePass = () => {
     try {
@@ -174,6 +200,14 @@ export default class LoginScreen extends Component {
 
   render() {
     const { passwordValid, emailValid, } = this.state;
+    if (isLoading) {
+      return (
+        <View style={styles.centered}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+        </View>
+      );
+    }
+  
     return (
       <LinearGradient
         colors={["#a13388", "#10356c"]}
