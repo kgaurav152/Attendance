@@ -21,37 +21,23 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default class LoginScreen extends Component {
   state = { date: "",email:"", password:"", language:""};
-  componentDidUpdate(){
-    const [isLoading, setIsLoading] = useState(false)  
-  useEffect(() => {
-    const loadCredentials = async () => {
-      setIsLoading(true);
-      await dispatch(() => this.handleLogin());
-      setIsLoading(false);
-    };
-    loadCredentials();
-  },[dispatch]);
-  }
+  
  
   
   
 
   handleLogin = () => {
-    try {
-      const { role } = this.state;
-      
-      firebase
-        .database()
-        .ref("users")
-        .orderByChild("email")
-        .equalTo(this.state.email)
-        .once("value")
-        .then(snapshot => {
-          let userInfo = snapshot.val();
-          let role = null;
-          for (var attributes in userInfo) {
-            role = userInfo[attributes].role;
-          }
+    const { email, password } = this.state;
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(user => {
+        var user = firebase.auth().currentUser;
+        var uid;
+
+        if (user != null) {
+          uid = user.uid;
+        }
 
         if (uid) {
           firebase
@@ -143,7 +129,6 @@ export default class LoginScreen extends Component {
       })
       .catch(error => this.setState({ errorMessage: error.message }));
   };
-
   render() {
     const { passwordValid, emailValid } = this.state;
     return (

@@ -46,7 +46,15 @@ class AttendanceInfoScreen extends Component {
         const attendanceList = [];
         for(var attributes in attendanceInfo){
             var dateDb = attendanceInfo[attributes].date
-            dateSelected.push(dateDb);
+            var flag = 1;
+          for(var date in dateSelected){
+            if(dateSelected[date] === dateDb){
+              flag = 0;
+            }
+          }
+          if(flag === 1){
+          dateSelected.push(dateDb);
+          }
           }
 
         var dateList = [];

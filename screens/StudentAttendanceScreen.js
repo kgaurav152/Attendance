@@ -54,7 +54,15 @@ export default class StudentAttendanceScreen extends Component {
         const presentStatelist = [];
         for (var attributes in attendanceInfo) {
           var dateDb = attendanceInfo[attributes].date;
+          var flag = 1;
+          for(var date in dateSelected){
+            if(dateSelected[date] === dateDb){
+              flag = 0;
+            }
+          }
+          if(flag === 1){
           dateSelected.push(dateDb);
+          }
         }
         for (var date in dateSelected) {
           for (var attributes in attendanceInfo) {
