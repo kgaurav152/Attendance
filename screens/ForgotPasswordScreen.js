@@ -16,20 +16,22 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default class ForgotPasswordScreen extends Component {
-  state = {  email: "",showAlert:false  };
+  state = { email: "" };
 
   resetPassword = () => {
-    const {email} =this.state
-    firebase.auth().sendPasswordResetEmail(email)
-      .then(function (user) {
-        Alert.alert("A Reset link send to your email !")
-      }).catch(function (e) {
-        console.log(e)
+    const { email } = this.state;
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(function(user) {
+        Alert.alert("Please check your email to reset the password!");
       })
-  }
-  
+      .catch(function(e) {
+        console.log(e);
+      });
+  };
+
   render() {
-    const { showAlert} = this.state;
     return (
       <LinearGradient
         colors={["#a13388", "#10356c"]}
@@ -63,30 +65,8 @@ export default class ForgotPasswordScreen extends Component {
             style={[styles.buttonContainer, styles.loginButton]}
             onPress={() => this.resetPassword()}
           >
-            <Text style={styles.loginText}>Login</Text>
+            <Text style={styles.loginText}>Reset</Text>
           </TouchableHighlight>
-          <AwesomeAlert
-          show={showAlert}
-          showProgress={false}
-          title="Please Check your email"
-          message="!"
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showCancelButton={false}
-          showConfirmButton={true}
-          //cancelText="No, cancel"
-          confirmText="OK !"
-          contentContainerStyle={{
-            backgroundColor: "white"
-          }}
-          confirmButtonColor="#10356c"
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-          }}
-        />
         </View>
       </LinearGradient>
     );
