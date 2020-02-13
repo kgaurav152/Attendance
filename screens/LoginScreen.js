@@ -16,20 +16,13 @@ import firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
 
-const [isLoading, setIsLoading] = useState(false) 
-useEffect(() => {
-  const loadCredentials = async () => {
-    setIsLoading(true);
-    await dispatch(() => this.handleLogin());
-    setIsLoading(false);
-  };
-  loadCredentials();
-}, [dispatch]);
+
+
 
 export default class LoginScreen extends Component {
   state = { date: "",email:"", password:"", language:""};
   componentDidUpdate(){
-     
+    const [isLoading, setIsLoading] = useState(false)  
   useEffect(() => {
     const loadCredentials = async () => {
       setIsLoading(true);
@@ -60,154 +53,99 @@ export default class LoginScreen extends Component {
             role = userInfo[attributes].role;
           }
 
-          if (role == "faculty") {
-            firebase
-              .database()
-              .ref("Faculty")
-              .orderByChild("email")
-              .equalTo(this.state.email)
-              .once("value")
-              .then(snapshot => {
-                let facultyInfo = snapshot.val();
-                let name = null;
-                let department = null;
-                let mobile = null;
-                for (var attributes in facultyInfo) {
-                  name = facultyInfo[attributes].name;
-                  department = facultyInfo[attributes].department;
-                  mobile = facultyInfo[attributes].mobile;
-                  imageUrl = facultyInfo[attributes].image;
-                }
-                  this.setState({
-                    name:name,
-                    department:department,
-                    mobile:mobile,
-                    imageUrl:imageUrl
-                  })
-                  
-               this.props.navigation.navigate("FacultyWelcome", {
-                email: this.state.email,
-                 name,
-                 department,
-                 mobile,
-                 imageUrl
-               });
-              });
-          } else if (role == "admin") {
-            this.props.navigation.navigate("AdminWelcome", {
-              email: this.state.email
-            });
-          } else {
-            const { name } = this.state;
-            firebase
-              .database()
-              .ref("students")
-              .orderByChild("email")
-              .equalTo(this.state.email)
-              .once("value")
-              .then(snapshot => {
-                let studentInfo = snapshot.val();
-                let name = null;
-                let reg_no = null;
-                let mobile = null;
-                let department = null;
-                let imageUrl = null;
-                let sem = null;
-                for (var attributes in studentInfo) {
-                  name = studentInfo[attributes].name;
-                  reg_no = studentInfo[attributes].registration_num;
-                  mobile = studentInfo[attributes].mobile;
-                  department = studentInfo[attributes].department;
-                  imageUrl = studentInfo[attributes].image;
-                  sem = studentInfo[attributes].semester;
-                }
+        if (uid) {
+          firebase
+            .database()
+            .ref("users/")
+            .orderByChild("email")
+            .equalTo(this.state.email)
+            .once("value")
+            .then(snapshot => {
+              let userInfo = snapshot.val();
+              let role = null;
+              for (var attributes in userInfo) {
+                role = userInfo[attributes].role;
+              }
+              if (role == "faculty") {
+                firebase
+                  .database()
+                  .ref("Faculty")
+                  .orderByChild("email")
+                  .equalTo(this.state.email)
+                  .once("value")
+                  .then(snapshot => {
+                    let facultyInfo = snapshot.val();
+                    let name = null;
+                    let department = null;
+                    let mobile = null;
+                    for (var attributes in facultyInfo) {
+                      name = facultyInfo[attributes].name;
+                      department = facultyInfo[attributes].department;
+                      mobile = facultyInfo[attributes].mobile;
+                      imageUrl = facultyInfo[attributes].image;
+                    }
+                    this.setState({
+                      name: name,
+                      department: department,
+                      mobile: mobile,
+                      imageUrl: imageUrl
+                    });
 
-                this.props.navigation.navigate("StudentWelcome", {
-                  email: this.state.email,
-                  name,
-                  reg_no,
-                  department,
-                  mobile,
-                  imageUrl,
-                  sem
+                    this.props.navigation.navigate("FacultyWelcome", {
+                      email: this.state.email,
+                      name,
+                      department,
+                      mobile,
+                      imageUrl
+                    });
+                  });
+              } else if (role == "admin") {
+                this.props.navigation.navigate("AdminWelcome", {
+                  email: this.state.email
                 });
-              });
-          }
-        });
-    } catch (error) {
-      console.log(error.toString(error));
-    }
-    
-  };
-  handlePass = () => {
-    try {
-      const { password } = this.state;
-      firebase
-        .database()
-        .ref("users")
-        .orderByChild("password")
-        .equalTo(this.state.password)
-        .once("value")
-        .then(snapshot => {
-          if (snapshot.val()) {
-            this.handleLogin();
-          }else{
-            this.passwordValid();
-          }
-        });
-    } catch (error) {
-      console.log(error.toString(error));
-    }
-  };
+              } else {
+                firebase
+                  .database()
+                  .ref("students")
+                  .orderByChild("email")
+                  .equalTo(this.state.email)
+                  .once("value")
+                  .then(snapshot => {
+                    let studentInfo = snapshot.val();
+                    let name = null;
+                    let reg_no = null;
+                    let mobile = null;
+                    let department = null;
+                    let imageUrl = null;
+                    let sem = null;
+                    for (var attributes in studentInfo) {
+                      name = studentInfo[attributes].name;
+                      reg_no = studentInfo[attributes].registration_num;
+                      mobile = studentInfo[attributes].mobile;
+                      department = studentInfo[attributes].department;
+                      imageUrl = studentInfo[attributes].image;
+                      sem = studentInfo[attributes].semester;
+                    }
 
-  handleEmail = () => {
-    try {
-      const { email } = this.state;
-      firebase
-        .database()
-        .ref("users")
-        .orderByChild("email")
-        .equalTo(this.state.email)
-        .once("value")
-        .then(snapshot => {
-          if (snapshot.val()) {
-            this.handlePass();
-          }else{
-            this.emailValid();
-          }
-        });
-    } catch (error) {
-      console.log(error.toString(error));
-    }
+                    this.props.navigation.navigate("StudentWelcome", {
+                      email: this.state.email,
+                      name,
+                      reg_no,
+                      department,
+                      mobile,
+                      imageUrl,
+                      sem
+                    });
+                  });
+              }
+            });
+        }
+      })
+      .catch(error => this.setState({ errorMessage: error.message }));
   };
-  emailValid = () => {
-    this.setState({
-      emailValid: true
-    });
-  };
-  hideAlert = () => {
-    this.setState({
-      passwordValid: false,
-      emailValid: false,
-
-    });
-  };
-  passwordValid=()=>{
-    this.setState({
-    passwordValid:true
-    })
-  }
 
   render() {
-    const { passwordValid, emailValid, } = this.state;
-    if (isLoading) {
-      return (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color={Colors.primary} />
-        </View>
-      );
-    }
-  
+    const { passwordValid, emailValid } = this.state;
     return (
       <LinearGradient
         colors={["#a13388", "#10356c"]}
@@ -251,65 +189,44 @@ export default class LoginScreen extends Component {
               onChangeText={password => this.setState({ password })}
             />
           </View>
-          
+
           <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
-          onPress={() => this.handleEmail()}
-        >
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableHighlight>
+            style={[styles.buttonContainer, styles.loginButton]}
+            onPress={() => this.handleLogin()}
+          >
+            <Text style={styles.loginText}>Login</Text>
+          </TouchableHighlight>
           <TouchableHighlight
             style={[styles.buttonContainerForgot, styles.forgotButton]}
-            onPress={() => this.forgotPassword()}
+            onPress={() =>
+              this.props.navigation.navigate("ForgotPasswordScreen")
+            }
           >
             <Text style={styles.forgotText}>Forgot Password</Text>
           </TouchableHighlight>
           <AwesomeAlert
-          show={emailValid }
-          showProgress={false}
-          title="Oops"
-          message="Wrong Email. Try again"
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showCancelButton={false}
-          showConfirmButton={true}
-          //cancelText="No, cancel"
-          confirmText="OK !"
-          contentContainerStyle={{
-            backgroundColor: "white"
-          }}
-          confirmButtonColor="#10356c"
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-          }}
-        />
-        <AwesomeAlert
-        show={passwordValid }
-        showProgress={false}
-        title="Oops !"
-        message="Wrong Password. Try again"
-        closeOnTouchOutside={true}
-        closeOnHardwareBackPress={false}
-        showCancelButton={false}
-        showConfirmButton={true}
-        //cancelText="No, cancel"
-        confirmText="OK !"
-        contentContainerStyle={{
-          backgroundColor: "white"
-        }}
-        confirmButtonColor="#10356c"
-        onCancelPressed={() => {
-          this.hideAlert();
-        }}
-        onConfirmPressed={() => {
-          this.hideAlert();
-        }}
-      />
-      
-
+            show={emailValid}
+            showProgress={false}
+            title="Oops"
+            message="Wrong Email. Try again"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            //cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+         
         </View>
       </LinearGradient>
     );

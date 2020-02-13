@@ -31,11 +31,11 @@ export default class SignUp extends Component {
       role: ""
     });
   };
-  showAlert = () => [
+  showAlert = () => {
     this.setState({
       showAlert: true
     })
-  ];
+  };
 
   handleSignUp = () => {
     Firebase.auth()
@@ -49,7 +49,7 @@ export default class SignUp extends Component {
               .ref("users/" + userId)
               .set({
                 email: this.state.email,
-                password: this.state.password,
+                
                 role: this.state.role,
                 uid: userId
               });

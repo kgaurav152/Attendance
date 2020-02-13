@@ -40,7 +40,7 @@ import AddSubjectScreen from "../screens/AddSubjectScreen";
 import ShowAttendanceScreen from "../screens/ShowAttendanceScreen"
 import AttendanceInfoScreen from "../screens/AttendanceInfoScreen";
 import FacultyReportScreen from "../screens/FacultyReportScreen";
-
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen"
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -115,6 +115,29 @@ const LoginScreen_StackNavigator = createStackNavigator({
       ),
     })
   },
+  
+  ForgotPasswordScreen: {
+    screen: ForgotPasswordScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7"
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+      
+    })
+  },
+  
   FacultyWelcome: {
     screen: FacultyWelcomeScreen,
     navigationOptions: ({ navigation }) => ({
