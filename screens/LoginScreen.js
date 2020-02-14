@@ -18,8 +18,22 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default class LoginScreen extends Component {
   state = { date: "", email: "", password: "", language: "", errorMessage: "" };
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      loading: false
+    };
+  }
+  componentDidMount=()=>{
+    this.setState({
+      loading: false
+  })
+  }
   handleLogin = () => {
+    this.setState({
+      loading: true
+  })
     const { email, password } = this.state;
     firebase
       .auth()
@@ -67,7 +81,8 @@ export default class LoginScreen extends Component {
                       name: name,
                       department: department,
                       mobile: mobile,
-                      imageUrl: imageUrl
+                      imageUrl: imageUrl,
+                      loading:false
                     });
 
                     this.props.navigation.navigate("FacultyWelcome", {
@@ -119,6 +134,7 @@ export default class LoginScreen extends Component {
               }
             });
         }
+        
       })
       .catch(function(error) {
         errorCode = error.code;
@@ -130,7 +146,8 @@ export default class LoginScreen extends Component {
           alert("You are not registered with us ! Please Check your Email");
         } else {
         }
-      });
+      }); 
+
   };
 
   render() {
@@ -147,7 +164,9 @@ export default class LoginScreen extends Component {
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
       >
+      {this.state.loading===false?(
         <View style={styles.container}>
+        
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
@@ -157,7 +176,7 @@ export default class LoginScreen extends Component {
               style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
-              autoFocus
+              autoCapitalize='none'
               underlineColorAndroid="transparent"
               onChangeText={email => this.setState({ email })}
             />
@@ -193,6 +212,9 @@ export default class LoginScreen extends Component {
             <Text style={styles.forgotText}>Forgot Password</Text>
           </TouchableHighlight>
         </View>
+      ):(
+        <ActivityIndicator size="large" />
+      )}
       </LinearGradient>
     );
   }
