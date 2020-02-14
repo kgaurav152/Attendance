@@ -84,7 +84,15 @@ export default class StudentWelcomeScreen extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.readStudentData()}
+            onPress={()=>this.props.navigation.navigate("StudentProfile",{
+              email,
+              name,
+              mobile,
+              imageUrl,
+              reg_no,
+              department,
+              sem
+            })}
           >
             <Text style={styles.clickText}>My Profile</Text>
           </TouchableHighlight>
