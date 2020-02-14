@@ -164,9 +164,10 @@ export default class LoginScreen extends Component {
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
       >
-      {this.state.loading===false?(
+     
         <View style={styles.container}>
-        
+        {this.state.loading===false?(
+          <View>
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
@@ -212,9 +213,12 @@ export default class LoginScreen extends Component {
             <Text style={styles.forgotText}>Forgot Password</Text>
           </TouchableHighlight>
         </View>
-      ):(
-        <ActivityIndicator size="large" />
-      )}
+        ):(
+          <ActivityIndicator size="large" />
+        )}
+  
+        </View>
+           
       </LinearGradient>
     );
   }
