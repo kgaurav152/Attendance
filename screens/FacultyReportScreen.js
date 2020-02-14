@@ -17,32 +17,29 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-
-
 export default class FacultyReportScreen extends Component {
-  state = {attendanceList:[], dateList:[]}  
- 
-  componentDidMount(){
-      const { navigation } = this.props;
-      const attendanceList =navigation.getParam("attendanceList");
-      const dateList = navigation.getParam("dateList")
-      this.setState({
-        attendanceList: attendanceList,
-        dateList: dateList
-      })
-     }
+  state = { attendanceList: [], dateList: [] };
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    const attendanceList = navigation.getParam("attendanceList");
+    const dateList = navigation.getParam("dateList");
+    this.setState({
+      attendanceList: attendanceList,
+      dateList: dateList
+    });
+  }
   render() {
     const { navigation } = this.props;
-    const department =navigation.getParam("department");
-    const sem = navigation.getParam("semester")
-    
+    const department = navigation.getParam("department");
+    const sem = navigation.getParam("semester");
+
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
         <Card
-          
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -54,29 +51,36 @@ export default class FacultyReportScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-              
-              <Text style={styles.paragraph}>Department - {JSON.stringify(department).replace(/\"/g, "")}</Text>
-              
-              <Text style={styles.paragraph}>Semester - {JSON.stringify(sem).replace(/\"/g, "")}</Text>
+              <Text style={styles.paragraph}>
+                Department - {JSON.stringify(department).replace(/\"/g, "")}
+              </Text>
+
+              <Text style={styles.paragraph}>
+                Semester - {JSON.stringify(sem).replace(/\"/g, "")}
+              </Text>
             </View>
-            
           </View>
         </Card>
-
+        <View style={styles.fixDate}>
+          <Text style={styles.paragraph1}>Date</Text>
+          <Text style={styles.paragraph}>Attendance List </Text>
+        </View>
         <View style={styles.fixToText}>
           <FlatList
-            data = {this.state.dateList}
-            renderItem = {({item}) =>
-            <Text styles={styles.paragraph}>{item}</Text>
-          }
+            data={this.state.dateList}
+            renderItem={({ item }) => (
+              <Text style={styles.paragraph}>{item}</Text>
+            )}
           />
-        </View>
-        <View style = {styles.fixToText}>
+
           <FlatList
-            data = {this.state.attendanceList}
-            renderItem = {({item}) =>
-        <Text styles={styles.paragraph}>Attendance List {JSON.stringify(item).replace(/\"/g, "")}</Text>
-          }
+            horizontal
+            data={this.state.attendanceList}
+            renderItem={({ item }) => (
+              <Text>
+                {JSON.stringify(item).replace(/\"/g, "")}
+              </Text>
+            )}
           />
         </View>
         <Separator />
@@ -93,11 +97,34 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     flexDirection: "row"
   },
-  paragraph: {
+  fixDate: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+
+    textAlign: "center",
+    marginLeft: 15
+  },
+  fixToText: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+
+    textAlign: "center",
+    marginLeft: 15
+  },
+  paragraph1: {
     margin: 1.5,
     fontSize: 14,
     fontWeight: "700",
-    paddingLeft: 12,
+    
+    color: "#008b8b",
+    
+  },
+  paragraph: {
+    margin: 1.5,
+    marginRight: "25%",
+    fontSize: 14,
+    fontWeight: "700",
+    
     color: "#008b8b"
   },
   welcomeUser: {

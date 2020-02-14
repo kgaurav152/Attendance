@@ -157,7 +157,7 @@ export default class LoginScreen extends Component {
               style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
-              autoFocus
+              autoCapitalize='none'
               underlineColorAndroid="transparent"
               onChangeText={email => this.setState({ email })}
             />

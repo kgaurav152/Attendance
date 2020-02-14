@@ -63,7 +63,7 @@ class AttendanceBoxes extends React.Component {
             if (db_semester === this.state.semester) {
               if (db_subject === this.state.subject) {
               if(db_date === this.state.date){
-                Firebase.database()
+              Firebase.database()
                   .ref("attendance/")
                   .once("value")
                   .then(res => {
