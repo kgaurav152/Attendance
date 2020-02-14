@@ -7,25 +7,26 @@ import {
   TouchableHighlight,
   Image,
   Picker,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import Firebase from "../components/config";
 import AwesomeButton from "react-native-really-awesome-button";
+import AwesomeAlert from "react-native-awesome-alerts";
 function Separator() {
   return <View style={styles.separator} />;
 }
 
 export default class StudentAttendanceScreen extends Component {
-  state = { startDate: "", subject: "", endDate: "" ,semester:""};
+  state = { startDate: "", subject: "", endDate: "", semester: "" };
   updateSubject = subject => {
     this.setState({ subject: subject });
   };
   constructor(props) {
     super(props);
-    
   }
   handleAttendance = () => {
     const { navigation } = this.props;
@@ -35,7 +36,6 @@ export default class StudentAttendanceScreen extends Component {
     const department = navigation.getParam("department");
     const sem = navigation.getParam("sem");
 
-    
     const Reg_no = reg_no.substring(8, reg_no.length);
 
     var db_department = "";
@@ -55,13 +55,13 @@ export default class StudentAttendanceScreen extends Component {
         for (var attributes in attendanceInfo) {
           var dateDb = attendanceInfo[attributes].date;
           var flag = 1;
-          for(var date in dateSelected){
-            if(dateSelected[date] === dateDb){
+          for (var date in dateSelected) {
+            if (dateSelected[date] === dateDb) {
               flag = 0;
             }
           }
-          if(flag === 1){
-          dateSelected.push(dateDb);
+          if (flag === 1) {
+            dateSelected.push(dateDb);
           }
         }
         for (var date in dateSelected) {
@@ -97,7 +97,22 @@ export default class StudentAttendanceScreen extends Component {
             dateSelected
           });
         }
+        this.showAlert();
       });
+  };
+  hideAlert = () => {
+    this.setState({
+      showAlert: false,
+      emailUsed: false,
+      email: "",
+      password: "",
+      role: ""
+    });
+  };
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
   };
 
   render() {
@@ -107,49 +122,45 @@ export default class StudentAttendanceScreen extends Component {
     const reg_no = navigation.getParam("reg_no");
     const department = navigation.getParam("department");
     const sem = navigation.getParam("sem");
-
+    const { showAlert } = this.state;
     return (
-      <SafeAreaView style={styles.container}>
-        <Card
-          title="View Attendance"
-          titleStyle={{
-            color: "#3498db",
-            textAlign: "left",
-            paddingLeft: 10,
-            fontSize: 15,
-
-            fontWeight: "800"
-          }}
-        />
-          <View style={styles.fixImage}>
-            <View>
-              <Text style={styles.paragraph}>Choose Start Date </Text>
-              <DatePicker
-                mode="date" //The enum of date, datetime and time
-                placeholder="Select Date"
-                format="YYYY-MM-DD"
-                date={this.state.startDate}
-                onDateChange={startDate => {
-                  this.setState({ startDate: startDate });
-                }}
-              />
-            </View>
-            <View>
-              <Text style={styles.paragraph}>Choose End Date </Text>
-              <DatePicker
-                date={this.state.endDate}
-                mode="date" //The enum of date, datetime and time
-                placeholder="Select Date"
-                format="YYYY-MM-DD"
-                onDateChange={endDate => {
-                  this.setState({ endDate: endDate });
-                }}
-              />
-            </View>
-            
-           
+      <View style={styles.container}>
+        <Text style={styles.title}>View Attendance</Text>
+        <View style={styles.fixImage}>
+          <View>
+            <Text style={styles.paragraph}>Choose Start Date </Text>
+            <DatePicker
+              mode="date" //The enum of date, datetime and time
+              placeholder="Select Date"
+              format="YYYY-MM-DD"
+              date={this.state.startDate}
+              onDateChange={startDate => {
+                this.setState({ startDate: startDate });
+              }}
+            />
           </View>
           <View>
+            <Text style={styles.paragraph}>Choose End Date </Text>
+            <DatePicker
+              date={this.state.endDate}
+              mode="date" //The enum of date, datetime and time
+              placeholder="Select Date"
+              format="YYYY-MM-DD"
+              onDateChange={endDate => {
+                this.setState({ endDate: endDate });
+              }}
+            />
+          </View>
+        </View>
+        <View
+          style={{
+            justifyContent: "center",
+            marginTop: "8%",
+            marginBottom: "3%",
+            marginLeft: "20%",
+            paddingRight: "20%"
+          }}
+        >
           <Picker
             selectedValue={this.state.subject}
             onValueChange={this.updateSubject}
@@ -159,24 +170,40 @@ export default class StudentAttendanceScreen extends Component {
             <Picker.Item label="Java" value="JAVA" />
             <Picker.Item label="DBMS" value="DBMS" />
           </Picker>
-          
         </View>
-        <View style={styles.button}>
-        <AwesomeButton
-        progress
-        
-        onPress={next => {
-          this.handleAttendance();
-          next();
-        }}
-        backgroundColor="#9400d3"
-      >
-        Show
-      </AwesomeButton>
-      </View>
+        <View>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.handleAttendance()}
+          >
+            <Text style={styles.clickText}>Show Attendance</Text>
+          </TouchableHighlight>
+        </View>
 
         <Separator />
-      </SafeAreaView>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Oops !"
+          message="You are not attend any class between these date."
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+      </View>
     );
   }
 }
@@ -196,20 +223,27 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     color: "#008b8b"
   },
-  button:{
-    justifyContent:"center",
-    alignItems:"center"
+  button: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  title: {
+    textAlign: "center",
+    marginVertical: 8,
+    marginBottom: "10%",
+    marginLeft: "6%",
+    fontSize: 20,
+    color: "#09C5F7",
+    fontWeight: "bold"
   },
   buttonContainer: {
-    height: 65,
+    height: 45,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
-    width: 150,
-    borderRadius: 20,
-    marginTop: 20,
-    marginRight: 15
+    width: 250,
+    marginLeft: "17%",
+    borderRadius: 30
   },
   clickButton: {
     backgroundColor: "#09C5F7"

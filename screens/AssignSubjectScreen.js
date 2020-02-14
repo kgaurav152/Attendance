@@ -9,12 +9,38 @@ import {
   Image
 } from "react-native";
 import Firebase from "../components/config";
-
+import AwesomeAlert from "react-native-awesome-alerts";
 export default class AssignSubject extends Component {
-  state = { email: "", selectedSubject: "", subjectList: [], semester: "" , department: ""};
+  state = {
+    email: "",
+    selectedSubject: "",
+    subjectList: [],
+    semester: "",
+    department: ""
+  };
+  hideAlert = () => {
+    this.setState({
+      emailAlert: false,
+      departmentAlert:false
+    });
+  };
+  emailAlert = () => {
+    this.setState({
+      emailAlert: true,
+      
+    });
+  };
+  departmentAlert = () => {
+    this.setState({
+      departmentAlert: true,
+      
+    });
+  };
 
   assignSubject = () => {
-    Firebase.database()
+    if(this.state.email !=''){
+      if(this.state.department!='1'){
+      Firebase.database()
       .ref("Faculty/")
       .orderByChild("email")
       .equalTo(this.state.email)
@@ -33,45 +59,47 @@ export default class AssignSubject extends Component {
             });
         });
       });
+    }
+    else{
+      this.departmentAlert();
+    }
+  }
+  else{
+    this.emailAlert();
+  }
+  
   };
-  componentDidUpdate( prevProps, prevState) {
-    if( prevState.email != this.state.email || 
-          prevState.department != this.state.department || 
-          prevState.semester != this.state.semester ){
-    console.log("Component did mound is being callled...");
-    var subjectList = [];
-    Firebase.database().ref("Subjects").once("value").then(snapshot =>{
-      var subjectInfo = snapshot.val();
-      var db_department = "";
-      var db_semester ="";
-      for(var attributes in subjectInfo)
-    {
-      
-        db_department = subjectInfo[attributes].department
-        db_semester = subjectInfo[attributes].semester
-        if(db_department === this.state.department){
-          if(db_semester === this.state.semester){
-            Firebase.database()
-          .ref("Subjects")
-          .once("value")
-          .then(snapshot => {
-            snapshot.forEach(function(childSnapshot) {
-              var subjectData = childSnapshot.val().subjectName;
-              subjectList.push(subjectData);
-             });
-            console.log(subjectList);
+  componentWillUpdate(nextProps, nextState) {
+    if (
+      nextState.email != this.state.email ||
+      nextState.department != this.state.department ||
+      nextState.semester != this.state.semester
+    ) {
+      console.log("Component did mound is being callled...");
+      var subjectList = [];
+      Firebase.database()
+        .ref("Subjects")
+        .once("value")
+        .then(snapshot => {
+          var subjectInfo = snapshot.val();
+          var db_department = "";
+          var db_semester = "";
+          for (var attributes in subjectInfo) {
+            db_department = subjectInfo[attributes].department;
+            db_semester = subjectInfo[attributes].semester;
+            if (db_department === this.state.department) {
+              if (db_semester === this.state.semester) {
+                var subjectData = subjectInfo[attributes].subjectName;
+                subjectList.push(subjectData);
+              }
+              console.log(subjectList);
     
             this.setState({
               subjectList: subjectList
             });
-          });
+            }
           }
-        }
-    }
-    
-    })
-    
-    
+        });
     }
   }
 
@@ -79,7 +107,7 @@ export default class AssignSubject extends Component {
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
-
+    const { emailAlert,departmentAlert } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
@@ -90,6 +118,7 @@ export default class AssignSubject extends Component {
             underlineColorAndroid="transparent"
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
+            require
           />
         </View>
         <View style={styles.inputContainer}>
@@ -105,7 +134,7 @@ export default class AssignSubject extends Component {
               this.setState({ department: itemValue })
             }
           >
-            <Picker.Item label="Department" value="department" />
+            <Picker.Item label="Department" value="1" />
             <Picker.Item label="Civil Engineering" value="Civil Engineering" />
             <Picker.Item
               label="Mechanical Engineering"
@@ -129,7 +158,7 @@ export default class AssignSubject extends Component {
               this.setState({ semester: itemValue })
             }
           >
-            <Picker.Item label="Select Semester" value="Select Semester" />
+            <Picker.Item label="Select Semester" value="1" />
             <Picker.Item label="1st" value="1st" />
             <Picker.Item label="2nd" value="2nd" />
             <Picker.Item label="3rd" value="3rd" />
@@ -161,6 +190,50 @@ export default class AssignSubject extends Component {
         >
           <Text style={styles.registerText}>Assign</Text>
         </TouchableHighlight>
+        <AwesomeAlert
+          show={emailAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please fill out the Email field"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={departmentAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please Choose Department"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
       </View>
     );
   }
