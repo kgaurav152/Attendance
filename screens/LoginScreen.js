@@ -16,15 +16,8 @@ import firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
 
-
-
-
 export default class LoginScreen extends Component {
-  state = { date: "",email:"", password:"", language:""};
-  
- 
-  
-  
+  state = { date: "", email: "", password: "", language: "", errorMessage: "" };
 
   handleLogin = () => {
     const { email, password } = this.state;
@@ -127,10 +120,20 @@ export default class LoginScreen extends Component {
             });
         }
       })
-      .catch(error => this.setState({ errorMessage: error.message }));
+      .catch(function(error) {
+        errorCode = error.code;
+        errorMessage = error.message;
+
+        if (errorCode === "auth/wrong-password") {
+          alert("Password Wrong.");
+        } else if (errorCode === "auth/user-not-found") {
+          alert("You are not registered with us ! Please Check your Email");
+        } else {
+        }
+      });
   };
+
   render() {
-    const { passwordValid, emailValid } = this.state;
     return (
       <LinearGradient
         colors={["#a13388", "#10356c"]}
@@ -189,29 +192,6 @@ export default class LoginScreen extends Component {
           >
             <Text style={styles.forgotText}>Forgot Password</Text>
           </TouchableHighlight>
-          <AwesomeAlert
-            show={emailValid}
-            showProgress={false}
-            title="Oops"
-            message="Wrong Email. Try again"
-            closeOnTouchOutside={true}
-            closeOnHardwareBackPress={false}
-            showCancelButton={false}
-            showConfirmButton={true}
-            //cancelText="No, cancel"
-            confirmText="OK !"
-            contentContainerStyle={{
-              backgroundColor: "white"
-            }}
-            confirmButtonColor="#10356c"
-            onCancelPressed={() => {
-              this.hideAlert();
-            }}
-            onConfirmPressed={() => {
-              this.hideAlert();
-            }}
-          />
-         
         </View>
       </LinearGradient>
     );
