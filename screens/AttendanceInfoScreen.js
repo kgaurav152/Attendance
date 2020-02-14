@@ -4,20 +4,15 @@ import {
   Text,
   Picker,
   StyleSheet,
-  TouchableHighlight,
-  Image
+  TouchableHighlight
+  
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
 
 class AttendanceInfoScreen extends Component {
-  state = {
-    department: "",
-    semester: "",
-    subject: "",
-    startDate: "",
-    endDate: ""
-  };
+  state = { department: "", semester: "", subject: "", startDate:"",endDate:"" ,selectedSubject: "",
+  subjectList: [],};
   updateDepartment = department => {
     this.setState({ department: department });
   };
@@ -85,17 +80,52 @@ class AttendanceInfoScreen extends Component {
               }
             }
           }
-        }
 
-        this.props.navigation.navigate("FacultyReport", {
-          department: this.state.department,
-          semester: this.state.semester,
-          subject: this.state.subject,
-          dateList,
-          attendanceList
+        
+    
+    this.props.navigation.navigate("FacultyReport", {
+      department: this.state.department,
+      semester: this.state.semester,
+      subject: this.state.subject,
+      dateList,
+      attendanceList
+    })
+})
+  }
+  componentWillUpdate(nextProps, nextState) {
+    if (
+      nextState.email != this.state.email ||
+      nextState.department != this.state.department ||
+      nextState.semester != this.state.semester
+    ) {
+      console.log("Component did mound is being callled...");
+      var subjectList = [];
+      Firebase.database()
+        .ref("Subjects")
+        .once("value")
+        .then(snapshot => {
+          var subjectInfo = snapshot.val();
+          var db_department = "";
+          var db_semester = "";
+          for (var attributes in subjectInfo) {
+            db_department = subjectInfo[attributes].department;
+            db_semester = subjectInfo[attributes].semester;
+            if (db_department === this.state.department) {
+              if (db_semester === this.state.semester) {
+                var subjectData = subjectInfo[attributes].subjectName;
+                subjectList.push(subjectData);
+              }
+              console.log(subjectList);
+    
+            this.setState({
+              subjectList: subjectList
+            });
+            }
+          }
         });
-      });
-  };
+    }
+  }
+  
 
   render() {
     return (
@@ -167,15 +197,17 @@ class AttendanceInfoScreen extends Component {
         </Picker>
       </View>
 
-      <View>
-          <Picker
-            selectedValue={this.state.subject}
-            onValueChange={this.updateSubject}
+        <View>
+        <Picker
+            selectedValue={this.state.selectedSubject}
+            style={{ height: 50, width: 180, marginLeft: "10%" }}
+            onValueChange={subjectLists =>
+              this.setState({ selectedSubject: subjectLists })
+            }
           >
-            <Picker.Item label="Select Subject" value="Select Subject" />
-            <Picker.Item label="Operating System" value="Operating System" />
-            <Picker.Item label="Java" value="JAVA" />
-            <Picker.Item label="DBMS" value="DBMS" />
+            <Picker.Item label="Choose Subject" value="1" />
+
+            {subjectItems}
           </Picker>
           <Text style={styles.text}>{this.state.subject}</Text>
         </View>

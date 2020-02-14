@@ -10,18 +10,28 @@ import {
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
+import Firebase from "../components/config";
 function Separator() {
   return <View style={styles.separator} />;
 }
-export default class AdminScreen extends Component {
+
+export default class StudentProfileScreen extends Component {
   render() {
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const reg_no = navigation.getParam("reg_no");
+    const mobile = navigation.getParam("mobile");
+    const department = navigation.getParam("department");
+    const imageUrl = navigation.getParam("imageUrl");
+    const sem = navigation.getParam("sem");
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
         <Card
-          title="Md TALIB AHMAD"
+          title={JSON.stringify(name).replace(/\"/g, "")}
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -33,13 +43,21 @@ export default class AdminScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>Assistant Prof.</Text>
-              <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
-              <Text style={styles.paragraph}>+91 9108006551</Text>
-              <Text style={styles.paragraph}>mdtalibahmad@gmail.com</Text>
+              <Text style={styles.paragraph}>
+                Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}
+              </Text>
+              <Text style={styles.paragraph}>
+                {JSON.stringify(department).replace(/\"/g, "")}
+              </Text>
+              <Text style={styles.paragraph}>
+                {JSON.stringify(mobile).replace(/\"/g, "")}
+              </Text>
+              <Text style={styles.paragraph}>
+                {JSON.stringify(email).replace(/\"/g, "")}
+              </Text>
             </View>
             <Image
-              source={require("../assets/mta.jpg")}
+              source={{ uri: imageUrl }}
               style={{
                 width: 105,
                 height: 105,
@@ -51,34 +69,22 @@ export default class AdminScreen extends Component {
         </Card>
 
         <View style={styles.fixToText}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AddFaculty")}
+        <TouchableHighlight
+            style={[styles.buttonContainer, styles.editButton]}
+            onPress={() => this.props.navigation.navigate("EditStudentProfile",
+            email,
+            name,
+            mobile,
+            imageUrl,
+            reg_no,
+            department,
+            sem
+            )}
           >
-            <Text style={styles.clickText}>Add Faculty</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AddSubject")}
-          >
-            <Text style={styles.clickText}>Add Subject</Text>
+            <Text style={styles.editText}>Edit Profile</Text>
           </TouchableHighlight>
         </View>
         <Separator />
-        <View style={styles.fixToText}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AssignSubject")}
-          >
-            <Text style={styles.clickText}>Assign Subject</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AttendanceInfo")}
-          >
-            <Text style={styles.clickText}>Generate Report</Text>
-          </TouchableHighlight>
-        </View>
       </SafeAreaView>
     );
   }
@@ -91,6 +97,21 @@ const styles = StyleSheet.create({
   fixImage: {
     justifyContent: "space-around",
     flexDirection: "row"
+  },
+  buttonContainer: {
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30
+  },
+  editButton: {
+    backgroundColor: "#00b5ec"
+  },
+  editText: {
+    color: "white"
   },
   paragraph: {
     margin: 1.5,

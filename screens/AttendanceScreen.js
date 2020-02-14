@@ -11,7 +11,8 @@ import Firebase from '../components/config'
 
 
 class AttendanceScreen extends Component {
-  state = { department: "", semester: "", subject: "", date:"" };
+  state = { department: "", semester: "", subject: "", date:"",selectedSubject: "",
+  subjectList: [],};
   updateDepartment = department => {
     this.setState({ department: department });
   };
@@ -39,9 +40,41 @@ class AttendanceScreen extends Component {
       subject: this.state.subject,
       date: this.state.date
     })
-    
-  
   }
+  componentWillUpdate(nextProps, nextState) {
+    if (
+      nextState.email != this.state.email ||
+      nextState.department != this.state.department ||
+      nextState.semester != this.state.semester
+    ) {
+      console.log("Component did mound is being callled...");
+      var subjectList = [];
+      Firebase.database()
+        .ref("Subjects")
+        .once("value")
+        .then(snapshot => {
+          var subjectInfo = snapshot.val();
+          var db_department = "";
+          var db_semester = "";
+          for (var attributes in subjectInfo) {
+            db_department = subjectInfo[attributes].department;
+            db_semester = subjectInfo[attributes].semester;
+            if (db_department === this.state.department) {
+              if (db_semester === this.state.semester) {
+                var subjectData = subjectInfo[attributes].subjectName;
+                subjectList.push(subjectData);
+              }
+              console.log(subjectList);
+    
+            this.setState({
+              subjectList: subjectList
+            });
+            }
+          }
+        });
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -116,14 +149,16 @@ class AttendanceScreen extends Component {
         </View>
 
         <View>
-          <Picker
-            selectedValue={this.state.subject}
-            onValueChange={this.updateSubject}
+        <Picker
+            selectedValue={this.state.selectedSubject}
+            style={{ height: 50, width: 180, marginLeft: "10%" }}
+            onValueChange={subjectLists =>
+              this.setState({ selectedSubject: subjectLists })
+            }
           >
-            <Picker.Item label="Select Subject" value="Select Subject" />
-            <Picker.Item label="Operating System" value="Operating System" />
-            <Picker.Item label="Java" value="JAVA" />
-            <Picker.Item label="DBMS" value="DBMS" />
+            <Picker.Item label="Choose Subject" value="1" />
+
+            {subjectItems}
           </Picker>
           <Text style={styles.text}>{this.state.subject}</Text>
         </View>
