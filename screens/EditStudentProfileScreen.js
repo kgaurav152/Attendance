@@ -20,13 +20,13 @@ export default class EditStudentProfile extends Component {
     const { navigation } = this.props;
     this.state = {
         
-         email = navigation.getParam("email"),
-         name = navigation.getParam("name"),
-         reg_no = navigation.getParam("reg_no"),
-         mobile = navigation.getParam("mobile"),
-         department = navigation.getParam("department"),
-         imageUrl = navigation.getParam("imageUrl"),
-         sem = navigation.getParam("sem"),
+         email : navigation.getParam("email"),
+         name :navigation.getParam("name"),
+         reg_no : navigation.getParam("reg_no"),
+         mobile : navigation.getParam("mobile"),
+         department : navigation.getParam("department"),
+         imageUrl : navigation.getParam("imageUrl"),
+         sem : navigation.getParam("sem"),
     };
   }
   editStudentData() {

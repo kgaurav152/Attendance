@@ -41,6 +41,7 @@ import ShowAttendanceScreen from "../screens/ShowAttendanceScreen"
 import AttendanceInfoScreen from "../screens/AttendanceInfoScreen";
 import FacultyReportScreen from "../screens/FacultyReportScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen"
+import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {

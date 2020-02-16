@@ -30,14 +30,14 @@ class AttendanceScreen extends Component {
           {
             department:this.state.department,
             date:this.state.date,
-            subject:this.state.subject,
+            subject:this.state.selectedSubject,
             semester:this.state.semester
           }
         )
     this.props.navigation.navigate("AddAttendance", {
       department: this.state.department,
       semester: this.state.semester,
-      subject: this.state.subject,
+      subject: this.state.selectedSubject,
       date: this.state.date
     })
   }
@@ -76,6 +76,9 @@ class AttendanceScreen extends Component {
   }
 
   render() {
+    let subjectItems = this.state.subjectList.map((s, i) => {
+      return <Picker.Item key={i} value={s} label={s} />;
+    });
     return (
       <View style={styles.container}>
       <View style={styles.fixSize}>

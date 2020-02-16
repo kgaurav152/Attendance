@@ -5,14 +5,20 @@ import {
   Picker,
   StyleSheet,
   TouchableHighlight
-  
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
 
 class AttendanceInfoScreen extends Component {
-  state = { department: "", semester: "", subject: "", startDate:"",endDate:"" ,selectedSubject: "",
-  subjectList: [],};
+  state = {
+    department: "",
+    semester: "",
+    subject: "",
+    startDate: "",
+    endDate: "",
+    selectedSubject: "",
+    subjectList: []
+  };
   updateDepartment = department => {
     this.setState({ department: department });
   };
@@ -80,18 +86,17 @@ class AttendanceInfoScreen extends Component {
               }
             }
           }
+        }
 
-        
-    
-    this.props.navigation.navigate("FacultyReport", {
-      department: this.state.department,
-      semester: this.state.semester,
-      subject: this.state.subject,
-      dateList,
-      attendanceList
-    })
-})
-  }
+        this.props.navigation.navigate("FacultyReport", {
+          department: this.state.department,
+          semester: this.state.semester,
+          subject: this.state.selectedSubject,
+          dateList,
+          attendanceList
+        });
+      });
+  };
   componentWillUpdate(nextProps, nextState) {
     if (
       nextState.email != this.state.email ||
@@ -116,18 +121,20 @@ class AttendanceInfoScreen extends Component {
                 subjectList.push(subjectData);
               }
               console.log(subjectList);
-    
-            this.setState({
-              subjectList: subjectList
-            });
+
+              this.setState({
+                subjectList: subjectList
+              });
             }
           }
         });
     }
   }
-  
 
   render() {
+    let subjectItems = this.state.subjectList.map((s, i) => {
+      return <Picker.Item key={i} value={s} label={s} />;
+    });
     return (
       <View style={styles.container}>
         <View style={styles.fixSize}>
@@ -149,56 +156,56 @@ class AttendanceInfoScreen extends Component {
           />
         </View>
         <View style={styles.inputContainer}>
-        <Image
-          style={styles.inputIcon}
-          source={require("../images/department.jpg")}
-        />
+          <Image
+            style={styles.inputIcon}
+            source={require("../images/department.jpg")}
+          />
 
-        <Picker
-          selectedValue={this.state.department}
-          style={{ height: 50, width: 180, marginLeft: "5%" }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ department: itemValue })
-          }
-        >
-          <Picker.Item label="Department" value="1" />
-          <Picker.Item label="Civil Engineering" value="Civil Engineering" />
-          <Picker.Item
-            label="Mechanical Engineering"
-            value="Mechanical Engineering"
+          <Picker
+            selectedValue={this.state.department}
+            style={{ height: 50, width: 180, marginLeft: "5%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ department: itemValue })
+            }
+          >
+            <Picker.Item label="Department" value="1" />
+            <Picker.Item label="Civil Engineering" value="Civil Engineering" />
+            <Picker.Item
+              label="Mechanical Engineering"
+              value="Mechanical Engineering"
+            />
+            <Picker.Item
+              label="Computer Sc. & Engineering"
+              value="Computer Sc. & Engineering"
+            />
+          </Picker>
+        </View>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={require("../images/semester.png")}
           />
-          <Picker.Item
-            label="Computer Sc. & Engineering"
-            value="Computer Sc. & Engineering"
-          />
-        </Picker>
-      </View>
-      <View style={styles.inputContainer}>
-        <Image
-          style={styles.inputIcon}
-          source={require("../images/semester.png")}
-        />
-        <Picker
-          selectedValue={this.state.semester}
-          style={{ height: 50, width: 180, marginLeft: "5%" }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ semester: itemValue })
-          }
-        >
-          <Picker.Item label="Select Semester" value="1" />
-          <Picker.Item label="1st" value="1st" />
-          <Picker.Item label="2nd" value="2nd" />
-          <Picker.Item label="3rd" value="3rd" />
-          <Picker.Item label="4th" value="4th" />
-          <Picker.Item label="5th" value="5th" />
-          <Picker.Item label="6th" value="6th" />
-          <Picker.Item label="7th" value="7th" />
-          <Picker.Item label="8th" value="8th" />
-        </Picker>
-      </View>
+          <Picker
+            selectedValue={this.state.semester}
+            style={{ height: 50, width: 180, marginLeft: "5%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ semester: itemValue })
+            }
+          >
+            <Picker.Item label="Select Semester" value="1" />
+            <Picker.Item label="1st" value="1st" />
+            <Picker.Item label="2nd" value="2nd" />
+            <Picker.Item label="3rd" value="3rd" />
+            <Picker.Item label="4th" value="4th" />
+            <Picker.Item label="5th" value="5th" />
+            <Picker.Item label="6th" value="6th" />
+            <Picker.Item label="7th" value="7th" />
+            <Picker.Item label="8th" value="8th" />
+          </Picker>
+        </View>
 
         <View>
-        <Picker
+          <Picker
             selectedValue={this.state.selectedSubject}
             style={{ height: 50, width: 180, marginLeft: "10%" }}
             onValueChange={subjectLists =>
@@ -281,6 +288,5 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 15,
     justifyContent: "center"
-  },
-
+  }
 });

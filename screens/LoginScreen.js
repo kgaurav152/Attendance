@@ -25,15 +25,27 @@ export default class LoginScreen extends Component {
       loading: false
     };
   }
-  componentDidMount=()=>{
+  componentDidMount = () => {
     this.setState({
       loading: false
-  })
-  }
+    });
+  };
+  wrongEmail = () => {
+    alert("Wrong Email !");
+    this.setState({
+      loading: false
+    });
+  };
+  wrongPass = () => {
+    alert("Wrong password");
+    this.setState({
+      loading: false
+    });
+  };
   handleLogin = () => {
     this.setState({
       loading: true
-  })
+    });
     const { email, password } = this.state;
     firebase
       .auth()
@@ -81,8 +93,7 @@ export default class LoginScreen extends Component {
                       name: name,
                       department: department,
                       mobile: mobile,
-                      imageUrl: imageUrl,
-                      loading:false
+                      imageUrl: imageUrl
                     });
 
                     this.props.navigation.navigate("FacultyWelcome", {
@@ -92,10 +103,16 @@ export default class LoginScreen extends Component {
                       mobile,
                       imageUrl
                     });
+                    this.setState({
+                      loading: false
+                    });
                   });
               } else if (role == "admin") {
                 this.props.navigation.navigate("AdminWelcome", {
                   email: this.state.email
+                });
+                this.setState({
+                  loading: false
                 });
               } else {
                 firebase
@@ -130,24 +147,24 @@ export default class LoginScreen extends Component {
                       imageUrl,
                       sem
                     });
+                    this.setState({
+                      loading: false
+                    });
                   });
               }
             });
         }
-        
       })
-      .catch(function(error) {
-        errorCode = error.code;
-        errorMessage = error.message;
-
-        if (errorCode === "auth/wrong-password") {
-          alert("Password Wrong.");
-        } else if (errorCode === "auth/user-not-found") {
-          alert("You are not registered with us ! Please Check your Email");
-        } else {
+      .catch(error => {
+        this.setState({
+          error: error.code
+        });
+        if (this.state.error === "auth/wrong-password") {
+          this.wrongPass();
+        } else if (this.state.error === "auth/user-not-found") {
+          this.wrongEmail();
         }
-      }); 
-
+      });
   };
 
   render() {
@@ -164,61 +181,58 @@ export default class LoginScreen extends Component {
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
       >
-     
         <View style={styles.container}>
-        {this.state.loading===false?(
-          <View>
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={require("../assets/mailIcon.jpg")}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholder="Email"
-              keyboardType="email-address"
-              autoCapitalize='none'
-              underlineColorAndroid="transparent"
-              onChangeText={email => this.setState({ email })}
-            />
-          </View>
+          {this.state.loading === false ? (
+            <View>
+              <View style={styles.inputContainer}>
+                <Image
+                  style={styles.inputIcon}
+                  source={require("../assets/mailIcon.jpg")}
+                />
+                <TextInput
+                  style={styles.inputs}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  underlineColorAndroid="transparent"
+                  onChangeText={email => this.setState({ email })}
+                />
+              </View>
 
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={require("../assets/pwdIcon.png")}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholder="Password"
-              keyboardType="default"
-              secureTextEntry
-              underlineColorAndroid="transparent"
-              onChangeText={password => this.setState({ password })}
-            />
-          </View>
+              <View style={styles.inputContainer}>
+                <Image
+                  style={styles.inputIcon}
+                  source={require("../assets/pwdIcon.png")}
+                />
+                <TextInput
+                  style={styles.inputs}
+                  placeholder="Password"
+                  keyboardType="default"
+                  secureTextEntry
+                  underlineColorAndroid="transparent"
+                  onChangeText={password => this.setState({ password })}
+                />
+              </View>
 
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.loginButton]}
-            onPress={() => this.handleLogin()}
-          >
-            <Text style={styles.loginText}>Login</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainerForgot, styles.forgotButton]}
-            onPress={() =>
-              this.props.navigation.navigate("ForgotPasswordScreen")
-            }
-          >
-            <Text style={styles.forgotText}>Forgot Password</Text>
-          </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.loginButton]}
+                onPress={() => this.handleLogin()}
+              >
+                <Text style={styles.loginText}>Login</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.buttonContainerForgot, styles.forgotButton]}
+                onPress={() =>
+                  this.props.navigation.navigate("ForgotPasswordScreen")
+                }
+              >
+                <Text style={styles.forgotText}>Forgot Password</Text>
+              </TouchableHighlight>
+            </View>
+          ) : (
+            <ActivityIndicator size="large" />
+          )}
         </View>
-        ):(
-          <ActivityIndicator size="large" />
-        )}
-  
-        </View>
-           
       </LinearGradient>
     );
   }
@@ -287,7 +301,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: "40%",
     borderRadius: 15,
-    marginLeft: "4%"
+    marginLeft: "20%"
   },
   forgotButton: {
     backgroundColor: "#D16713"

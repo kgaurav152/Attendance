@@ -92,7 +92,7 @@ export default class AddAttendanceScreen extends React.Component {
           </View> 
         </Card>
 
-        {<AttendanceBoxes data={this.state.regNoList} date={this.state.date} dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} date = {this.state.date} />}
+        {<AttendanceBoxes data={this.state.regNoList}  dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} date = {this.state.date} />}
       </ScrollView>
     );
   }

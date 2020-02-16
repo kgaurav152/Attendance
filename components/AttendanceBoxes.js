@@ -33,7 +33,23 @@ class AttendanceBoxes extends React.Component {
   addPresentStudent(regNo) {
     console.log("add Registration is being called.");
     const { attendanceList } = this.state;
+    const {studentList} = this.state;
     attendanceList[regNo] = true;
+    
+    this.setState(
+      {
+        attendanceList: attendanceList
+      },
+      () => {
+        console.log(this.state.attendanceList);
+              }
+    );
+  }
+  submitHandler = () => {
+    var db_department = "";
+    var db_semester = "";
+    var db_date = "";
+    var db_subject = "";
     for(var student in studentList){
       if(attendanceList[studentList[student]] === true){
         attendanceList[studentList[student]] = true;
@@ -50,12 +66,6 @@ class AttendanceBoxes extends React.Component {
         console.log(this.state.attendanceList);
               }
     );
-  }
-  submitHandler = () => {
-    var db_department = "";
-    var db_semester = "";
-    var db_date = "";
-    var db_subject = "";
     Firebase.database()
       .ref("attendance")
       .once("value")
