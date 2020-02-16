@@ -359,6 +359,28 @@ const Student_StackNavigator = createStackNavigator({
       ),
     })
   },
+  EditStudentProfile:{
+    screen:EditStudentProfileScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+  },
   ShowAttendance:{
     screen:ShowAttendanceScreen,
     navigationOptions: ({ navigation }) => ({

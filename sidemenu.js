@@ -5,9 +5,13 @@ import React, { Component } from 'react';
 import { NavigationActions } from 'react-navigation';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient'
+import Firebase from './components/config'
 class SideMenu extends Component {
   constructor() {
     super();
+    handleLogout = () => {
+      Firebase.auth().signOut();
+    }
     /*Array of the sidebar navigation option with 
     Heading, Subheading and screen to navigate.*/
     //Sreen to navigate can be any screen defined in Drawer Navigator in App.js
@@ -48,8 +52,14 @@ class SideMenu extends Component {
                 {option.subOptions.map((item, key) => (
                   <View style={styles.secondaryHeading} key={key}>
                     <Text onPress={this.navigateToScreen(item.navigationPath)}>
-                      {item.secondaryHeading}
+                      {item.secondaryHeading}        
                     </Text>
+                    <TouchableHighlight
+                        style={[styles.buttonContainer, styles.logoutButton]}
+                        onPress={() => this.handleLogout()}
+                    ><Text style={styles.logoutText}>Logout</Text>
+
+                    </TouchableHighlight>
                   </View>
                 ))}
               </View>
@@ -79,6 +89,21 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
     backgroundColor: 'lightgrey',
+  },
+  buttonContainer: {
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 250,
+    borderRadius: 30
+  },
+  logoutButton: {
+    backgroundColor: "#00b5ec"
+  },
+  logoutText: {
+    color: "white"
   },
   footerContainer: {
     padding: 20,

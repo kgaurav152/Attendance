@@ -34,6 +34,14 @@ class AttendanceBoxes extends React.Component {
     console.log("add Registration is being called.");
     const { attendanceList } = this.state;
     attendanceList[regNo] = true;
+    for(var student in studentList){
+      if(attendanceList[studentList[student]] === true){
+        attendanceList[studentList[student]] = true;
+      }
+      else{
+        attendanceList[studentList[student]] = false;
+      }
+    }
     this.setState(
       {
         attendanceList: attendanceList
