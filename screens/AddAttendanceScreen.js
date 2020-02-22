@@ -12,7 +12,8 @@ export default class AddAttendanceScreen extends React.Component {
       semester:"",
       department:"",
       subject:"",
-      date:""
+      date:"",
+      dataLoaded:false
     }
   }
   componentDidMount() {
@@ -42,15 +43,15 @@ export default class AddAttendanceScreen extends React.Component {
               
             }
           }
-          this.setState({
-            regNoList: regNoList,
-            semester:semester,
-            subject:subject,
-            department:department,
-            date:date
-          });
-          console.log(regNoList);
         }
+        this.setState({
+          regNoList: regNoList,
+          semester:semester,
+          subject:subject,
+          department:department,
+          date:date,
+          dataLoaded:true
+        });
       });
   }
 
@@ -60,6 +61,7 @@ export default class AddAttendanceScreen extends React.Component {
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
+    const dataLoaded = this.state.dataLoaded;
     
     return (
       <ScrollView>
@@ -92,7 +94,10 @@ export default class AddAttendanceScreen extends React.Component {
           </View> 
         </Card>
 
-        {<AttendanceBoxes data={this.state.regNoList}  dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} date = {this.state.date} />}
+        { 
+            dataLoaded && 
+            <AttendanceBoxes data={this.state.regNoList}  dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} date = {this.state.date} />
+        }
       </ScrollView>
     );
   }

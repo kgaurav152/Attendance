@@ -9,25 +9,15 @@ class AttendanceBoxes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      studentList: [],
-      attendanceList: new Map(),
-      department: "",
-      subject: "",
-      semester: "",
-      date:""
-    };
-
-    this.addPresentStudent = this.addPresentStudent.bind(this);
-  }
-
-  componentWillReceiveProps() {
-    this.setState({
       studentList: this.props.data,
+      attendanceList: new Map(),
       department: this.props.dept,
       subject: this.props.sub,
       semester: this.props.sem,
-      date: this.props.date
-    });
+      date:this.props.date
+    };
+
+    this.addPresentStudent = this.addPresentStudent.bind(this);
   }
 
   addPresentStudent(regNo) {
