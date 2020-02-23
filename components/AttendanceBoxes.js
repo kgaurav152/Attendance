@@ -80,10 +80,27 @@ class AttendanceBoxes extends React.Component {
           }
         }
       }
-      Firebase.database()
-      .ref("attendance").child(uid).update({date: this.state.date, attendanceList : this.state.attendanceList});
-               
+      if(uid == null || uid == "" || uid == undefined){
+
+        let attendanceObj = {
+          attendanceList : this.state.attendanceList,
+          department:this.state.department,
+          date:this.state.date,
+          subject:this.state.subject,
+          semester:this.state.semester
+        };
+        Firebase.database()
+        .ref("attendance/")
+        .push(
+          attendanceObj
+        )
+      }
+      else{
+        Firebase.database()
+        .ref("attendance").child(uid).update({date: this.state.date, attendanceList : this.state.attendanceList});
+      }     
       });
+    
   };
 
   render() {
