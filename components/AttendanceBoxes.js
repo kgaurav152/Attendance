@@ -40,6 +40,8 @@ class AttendanceBoxes extends React.Component {
     var db_semester = "";
     var db_date = "";
     var db_subject = "";
+    let studentList = this.state.studentList;
+    let attendanceList = this.state.attendanceList;
     for(var student in studentList){
       if(attendanceList[studentList[student]] === true){
         attendanceList[studentList[student]] = true;
@@ -61,6 +63,7 @@ class AttendanceBoxes extends React.Component {
       .once("value")
       .then(snapshot => {
         const attendanceInfo = snapshot.val();
+        let uid = "";
 
         for (var attributes in attendanceInfo) {
           db_department = attendanceInfo[attributes].department;
@@ -71,24 +74,15 @@ class AttendanceBoxes extends React.Component {
             if (db_semester === this.state.semester) {
               if (db_subject === this.state.subject) {
               if(db_date === this.state.date){
-              Firebase.database()
-                  .ref("attendance/")
-                  .once("value")
-                  .then(res => {
-                    res.forEach(record => {
-                      Firebase.database()
-                        .ref("attendance/" + record.key)
-                        .update({
-                          date: this.state.date,
-                          attendanceList: this.state.attendanceList
-                        });
-                    });
-                  });
+                uid = attributes
               }
-            }
             }
           }
         }
+      }
+      Firebase.database()
+      .ref("attendance").child(uid).update({date: this.state.date, attendanceList : this.state.attendanceList});
+               
       });
   };
 

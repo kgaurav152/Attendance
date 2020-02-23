@@ -216,7 +216,7 @@ export default class LoginScreen extends Component {
 
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.props.navigation.navigate("FacultyWelcomeScreen")}
+                onPress={() => this.props.navigation.navigate("FacultyWelcome")}
               >
                 <Text style={styles.loginText}>Login</Text>
               </TouchableHighlight>
