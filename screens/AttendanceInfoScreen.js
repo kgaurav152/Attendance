@@ -121,10 +121,10 @@ class AttendanceInfoScreen extends Component {
                 subjectList.push(subjectData);
               }
               console.log(subjectList);
-
-              this.setState({
-                subjectList: subjectList
-              });
+    
+            this.setState({
+              subjectList: subjectList
+            });
             }
           }
         });
@@ -204,10 +204,11 @@ class AttendanceInfoScreen extends Component {
           </Picker>
         </View>
 
+        
         <View>
-          <Picker
+        <Picker
             selectedValue={this.state.selectedSubject}
-            style={{ height: 50, width: 180, marginLeft: "10%" }}
+            style={{ height: 50, width: 180, marginLeft: "20%" }}
             onValueChange={subjectLists =>
               this.setState({ selectedSubject: subjectLists })
             }
@@ -216,7 +217,7 @@ class AttendanceInfoScreen extends Component {
 
             {subjectItems}
           </Picker>
-          <Text style={styles.text}>{this.state.subject}</Text>
+          
         </View>
         <TouchableHighlight
           style={[styles.buttonContainer, styles.clickButton]}
