@@ -15,9 +15,7 @@ import Firebase from "./components/config";
 class SideMenu extends Component {
   constructor() {
     super();
-    handleLogout = () => {
-      Firebase.auth().signOut();
-    };
+    
     /*Array of the sidebar navigation option with 
     Heading, Subheading and screen to navigate.*/
     //Sreen to navigate can be any screen defined in Drawer Navigator in App.js
@@ -38,7 +36,9 @@ class SideMenu extends Component {
       }
     ];
   }
-
+  handleLogout = () => {
+    Firebase.auth().signOut();
+  };
   navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -59,14 +59,15 @@ class SideMenu extends Component {
                     <Text onPress={this.navigateToScreen(item.navigationPath)}>
                       {item.secondaryHeading}
                     </Text>
-                    <TouchableHighlight
+                    
+                  </View>
+                ))}
+                <TouchableHighlight
                       style={[styles.buttonContainer, styles.logoutButton]}
                       onPress={() => this.handleLogout()}
                     >
                       <Text style={styles.logoutText}>Logout</Text>
                     </TouchableHighlight>
-                  </View>
-                ))}
               </View>
             ))}
           </View>
