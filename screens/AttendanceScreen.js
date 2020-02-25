@@ -24,16 +24,7 @@ class AttendanceScreen extends Component {
   };
   
   attendanceHandler=()=>{
-    Firebase.database()
-        .ref("attendance/")
-        .push(
-          {
-            department:this.state.department,
-            date:this.state.date,
-            subject:this.state.selectedSubject,
-            semester:this.state.semester
-          }
-        )
+    
     this.props.navigation.navigate("AddAttendance", {
       department: this.state.department,
       semester: this.state.semester,

@@ -9,25 +9,15 @@ class AttendanceBoxes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      studentList: [],
-      attendanceList: new Map(),
-      department: "",
-      subject: "",
-      semester: "",
-      date:""
-    };
-
-    this.addPresentStudent = this.addPresentStudent.bind(this);
-  }
-
-  componentWillReceiveProps() {
-    this.setState({
       studentList: this.props.data,
+      attendanceList: new Map(),
       department: this.props.dept,
       subject: this.props.sub,
       semester: this.props.sem,
-      date: this.props.date
-    });
+      date:this.props.date
+    };
+
+    this.addPresentStudent = this.addPresentStudent.bind(this);
   }
 
   addPresentStudent(regNo) {
@@ -50,6 +40,8 @@ class AttendanceBoxes extends React.Component {
     var db_semester = "";
     var db_date = "";
     var db_subject = "";
+    let studentList = this.state.studentList;
+    let attendanceList = this.state.attendanceList;
     for(var student in studentList){
       if(attendanceList[studentList[student]] === true){
         attendanceList[studentList[student]] = true;
@@ -71,6 +63,7 @@ class AttendanceBoxes extends React.Component {
       .once("value")
       .then(snapshot => {
         const attendanceInfo = snapshot.val();
+        let uid = "";
 
         for (var attributes in attendanceInfo) {
           db_department = attendanceInfo[attributes].department;
@@ -81,25 +74,33 @@ class AttendanceBoxes extends React.Component {
             if (db_semester === this.state.semester) {
               if (db_subject === this.state.subject) {
               if(db_date === this.state.date){
-              Firebase.database()
-                  .ref("attendance/")
-                  .once("value")
-                  .then(res => {
-                    res.forEach(record => {
-                      Firebase.database()
-                        .ref("attendance/" + record.key)
-                        .update({
-                          date: this.state.date,
-                          attendanceList: this.state.attendanceList
-                        });
-                    });
-                  });
+                uid = attributes
               }
-            }
             }
           }
         }
+      }
+      if(uid == null || uid == "" || uid == undefined){
+
+        let attendanceObj = {
+          attendanceList : this.state.attendanceList,
+          department:this.state.department,
+          date:this.state.date,
+          subject:this.state.subject,
+          semester:this.state.semester
+        };
+        Firebase.database()
+        .ref("attendance/")
+        .push(
+          attendanceObj
+        )
+      }
+      else{
+        Firebase.database()
+        .ref("attendance").child(uid).update({date: this.state.date, attendanceList : this.state.attendanceList});
+      }     
       });
+    
   };
 
   render() {
