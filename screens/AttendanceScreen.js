@@ -131,7 +131,7 @@ class AttendanceScreen extends Component {
               value="Computer Sc. & Engineering"
             />
           </Picker>
-          <Text style={styles.text}>{this.state.department}</Text>
+          
         </View>
         <View>
           <Picker
@@ -148,7 +148,7 @@ class AttendanceScreen extends Component {
             <Picker.Item label="7th" value="7th" />
             <Picker.Item label="8th" value="8th" />
           </Picker>
-          <Text style={styles.text}>{this.state.semester}</Text>
+          
         </View>
 
         <View>
@@ -163,7 +163,7 @@ class AttendanceScreen extends Component {
 
             {subjectItems}
           </Picker>
-          <Text style={styles.text}>{this.state.subject}</Text>
+          
         </View>
         <TouchableHighlight
           style={[styles.buttonContainer, styles.clickButton]}
@@ -181,7 +181,8 @@ export default AttendanceScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20
+    paddingTop: 20,
+    alignItems:'center'
   },
   text: {
     fontSize: 20,
