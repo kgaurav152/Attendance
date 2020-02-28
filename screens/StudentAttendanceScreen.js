@@ -27,6 +27,9 @@ export default class StudentAttendanceScreen extends Component {
   };
   constructor(props) {
     super(props);
+
+    this.state = { selectedSubject: "",
+    subjectList: [] };
   }
   handleAttendance = () => {
     const { navigation } = this.props;
@@ -73,7 +76,7 @@ export default class StudentAttendanceScreen extends Component {
             if (db_department === department) {
               if (db_semester === sem) {
                 if (db_date === dateSelected[date]) {
-                  if (db_subject === this.state.subject) {
+                  if (db_subject === this.state.selectedSubject) {
                     //const studentattnd = attendanceInfo[attributes].attendanceList
 
                     var presentState =
@@ -114,6 +117,40 @@ export default class StudentAttendanceScreen extends Component {
       showAlert: true
     });
   };
+  componentWillUpdate(nextProps, nextState) {
+    if (
+      
+      nextState.department != this.state.department ||
+      nextState.semester != this.state.semester
+    ) {
+      console.log("Component did mound is being callled...");
+      var subjectList = [];
+      Firebase.database()
+        .ref("Subjects")
+        .once("value")
+        .then(snapshot => {
+          var subjectInfo = snapshot.val();
+          var db_department = "";
+          var db_semester = "";
+          for (var attributes in subjectInfo) {
+            db_department = subjectInfo[attributes].department;
+            db_semester = subjectInfo[attributes].semester;
+            if (db_department === department) {
+              if (db_semester === semester) {
+                var subjectData = subjectInfo[attributes].subjectName;
+                subjectList.push(subjectData);
+              }
+              console.log(subjectList);
+    
+            this.setState({
+              subjectList: subjectList
+            });
+            }
+          }
+        });
+    }
+  }
+
 
   render() {
     const { navigation } = this.props;
@@ -123,6 +160,9 @@ export default class StudentAttendanceScreen extends Component {
     const department = navigation.getParam("department");
     const sem = navigation.getParam("sem");
     const { showAlert } = this.state;
+    let subjectItems = this.state.subjectList.map((s, i) => {
+      return <Picker.Item key={i} value={s} label={s} />;
+    });
     return (
       <View style={styles.container}>
         <Text style={styles.title}>View Attendance</Text>
@@ -161,15 +201,17 @@ export default class StudentAttendanceScreen extends Component {
             paddingRight: "20%"
           }}
         >
-          <Picker
-            selectedValue={this.state.subject}
-            onValueChange={this.updateSubject}
-          >
-            <Picker.Item label="Select Subject" value="Select Subject" />
-            <Picker.Item label="Operating System" value="Operating System" />
-            <Picker.Item label="Java" value="JAVA" />
-            <Picker.Item label="DBMS" value="DBMS" />
-          </Picker>
+        <Picker
+        selectedValue={this.state.selectedSubject}
+        
+        onValueChange={subjectLists =>
+          this.setState({ selectedSubject: subjectLists })
+        }
+      >
+        <Picker.Item label="Choose Subject" value="1" />
+
+        {subjectItems}
+      </Picker>
         </View>
         <View>
           <TouchableHighlight

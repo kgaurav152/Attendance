@@ -29,6 +29,21 @@ export default class FacultyReportScreen extends Component {
       dateList: dateList
     });
   }
+
+  renderAttadanceList = ( item ) => {
+    
+    
+      
+          Object.keys(item).map(function(i){
+          <View>
+              <Text>i</Text>
+              <Text>item[i]</Text>
+          </View>
+        }) 
+        
+    
+    
+  }
   render() {
     const { navigation } = this.props;
     const department = navigation.getParam("department");
@@ -66,20 +81,13 @@ export default class FacultyReportScreen extends Component {
           <Text style={styles.paragraph}>Attendance List </Text>
         </View>
         <View style={styles.fixToText}>
-          <FlatList
-            data={this.state.dateList}
-            renderItem={({ item }) => (
-              <Text style={styles.paragraph}>{item}</Text>
-            )}
-          />
+         
 
           <FlatList
             horizontal
             data={this.state.attendanceList}
             renderItem={({ item }) => (
-              <Text>
-                {JSON.stringify(item).replace(/\"/g, "")}
-              </Text>
+              this.renderAttadanceList(item)
             )}
           />
         </View>

@@ -4,6 +4,7 @@ import {
   Text,
   Picker,
   StyleSheet,
+  Image,
   TouchableHighlight
 } from "react-native";
 import DatePicker from "react-native-datepicker";
@@ -16,8 +17,7 @@ class AttendanceInfoScreen extends Component {
     subject: "",
     startDate: "",
     endDate: "",
-    selectedSubject: "",
-    subjectList: []
+    
   };
   updateDepartment = department => {
     this.setState({ department: department });
@@ -31,12 +31,13 @@ class AttendanceInfoScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { startDate: "", endDate: "" };
+    this.state = { startDate: "", endDate: "",selectedSubject: "",
+    subjectList: [] };
   }
   attendanceInfo = () => {
     const department = this.state.department;
     const sem = this.state.semester;
-    const subject = this.state.subject;
+    
 
     var db_department = "";
     var db_semester = "";
@@ -76,7 +77,7 @@ class AttendanceInfoScreen extends Component {
             if (db_department === department) {
               if (db_semester === sem) {
                 if (db_date === dateSelected[date]) {
-                  if (db_subject === subject) {
+                  if (db_subject === this.state.selectedSubject) {
                     var attendance = attendanceInfo[attributes].attendanceList;
                     attendanceList.push(attendance);
                     var dateIn = attendanceInfo[attributes].date;
@@ -137,6 +138,7 @@ class AttendanceInfoScreen extends Component {
     });
     return (
       <View style={styles.container}>
+      <View style={styles.fixDate}>
         <View style={styles.fixSize}>
           <DatePicker
             format="YYYY-MM-DD"
@@ -154,6 +156,7 @@ class AttendanceInfoScreen extends Component {
               this.setState({ endDate: endDate });
             }}
           />
+        </View>
         </View>
         <View style={styles.inputContainer}>
           <Image
@@ -289,5 +292,9 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 15,
     justifyContent: "center"
+  },
+  fixDate:{
+    justifyContent:'space-around',
+    flexDirection:"row"
   }
 });
