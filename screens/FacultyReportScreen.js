@@ -8,11 +8,15 @@ import {
   Image,
   ScrollView,
   FlatList,
-  ListItem
+  ListItem,
+  SectionList,
+  VirtualizedList
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import Firebase from "../components/config";
+import { Col, Row, Grid } from "react-native-easy-grid";
+
 function Separator() {
   return <View style={styles.separator} />;
 }
@@ -30,24 +34,84 @@ export default class FacultyReportScreen extends Component {
     });
   }
 
-  renderAttadanceList = ( item ) => {
-    
-    
+  constructGridRow = ( attendanceList, array, keys, index) =>
+  (
+    <Row key = {keys[index]}>
+                    {
+                      
+                      array.map(function(val, i){
+                        if(i == 0){
+                          return <Col key = {val}  ><Text>{keys[index]}</Text></Col>
+                        }
+                        else{
+                          let isPresent = "P"
+                          if (attendanceList[i][keys[index]] == false){
+                            isPresent = "A";
+                          }
+                          return <Col key = {val}  ><Text>{isPresent}</Text></Col>
+                        }
+                            
+                      })
+                    }
+                  </Row>
+  );
+  
+  constructGridHeader = (array, keys, index) => (
+    <Row key = {keys[index]}>{
+                   
+      array.map(function(val, i){
+
+        if( i == 0 ){
+          return <Col key = {val} ><Text>{"Reg No."}</Text></Col>
+        } 
+        else  return <Col key = {val}  ><Text>{val}</Text></Col>
+       })
+       
+      }</Row>
+  )
+  constructGrid = (attendanceList, array, keys, _this) =>
+  (
+    <Grid>
+          { 
+                 attendanceList.map(function(item, index){
+                 if(index == 0){
+                      return _this.constructGridHeader(array, keys, index);
+                 }
+                 else{
+                  return _this.constructGridRow(attendanceList, array, keys, index);
+                 }
+                })
+              
+          }
+        </Grid>
+  )
       
-          Object.keys(item).map(function(i){
-          <View>
-              <Text>i</Text>
-              <Text>item[i]</Text>
-          </View>
-        }) 
-        
-    
-    
-  }
   render() {
     const { navigation } = this.props;
+    let renderGrid = false;
     const department = navigation.getParam("department");
     const sem = navigation.getParam("semester");
+    const attendanceList = this.state.attendanceList;
+    const dateList = this.state.dateList;
+    let keys = null;
+    let array = null;
+    const  hello = "Hello123";
+    if(attendanceList.length > 0){
+      keys = Object.keys(attendanceList[0]);
+    }
+
+    if(keys ==null || dateList==null || dateList.length ==0 || attendanceList == null || attendanceList.length == 0)
+    {
+      renderGrid = false;
+    }
+    else{
+      renderGrid = true;
+      attendanceList.unshift({key : "renderHead"});
+      keys.unshift("Reg No.");
+      array = dateList;
+      array.unshift("");
+    }
+    
 
     return (
       <SafeAreaView style={styles.container}>
@@ -80,18 +144,13 @@ export default class FacultyReportScreen extends Component {
           <Text style={styles.paragraph1}>Date</Text>
           <Text style={styles.paragraph}>Attendance List </Text>
         </View>
-        <View style={styles.fixToText}>
-         
-
-          <FlatList
-            horizontal
-            data={this.state.attendanceList}
-            renderItem={({ item }) => (
-              this.renderAttadanceList(item)
-            )}
-          />
-        </View>
-        <Separator />
+        
+        {
+          
+          renderGrid && this.constructGrid(attendanceList, array, keys, this) 
+        }
+                
+         <Separator />
       </SafeAreaView>
     );
   }
@@ -179,5 +238,21 @@ const styles = StyleSheet.create({
     marginVertical: "3%",
     borderBottomColor: "#737373",
     borderBottomWidth: StyleSheet.hairlineWidth
-  }
+  },
+
+
+
+
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+  },
+  header: {
+    fontSize: 32,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+  },
 });
