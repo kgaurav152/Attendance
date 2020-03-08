@@ -34,60 +34,37 @@ export default class FacultyReportScreen extends Component {
     });
   }
 
-  constructGridRow = ( attendanceList, array, keys, index) =>
-  (
-    <Row key = {keys[index]}>
-                    {
-                      
-                      array.map(function(val, i){
-                        if(i == 0){
-                          return <Col key = {val}  ><Text>{keys[index]}</Text></Col>
-                        }
-                        else{
-                          let isPresent = "P"
-                          if (attendanceList[i][keys[index]] == false){
-                            isPresent = "A";
-                          }
-                          return <Col key = {val}  ><Text>{isPresent}</Text></Col>
-                        }
-                            
-                      })
-                    }
-                  </Row>
-  );
+constructGridRow = ( attendanceList, array, keys, item, keysindex, index) => 
+{
+        let displayText = attendanceList[index][keys[keysindex]] ? "P" : "A";
+        if(index == 0){
+            displayText = keys[keysindex];
+        }
+        return (<Text key = { keysindex.toString() + index.toString()} style = {styles.column}>{ displayText }</Text>) 
+} 
+      
+constructGridHeader = (array, keys, keysindex, index) =><Text key = {keysindex.toString() + index.toString()} style = {styles.column}>{array[index]}</Text>
+            
   
-  constructGridHeader = (array, keys, index) => (
-    <Row key = {keys[index]}>{
-                   
-      array.map(function(val, i){
-
-        if( i == 0 ){
-          return <Col key = {val} ><Text>{"Reg No."}</Text></Col>
-        } 
-        else  return <Col key = {val}  ><Text>{val}</Text></Col>
-       })
-       
-      }</Row>
-  )
-  constructGrid = (attendanceList, array, keys, _this) =>
-  (
-    <Grid>
-          { 
-                 attendanceList.map(function(item, index){
-                 if(index == 0){
-                      return _this.constructGridHeader(array, keys, index);
-                 }
-                 else{
-                  return _this.constructGridRow(attendanceList, array, keys, index);
-                 }
-                })
-              
-          }
-        </Grid>
-  )
+  constructGrid = (attendanceList, array, keys, _this, props, i) =>{
+   
+    let { item } = props; 
+    let { index } = props;
+    let cols = array.map(function(i,j, arr){
+    if(index == 0){
+         return _this.constructGridHeader(array, keys, index, j); 
+    }
+    else{
+     return _this.constructGridRow(attendanceList, array, keys ,item, index, j);
+    }
+   });
+   
+  return  <View key = { index } style = { styles.row }>{cols}</View>
+  
+}
       
   render() {
-    const { navigation } = this.props;
+    const { navigation } = this.props; 
     let renderGrid = false;
     const department = navigation.getParam("department");
     const sem = navigation.getParam("semester");
@@ -95,7 +72,7 @@ export default class FacultyReportScreen extends Component {
     const dateList = this.state.dateList;
     let keys = null;
     let array = null;
-    const  hello = "Hello123";
+    let noOfColumns;
     if(attendanceList.length > 0){
       keys = Object.keys(attendanceList[0]);
     }
@@ -106,10 +83,17 @@ export default class FacultyReportScreen extends Component {
     }
     else{
       renderGrid = true;
+      array = dateList;
+      for(let i = 0; i < 60; i++){
+        attendanceList.push(attendanceList[1]);
+        array.push(array[1]);
+        keys.push(keys[1]);
+        noOfColumns = keys.length;
+
+      }
+      array.unshift("");
       attendanceList.unshift({key : "renderHead"});
       keys.unshift("Reg No.");
-      array = dateList;
-      array.unshift("");
     }
     
 
@@ -144,19 +128,42 @@ export default class FacultyReportScreen extends Component {
           <Text style={styles.paragraph1}>Date</Text>
           <Text style={styles.paragraph}>Attendance List </Text>
         </View>
-        
-        {
-          
-          renderGrid && this.constructGrid(attendanceList, array, keys, this) 
-        }
-                
-         <Separator />
+        <View style = { styles.gridContainer}>
+        <ScrollView>
+        <FlatList
+            horizontal 
+            data={keys} 
+            windowSize = { 3 }
+            keyExtractor={(item, index) => index.toString()}
+            initialNumToRender = { 3 }
+            key = { noOfColumns } 
+            renderItem = {this.constructGrid.bind(this,attendanceList, array, keys, this)}
+      />
+      </ScrollView>
+      </View>
+      <Separator />
       </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  
+  gridContainer : {
+    marginTop: 20,
+    flex: 1,
+  },
+  
+  row:{
+    flex: 1,
+    padding: 15,
+    marginBottom: 5,
+    backgroundColor: 'skyblue',
+    flexDirection: 'column'
+  },
+  column: {
+    //flex: 1
+  },
   container: {
     flex: 1
   },
