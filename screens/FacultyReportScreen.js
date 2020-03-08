@@ -37,13 +37,28 @@ export default class FacultyReportScreen extends Component {
 constructGridRow = ( attendanceList, array, keys, item, keysindex, index) => 
 {
         let displayText = attendanceList[index][keys[keysindex]] ? "P" : "A";
+        let elementStyle = displayText == "P" ? 
+                                              {...styles.CircleShapeView , backgroundColor: 'green'}:
+                                              {...styles.CircleShapeView , backgroundColor: 'red'};
         if(index == 0){
             displayText = keys[keysindex];
+            elementStyle =  {...styles.CircleShapeView , backgroundColor: '#3498db'};
         }
-        return (<Text key = { keysindex.toString() + index.toString()} style = {styles.column}>{ displayText }</Text>) 
+        return (     
+                  <View style = {elementStyle} key = { keysindex.toString() + index.toString()} >
+                    <Text 
+                        style = {styles.column}>{ displayText }
+                    </Text>
+                  </View>
+        ) 
 } 
       
-constructGridHeader = (array, keys, keysindex, index) =><Text key = {keysindex.toString() + index.toString()} style = {styles.column}>{array[index]}</Text>
+constructGridHeader = (array, keys, keysindex, index) => 
+            <View key = {keysindex.toString() + index.toString()} style= {{ height: 30}}>
+              <Text                  
+                  style = {styles.column}>{array[index]}
+              </Text>
+            </View>
             
   
   constructGrid = (attendanceList, array, keys, _this, props, i) =>{
@@ -135,7 +150,7 @@ constructGridHeader = (array, keys, keysindex, index) =><Text key = {keysindex.t
             data={keys} 
             windowSize = { 3 }
             keyExtractor={(item, index) => index.toString()}
-            initialNumToRender = { 3 }
+            initialNumToRender = { 5 }
             key = { noOfColumns } 
             renderItem = {this.constructGrid.bind(this,attendanceList, array, keys, this)}
       />
@@ -158,12 +173,29 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 15,
     marginBottom: 5,
-    backgroundColor: 'skyblue',
     flexDirection: 'column'
   },
   column: {
     //flex: 1
   },
+  CircleShapeView: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems:'center', 
+    justifyContent:'center',  
+},
+
+OvalShapeView: {
+  marginTop: 20,
+  width: 100,
+  height: 100,
+  backgroundColor: '#00BCD4',
+  borderRadius: 50,
+  transform: [
+    {scaleX: 2}
+  ]
+},
   container: {
     flex: 1
   },
