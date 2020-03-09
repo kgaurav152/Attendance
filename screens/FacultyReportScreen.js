@@ -83,6 +83,7 @@ constructGridHeader = (array, keys, keysindex, index) =>
     let renderGrid = false;
     const department = navigation.getParam("department");
     const sem = navigation.getParam("semester");
+    const sub = navigation.getParam("subject")
     const attendanceList = this.state.attendanceList;
     const dateList = this.state.dateList;
     let keys = null;
@@ -113,6 +114,8 @@ constructGridHeader = (array, keys, keysindex, index) =>
     
 
     return (
+      <ScrollView
+      horizontal={true}>
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
@@ -136,6 +139,9 @@ constructGridHeader = (array, keys, keysindex, index) =>
               <Text style={styles.paragraph}>
                 Semester - {JSON.stringify(sem).replace(/\"/g, "")}
               </Text>
+              <Text style={styles.paragraph}>
+                Subject - {JSON.stringify(sub).replace(/\"/g, "")}
+              </Text>
             </View>
           </View>
         </Card>
@@ -158,6 +164,7 @@ constructGridHeader = (array, keys, keysindex, index) =>
       </View>
       <Separator />
       </SafeAreaView>
+      </ScrollView>
     );
   }
 }
