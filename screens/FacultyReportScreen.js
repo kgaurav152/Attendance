@@ -10,7 +10,8 @@ import {
   FlatList,
   ListItem,
   SectionList,
-  VirtualizedList
+  VirtualizedList,
+  Alert
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
@@ -34,12 +35,45 @@ export default class FacultyReportScreen extends Component {
     });
   }
 
-constructGridRow = ( attendanceList, array, keys, item, keysindex, index) => 
+  getAttendanceCountOfStudents = ( attendanceList ) =>{
+    let countsArray;
+    if( attendanceList != null ){
+      countsArray = Object.keys(attendanceList[0]).map( function(regNo){
+        let count = 0;
+        for(let i = 0; i < attendanceList.length; i++){
+          attendanceList[i][regNo] ? count++: count
+        }
+        return count;
+      })
+
+      return countsArray;
+    }
+
+    
+  }
+
+constructGridRow = ( attendanceList, array, keys, item, countList, keysindex, index) => 
 {
-        let displayText = attendanceList[index][keys[keysindex]] ? "P" : "A";
-        let elementStyle = displayText == "P" ? 
-                                              {...styles.CircleShapeView , backgroundColor: 'green'}:
-                                              {...styles.CircleShapeView , backgroundColor: 'red'};
+        let displayText;
+        if( array.length-1 == index){
+          displayText = countList[keysindex];
+        }
+        else{
+          displayText = attendanceList[index][keys[keysindex]] ? "P" : "A";
+        }
+        
+        let elementStyle;
+        if(displayText == "P"){
+            elementStyle =  {...styles.CircleShapeView , backgroundColor: 'green'};
+        } 
+        else if( displayText == "A"){
+          elementStyle = {...styles.CircleShapeView , backgroundColor: 'red'};
+        }
+        else{
+          elementStyle = { ...styles.CircleShapeView, fontWeight: 900, backgroundColor: 'orange'}
+        }
+                                             
+                                              
         if(index == 0){
             displayText = keys[keysindex];
             elementStyle =  {...styles.CircleShapeView , backgroundColor: '#3498db'};
@@ -53,34 +87,40 @@ constructGridRow = ( attendanceList, array, keys, item, keysindex, index) =>
         ) 
 } 
       
-constructGridHeader = (array, keys, keysindex, index) => 
+constructGridHeader = (array, keys, countList, keysindex, index) =>{
+  
+  let displayText = array.length -1 == index ? countList[keysindex] : array[index];
+  
+  return (
             <View key = {keysindex.toString() + index.toString()} style= {{ height: 30}}>
               <Text                  
-                  style = {styles.column}>{array[index]}
+                  style = {styles.column}>{displayText}
               </Text>
             </View>
-            
+  )
+}
+         
   
-  constructGrid = (attendanceList, array, keys, _this, props, i) =>{
+  constructGrid = (attendanceList, array, keys, countList, _this, props, i) =>{
    
     let { item } = props; 
     let { index } = props;
+    let rowStyle = styles.row;
     let cols = array.map(function(i,j, arr){
     if(index == 0){
-         return _this.constructGridHeader(array, keys, index, j); 
+    return _this.constructGridHeader(array, keys, countList, index, j); 
     }
     else{
-     return _this.constructGridRow(attendanceList, array, keys ,item, index, j);
+     return _this.constructGridRow(attendanceList, array, keys ,item, countList, index, j);
     }
    });
    
-  return  <View key = { index } style = { styles.row }>{cols}</View>
+  return  <View key = { index } style = { rowStyle }>{cols}</View>
   
 }
       
   render() {
-    const { navigation } = this.props; 
-    let renderGrid = false;
+    const { navigation } = this.props;
     const department = navigation.getParam("department");
     const sem = navigation.getParam("semester");
     const sub = navigation.getParam("subject")
@@ -88,7 +128,7 @@ constructGridHeader = (array, keys, keysindex, index) =>
     const dateList = this.state.dateList;
     let keys = null;
     let array = null;
-    let noOfColumns;
+    let countList = [];
     if(attendanceList.length > 0){
       keys = Object.keys(attendanceList[0]);
     }
@@ -98,24 +138,24 @@ constructGridHeader = (array, keys, keysindex, index) =>
       renderGrid = false;
     }
     else{
-      renderGrid = true;
+     
       array = dateList;
       for(let i = 0; i < 60; i++){
         attendanceList.push(attendanceList[1]);
         array.push(array[1]);
         keys.push(keys[1]);
-        noOfColumns = keys.length;
-
+        countList.push(i);
       }
-      array.unshift("");
+      array.unshift("Date");
+      array.push("Count");
       attendanceList.unshift({key : "renderHead"});
       keys.unshift("Reg No.");
-    }
-    
+      countList.unshift("Count");
+    }    
 
     return (
-      <ScrollView
-      horizontal={true}>
+      //<ScrollView
+      //horizontal={true}>
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
@@ -150,21 +190,20 @@ constructGridHeader = (array, keys, keysindex, index) =>
           <Text style={styles.paragraph}>Attendance List </Text>
         </View>
         <View style = { styles.gridContainer}>
-        <ScrollView>
+        <ScrollView>     
         <FlatList
             horizontal 
             data={keys} 
-            windowSize = { 3 }
+            windowSize = { 5 }
             keyExtractor={(item, index) => index.toString()}
             initialNumToRender = { 5 }
-            key = { noOfColumns } 
-            renderItem = {this.constructGrid.bind(this,attendanceList, array, keys, this)}
-      />
+            renderItem = {this.constructGrid.bind(this,attendanceList, array, keys, countList, this)}
+        />
       </ScrollView>
       </View>
       <Separator />
       </SafeAreaView>
-      </ScrollView>
+      //</ScrollView>
     );
   }
 }
@@ -182,6 +221,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     flexDirection: 'column'
   },
+  countRow:{
+    flex: 1,
+    padding: 15,
+    marginBottom: 5,
+    flexDirection: 'row'
+  },
   column: {
     //flex: 1
   },
@@ -193,16 +238,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',  
 },
 
-OvalShapeView: {
-  marginTop: 20,
-  width: 100,
-  height: 100,
-  backgroundColor: '#00BCD4',
-  borderRadius: 50,
-  transform: [
-    {scaleX: 2}
-  ]
-},
   container: {
     flex: 1
   },
@@ -285,10 +320,6 @@ OvalShapeView: {
     borderBottomColor: "#737373",
     borderBottomWidth: StyleSheet.hairlineWidth
   },
-
-
-
-
   item: {
     backgroundColor: '#f9c2ff',
     padding: 20,
