@@ -14,7 +14,7 @@ class AttendanceBoxes extends React.Component {
       department: this.props.dept,
       subject: this.props.sub,
       semester: this.props.sem,
-      date:this.props.date
+      date: this.props.date
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -23,16 +23,16 @@ class AttendanceBoxes extends React.Component {
   addPresentStudent(regNo) {
     console.log("add Registration is being called.");
     const { attendanceList } = this.state;
-    const {studentList} = this.state;
+    const { studentList } = this.state;
     attendanceList[regNo] = true;
-    
+
     this.setState(
       {
         attendanceList: attendanceList
       },
       () => {
         console.log(this.state.attendanceList);
-              }
+      }
     );
   }
   submitHandler = () => {
@@ -42,11 +42,10 @@ class AttendanceBoxes extends React.Component {
     var db_subject = "";
     let studentList = this.state.studentList;
     let attendanceList = this.state.attendanceList;
-    for(var student in studentList){
-      if(attendanceList[studentList[student]] === true){
+    for (var student in studentList) {
+      if (attendanceList[studentList[student]] === true) {
         attendanceList[studentList[student]] = true;
-      }
-      else{
+      } else {
         attendanceList[studentList[student]] = false;
       }
     }
@@ -56,7 +55,7 @@ class AttendanceBoxes extends React.Component {
       },
       () => {
         console.log(this.state.attendanceList);
-              }
+      }
     );
     Firebase.database()
       .ref("attendance")
@@ -69,47 +68,58 @@ class AttendanceBoxes extends React.Component {
           db_department = attendanceInfo[attributes].department;
           db_semester = attendanceInfo[attributes].semester;
           db_subject = attendanceInfo[attributes].subject;
-          db_date = attendanceInfo[attributes].date
+          db_date = attendanceInfo[attributes].date;
           if (db_department === this.state.department) {
             if (db_semester === this.state.semester) {
               if (db_subject === this.state.subject) {
-              if(db_date === this.state.date){
-                uid = attributes
+                if (db_date === this.state.date) {
+                  uid = attributes;
+                }
               }
             }
           }
         }
-      }
-      if(uid == null || uid == "" || uid == undefined){
-
-        let attendanceObj = {
-          attendanceList : this.state.attendanceList,
-          department:this.state.department,
-          date:this.state.date,
-          subject:this.state.subject,
-          semester:this.state.semester
-        };
-        Firebase.database()
-        .ref("attendance/")
-        .push(
-          attendanceObj
-        )
-      }
-      else{
-        Firebase.database()
-        .ref("attendance").child(uid).update({date: this.state.date, attendanceList : this.state.attendanceList});
-      }     
+        if (uid == null || uid == "" || uid == undefined) {
+          let attendanceObj = {
+            attendanceList: this.state.attendanceList,
+            department: this.state.department,
+            date: this.state.date,
+            subject: this.state.subject,
+            semester: this.state.semester
+          };
+          Firebase.database()
+            .ref("attendance/")
+            .push(attendanceObj);
+        } else {
+          Firebase.database()
+            .ref("attendance")
+            .child(uid)
+            .update({
+              date: this.state.date,
+              attendanceList: this.state.attendanceList
+            });
+        }
       });
-    
   };
 
   render() {
+    let studentList =this.state.studentList;
+    let keys=null;
+    if(studentList.length>0){
+      keys =Object.keys(studentList[0])
+    }
+    for(let i=0;i<60;i++){
+      studentList.push(studentList[1]);
+      keys.push(keys[1]);
+    }
     return (
       <ScrollView>
         <FlatList
           marginLeft="3%"
+          windowSize={3}
+          initialNumToRender={7}
           numColumns={4}
-          data={this.state.studentList}
+          data={keys}
           renderItem={({ item }) => (
             <AttendanceBox id={item} addRegNo={this.addPresentStudent} />
           )}

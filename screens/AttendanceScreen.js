@@ -4,6 +4,7 @@ import {
   Text,
   Picker,
   StyleSheet,
+  Alert,
   TouchableHighlight
 } from "react-native";
 import DatePicker from "react-native-datepicker";
@@ -29,12 +30,20 @@ class AttendanceScreen extends Component {
   };
 
   attendanceHandler = () => {
-    this.props.navigation.navigate("AddAttendance", {
-      department: this.state.department,
-      semester: this.state.semester,
-      subject: this.state.selectedSubject,
-      date: this.state.date
-    });
+    if (this.state.department === "1") {
+      Alert.alert("Please choose department");
+    } else if (this.state.semester === "1") {
+      Alert.alert("Please Choose  Semester");
+    } else if (this.state.selectedSubject === "1") {
+      Alert.alert("Please choose Subject");
+    } else {
+      this.props.navigation.navigate("AddAttendance", {
+        department: this.state.department,
+        semester: this.state.semester,
+        subject: this.state.selectedSubject,
+        date: this.state.date
+      });
+    }
   };
   componentWillUpdate(nextProps, nextState) {
     if (
@@ -77,7 +86,6 @@ class AttendanceScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.fixSize}>
-          <Text style={styles.headText}></Text>
           <DatePicker
             style={{ width: 200 }}
             date={this.state.date} //initial date from state
@@ -86,6 +94,7 @@ class AttendanceScreen extends Component {
             format="YYYY-MM-DD"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
+            
             customStyles={{
               dateIcon: {
                 position: "absolute",
@@ -112,10 +121,10 @@ class AttendanceScreen extends Component {
         <View>
           <Picker
             selectedValue={this.state.department}
-            style={{ height: 50, width: 180, marginLeft: "20%" }}
+            style={{ height: 50, width: 220, marginLeft: "24%" }}
             onValueChange={this.updateDepartment}
           >
-            <Picker.Item label="Select Department" value="Department" />
+            <Picker.Item label="Select Department" value="1" />
             <Picker.Item label="Civil Engineering" value="Civil Engineering" />
             <Picker.Item
               label="Mechanical Engineering"
@@ -130,10 +139,10 @@ class AttendanceScreen extends Component {
         <View>
           <Picker
             selectedValue={this.state.semester}
-            style={{ height: 50, width: 180, marginLeft: "20%" }}
+            style={{ height: 50, width: 220, marginLeft: "24%" }}
             onValueChange={this.updateSemester}
           >
-            <Picker.Item label="Select Semester" value="Select Semester" />
+            <Picker.Item label="Select Semester" value="1" />
             <Picker.Item label="1st" value="1st" />
             <Picker.Item label="2nd" value="2nd" />
             <Picker.Item label="3rd" value="3rd" />
@@ -148,7 +157,7 @@ class AttendanceScreen extends Component {
         <View>
           <Picker
             selectedValue={this.state.selectedSubject}
-            style={{ height: 50, width: 180, marginLeft: "20%" }}
+            style={{ height: 50, width: 220, marginLeft: "24%" }}
             onValueChange={subjectLists =>
               this.setState({ selectedSubject: subjectLists })
             }
@@ -173,7 +182,8 @@ export default AttendanceScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20
+    paddingTop: 20,
+    alignContent: "center"
   },
   text: {
     fontSize: 20,
@@ -203,7 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
     marginRight: 15,
-    marginLeft: 40
+    marginLeft: 60
   },
   clickButton: {
     backgroundColor: "#00b5ec"

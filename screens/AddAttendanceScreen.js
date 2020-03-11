@@ -4,17 +4,17 @@ import { Card } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
 import Firebase from "../components/config";
 export default class AddAttendanceScreen extends React.Component {
-  
   constructor(props) {
     super(props);
-    this.state={
-      regNoList:[],
-      semester:"",
-      department:"",
-      subject:"",
-      date:"",
-      dataLoaded:false
-    }
+    this.state = {
+      regNoList: [],
+      semester: "",
+      department: "",
+      subject: "",
+      date: "",
+      dataLoaded: false,
+     
+    };
   }
   componentDidMount() {
     const { navigation } = this.props;
@@ -22,7 +22,7 @@ export default class AddAttendanceScreen extends React.Component {
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
-    
+
     var db_department = "";
     var db_semester = "";
     var regNoList = [];
@@ -40,17 +40,16 @@ export default class AddAttendanceScreen extends React.Component {
               var regNo = studentInfo[attributes].registration_num;
               regNo = regNo.substring(8, regNo.length);
               regNoList.push(regNo);
-              
             }
           }
         }
         this.setState({
           regNoList: regNoList,
-          semester:semester,
-          subject:subject,
-          department:department,
-          date:date,
-          dataLoaded:true
+          semester: semester,
+          subject: subject,
+          department: department,
+          date: date,
+          dataLoaded: true
         });
       });
   }
@@ -62,7 +61,7 @@ export default class AddAttendanceScreen extends React.Component {
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
     const dataLoaded = this.state.dataLoaded;
-    
+
     return (
       <ScrollView>
         <Card
@@ -91,13 +90,18 @@ export default class AddAttendanceScreen extends React.Component {
                 Date : {JSON.stringify(date).replace(/\"/g, "")}
               </Text>
             </View>
-          </View> 
+          </View>
         </Card>
 
-        { 
-            dataLoaded && 
-            <AttendanceBoxes data={this.state.regNoList}  dept = {this.state.department} sem = {this.state.semester}  sub={this.state.subject} date = {this.state.date} />
-        }
+        {dataLoaded && (
+          <AttendanceBoxes
+            data={this.state.regNoList}
+            dept={this.state.department}
+            sem={this.state.semester}
+            sub={this.state.subject}
+            date={this.state.date}
+          />
+        )}
       </ScrollView>
     );
   }
@@ -109,7 +113,7 @@ const styles = StyleSheet.create({
   },
   ButtonStyle: {
     paddingTop: 10,
-    paddingBottom: 10,  
+    paddingBottom: 10,
     backgroundColor: "#009688",
     borderRadius: 5,
     marginBottom: 20
