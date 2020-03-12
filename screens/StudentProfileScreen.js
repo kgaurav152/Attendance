@@ -55,6 +55,9 @@ export default class StudentProfileScreen extends Component {
               <Text style={styles.paragraph}>
                 {JSON.stringify(email).replace(/\"/g, "")}
               </Text>
+              <Text style={styles.paragraph}>
+               Semester - {JSON.stringify(sem).replace(/\"/g, "")}
+              </Text>
             </View>
             <Image
               source={{ uri: imageUrl }}
@@ -71,7 +74,7 @@ export default class StudentProfileScreen extends Component {
         <View style={styles.fixToText}>
         <TouchableHighlight
             style={[styles.buttonContainer, styles.editButton]}
-            onPress={() => this.props.navigation.navigate("EditStudentProfile",
+            onPress={() => this.props.navigation.navigate("EditStudentProfile",{
             email,
             name,
             mobile,
@@ -79,6 +82,7 @@ export default class StudentProfileScreen extends Component {
             reg_no,
             department,
             sem
+            }
             )}
           >
             <Text style={styles.editText}>Edit Profile</Text>

@@ -17,17 +17,19 @@ import Firebase from "../components/config";
 export default class EditStudentProfile extends Component {
   constructor(props) {
     super();
-    const { navigation } = this.props;
+    
     this.state = {
-        
-         email : navigation.getParam("email"),
-         name :navigation.getParam("name"),
-         reg_no : navigation.getParam("reg_no"),
-         mobile : navigation.getParam("mobile"),
-         department : navigation.getParam("department"),
-         imageUrl : navigation.getParam("imageUrl"),
-         sem : navigation.getParam("sem"),
-    };
+      email: "",
+      name: "",
+      department: "",
+      errorMessage: null,
+      image: null,
+      semester: "",
+      session: "",
+      year: "",
+      mobile: "",
+      reg_no: ""
+           };
   }
   editStudentData() {
     
@@ -42,12 +44,12 @@ export default class EditStudentProfile extends Component {
             .ref("students/"+record.key)
             .update({
               name: this.state.name,
-              department: this.state.department,
+              
               image: this.state.image,
               session: this.state.session,
-              semester: this.state.semester,
+              
               mobile: this.state.mobile,
-              year: this.state.year,
+              
               registration_num: this.state.reg_no,
               email: this.state.email
             })
@@ -55,7 +57,7 @@ export default class EditStudentProfile extends Component {
               console.log("Wrong Choice");
               console.log(error);
             });
-            this.props.navigation.navigate('FacultyWelcome')          })
+            this.props.navigation.navigate('StudentWelcome')          })
         })
         
     
@@ -64,7 +66,17 @@ export default class EditStudentProfile extends Component {
   }
   render() {
     let { image } = this.state;
-
+    const { navigation } = this.props;
+    const  email =navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const reg_no = navigation.getParam("reg_no");
+    const mobile = navigation.getParam("mobile");
+    const department = navigation.getParam("department");
+    const imageUrl = navigation.getParam("imageUrl");
+    const sem = navigation.getParam("sem");
+    this.setState({
+      reg_no:reg_no
+    })
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -75,7 +87,7 @@ export default class EditStudentProfile extends Component {
             />
             <TextInput
               style={styles.inputs}
-              placeholder="Name"
+              placeholder={JSON.stringify(name).replace(/\"/g, "")}
               keyboardType="default"
               underlineColorAndroid="transparent"
               onChangeText={name => this.setState({ name })}
@@ -89,69 +101,15 @@ export default class EditStudentProfile extends Component {
             />
             <TextInput
               style={styles.inputs}
-              placeholder={reg_no}
+              placeholder={JSON.stringify(reg_no).replace(/\"/g, "")}
               keyboardType='default'
               underlineColorAndroid="transparent"
-              
-              value={this.state.reg_no}
+              onChangeText={reg_no => this.setState({ reg_no })}
+              value={JSON.stringify(reg_no).replace(/\"/g, "")}
+              editable={false}
             />
           </View>
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={require("../images/department.jpg")}
-            />
-            
-            <Picker
-          selectedValue={this.state.department}
-          style={{ height: 50, width: 180, marginLeft:"5%"}}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ department: itemValue })
-          }
-        >
-          <Picker.Item label="Select Department" value="department" />
-          <Picker.Item label="Civil Engineering" value="Civil Engineering" />
-          <Picker.Item label="Mechanical Engineering" value="Mechanical Engineering" />
-          <Picker.Item label="Computer Sc. & Engineering" value="Computer Sc. & Engineering" />
-        </Picker>  
-        </View>       
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={require("../images/semester.png")}
-            />
-            <Picker
-            selectedValue={this.state.semester}
-            style={{ height: 50, width: 180, marginLeft:"5%"}}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ semester: itemValue })
-            }
-          >
-            <Picker.Item label="Select Semester" value="semester" />
-            <Picker.Item label="1st" value="1st" />
-            <Picker.Item label="2nd" value="2nd" />
-            <Picker.Item label="3rd" value="3rd" />
-            <Picker.Item label="4th" value="4th" />
-            <Picker.Item label="5th" value="5th" />            
-            <Picker.Item label="6th" value="6th" />            
-            <Picker.Item label="7th" value="7th" />
-            <Picker.Item label="8th" value="8th" />            
-          </Picker>
-          </View>
-          <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={require("../images/year.jpg")}
-            />
-            <TextInput
-              style={styles.inputs}
-              placeholder="Year"
-              underlineColorAndroid="transparent"
-              onChangeText={year => this.setState({ year })}
-              value={this.state.year}
-            />
-          </View>
-          <View style={styles.inputContainer}>
+                   <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
               source={require("../images/sessions.png")}
@@ -171,7 +129,7 @@ export default class EditStudentProfile extends Component {
             />
             <TextInput
               style={styles.inputs}
-              placeholder="Email"
+              placeholder={JSON.stringify(email).replace(/\"/g, "")}
               keyboardType="email-address"
               underlineColorAndroid="transparent"
               onChangeText={email => this.setState({ email })}
@@ -185,7 +143,7 @@ export default class EditStudentProfile extends Component {
             />
             <TextInput
               style={styles.inputs}
-              placeholder="Mobile"
+              placeholder={JSON.stringify(mobile).replace(/\"/g, "")}
               keyboardType='numeric'
               underlineColorAndroid="transparent"
               onChangeText={mobile => this.setState({ mobile })}
@@ -222,9 +180,9 @@ export default class EditStudentProfile extends Component {
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.writeStudentData()}
+            onPress={() => this.editStudentData()}
           >
-            <Text style={styles.clickText}>Add Student</Text>
+            <Text style={styles.clickText}>Submit</Text>
           </TouchableHighlight>
         </ScrollView>
       </View>

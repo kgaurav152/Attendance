@@ -42,7 +42,7 @@ import AttendanceInfoScreen from "../screens/AttendanceInfoScreen";
 import FacultyReportScreen from "../screens/FacultyReportScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen"
 import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
-
+import StudentProfileScreen from "../screens/StudentProfileScreen";
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
@@ -340,6 +340,28 @@ const Student_StackNavigator = createStackNavigator({
   },
   StudentAttendance:{
     screen:StudentAttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+  },
+  StudentProfile:{
+    screen:StudentProfileScreen,
     navigationOptions: ({ navigation }) => ({
       
       title: "Katihar Engg. College",
