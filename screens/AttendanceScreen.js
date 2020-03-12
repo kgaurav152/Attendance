@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
+import moment from 'moment';
+var currentDate = moment().format("YYYY-MM-DD");
 
 class AttendanceScreen extends Component {
   state = {
@@ -30,11 +32,11 @@ class AttendanceScreen extends Component {
   };
 
   attendanceHandler = () => {
-    if (this.state.department === "1") {
+    if (this.state.department == "1") {
       Alert.alert("Please choose department");
-    } else if (this.state.semester === "1") {
+    } else if (this.state.semester == "1") {
       Alert.alert("Please Choose  Semester");
-    } else if (this.state.selectedSubject === "1") {
+    } else if (this.state.selectedSubject == "1") {
       Alert.alert("Please choose Subject");
     } else {
       this.props.navigation.navigate("AddAttendance", {
@@ -94,7 +96,7 @@ class AttendanceScreen extends Component {
             format="YYYY-MM-DD"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
-            
+            maxDate={currentDate}
             customStyles={{
               dateIcon: {
                 position: "absolute",

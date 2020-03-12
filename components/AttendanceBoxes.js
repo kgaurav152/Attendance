@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableHighlight, FlatList } from "react-native";
+import { StyleSheet, Text, TouchableHighlight, FlatList,View,ActivityIndicator } from "react-native";
 import AttendanceBox from "./AttendanceBox";
 import { ScrollView } from "react-native-gesture-handler";
 import Firebase from "../components/config";
@@ -14,7 +14,8 @@ class AttendanceBoxes extends React.Component {
       department: this.props.dept,
       subject: this.props.sub,
       semester: this.props.sem,
-      date: this.props.date
+      date: this.props.date,
+      loading:false
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -36,6 +37,11 @@ class AttendanceBoxes extends React.Component {
     );
   }
   submitHandler = () => {
+    this.setState({
+      loading:true
+    })
+    
+
     var db_department = "";
     var db_semester = "";
     var db_date = "";
@@ -89,7 +95,12 @@ class AttendanceBoxes extends React.Component {
           };
           Firebase.database()
             .ref("attendance/")
-            .push(attendanceObj);
+            .push(attendanceObj)
+            this.setState({
+              loading:false
+            })
+            this.props.navigation.navigate('Home')
+           
         } else {
           Firebase.database()
             .ref("attendance")
@@ -97,39 +108,54 @@ class AttendanceBoxes extends React.Component {
             .update({
               date: this.state.date,
               attendanceList: this.state.attendanceList
-            });
+            })
+            this.setState({
+              loading:false
+            })
+            
+            
         }
+      
       });
+      
   };
 
   render() {
-    let studentList =this.state.studentList;
-    let keys=null;
-    if(studentList.length>0){
-      keys =Object.keys(studentList[0])
-    }
-    for(let i=0;i<60;i++){
-      studentList.push(studentList[1]);
-      keys.push(keys[1]);
-    }
+   // let studentList =this.state.studentList;
+    //let keys=null;
+    //if(studentList.length>0){
+   //   keys =Object.keys(studentList[0])
+    //}
+   // for(let i=0;i<60;i++){
+    //  studentList.push(studentList[1]);
+    //  keys.push(keys[1]);
+   // }
     return (
       <ScrollView>
+      {this.state.loading === false ? (
+        <View>
         <FlatList
           marginLeft="3%"
           windowSize={3}
           initialNumToRender={7}
           numColumns={4}
-          data={keys}
+          data={this.state.studentList}
           renderItem={({ item }) => (
             <AttendanceBox id={item} addRegNo={this.addPresentStudent} />
           )}
         />
+        
         <TouchableHighlight
           style={[styles.buttonContainer, styles.clickButton]}
           onPress={() => this.submitHandler()}
         >
           <Text style={styles.clickText}>Submit</Text>
         </TouchableHighlight>
+        
+        </View>
+      ) :(
+        <ActivityIndicator size="large" />
+      )}
       </ScrollView>
     );
   }
