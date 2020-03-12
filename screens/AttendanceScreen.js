@@ -10,6 +10,7 @@ import {
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
 import moment from 'moment';
+import AwesomeAlert from 'react-native-awesome-alerts';
 var currentDate = moment().format("YYYY-MM-DD");
 
 class AttendanceScreen extends Component {
@@ -30,15 +31,49 @@ class AttendanceScreen extends Component {
   updateSubject = subject => {
     this.setState({ subject: subject });
   };
+  hideAlert = () => {
+    this.setState({
+      semAlert:false,
+      departmentAlert:false,
+      subjectAlert:false,
+      dateAlert:false
+    });
+  };
+  dateAlert=()=>{
+    this.setState({
+      dateAlert:true
+    });
+  };
+  subjectAlert = () => {
+    this.setState({
+      subjectAlert: true,
+      
+    });
+  };
+  departmentAlert = () => {
+    this.setState({
+      departmentAlert: true,
+      
+    });
+  };
+  semAlert=()=>{
+    this.setState({
+      semAlert:true
+    });
+  };
 
   attendanceHandler = () => {
-    if (this.state.department == "1") {
-      Alert.alert("Please choose department");
-    } else if (this.state.semester == "1") {
-      Alert.alert("Please Choose  Semester");
-    } else if (this.state.selectedSubject == "1") {
-      Alert.alert("Please choose Subject");
-    } else {
+    if (this.state.department == "" || this.state.department =='1') {
+      this.departmentAlert();
+    } else if (this.state.semester == "" || this.state.semester=='1') {
+      this.semAlert();
+    } else if (this.state.selectedSubject == "" || this.state.selectedSubject=='1') {
+      this.subjectAlert();
+    } 
+    else if (this.state.date==""){
+      this.dateAlert();
+    }
+    else {
       this.props.navigation.navigate("AddAttendance", {
         department: this.state.department,
         semester: this.state.semester,
@@ -85,6 +120,7 @@ class AttendanceScreen extends Component {
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
+    const {departmentAlert,subjectAlert,semAlert,dateAlert } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.fixSize}>
@@ -175,6 +211,96 @@ class AttendanceScreen extends Component {
         >
           <Text style={styles.clickText}>Submit</Text>
         </TouchableHighlight>
+        <AwesomeAlert
+          show={subjectAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please Choose Subject"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={departmentAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please Choose Department"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={semAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please Choose Semester"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+ 
+        <AwesomeAlert
+          show={dateAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please Select a Date"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+ 
       </View>
     );
   }

@@ -49,7 +49,7 @@ export default class Homescreen extends Component {
                 onPress={() => this.props.navigation.navigate("KEC_Katihar")}
                 titleStyle={{
                   color: "#fffff0",
-                  fontSize: 20,
+                  fontSize: 23,
                   fontWeight: "700"
                 }}
                 buttonStyle={{
@@ -57,8 +57,8 @@ export default class Homescreen extends Component {
                   borderRadius: 10,
                   flex: 1,
                   height: "20%",
-                  width: "80%",
-                  marginLeft: "2%",
+                  width: "75%",
+                  marginLeft: "8%",
                   marginBottom: "2%"
                 }}
                 title="KEC Katihar "
@@ -95,7 +95,7 @@ export default class Homescreen extends Component {
                   borderRadius: 10,
                   flex: 1,
                   height: "20%",
-                  width: "85%",
+                  width: "92%",
 
                   marginTop: 10
                 }}
