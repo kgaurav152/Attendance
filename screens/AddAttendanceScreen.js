@@ -100,6 +100,7 @@ export default class AddAttendanceScreen extends React.Component {
             sem={this.state.semester}
             sub={this.state.subject}
             date={this.state.date}
+            navigation = {navigation}
           />
         )}
       </ScrollView>

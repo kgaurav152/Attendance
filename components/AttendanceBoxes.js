@@ -99,7 +99,7 @@ class AttendanceBoxes extends React.Component {
             this.setState({
               loading:false
             })
-            this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('Home');
            
         } else {
           Firebase.database()
@@ -113,7 +113,7 @@ class AttendanceBoxes extends React.Component {
               loading:false
             })
             
-            
+            this.props.navigation.navigate('Home'); 
         }
       
       });
