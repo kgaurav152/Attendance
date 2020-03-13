@@ -20,7 +20,7 @@ export default class StudentWelcomeScreen extends Component {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
-    const reg_no = navigation.getParam("reg_no");
+    const reg_no = navigation.getParam("registration_num");
     const mobile = navigation.getParam("mobile");
     const department = navigation.getParam("department");
     const imageUrl = navigation.getParam("imageUrl");

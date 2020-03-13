@@ -55,9 +55,6 @@ export default class StudentProfileScreen extends Component {
               <Text style={styles.paragraph}>
                 {JSON.stringify(email).replace(/\"/g, "")}
               </Text>
-              <Text style={styles.paragraph}>
-               Semester - {JSON.stringify(sem).replace(/\"/g, "")}
-              </Text>
             </View>
             <Image
               source={{ uri: imageUrl }}
@@ -81,8 +78,7 @@ export default class StudentProfileScreen extends Component {
             imageUrl,
             reg_no,
             department,
-            sem
-            }
+            sem}
             )}
           >
             <Text style={styles.editText}>Edit Profile</Text>

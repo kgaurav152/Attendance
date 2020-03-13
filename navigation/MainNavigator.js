@@ -42,7 +42,11 @@ import AttendanceInfoScreen from "../screens/AttendanceInfoScreen";
 import FacultyReportScreen from "../screens/FacultyReportScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen"
 import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
+import  SearchStudentScreen from "../screens/SearchStudentScreen";
 import StudentProfileScreen from "../screens/StudentProfileScreen";
+
+
+
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
@@ -290,6 +294,29 @@ const LoginScreen_StackNavigator = createStackNavigator({
     })
 
   },
+  SearchStudent:{
+    screen:SearchStudentScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+
+  },
   FacultyReport:{
     screen:FacultyReportScreen,
     navigationOptions: ({ navigation }) => ({
@@ -360,28 +387,6 @@ const Student_StackNavigator = createStackNavigator({
       ),
     })
   },
-  StudentProfile:{
-    screen:StudentProfileScreen,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-  },
   EditStudentProfile:{
     screen:EditStudentProfileScreen,
     navigationOptions: ({ navigation }) => ({
@@ -404,6 +409,29 @@ const Student_StackNavigator = createStackNavigator({
       ),
     })
   },
+  StudentProfile:{
+    screen:StudentProfileScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+  },
+
   ShowAttendance:{
     screen:ShowAttendanceScreen,
     navigationOptions: ({ navigation }) => ({
