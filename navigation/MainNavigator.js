@@ -44,7 +44,7 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen"
 import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
 import  SearchStudentScreen from "../screens/SearchStudentScreen";
 import StudentProfileScreen from "../screens/StudentProfileScreen";
-
+import StudentDetailScreen from "../screens/StudentDetailScreen";
 
 
 class NavigationDrawerStructure extends Component {
@@ -296,6 +296,29 @@ const LoginScreen_StackNavigator = createStackNavigator({
   },
   SearchStudent:{
     screen:SearchStudentScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+
+  },
+  StudentDetail:{
+    screen:StudentDetailScreen,
     navigationOptions: ({ navigation }) => ({
       
       title: "Katihar Engg. College",

@@ -15,7 +15,7 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-export default class StudentWelcomeScreen extends Component {
+export default class StudentDetailScreen extends Component {
   render() {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
@@ -94,7 +94,7 @@ export default class StudentWelcomeScreen extends Component {
               sem
             })}
           >
-            <Text style={styles.clickText}>My Profile</Text>
+            <Text style={styles.clickText}>Edit Student Detail</Text>
           </TouchableHighlight>
         </View>
         <Separator />

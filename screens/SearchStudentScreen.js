@@ -17,7 +17,7 @@ function Separator() {
 }
 
 export default class SearchStudentScreen extends Component {
-    state = {reg_no : ""}
+    state = {reg_no : "", name:"",department:"",mobile:"",email:"",imageUrl:"",sem:""}
   searchStudent = () => {
       Firebase.database().ref("students").orderByChild("registration_num").equalTo(this.state.reg_no).once("value").then(snapshot =>{
           let studentInfo = snapshot.val();
@@ -25,7 +25,7 @@ export default class SearchStudentScreen extends Component {
           let department = null;
           let mobile = null;
           let email = null;
-          let registration_num = null;
+          let reg_no = null;
           let imageUrl = null;
           let sem = null;
           for(attributes in studentInfo){
@@ -33,7 +33,7 @@ export default class SearchStudentScreen extends Component {
               department = studentInfo[attributes].department;
               mobile = studentInfo[attributes].mobile;
               email = studentInfo[attributes].email;
-              registration_num = studentInfo[attributes].registration_num
+              reg_no= studentInfo[attributes].registration_num
               sem = studentInfo[attributes].semester
           }
           this.setState({
@@ -41,19 +41,18 @@ export default class SearchStudentScreen extends Component {
             department: department,
             mobile: mobile,
             email: email,
-            registration_num: registration_num,
+            reg_no: reg_no,
             imageUrl: imageUrl,
             sem : sem
           });
-          this.props.navigation.navigate("StudentWelcome", {
-            email,
-            name,
-            department,
-            mobile,
-            email,
-            registration_num,
-            imageUrl,
-            sem
+          this.props.navigation.navigate("StudentDetail", {
+            email:this.state.email,
+            name:this.state.name,
+            department:this.state.department,
+            mobile:this.state.mobile,
+            reg_no:this.state.reg_no,
+            imageUrl:this.state.imageUrl,
+            sem:this.state.sem
           });
       }
         
