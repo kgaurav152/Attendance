@@ -7,7 +7,8 @@ import {
   SafeAreaView,
   TouchableHighlight,
   Image,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
@@ -18,6 +19,28 @@ function Separator() {
 
 export default class FacultyWelcomeScreen extends Component {
   
+  
+  
+  componentDidMount(){
+      AsyncStorage.getItem('attendanceList').then( list => {
+          let attendances = JSON.parse(list);
+          for(var i = attendances.length -1; i >= 0 ; i--){
+
+            let obj = attendances[i];
+            obj = JSON.parse(obj);
+            Firebase.database()
+            .ref("attendance/")
+            .push(obj)
+            .then( res=> {
+              attendances.splice(i,1);
+            })
+            .catch( error => {
+                          
+            });
+        }
+      })
+  }
+
   render() {
    
     const { navigation } = this.props;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableHighlight, FlatList,View,ActivityIndicator } from "react-native";
+import { StyleSheet, Text, TouchableHighlight, FlatList,View,ActivityIndicator, AsyncStorage } from "react-native";
 import AttendanceBox from "./AttendanceBox";
 import { ScrollView } from "react-native-gesture-handler";
 import Firebase from "../components/config";
@@ -93,9 +93,21 @@ class AttendanceBoxes extends React.Component {
             subject: this.state.subject,
             semester: this.state.semester
           };
+          
           Firebase.database()
             .ref("attendance/")
-            .push(attendanceObj)
+            .push(attendanceObj).catch( error => {
+
+              if(error.code == "auth/network-request-failed"){
+                 AsyncStorage.getItem('attendanceList').then( val => {
+                  let attendaceList = JSON.parse(val) || [];    
+                  attendaceList = { ...attendaceList, attendanceObj }
+                      AsyncStorage.setItem('attendanceList', attendaceList);
+                 });
+              };
+                          
+            });
+
             this.setState({
               loading:false
             })

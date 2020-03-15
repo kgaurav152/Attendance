@@ -5,7 +5,8 @@ import {
   Picker,
   StyleSheet,
   Alert,
-  TouchableHighlight
+  TouchableHighlight,
+  AsyncStorage
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
@@ -104,14 +105,26 @@ class AttendanceScreen extends Component {
               if (db_semester === this.state.semester) {
                 var subjectData = subjectInfo[attributes].subjectName;
                 subjectList.push(subjectData);
+                  this.setState({
+                    subjectList: subjectList
+                  });
+                  AsyncStorage.setItem( this.state.department 
+                    + this.state.semester + "subjectList", JSON.stringify(subjectList));
               }
               console.log(subjectList);
-
-              this.setState({
-                subjectList: subjectList
-              });
             }
           }
+        })
+        .catch( error => {
+                   
+            console.log( error );
+            if(error.code == "auth/network-request-failed"){   
+            AsyncStorage.getItem(this.state.department 
+              + this.state.semester + "subjectList").then( subList => {
+                  this.setState({ subjectList : JSON.parse(subList)
+                  })
+              });
+            }
         });
     }
   }

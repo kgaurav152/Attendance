@@ -4,14 +4,13 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   TouchableHighlight,
   Image,
   Alert,
-  Picker,
   ActivityIndicator,
   AsyncStorage
 } from "react-native";
+
 import firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
@@ -31,21 +30,160 @@ export default class LoginScreen extends Component {
     });
   };
   wrongEmail = () => {
-    alert("Wrong Email !");
-    this.setState({
-      loading: false
-    });
+    Alert.alert("Wrong Email !");
   };
   wrongPass = () => {
-    alert("Wrong password");
-    this.setState({
-      loading: false
-    });
+    Alert.alert("Wrong password");
   };
+
+  goToStudentsDetails = () =>{
+    firebase
+    .database()
+    .ref("students")
+    .orderByChild("email")
+    .equalTo(this.state.email)
+    .once("value")
+    .then(snapshot => {
+      let studentInfo = snapshot.val();
+      let name = null;
+      let reg_no = null;
+      let mobile = null;
+      let department = null;
+      let imageUrl = null;
+      let sem = null;
+      for (var attributes in studentInfo) {
+        name = studentInfo[attributes].name;
+        reg_no = studentInfo[attributes].registration_num;
+        mobile = studentInfo[attributes].mobile;
+        department = studentInfo[attributes].department;
+        imageUrl = studentInfo[attributes].image;
+        sem = studentInfo[attributes].semester;
+      }
+
+      this.props.navigation.navigate("StudentWelcome", {
+        email: this.state.email,
+        name,
+        reg_no,
+        department,
+        mobile,
+        imageUrl,
+        sem
+      });
+      this.setState({
+        loading: false
+      });
+    });
+  }
+
+  gotToFacultyDetails = () => {    
+
+    let name = "", department = "", mobile = "";
+    let promise = firebase
+    .database()
+    .ref("Faculty")
+    .orderByChild("email")
+    .equalTo(this.state.email)
+    .once("value");
+    promise.then(snapshot => {
+
+      let facultyInfo = snapshot.val();      
+      for (var attributes in facultyInfo) {
+        name = facultyInfo[attributes].name;
+        department = facultyInfo[attributes].department;
+        mobile = facultyInfo[attributes].mobile;
+        imageUrl = facultyInfo[attributes].image;
+      }
+      this.setState({
+        name: name,
+        department: department,
+        mobile: mobile,
+        imageUrl: imageUrl,
+        loading: false
+      })
+
+      AsyncStorage.setItem( this.state.email + "details", JSON.stringify(facultyInfo))
+      this.props.navigation.navigate("FacultyWelcome", {
+        email: this.state.email,
+        name,
+        department,
+        mobile,
+        imageUrl
+      });
+  
+
+    }).catch( error => {
+      
+      AsyncStorage.getItem(this.state.email + "details").then( val => {
+        let facultyInfo = JSON.parse( val );     
+        for (var attributes in facultyInfo) {
+          name = facultyInfo[attributes].name;
+          department = facultyInfo[attributes].department;
+          mobile = facultyInfo[attributes].mobile;
+          imageUrl = facultyInfo[attributes].image;        
+        }
+        this.setState({
+          name: name,
+          department: department,
+          mobile: mobile,
+          imageUrl: imageUrl,
+          loading: false
+        })
+    
+        this.props.navigation.navigate("FacultyWelcome", {
+          email: this.state.email,
+          name, department, mobile, imageUrl
+        });
+
+      });
+    });
+
+  }
+
+  redirectToLandingPage = ( role ) => {
+
+    if (role == "faculty") {
+      this.gotToFacultyDetails()
+    } else if (role == "admin") {
+          this.props.navigation.navigate("AdminWelcome", {
+          email: this.state.email
+        });
+        this.setState({ loading: false });
+    } else {
+        this.goToStudentsDetails();
+    }
+}
+  handleOfflineLogin = (userInfo) =>{
+    
+    let role = null;
+    for (var attributes in userInfo) {
+      role = userInfo[attributes].role;
+    }
+    this.redirectToLandingPage(role);
+  }
+  
+  fetchUserFromAsncStorage =  ( userInfo ) => {
+
+      if( userInfo != null && userInfo != undefined && userInfo != ""){
+        let jsonUserInfo = JSON.parse(userInfo);
+        this.handleOfflineLogin(jsonUserInfo);
+      }          
+  }   
   handleLogin = () => {
     this.setState({
       loading: true
     });
+    try{
+    throw "auth/network-request-failed";
+    }
+    catch( error ){
+      AsyncStorage.getItem(this.state.email).then( (val) => { 
+        console.log("Following information fetched for user " + 
+                this.state.email + "" + val );
+        this.fetchUserFromAsncStorage(val) });
+      this.setState({loading: false})
+    }
+    return;
+        
     const { email, password } = this.state;
     firebase
       .auth()
@@ -59,7 +197,7 @@ export default class LoginScreen extends Component {
         }
 
         if (uid) {
-          firebase
+           firebase
             .database()
             .ref("users/")
             .orderByChild("email")
@@ -71,99 +209,33 @@ export default class LoginScreen extends Component {
               for (var attributes in userInfo) {
                 role = userInfo[attributes].role;
               }
-              if (role == "faculty") {
-                firebase
-                  .database()
-                  .ref("Faculty")
-                  .orderByChild("email")
-                  .equalTo(this.state.email)
-                  .once("value")
-                  .then(snapshot => {
-                    let facultyInfo = snapshot.val();
-                    let name = null;
-                    let department = null;
-                    let mobile = null;
-                    for (var attributes in facultyInfo) {
-                      name = facultyInfo[attributes].name;
-                      department = facultyInfo[attributes].department;
-                      mobile = facultyInfo[attributes].mobile;
-                      imageUrl = facultyInfo[attributes].image;
-                    }
-                    this.setState({
-                      name: name,
-                      department: department,
-                      mobile: mobile,
-                      imageUrl: imageUrl
-                    });
-
-                    this.props.navigation.navigate("FacultyWelcome", {
-                      email: this.state.email,
-                      name,
-                      department,
-                      mobile,
-                      imageUrl
-                    });
-                    this.setState({
-                      loading: false
-                    });
-                  });
-              } else if (role == "admin") {
-                this.props.navigation.navigate("AdminWelcome", {
-                  email: this.state.email
-                });
-                this.setState({
-                  loading: false
-                });
-              } else {
-                firebase
-                  .database()
-                  .ref("students")
-                  .orderByChild("email")
-                  .equalTo(this.state.email)
-                  .once("value")
-                  .then(snapshot => {
-                    let studentInfo = snapshot.val();
-                    let name = null;
-                    let reg_no = null;
-                    let mobile = null;
-                    let department = null;
-                    let imageUrl = null;
-                    let sem = null;
-                    for (var attributes in studentInfo) {
-                      name = studentInfo[attributes].name;
-                      reg_no = studentInfo[attributes].registration_num;
-                      mobile = studentInfo[attributes].mobile;
-                      department = studentInfo[attributes].department;
-                      imageUrl = studentInfo[attributes].image;
-                      sem = studentInfo[attributes].semester;
-                    }
-
-                    this.props.navigation.navigate("StudentWelcome", {
-                      email: this.state.email,
-                      name,
-                      reg_no,
-                      department,
-                      mobile,
-                      imageUrl,
-                      sem
-                    });
-                    this.setState({
-                      loading: false
-                    });
-                  });
-              }
+              AsyncStorage.setItem(this.state.email, JSON.stringify(userInfo))
+              .then( val =>{
+                console.log("Following information persisted for user " + 
+                this.state.email + "" + JSON.stringify(userInfo));
+              });
+              this.redirectToLandingPage(role);
+              
             });
         }
       })
-      .catch(error => {
+      .catch(error => { 
         this.setState({
           error: error.code
         });
         if (this.state.error === "auth/wrong-password") {
           this.wrongPass();
+
         } else if (this.state.error === "auth/user-not-found") {
           this.wrongEmail();
         }
+        else if(this.error === "auth/network-request-failed"){
+          AsyncStorage.getItem(this.state.email).then( (val) => { this.fetchUserFromAsncStorage( val ) });
+        }
+        this.setState({
+          loading: false
+        });
+        
       });
   };
 
@@ -216,10 +288,10 @@ export default class LoginScreen extends Component {
 
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.props.navigation.navigate("FacultyWelcome")}
+                onPress={ () => this.handleLogin() }
               >
                 <Text style={styles.loginText}>Login</Text>
-              </TouchableHighlight>
+              </TouchableHighlight> 
               <TouchableHighlight
                 style={[styles.buttonContainerForgot, styles.forgotButton]}
                 onPress={() =>

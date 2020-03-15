@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, AsyncStorage } from "react-native";
 import { Card } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
 import Firebase from "../components/config";
@@ -43,6 +43,8 @@ export default class AddAttendanceScreen extends React.Component {
             }
           }
         }
+
+        AsyncStorage.setItem( department + semester + "regNo", JSON.stringify(regNoList)); 
         this.setState({
           regNoList: regNoList,
           semester: semester,
@@ -50,8 +52,26 @@ export default class AddAttendanceScreen extends React.Component {
           department: department,
           date: date,
           dataLoaded: true
-        });
-      });
+        });  
+      }).catch( error => {
+        
+      console.log( error );
+        if( error.code == "auth/network-request-failed"){
+        AsyncStorage.getItem(department + semester + "regNo").then( val => {
+          if( val != null && val != undefined && val != "")
+          this.setState({
+            regNoList: JSON.parse(val),
+            semester: semester,
+            subject: subject,
+            department: department,
+            date: date,
+            dataLoaded: true
+          });  
+        })
+
+      }
+    });
+     
   }
 
   render() {
@@ -61,7 +81,6 @@ export default class AddAttendanceScreen extends React.Component {
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
     const dataLoaded = this.state.dataLoaded;
-
     return (
       <ScrollView>
         <Card
@@ -71,7 +90,6 @@ export default class AddAttendanceScreen extends React.Component {
             textAlign: "center",
             paddingLeft: 10,
             fontSize: 15,
-
             fontWeight: "800"
           }}
         >
