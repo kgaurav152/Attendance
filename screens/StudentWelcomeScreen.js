@@ -31,7 +31,7 @@ export default class StudentWelcomeScreen extends Component {
           Welcome to Online Attendance System
         </Text>
         <Card
-          title={JSON.stringify(name).replace(/\"/g, "")}
+          title={JSON.stringify(name)}
           titleStyle={{
             color: "#3498db",
             textAlign: "left",

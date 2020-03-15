@@ -17,39 +17,21 @@ import Firebase from "../components/config";
 export default class EditStudentProfile extends Component {
   constructor(props) {
     super();
-    
     this.state = {
-        
-         email : "",
-         name :"",
-         reg_no : "",
-         mobile : "",
-         department : "",
-         imageUrl : "",
-         sem : "",
+      email: JSON.stringify(email),
+      name: "",
+      department: "",
+      errorMessage: null,
+      image: null,
+      semester: "",
+      session: "",
+      year: "",
+      mobile: "",
+      reg_no: ""
     };
   }
-  componentDidMount = () => {
-    const { navigation } = this.props;
-    const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const reg_no = navigation.getParam("registration_num");
-    const mobile = navigation.getParam("mobile");
-    const department = navigation.getParam("department");
-    const imageUrl = navigation.getParam("imageUrl");
-    const sem = navigation.getParam("sem");
-
-    this.setState({
-      email: email,
-      name: name,
-      reg_no: reg_no,
-      mobile: mobile,
-      department: department,
-      imageUrl: imageUrl,
-      sem: sem
-    })
-  };
-  editStudentData() {
+  
+  writeStudentData=()=> {
     
       Firebase.database()
         .ref("students/")
@@ -60,7 +42,7 @@ export default class EditStudentProfile extends Component {
           res.forEach(record=>{
             Firebase.database()
             .ref("students/"+record.key)
-            .update({
+            .set({
               name: this.state.name,
               department: this.state.department,
               image: this.state.image,
@@ -75,16 +57,28 @@ export default class EditStudentProfile extends Component {
               console.log("Wrong Choice");
               console.log(error);
             });
-            this.props.navigation.navigate('FacultyWelcome')          })
+            this.props.navigation.navigate("FacultyWelcome")         })
         })
+       
         
     
-      
+      componentDidMount=()=>{
+
+
+      }
     
   }
   render() {
     let { image } = this.state;
-    
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const department = navigation.getParam("department");
+    const mobile = navigation.getParam("mobile");
+    const imageUrl = navigation.getParam("imageUrl");
+    this.setState({
+      email:email
+    })
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -109,10 +103,10 @@ export default class EditStudentProfile extends Component {
             />
             <TextInput
               style={styles.inputs}
-              placeholder="Reg_no"
+              placeholder="Registration no."
               keyboardType='default'
               underlineColorAndroid="transparent"
-              
+              onChangeText={reg_no => this.setState({ reg_no })}
               value={this.state.reg_no}
             />
           </View>
@@ -191,11 +185,12 @@ export default class EditStudentProfile extends Component {
             />
             <TextInput
               style={styles.inputs}
-              placeholder="Email"
+              placeholder={JSON.stringify(email)}
               keyboardType="email-address"
               underlineColorAndroid="transparent"
               onChangeText={email => this.setState({ email })}
               value={this.state.email}
+              editable={false}
             />
           </View>
           <View style={styles.inputContainer}>

@@ -69,22 +69,10 @@ export default class StudentDetailScreen extends Component {
         </Card>
 
         <View style={styles.fixToText}>
+          
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() =>
-              this.props.navigation.navigate("StudentAttendance", {
-                email,
-                reg_no,
-                department,
-                sem
-              })
-            }
-          >
-            <Text style={styles.clickText}>Attendance</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={()=>this.props.navigation.navigate("StudentProfile",{
+            onPress={()=>this.props.navigation.navigate("EditStudentProfile",{
               email,
               name,
               mobile,

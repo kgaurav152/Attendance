@@ -35,6 +35,7 @@ export default class SearchStudentScreen extends Component {
               email = studentInfo[attributes].email;
               reg_no= studentInfo[attributes].registration_num
               sem = studentInfo[attributes].semester
+              imageUrl =studentInfo[attributes].image;
           }
           this.setState({
             name: name,
