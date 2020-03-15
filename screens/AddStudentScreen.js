@@ -30,7 +30,8 @@ export default class AddStudent extends Component {
       reg_no: ""
     };
   }
-  writeStudentData() {
+  
+  writeStudentData=()=> {
     
       Firebase.database()
         .ref("students/")
@@ -56,8 +57,9 @@ export default class AddStudent extends Component {
               console.log("Wrong Choice");
               console.log(error);
             });
-            this.props.navigation.navigate('FacultyWelcome')          })
+            this.uploadToFirebase();          })
         })
+       
         
     
       

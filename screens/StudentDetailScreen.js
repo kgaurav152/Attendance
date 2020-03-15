@@ -15,7 +15,7 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-export default class StudentWelcomeScreen extends Component {
+export default class StudentDetailScreen extends Component {
   render() {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
@@ -31,7 +31,7 @@ export default class StudentWelcomeScreen extends Component {
           Welcome to Online Attendance System
         </Text>
         <Card
-          title={JSON.stringify(name)}
+          title={JSON.stringify(name).replace(/\"/g, "")}
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -69,22 +69,10 @@ export default class StudentWelcomeScreen extends Component {
         </Card>
 
         <View style={styles.fixToText}>
+          
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() =>
-              this.props.navigation.navigate("StudentAttendance", {
-                email,
-                reg_no,
-                department,
-                sem
-              })
-            }
-          >
-            <Text style={styles.clickText}>Attendance</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={()=>this.props.navigation.navigate("StudentProfile",{
+            onPress={()=>this.props.navigation.navigate("EditStudentProfile",{
               email,
               name,
               mobile,
@@ -94,7 +82,7 @@ export default class StudentWelcomeScreen extends Component {
               sem
             })}
           >
-            <Text style={styles.clickText}>My Profile</Text>
+            <Text style={styles.clickText}>Edit Student Detail</Text>
           </TouchableHighlight>
         </View>
         <Separator />

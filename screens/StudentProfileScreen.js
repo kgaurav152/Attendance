@@ -71,14 +71,14 @@ export default class StudentProfileScreen extends Component {
         <View style={styles.fixToText}>
         <TouchableHighlight
             style={[styles.buttonContainer, styles.editButton]}
-            onPress={() => this.props.navigation.navigate("EditStudentProfile",
+            onPress={() => this.props.navigation.navigate("EditStudentProfile",{
             email,
             name,
             mobile,
             imageUrl,
             reg_no,
             department,
-            sem
+            sem}
             )}
           >
             <Text style={styles.editText}>Edit Profile</Text>
