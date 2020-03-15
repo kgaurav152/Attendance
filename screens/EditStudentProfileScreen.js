@@ -18,7 +18,7 @@ export default class EditStudentProfile extends Component {
   constructor(props) {
     super();
     this.state = {
-      email: JSON.stringify(email),
+      email: "",
       name: "",
       department: "",
       errorMessage: null,
@@ -51,7 +51,7 @@ export default class EditStudentProfile extends Component {
               mobile: this.state.mobile,
               year: this.state.year,
               registration_num: this.state.reg_no,
-              email: this.state.email
+              
             })
             .catch(function(error) {
               console.log("Wrong Choice");
@@ -60,25 +60,29 @@ export default class EditStudentProfile extends Component {
             this.props.navigation.navigate("FacultyWelcome")         })
         })
        
+        componentDidMount=()=>{
+          const { navigation } = this.props;
+          const email = navigation.getParam("email");
+          const name = navigation.getParam("name");
+          const department = navigation.getParam("department");
+          const mobile = navigation.getParam("mobile");
+          const imageUrl = navigation.getParam("imageUrl");
+          this.setState({
+            email:email,
+            name:name,
+            department:department
+          })
+        }
         
     
-      componentDidMount=()=>{
-
-
-      }
+  
     
   }
   render() {
     let { image } = this.state;
     const { navigation } = this.props;
     const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const department = navigation.getParam("department");
-    const mobile = navigation.getParam("mobile");
-    const imageUrl = navigation.getParam("imageUrl");
-    this.setState({
-      email:email
-    })
+    
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -185,12 +189,12 @@ export default class EditStudentProfile extends Component {
             />
             <TextInput
               style={styles.inputs}
-              placeholder={JSON.stringify(email)}
+              placeholder="email"
               keyboardType="email-address"
               underlineColorAndroid="transparent"
               onChangeText={email => this.setState({ email })}
               value={this.state.email}
-              editable={false}
+              editable={true}
             />
           </View>
           <View style={styles.inputContainer}>
