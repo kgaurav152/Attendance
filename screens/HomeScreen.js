@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert } from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, Alert, NetInfo } from "react-native";
 import Constants from "expo-constants";
 
 import { Button } from "react-native-elements";
@@ -8,7 +8,12 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
+
 export default class Homescreen extends Component {
+  state ={
+    Info:""
+  }
+ 
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -26,7 +31,9 @@ export default class Homescreen extends Component {
         >
           <View>
             <Text style={styles.title}>Online Attendance System</Text>
+            <Text style={styles.title}>{this.state.Info}</Text>
             <View style={styles.fixToText}>
+         
               <Button
                 onPress={() => this.props.navigation.navigate("Login")}
                 titleStyle={{

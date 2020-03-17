@@ -14,7 +14,7 @@ import DatePicker from "react-native-datepicker";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import Firebase from "../components/config";
-import AwesomeButton from "react-native-really-awesome-button";
+
 import AwesomeAlert from "react-native-awesome-alerts";
 function Separator() {
   return <View style={styles.separator} />;

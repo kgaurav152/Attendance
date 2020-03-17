@@ -8,9 +8,11 @@ import {
   Image,
   Alert,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  NetInfo
 } from "react-native";
-
+import { YellowBox } from "react-native";
+import _ from "lodash";
 import firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
@@ -36,90 +38,63 @@ export default class LoginScreen extends Component {
     Alert.alert("Wrong password");
   };
 
-  goToStudentsDetails = () =>{
+  goToStudentsDetails = () => {
     firebase
-    .database()
-    .ref("students")
-    .orderByChild("email")
-    .equalTo(this.state.email)
-    .once("value")
-    .then(snapshot => {
-      let studentInfo = snapshot.val();
-      let name = null;
-      let reg_no = null;
-      let mobile = null;
-      let department = null;
-      let imageUrl = null;
-      let sem = null;
-      for (var attributes in studentInfo) {
-        name = studentInfo[attributes].name;
-        reg_no = studentInfo[attributes].registration_num;
-        mobile = studentInfo[attributes].mobile;
-        department = studentInfo[attributes].department;
-        imageUrl = studentInfo[attributes].image;
-        sem = studentInfo[attributes].semester;
-      }
+      .database()
+      .ref("students")
+      .orderByChild("email")
+      .equalTo(this.state.email)
+      .once("value")
+      .then(snapshot => {
+        let studentInfo = snapshot.val();
+        let name = null;
+        let reg_no = null;
+        let mobile = null;
+        let department = null;
+        let imageUrl = null;
+        let sem = null;
+        for (var attributes in studentInfo) {
+          name = studentInfo[attributes].name;
+          reg_no = studentInfo[attributes].registration_num;
+          mobile = studentInfo[attributes].mobile;
+          department = studentInfo[attributes].department;
+          imageUrl = studentInfo[attributes].image;
+          sem = studentInfo[attributes].semester;
+        }
 
-      this.props.navigation.navigate("StudentWelcome", {
-        email: this.state.email,
-        name,
-        reg_no,
-        department,
-        mobile,
-        imageUrl,
-        sem
+        this.props.navigation.navigate("StudentWelcome", {
+          email: this.state.email,
+          name,
+          reg_no,
+          department,
+          mobile,
+          imageUrl,
+          sem
+        });
+        this.setState({
+          loading: false
+        });
       });
-      this.setState({
-        loading: false
-      });
-    });
-  }
+  };
 
-  gotToFacultyDetails = () => {    
-
-    let name = "", department = "", mobile = "";
+  gotToFacultyDetails = () => {
+    let name = "",
+      department = "",
+      mobile = "";
     let promise = firebase
-    .database()
-    .ref("Faculty")
-    .orderByChild("email")
-    .equalTo(this.state.email)
-    .once("value");
-    promise.then(snapshot => {
-
-      let facultyInfo = snapshot.val();      
-      for (var attributes in facultyInfo) {
-        name = facultyInfo[attributes].name;
-        department = facultyInfo[attributes].department;
-        mobile = facultyInfo[attributes].mobile;
-        imageUrl = facultyInfo[attributes].image;
-      }
-      this.setState({
-        name: name,
-        department: department,
-        mobile: mobile,
-        imageUrl: imageUrl,
-        loading: false
-      })
-
-      AsyncStorage.setItem( this.state.email + "details", JSON.stringify(facultyInfo))
-      this.props.navigation.navigate("FacultyWelcome", {
-        email: this.state.email,
-        name,
-        department,
-        mobile,
-        imageUrl
-      });
-  
-
-    }).catch( error => {
-      
-      AsyncStorage.getItem(this.state.email + "details").then( val => {
-        let facultyInfo = JSON.parse( val );     
+      .database()
+      .ref("Faculty")
+      .orderByChild("email")
+      .equalTo(this.state.email)
+      .once("value");
+    promise
+      .then(snapshot => {
+        let facultyInfo = snapshot.val();
         for (var attributes in facultyInfo) {
           name = facultyInfo[attributes].name;
           department = facultyInfo[attributes].department;
           mobile = facultyInfo[attributes].mobile;
-          imageUrl = facultyInfo[attributes].image;        
+          imageUrl = facultyInfo[attributes].image;
         }
         this.setState({
           name: name,
@@ -127,117 +102,139 @@ export default class LoginScreen extends Component {
           mobile: mobile,
           imageUrl: imageUrl,
           loading: false
-        })
-    
+        });
+
+        AsyncStorage.setItem(
+          this.state.email + "details",
+          JSON.stringify(facultyInfo)
+        );
         this.props.navigation.navigate("FacultyWelcome", {
           email: this.state.email,
-          name, department, mobile, imageUrl
+          name,
+          department,
+          mobile,
+          imageUrl
         });
+      })
+      .catch(error => {
+        AsyncStorage.getItem(this.state.email + "details").then(val => {
+          let facultyInfo = JSON.parse(val);
+          for (var attributes in facultyInfo) {
+            name = facultyInfo[attributes].name;
+            department = facultyInfo[attributes].department;
+            mobile = facultyInfo[attributes].mobile;
+            imageUrl = facultyInfo[attributes].image;
+          }
+          this.setState({
+            name: name,
+            department: department,
+            mobile: mobile,
+            imageUrl: imageUrl,
+            loading: false
+          });
 
+          this.props.navigation.navigate("FacultyWelcome", {
+            email: this.state.email,
+            name,
+            department,
+            mobile,
+            imageUrl
+          });
+        });
       });
-    });
+  };
 
-  }
-
-  redirectToLandingPage = ( role ) => {
-
+  redirectToLandingPage = (role) => {
     if (role == "faculty") {
-      this.gotToFacultyDetails()
+      this.gotToFacultyDetails();
+      this.setState({ loading: false });
     } else if (role == "admin") {
-          this.props.navigation.navigate("AdminWelcome", {
-          email: this.state.email
-        });
-        this.setState({ loading: false });
+      this.props.navigation.navigate("AdminWelcome", {
+        email: this.state.email
+      });
+      this.setState({ loading: false });
     } else {
-        this.goToStudentsDetails();
+      this.goToStudentsDetails();
     }
-}
-  handleOfflineLogin = (userInfo) =>{
-    
+  };
+  handleOfflineLogin = (userInfo) => {
     let role = null;
     for (var attributes in userInfo) {
       role = userInfo[attributes].role;
     }
     this.redirectToLandingPage(role);
-  }
-  
-  fetchUserFromAsncStorage =  ( userInfo ) => {
+  };
 
-      if( userInfo != null && userInfo != undefined && userInfo != ""){
-        let jsonUserInfo = JSON.parse(userInfo);
-        this.handleOfflineLogin(jsonUserInfo);
-      }          
-  }   
-  handleLogin = () => {
+  fetchUserFromAsncStorage = (userInfo) => {
+    if (userInfo != null && userInfo != undefined && userInfo != "") {
+      let jsonUserInfo = JSON.parse(userInfo);
+      this.handleOfflineLogin(jsonUserInfo);
+    }
+  };
+  handleOnlineLogin = () => {
     this.setState({
       loading: true
     });
-    try{
-    throw "auth/network-request-failed";
-    }
-    catch( error ){
-      AsyncStorage.getItem(this.state.email).then( (val) => { 
-        console.log("Following information fetched for user " + 
-                this.state.email + "" + val );
-        this.fetchUserFromAsncStorage(val) });
-      this.setState({loading: false})
-    }
-    return;
-        
     const { email, password } = this.state;
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(user => {
-        var user = firebase.auth().currentUser;
-        var uid;
 
-        if (user != null) {
-          uid = user.uid;
-        }
+      .then(() => {
+        firebase
+          .database()
+          .ref("users/")
+          .orderByChild("email")
+          .equalTo(this.state.email)
+          .once("value")
+          .then(snapshot => {
+            let userInfo = snapshot.val();
+            let role = null;
+            for (var attributes in userInfo) {
+              role = userInfo[attributes].role;
+            }
 
-        if (uid) {
-           firebase
-            .database()
-            .ref("users/")
-            .orderByChild("email")
-            .equalTo(this.state.email)
-            .once("value")
-            .then(snapshot => {
-              let userInfo = snapshot.val();
-              let role = null;
-              for (var attributes in userInfo) {
-                role = userInfo[attributes].role;
-              }
-              AsyncStorage.setItem(this.state.email, JSON.stringify(userInfo))
-              .then( val =>{
-                console.log("Following information persisted for user " + 
-                this.state.email + "" + JSON.stringify(userInfo));
-              });
-              this.redirectToLandingPage(role);
-              
+            AsyncStorage.setItem(
+              this.state.email,
+              JSON.stringify(userInfo)
+            ).then(val => {
+              console.log(
+                "Following information persisted for user " +
+                  this.state.email +
+                  "" +
+                  JSON.stringify(userInfo)
+              );
             });
-        }
+            this.redirectToLandingPage(role);
+          });
       })
-      .catch(error => { 
+      .catch(error => {
         this.setState({
           error: error.code
         });
         if (this.state.error === "auth/wrong-password") {
           this.wrongPass();
-
         } else if (this.state.error === "auth/user-not-found") {
           this.wrongEmail();
-        }
-        else if(this.error === "auth/network-request-failed"){
-          AsyncStorage.getItem(this.state.email).then( (val) => { this.fetchUserFromAsncStorage( val ) });
-        }
+        } 
+        
         this.setState({
           loading: false
         });
-        
       });
   };
+  handleLogin=()=>{
+    NetInfo.isConnected.fetch().done((isConnected) => {
+      if ( isConnected )
+      {
+         this.handleOnlineLogin();
+      }
+      else
+      {
+        this.fetchUserFromAsncStorage();
+      }
+  })
+  }
 
   render() {
     return (
@@ -291,7 +288,7 @@ export default class LoginScreen extends Component {
                 onPress={() => this.handleLogin()}
               >
                 <Text style={styles.loginText}>Login</Text>
-              </TouchableHighlight> 
+              </TouchableHighlight>
               <TouchableHighlight
                 style={[styles.buttonContainerForgot, styles.forgotButton]}
                 onPress={() =>

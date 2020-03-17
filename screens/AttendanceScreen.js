@@ -91,6 +91,17 @@ class AttendanceScreen extends Component {
     ) {
       console.log("Component did mound is being callled...");
       var subjectList = [];
+      {/*try{
+        throw "auth/network-request-failed";
+        }
+        catch( error ){
+          AsyncStorage.getItem(this.state.department 
+            + this.state.semester + "subjectList").then( subList => {
+                this.setState({ subjectList : JSON.parse(subList)
+                })
+            });
+        }*/}
+        
       Firebase.database()
         .ref("Subjects")
         .once("value")

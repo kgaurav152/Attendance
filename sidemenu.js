@@ -15,7 +15,7 @@ import Firebase from "./components/config";
 class SideMenu extends Component {
   constructor() {
     super();
-    
+
     /*Array of the sidebar navigation option with 
     Heading, Subheading and screen to navigate.*/
     //Sreen to navigate can be any screen defined in Drawer Navigator in App.js
@@ -25,12 +25,8 @@ class SideMenu extends Component {
         subOptions: [
           { secondaryHeading: "Home", navigationPath: "Home" },
           { secondaryHeading: "Developers Info", navigationPath: "Developers" },
-          {
-            secondaryHeading: "Assign Subject",
-            navigationPath: "AssignSubject"
-          },
           { secondaryHeading: "About College", navigationPath: "KEC_Katihar" },
-          { secondaryHeading: "SignUp", navigationPath: "SignUp" },
+
           { secondaryHeading: "Admin", navigationPath: "Admin" }
         ]
       }
@@ -38,6 +34,7 @@ class SideMenu extends Component {
   }
   handleLogout = () => {
     Firebase.auth().signOut();
+    
   };
   navigateToScreen = route => () => {
     const navigateAction = NavigationActions.navigate({
@@ -45,6 +42,8 @@ class SideMenu extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   };
+    
+  
 
   render() {
     return (
@@ -59,15 +58,14 @@ class SideMenu extends Component {
                     <Text onPress={this.navigateToScreen(item.navigationPath)}>
                       {item.secondaryHeading}
                     </Text>
-                    
                   </View>
                 ))}
                 <TouchableHighlight
-                      style={[styles.buttonContainer, styles.logoutButton]}
-                      onPress={() => this.handleLogout()}
-                    >
-                      <Text style={styles.logoutText}>Logout</Text>
-                    </TouchableHighlight>
+                  style={[styles.buttonContainer, styles.logoutButton]}
+                  onPress={() => this.handleLogout()}
+                >
+                  <Text style={styles.logoutText}>Logout</Text>
+                </TouchableHighlight>
               </View>
             ))}
           </View>

@@ -22,7 +22,7 @@ export default class FacultyWelcomeScreen extends Component {
   
   
   componentDidMount(){
-      AsyncStorage.getItem('attendanceList').then( list => {
+     AsyncStorage.getItem('attendanceList').then( list => {
           let attendances = JSON.parse(list);
           for(var i = attendances.length -1; i >= 0 ; i--){
 
@@ -31,15 +31,15 @@ export default class FacultyWelcomeScreen extends Component {
             Firebase.database()
             .ref("attendance/")
             .push(obj)
-            .then( res=> {
+          .then( res=> {
               attendances.splice(i,1);
             })
             .catch( error => {
                           
             });
-        }
-      })
-  }
+       }
+    })
+}
 
   render() {
    
