@@ -78,10 +78,11 @@ export default class LoginScreen extends Component {
   };
 
   gotToFacultyDetails = () => {
-    let name = "",
-      department = "",
-      mobile = "";
-    let promise = firebase
+    
+    let name = "",  department = "",  mobile = "";
+    NetInfo.isConnected.fetch().done((isConnected) => {
+      if(isConnected){
+        let promise = firebase
       .database()
       .ref("Faculty")
       .orderByChild("email")
@@ -117,6 +118,11 @@ export default class LoginScreen extends Component {
         });
       })
       .catch(error => {
+          console.log( error );
+      });
+
+      }
+      else{
         AsyncStorage.getItem(this.state.email + "details").then(val => {
           let facultyInfo = JSON.parse(val);
           for (var attributes in facultyInfo) {
@@ -141,7 +147,10 @@ export default class LoginScreen extends Component {
             imageUrl
           });
         });
-      });
+      }
+    });
+    
+    
   };
 
   redirectToLandingPage = (role) => {
