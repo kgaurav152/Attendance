@@ -175,10 +175,14 @@ export default class LoginScreen extends Component {
   };
 
   fetchUserFromAsncStorage = (userInfo) => {
+    this.setState({
+      loading: true
+    });
     if (userInfo != null && userInfo != undefined && userInfo != "") {
       let jsonUserInfo = JSON.parse(userInfo);
       this.handleOfflineLogin(jsonUserInfo);
     }
+
   };
   handleOnlineLogin = () => {
     this.setState({
@@ -240,7 +244,9 @@ export default class LoginScreen extends Component {
       }
       else
       {
-        this.fetchUserFromAsncStorage();
+        AsyncStorage.getItem(this.state.email).then( userInfo => {
+          this.fetchUserFromAsncStorage( userInfo );
+        })
       }
   })
   }
