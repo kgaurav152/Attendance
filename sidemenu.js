@@ -27,7 +27,7 @@ class SideMenu extends Component {
           { secondaryHeading: "Developers Info", navigationPath: "Developers" },
           { secondaryHeading: "About College", navigationPath: "KEC_Katihar" },
 
-          { secondaryHeading: "Admin", navigationPath: "Admin" }
+          { secondaryHeading: "Admin", navigationPath: "Login" }
         ]
       }
     ];
