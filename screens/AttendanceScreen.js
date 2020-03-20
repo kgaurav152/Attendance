@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Alert,
   TouchableHighlight,
-  AsyncStorage
+  AsyncStorage,
+  NetInfo
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
@@ -89,54 +90,52 @@ class AttendanceScreen extends Component {
       nextState.department != this.state.department ||
       nextState.semester != this.state.semester
     ) {
+      
       console.log("Component did mound is being callled...");
       var subjectList = [];
-      {/*try{
-        throw "auth/network-request-failed";
-        }
-        catch( error ){
+     NetInfo.isConnected.fetch().done( (isconnected ) => {
+         if(!isconnected){
           AsyncStorage.getItem(this.state.department 
-            + this.state.semester + "subjectList").then( subList => {
-                this.setState({ subjectList : JSON.parse(subList)
-                })
-            });
-        }*/}
-        
-      Firebase.database()
-        .ref("Subjects")
-        .once("value")
-        .then(snapshot => {
-          var subjectInfo = snapshot.val();
-          var db_department = "";
-          var db_semester = "";
-          for (var attributes in subjectInfo) {
-            db_department = subjectInfo[attributes].department;
-            db_semester = subjectInfo[attributes].semester;
-            if (db_department === this.state.department) {
-              if (db_semester === this.state.semester) {
-                var subjectData = subjectInfo[attributes].subjectName;
-                subjectList.push(subjectData);
-                  this.setState({
-                    subjectList: subjectList
-                  });
-                  AsyncStorage.setItem( this.state.department 
-                    + this.state.semester + "subjectList", JSON.stringify(subjectList));
-              }
-              console.log(subjectList);
-            }
-          }
-        })
-        .catch( error => {
-                   
-            console.log( error );
-            if(error.code == "auth/network-request-failed"){   
-            AsyncStorage.getItem(this.state.department 
-              + this.state.semester + "subjectList").then( subList => {
-                  this.setState({ subjectList : JSON.parse(subList)
-                  })
+            + this.state.semester + "subjectList").then( val => {
+              if(val != null )
+              this.setState({
+                subjectList: JSON.parse(val)
               });
+            });
+
+         }else{
+          Firebase.database()
+          .ref("Subjects")
+          .once("value")
+          .then(snapshot => {
+            var subjectInfo = snapshot.val();
+            var db_department = "";
+            var db_semester = "";
+            for (var attributes in subjectInfo) {
+              db_department = subjectInfo[attributes].department;
+              db_semester = subjectInfo[attributes].semester;
+              if (db_department === this.state.department) {
+                if (db_semester === this.state.semester) {
+                  var subjectData = subjectInfo[attributes].subjectName;
+                  subjectList.push(subjectData);
+                    this.setState({
+                      subjectList: subjectList
+                    });
+                    AsyncStorage.setItem( this.state.department 
+                      + this.state.semester + "subjectList", JSON.stringify(subjectList)); 
+                     
+                }
+                console.log(subjectList);
+              }
             }
-        });
+          })
+          .catch( error => {
+                     console.log( error );
+          });
+    
+         }  
+     })
+     
     }
   }
 
