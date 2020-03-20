@@ -71,16 +71,19 @@ class SideMenu extends Component {
                     </Text>
                   </View>
                 ))}
-                <TouchableHighlight
-                  style={[styles.buttonContainer, styles.logoutButton]}
-                  onPress={() => this.handleLogout()}
-                >
-                  <Text style={styles.logoutText}>Logout</Text>
-                </TouchableHighlight>
-              </View>
+                              </View>
             ))}
           </View>
         </ScrollView>
+        <View style={styles.footerContainer}>
+        <TouchableHighlight
+        style={[styles.buttonContainer, styles.logoutButton]}
+        onPress={() => this.handleLogout()}
+      >
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableHighlight>
+
+        </View>
       </View>
     );
   }
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontWeight: "800",
     fontSize: 30,
-    color: "#fffff0"
+    backgroundColor: '#fff'
   },
   mainHeading: {
     paddingVertical: 10,
@@ -108,7 +111,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width: 250,
+    marginLeft:10,
+    width: 175,
     borderRadius: 30
   },
   logoutButton: {
@@ -118,8 +122,8 @@ const styles = StyleSheet.create({
     color: "white"
   },
   footerContainer: {
-    padding: 20,
-    backgroundColor: "lightgrey"
+    
+    
   }
 });
 

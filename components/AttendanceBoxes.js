@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableHighlight, FlatList,View,ActivityIndicator, AsyncStorage } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  FlatList,
+  View,
+  ActivityIndicator,
+  AsyncStorage
+} from "react-native";
 import AttendanceBox from "./AttendanceBox";
 import { ScrollView } from "react-native-gesture-handler";
 import Firebase from "../components/config";
@@ -15,7 +23,7 @@ class AttendanceBoxes extends React.Component {
       subject: this.props.sub,
       semester: this.props.sem,
       date: this.props.date,
-      loading:false
+      loading: false
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -38,9 +46,8 @@ class AttendanceBoxes extends React.Component {
   }
   submitHandler = () => {
     this.setState({
-      loading:true
-    })
-    
+      loading: true
+    });
 
     var db_department = "";
     var db_semester = "";
@@ -63,6 +70,9 @@ class AttendanceBoxes extends React.Component {
         console.log(this.state.attendanceList);
       }
     );
+   NetInfo.isConnected.fetch().done((isConnected) => {
+     if(isConnected){
+   
     Firebase.database()
       .ref("attendance")
       .once("value")
@@ -93,26 +103,14 @@ class AttendanceBoxes extends React.Component {
             subject: this.state.subject,
             semester: this.state.semester
           };
-          
+
           Firebase.database()
             .ref("attendance/")
-            .push(attendanceObj).catch( error => {
-
-              if(error.code == "auth/network-request-failed"){
-                 AsyncStorage.getItem('attendanceList').then( val => {
-                  let attendaceList = JSON.parse(val) || [];    
-                  attendaceList = { ...attendaceList, attendanceObj }
-                      AsyncStorage.setItem('attendanceList', attendaceList);
-                 });
-              };
-                          
-            });
-
-            this.setState({
-              loading:false
-            })
-            this.props.navigation.navigate('FacultyWelcome');
-           
+            .push(attendanceObj);
+          this.setState({
+            loading: false
+          });
+          this.props.navigation.navigate("FacultyWelcome");
         } else {
           Firebase.database()
             .ref("attendance")
@@ -120,55 +118,49 @@ class AttendanceBoxes extends React.Component {
             .update({
               date: this.state.date,
               attendanceList: this.state.attendanceList
-            })
-            this.setState({
-              loading:false
-            })
-            
-            this.props.navigation.navigate('FacultyWelcome'); 
+            });
+          this.setState({
+            loading: false
+          });
+
+          this.props.navigation.navigate("FacultyWelcome");
         }
-      
       });
-      
-  };
+     }
+     else{
+       AsyncStorage.setItem(this.state.department,this.state.sem,this.state.date,this.state.attendanceList,this.state.subject )
+       this.props.navigation.navigate("FacultyWelcome")
+      }
+    }
+   )}
+  
 
   render() {
-   // let studentList =this.state.studentList;
-    //let keys=null;
-    //if(studentList.length>0){
-   //   keys =Object.keys(studentList[0])
-    //}
-   // for(let i=0;i<60;i++){
-    //  studentList.push(studentList[1]);
-    //  keys.push(keys[1]);
-   // }
     return (
       <ScrollView>
-      {this.state.loading === false ? (
-        <View>
-        <FlatList
-          marginLeft="3%"
-          windowSize={3}
-          initialNumToRender={7}
-          numColumns={4}
-          data={this.state.studentList}
-          renderItem={({ item }) => (
-            <AttendanceBox id={item} addRegNo={this.addPresentStudent} />
-          )}
-        />
-        
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.clickButton]}
-          onPress={() => this.submitHandler()}
-        >
-          <Text style={styles.clickText}>Submit</Text>
-        </TouchableHighlight>
-        
-        </View>
-      ) :(
-        
-        <ActivityIndicator size="large" />
-      )}
+        {this.state.loading === false ? (
+          <View>
+            <FlatList
+              marginLeft="3%"
+              windowSize={3}
+              initialNumToRender={7}
+              numColumns={4}
+              data={this.state.studentList}
+              renderItem={({ item }) => (
+                <AttendanceBox id={item} addRegNo={this.addPresentStudent} />
+              )}
+            />
+
+            <TouchableHighlight
+              style={[styles.buttonContainer, styles.clickButton]}
+              onPress={() => this.submitHandler()}
+            >
+              <Text style={styles.clickText}>Submit</Text>
+            </TouchableHighlight>
+          </View>
+        ) : (
+          <ActivityIndicator size="large" />
+        )}
       </ScrollView>
     );
   }
