@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView, AsyncStorage } from "react-native";
+import { View, Text, StyleSheet, ScrollView, AsyncStorage,NetInfo } from "react-native";
 import { Card } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
 import Firebase from "../components/config";
@@ -27,7 +27,8 @@ export default class AddAttendanceScreen extends React.Component {
     var db_semester = "";
     var regNoList = [];
    
-
+    NetInfo.isConnected.fetch().done((isConnected) => {
+      if(isConnected){
     Firebase.database()
       .ref("students")
       .once("value")
@@ -55,10 +56,10 @@ export default class AddAttendanceScreen extends React.Component {
           date: date,
           dataLoaded: true
         });  
-      }).catch( error => {
-        
-      console.log( error );
-        if( error.code == "auth/network-request-failed"){
+      });
+
+      }
+      else{
         AsyncStorage.getItem(department + semester + "regNo").then( val => {
           if( val != null && val != undefined && val != "")
           this.setState({

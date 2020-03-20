@@ -355,13 +355,12 @@ export default class LoginScreen extends Component {
                 <Text style={styles.loginText}>Login</Text>
               </TouchableHighlight>
               <TouchableHighlight
-                style={[styles.buttonContainerForgot, styles.forgotButton]}
-                onPress={() =>
-                  this.props.navigation.navigate("ForgotPasswordScreen")
-                }
+                style={[styles.buttonContainer, styles.forgotButton]}
+                onPress={() => this.props.navigation.navigate("ForgotPasswordScreen")}
               >
-                <Text style={styles.forgotText}>Forgot Password</Text>
+                <Text style={styles.loginText}>Forgot Password</Text>
               </TouchableHighlight>
+              
             </View>
           ) : (
             <ActivityIndicator size="large" />

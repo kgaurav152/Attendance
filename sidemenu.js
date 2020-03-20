@@ -2,16 +2,23 @@
 
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { NavigationActions } from "react-navigation";
+import { NavigationActions,createStackNavigator } from "react-navigation";
+import Home from './screens/HomeScreen'
 import {
   ScrollView,
   Text,
   View,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  AsyncStorage
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Firebase from "./components/config";
+const Navigator =createStackNavigator({
+  Home:{
+    screen:Home
+  }
+})
 class SideMenu extends Component {
   constructor() {
     super();
@@ -32,8 +39,12 @@ class SideMenu extends Component {
       }
     ];
   }
+  
   handleLogout = () => {
     Firebase.auth().signOut();
+    
+    this.props.navigation.navigate("Home")
+    
     
   };
   navigateToScreen = route => () => {
