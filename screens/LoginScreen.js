@@ -30,6 +30,7 @@ export default class LoginScreen extends Component {
     this.setState({
       loading: false
     });
+    
   };
   wrongEmail = () => {
     Alert.alert("Wrong Email !");
@@ -39,42 +40,91 @@ export default class LoginScreen extends Component {
   };
 
   goToStudentsDetails = () => {
-    firebase
+    
+    let name = "",  department = "",  mobile = "" ,sem="", reg_no="";
+    NetInfo.isConnected.fetch().done((isConnected) => {
+      if(isConnected){
+        let promise = firebase
       .database()
       .ref("students")
       .orderByChild("email")
       .equalTo(this.state.email)
-      .once("value")
+      .once("value");
+    promise
       .then(snapshot => {
         let studentInfo = snapshot.val();
-        let name = null;
-        let reg_no = null;
-        let mobile = null;
-        let department = null;
-        let imageUrl = null;
-        let sem = null;
         for (var attributes in studentInfo) {
           name = studentInfo[attributes].name;
-          reg_no = studentInfo[attributes].registration_num;
-          mobile = studentInfo[attributes].mobile;
           department = studentInfo[attributes].department;
+          mobile = studentInfo[attributes].mobile;
           imageUrl = studentInfo[attributes].image;
-          sem = studentInfo[attributes].semester;
+          sem= studentInfo[attributes].sem,
+          reg_no= studentInfo[attributes].registration_num
         }
+        this.setState({
+          name: name,
+          department: department,
+          mobile: mobile,
+          imageUrl: imageUrl,
+          sem:sem,
+          reg_no:reg_no,
+          loading: false
+        });
 
+        AsyncStorage.setItem(
+          this.state.email + "details",
+          JSON.stringify(studentInfo)
+        );
         this.props.navigation.navigate("StudentWelcome", {
           email: this.state.email,
           name,
-          reg_no,
           department,
           mobile,
-          imageUrl,
-          sem
+          sem,
+          reg_no,
+          imageUrl
         });
-        this.setState({
-          loading: false
-        });
+      })
+      .catch(error => {
+          console.log( error );
       });
+      }
+      else{
+        AsyncStorage.getItem(this.state.email + "details").then(val => {
+          let studentInfo = JSON.parse(val);
+          for (var attributes in studentInfo) {
+            name = studentInfo[attributes].name;
+            department = studentInfo[attributes].department;
+            mobile = studentInfo[attributes].mobile;
+            imageUrl = studentInfo[attributes].image;
+            sem=studentInfo[attributes].sem;
+            reg_no=studentInfo[attributes].registration_num;
+
+          }
+          this.setState({
+            name: name,
+            department: department,
+            mobile: mobile,
+            sem:sem,
+            reg_no:reg_no,
+            imageUrl: imageUrl,
+            loading: false
+          });
+
+          this.props.navigation.navigate("StudentWelcome", {
+            email: this.state.email,
+            name,
+            department,
+            mobile,
+            sem,
+            reg_no,
+            imageUrl
+          });
+        });
+      }
+    });
+    
+    
   };
 
   gotToFacultyDetails = () => {

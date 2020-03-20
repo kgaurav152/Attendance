@@ -26,23 +26,7 @@ export default class AddAttendanceScreen extends React.Component {
     var db_department = "";
     var db_semester = "";
     var regNoList = [];
-    try{
-      throw "auth/network-request-failed";
-      }
-      catch( error ){
-        AsyncStorage.getItem(department + semester + "regNo").then( val => {
-          if( val != null && val != undefined && val != "")
-          this.setState({
-            regNoList: JSON.parse(val),
-            semester: semester,
-            subject: subject,
-            department: department,
-            date: date,
-            dataLoaded: true
-          });  
-        })
-      }
-      return;
+   
 
     Firebase.database()
       .ref("students")
