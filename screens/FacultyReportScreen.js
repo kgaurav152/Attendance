@@ -38,9 +38,9 @@ export default class FacultyReportScreen extends Component {
   getAttendanceCountOfStudents = ( attendanceList ) =>{
     let countsArray;
     if( attendanceList != null ){
-      countsArray = Object.keys(attendanceList[0]).map( function(regNo){
+      countsArray = Object.keys(attendanceList[1]).map( function(regNo){
         let count = 0;
-        for(let i = 0; i < attendanceList.length; i++){
+        for(let i = 1; i < attendanceList.length; i++){
           attendanceList[i][regNo] ? count++: count
         }
         return count;
@@ -137,19 +137,13 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
     {
       renderGrid = false;
     }
-    else{
-     
+    else{     
       array = dateList;
-      for(let i = 0; i < 60; i++){
-        attendanceList.push(attendanceList[1]);
-        array.push(array[1]);
-        keys.push(keys[1]);
-        countList.push(i);
-      }
       array.unshift("Date");
       array.push("Count");
       attendanceList.unshift({key : "renderHead"});
       keys.unshift("Reg No.");
+      countList = this.getAttendanceCountOfStudents( attendanceList );
       countList.unshift("Count");
     }    
 

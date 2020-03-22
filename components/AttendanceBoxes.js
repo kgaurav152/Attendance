@@ -128,8 +128,20 @@ class AttendanceBoxes extends React.Component {
       });
      }
      else{
-       AsyncStorage.setItem(this.state.department,this.state.sem,this.state.date,this.state.attendanceList,this.state.subject )
-       this.props.navigation.navigate("FacultyWelcome")
+       AsyncStorage.getItem("attendanceList").then( val => {
+           if(val != null && val != ""){
+              let attendanceArray = [];
+              attendanceArray = JSON.parse( val );
+              attendanceArray.push( attendanceObj );
+              AsyncStorage.setItem("attendanceList",
+                JSON.stringify( attendanceArray ));
+                this.setState({
+                  loading: false 
+                });
+                this.props.navigation.navigate("FacultyWelcome");
+           }
+        });
+        
       }
     }
    )}
