@@ -2,8 +2,8 @@
 
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { NavigationActions,createStackNavigator } from "react-navigation";
-import Home from './screens/HomeScreen'
+import { NavigationActions, createStackNavigator } from "react-navigation";
+import Home from "./screens/HomeScreen";
 import {
   ScrollView,
   Text,
@@ -14,77 +14,65 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Firebase from "./components/config";
-const Navigator =createStackNavigator({
-  Home:{
-    screen:Home
-  }
-})
+
 class SideMenu extends Component {
-  constructor() {
-    super();
-
-    /*Array of the sidebar navigation option with 
-    Heading, Subheading and screen to navigate.*/
-    //Sreen to navigate can be any screen defined in Drawer Navigator in App.js
-    this.options = [
-      {
-        mainHeading: "Katihar Engineering College, Katihar",
-        subOptions: [
-          { secondaryHeading: "Home", navigationPath: "Home" },
-          { secondaryHeading: "Developers Info", navigationPath: "Developers" },
-          { secondaryHeading: "About College", navigationPath: "KEC_Katihar" },
-
-          { secondaryHeading: "Admin", navigationPath: "Login" }
-        ]
-      }
-    ];
-  }
-  
   handleLogout = () => {
     Firebase.auth().signOut();
-    
-    this.props.navigation.navigate("Home")
-    
-    
+
+    this.props.navigation.navigate("Home");
   };
-  navigateToScreen = route => () => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: route
-    });
-    this.props.navigation.dispatch(navigateAction);
-  };
-    
-  
 
   render() {
     return (
+      <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: "100%"
+          }}
+          start={{ x: 0, y: 1}}
+          end={{ x: 1, y: 1}}
+        >
       <View style={styles.container}>
         <ScrollView>
-          <View>
-            {this.options.map((option, i) => (
-              <View key={i}>
-                <Text style={styles.mainHeading}>{option.mainHeading}</Text>
-                {option.subOptions.map((item, key) => (
-                  <View style={styles.secondaryHeading} key={key}>
-                    <Text onPress={this.navigateToScreen(item.navigationPath)}>
-                      {item.secondaryHeading}
-                    </Text>
-                  </View>
-                ))}
-                              </View>
-            ))}
-          </View>
+          <TouchableHighlight
+            style={[styles.buttonContainerHome]}
+            
+          >
+            <Text style={styles.clickText}>Katihar Engineering College, Katihar</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainerText]}
+            onPress={() => this.props.navigation.navigate("Home")}
+          >
+            <Text style={styles.clickText}>Home</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainerText]}
+            onPress={() => this.props.navigation.navigate("Developers")}
+          >
+            <Text style={styles.clickText}>Developers Info</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainerText]}
+            onPress={() => this.props.navigation.navigate("About")}
+          >
+            <Text style={styles.clickText}>About College</Text>
+          </TouchableHighlight>
         </ScrollView>
         <View style={styles.footerContainer}>
-        <TouchableHighlight
-        style={[styles.buttonContainer, styles.logoutButton]}
-        onPress={() => this.handleLogout()}
-      >
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableHighlight>
-
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.logoutButton]}
+            onPress={() => this.handleLogout()}
+          >
+            <Text style={styles.logoutText} >Logout</Text>
+          </TouchableHighlight>
         </View>
       </View>
+      </LinearGradient>
     );
   }
 }
@@ -92,13 +80,14 @@ class SideMenu extends Component {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
-    flex: 1
+    flex: 1,
+    width:"100%"
   },
   secondaryHeading: {
     padding: 10,
     fontWeight: "800",
     fontSize: 30,
-    backgroundColor: '#fff'
+    backgroundColor: "#fff"
   },
   mainHeading: {
     paddingVertical: 10,
@@ -111,7 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    marginLeft:10,
+    marginLeft: 10,
     width: 175,
     borderRadius: 30
   },
@@ -121,10 +110,30 @@ const styles = StyleSheet.create({
   logoutText: {
     color: "white"
   },
-  footerContainer: {
+  clickText: {
+    color: "white",
+    fontWeight: "900  ",
+    fontSize:20
+  },
+  buttonContainerText: {
+    height: 45,
+    flexDirection: "row",
+    width: 150,
+    borderRadius: 20,
+    marginTop: 2,
+    marginLeft: "5%",
     
+  },
+  buttonContainerHome: {
+    height: 85,
+    flexDirection: "row",
+    width: 250,
+    marginTop:"15%",
+    borderRadius:20 ,
+    marginLeft: "5%",
     
-  }
+  },
+  footerContainer: {}
 });
 
 export default SideMenu;
