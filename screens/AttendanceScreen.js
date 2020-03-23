@@ -80,7 +80,11 @@ class AttendanceScreen extends Component {
         department: this.state.department,
         semester: this.state.semester,
         subject: this.state.selectedSubject,
-        date: this.state.date
+        date: this.state.date,
+        name,
+        email,
+        facultyDepartment,
+        imageUrl
       });
     }
   };
@@ -143,6 +147,12 @@ class AttendanceScreen extends Component {
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const facultyDepartment = navigation.getParam("department");
+    const mobile = navigation.getParam("mobile");
+    const imageUrl = navigation.getParam("imageUrl");
     const {departmentAlert,subjectAlert,semAlert,dateAlert } = this.state;
     return (
       <View style={styles.container}>

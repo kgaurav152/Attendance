@@ -83,7 +83,11 @@ export default class AddAttendanceScreen extends React.Component {
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
+    const facultyDepartment = navigation.getParam("facultyDepartment");
     const dataLoaded = this.state.dataLoaded;
+    const name = navigation.getParam("name");
+    const email =navigation.getParam("email");
+    const imageUrl = navigation.getParam("imageUrl")
     return (
       <ScrollView>
         <Card
@@ -122,6 +126,10 @@ export default class AddAttendanceScreen extends React.Component {
             sub={this.state.subject}
             date={this.state.date}
             navigation = {navigation}
+            name={name}
+            email={email}
+            facultyDepartment={facultyDepartment}
+            imageUrl={imageUrl}
           />
         )}
       </ScrollView>

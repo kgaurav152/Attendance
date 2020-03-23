@@ -95,7 +95,13 @@ export default class FacultyWelcomeScreen extends Component {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("Attendance")}
+              onPress={() => this.props.navigation.navigate("Attendance",{
+                email,
+                department,
+                name,
+                mobile,
+                imageUrl
+              })}
             >
               <Text style={styles.clickText}>Attendance</Text>
             </TouchableHighlight>
