@@ -74,14 +74,18 @@ class SideMenu extends Component {
                 <Text style={styles.clickText}>About College</Text>
               </TouchableHighlight>
             </View>
-          </ScrollView>
-          <View style={styles.footerContainer}>
+            <View style={styles.fixIcon}>
+            <Ionicons name="md-log-out" size={35} />
             <TouchableHighlight
               style={[styles.buttonContainer, styles.logoutButton]}
               onPress={() => this.handleLogout()}
             >
               <Text style={styles.logoutText}>Logout</Text>
             </TouchableHighlight>
+            </View>
+          </ScrollView>
+          <View style={styles.footerContainer}>
+            
           </View>
         </View>
       </LinearGradient>
