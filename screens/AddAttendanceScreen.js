@@ -13,6 +13,11 @@ export default class AddAttendanceScreen extends React.Component {
       subject: "",
       date: "",
       dataLoaded: false,
+      name:"",
+      email:"",
+      facultyDepartment:"",
+      mobile:"",
+      imageUrl:""
      
     };
   }
@@ -22,10 +27,22 @@ export default class AddAttendanceScreen extends React.Component {
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
-
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const facultyDepartment = navigation.getParam("facultyDepartment");
+    const mobile = navigation.getParam("mobile");
+    const imageUrl = navigation.getParam("imageUrl");
+    
     var db_department = "";
     var db_semester = "";
     var regNoList = [];
+    this.setState({
+      name:name,
+      email:email,
+      facultyDepartment:facultyDepartment,
+      mobile:mobile,
+      imageUrl:imageUrl
+    })
    
     NetInfo.isConnected.fetch().done((isConnected) => {
       if(isConnected){
@@ -83,11 +100,8 @@ export default class AddAttendanceScreen extends React.Component {
     const semester = navigation.getParam("semester");
     const subject = navigation.getParam("subject");
     const date = navigation.getParam("date");
-    const facultyDepartment = navigation.getParam("facultyDepartment");
     const dataLoaded = this.state.dataLoaded;
-    const name = navigation.getParam("name");
-    const email =navigation.getParam("email");
-    const imageUrl = navigation.getParam("imageUrl")
+
     return (
       <ScrollView>
         <Card
@@ -126,10 +140,11 @@ export default class AddAttendanceScreen extends React.Component {
             sub={this.state.subject}
             date={this.state.date}
             navigation = {navigation}
-            name={name}
-            email={email}
-            facultyDepartment={facultyDepartment}
-            imageUrl={imageUrl}
+            name={this.state.name}
+            email={this.state.email}
+            facultyDepartment={this.state.facultyDepartment}
+            imageUrl={this.state.imageUrl}
+            mobile={this.state.mobile}
           />
         )}
       </ScrollView>

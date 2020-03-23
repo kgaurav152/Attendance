@@ -24,7 +24,12 @@ class AttendanceBoxes extends React.Component {
       subject: this.props.sub,
       semester: this.props.sem,
       date: this.props.date,
-      loading: false
+      loading: false,
+      facultyDepartment:this.props.facultyDepartment,
+      mobile:this.props.mobile,
+      imageUrl:this.props.imageUrl,
+      name:this.props.name,
+      email:this.props.email
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -107,25 +112,16 @@ class AttendanceBoxes extends React.Component {
               Firebase.database()
                 .ref("attendance/")
                 .push(attendanceObj);
-              AsyncStorage.getItem("attendanceList").then(val => {
-                if (val != null && val != "") {
-                  let attendanceArray = [];
-                  attendanceArray = JSON.parse(val);
-                  attendanceArray.push(attendanceObj);
-                  AsyncStorage.setItem(
-                    "attendanceList",
-                    JSON.stringify(attendanceArray)
-                  );
-                }
-              });
+             
               this.setState({
                 loading: false
               });
               this.props.navigation.navigate("FacultyWelcome",{
-                name,
-                facultyDepartment,
-                email,
-                imageUrl
+                name:this.state.name,
+                facultyDepartment:this.state.facultyDepartment,
+                email:this.state.email,
+                imageUrl:this.state.imageUrl,
+                mobile:this.state.mobile
               })
             } else {
               Firebase.database()
@@ -140,10 +136,11 @@ class AttendanceBoxes extends React.Component {
               });
 
               this.props.navigation.navigate("FacultyWelcome",{
-                  facultyDepartment,
-                  email,
-                  imageUrl,
-                  name
+                name:this.state.name,
+                facultyDepartment:this.state.facultyDepartment,
+                email:this.state.email,
+                imageUrl:this.state.imageUrl,
+                mobile:this.state.mobile
               });
             }
           });
@@ -161,10 +158,11 @@ class AttendanceBoxes extends React.Component {
               loading: false
             });
             this.props.navigation.navigate("FacultyWelcome",{
-              facultyDepartment,
-              name,
-              email,
-              imageUrl
+              name:this.state.name,
+                facultyDepartment:this.state.facultyDepartment,
+                email:this.state.email,
+                imageUrl:this.state.imageUrl,
+                mobile:this.state.mobile
             });
           }
         });

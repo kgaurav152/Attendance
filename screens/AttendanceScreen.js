@@ -22,7 +22,11 @@ class AttendanceScreen extends Component {
     subject: "",
     date: "",
     selectedSubject: "",
-    subjectList: []
+    subjectList: [],
+    name:"",
+    facultyDepartment:"",
+    email:"",
+    imageUrl:""
   };
   updateDepartment = department => {
     this.setState({ department: department });
@@ -63,7 +67,21 @@ class AttendanceScreen extends Component {
       semAlert:true
     });
   };
-
+componentDidMount(){
+  const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const facultyDepartment = navigation.getParam("department");
+    const mobile = navigation.getParam("mobile");
+    const imageUrl = navigation.getParam("imageUrl");
+    this.setState({
+      name:name,
+      email:email,
+      facultyDepartment:facultyDepartment,
+      mobile:mobile,
+      imageUrl:imageUrl
+    })
+}
   attendanceHandler = () => {
     if (this.state.department == "" || this.state.department =='1') {
       this.departmentAlert();
@@ -81,10 +99,11 @@ class AttendanceScreen extends Component {
         semester: this.state.semester,
         subject: this.state.selectedSubject,
         date: this.state.date,
-        name,
-        email,
-        facultyDepartment,
-        imageUrl
+        name:this.state.name,
+        email:this.state.email,
+        facultyDepartment:this.state.facultyDepartment,
+        imageUrl:this.state.imageUrl,
+        mobile:this.state.mobile
       });
     }
   };
@@ -147,12 +166,7 @@ class AttendanceScreen extends Component {
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
-    const { navigation } = this.props;
-    const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const facultyDepartment = navigation.getParam("department");
-    const mobile = navigation.getParam("mobile");
-    const imageUrl = navigation.getParam("imageUrl");
+    
     const {departmentAlert,subjectAlert,semAlert,dateAlert } = this.state;
     return (
       <View style={styles.container}>
