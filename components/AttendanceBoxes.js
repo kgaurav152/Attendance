@@ -96,8 +96,9 @@ class AttendanceBoxes extends React.Component {
             }
           }
         }
+        
         if (uid == null || uid == "" || uid == undefined) {
-          let attendanceObj = {
+            let attendanceObj = {
             attendanceList: this.state.attendanceList,
             department: this.state.department,
             date: this.state.date,
@@ -129,10 +130,16 @@ class AttendanceBoxes extends React.Component {
       });
      }
      else{
+      let attendanceObj = {
+        attendanceList: this.state.attendanceList,
+        department: this.state.department,
+        date: this.state.date,
+        subject: this.state.subject,
+        semester: this.state.semester
+      };
        AsyncStorage.getItem("attendanceList").then( val => {
            if(val != null && val != ""){
-              let attendanceArray = [];
-              attendanceArray = JSON.parse( val );
+              let attendanceArray = JSON.parse( val );
               attendanceArray.push( attendanceObj );
               AsyncStorage.setItem("attendanceList",
                 JSON.stringify( attendanceArray ));
@@ -141,6 +148,8 @@ class AttendanceBoxes extends React.Component {
                 });
                 this.props.navigation.navigate("FacultyWelcome");
            }
+        }).catch( error => {
+            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceObj ));
         });
         
       }

@@ -18,27 +18,33 @@ function Separator() {
 }
 
 export default class FacultyWelcomeScreen extends Component {
-  
-  
-  
+    
   componentDidMount(){
-     AsyncStorage.getItem('attendanceList').then( list => {
-          let attendances = JSON.parse(list);
-          for(var i = attendances.length -1; i >= 0 ; i--){
+    console.log("Persisting offline attendance.");
+    AsyncStorage.getItem('attendanceList').then( list => {
+      let attendances = JSON.parse(list);
+      for(var i = attendances.length -1; i >= 0 ; i--){
 
-            let obj = attendances[i];
-            obj = JSON.parse(obj);
-            Firebase.database()
-            .ref("attendance/")
-            .push(obj)
-          .then( res=> {
-              attendances.splice(i,1);
-            })
-            .catch( error => {
-                          
-            });
-       }
-    })
+        let obj = attendances[i];
+        //obj = JSON.parse(obj);
+        Firebase.database()
+        .ref("attendance/")
+        .push(obj)
+      .then( res=> {
+          attendances.splice(i,1);
+          console.log(" Followint object has been persisted into the firebase. " + obj);
+          list = attendances;
+          if(attendances.length <= 0){
+            AsyncStorage.removeItem("attendanceList");
+          }
+        })
+        .catch( error => {
+               console.log("FacultyWelcome Screen " + error ); 
+               list = attendances      
+        });
+   }
+})
+
 }
 
   render() {
@@ -138,7 +144,7 @@ export default class FacultyWelcomeScreen extends Component {
         >
           <TouchableHighlight
             
-            onPress={() => this.props.navigation.navigate("SearchStudent")}
+            onPress={() => this.props.navigation.navigate("SearchStudent") }
           >
             <Text style={styles.clickText}>Student Detail</Text>
           </TouchableHighlight>
