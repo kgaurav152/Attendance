@@ -33,10 +33,14 @@ export default class LoginScreen extends Component {
     
   };
   wrongEmail = () => {
-    Alert.alert("Wrong Email !");
+    this.setState({
+      wrongEmail:true
+    })
   };
   wrongPass = () => {
-    Alert.alert("Wrong password");
+    this.setState({
+      wrongPass:true
+    })
   };
 
   goToStudentsDetails = () => {
@@ -235,6 +239,14 @@ export default class LoginScreen extends Component {
 
   };
   handleOnlineLogin = () => {
+    if(this.state.email=="" || this.state.email==null || this.state.email==undefined){
+      this.emailAlert();
+    }
+    else if (this.state.password=="" || this.state.password==null || this.state.password==undefined)
+    {
+      this.passAlert();
+    }
+    else{
     this.setState({
       loading: true
     });
@@ -271,6 +283,7 @@ export default class LoginScreen extends Component {
             this.redirectToLandingPage(role);
           });
       })
+    
       .catch(error => {
         this.setState({
           error: error.code
@@ -285,23 +298,45 @@ export default class LoginScreen extends Component {
           loading: false
         });
       });
+    }
   };
   handleLogin=()=>{
-    NetInfo.isConnected.fetch().done((isConnected) => {
-      if ( isConnected )
-      {
-         this.handleOnlineLogin();
-      }
-      else
-      {
-        AsyncStorage.getItem(this.state.email).then( userInfo => {
-          this.fetchUserFromAsncStorage( userInfo );
+    
+      
+        NetInfo.isConnected.fetch().done((isConnected)=>{
+          if(isConnected){
+            this.handleOnlineLogin();
+          }
+          else{
+            AsyncStorage.getItem(this.state.email).then( userInfo => {
+              this.fetchUserFromAsncStorage( userInfo );
+            })
+          }
         })
-      }
-  })
-  }
+      
 
+  }
+  passAlert=()=>{
+    this.setState({
+      passAlert:true
+    });
+  };
+  emailAlert=()=>{
+    this.setState({
+      emailAlert:true
+    });
+  };
+  hideAlert = () => {
+    this.setState({
+     emailAlert:false,
+     passAlert:false,
+     wrongEmail:false,
+     wrongPass:false
+
+    });
+  };
   render() {
+    const {emailAlert,passAlert,wrongEmail,wrongPass} =this.state
     return (
       <LinearGradient
         colors={["#a13388", "#10356c"]}
@@ -360,8 +395,96 @@ export default class LoginScreen extends Component {
               >
                 <Text style={styles.loginText}>Forgot Password</Text>
               </TouchableHighlight>
-              
+              <AwesomeAlert
+          show={emailAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please fill Email"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={passAlert}
+          showProgress={false}
+          title="Oops !"
+          message="Please fill Password"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={wrongEmail}
+          showProgress={false}
+          title="Oops !"
+          message="Wrong Email"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={wrongPass}
+          showProgress={false}
+          title="Oops !"
+          message="Wrong Password"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          //cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
             </View>
+            
           ) : (
             <ActivityIndicator size="large" />
           )}

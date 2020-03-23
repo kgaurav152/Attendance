@@ -6,7 +6,8 @@ import {
   FlatList,
   View,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
+  NetInfo
 } from "react-native";
 import AttendanceBox from "./AttendanceBox";
 import { ScrollView } from "react-native-gesture-handler";

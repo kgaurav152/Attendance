@@ -18,15 +18,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import Firebase from "./components/config";
 
 class SideMenu extends Component {
-  componentWillMount(){
-    Firebase.auth()
-    .onAuthStateChanged((user)=>{
-      if(user){
-        console.log("User LoggedIn")
-      }
-    })
+  
 
-  }
   handleLogout = () => {
     Firebase.auth().signOut();
 
