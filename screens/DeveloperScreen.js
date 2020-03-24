@@ -172,9 +172,9 @@ export default class DevelopersScreen extends React.Component {
               <Text style={styles.paragraph}>shardabharti.kri@gmail.com</Text>
             </View>
             <Image
-              source={require("../images/shanu.jpg")}
+              source={require("../images/shanu.jpeg")}
               style={{
-                width: 105,
+                width: 90,
                 height: 105,
                 marginLeft: 5,
                 borderRadius: 100 / 2

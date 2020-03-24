@@ -11,11 +11,17 @@ import {
 import { Card } from "react-native-elements";
 import Firebase from "../components/config";
 import { Button } from "react-native-elements";
+import Firebase from "../components/config"
 function Separator() {
   return <View style={styles.separator} />;
 }
 export default class AdminScreen extends Component {
   
+  handleLogout = () => {
+    Firebase.auth().signOut();
+
+    this.props.navigation.navigate("Home");
+  };
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -51,7 +57,7 @@ export default class AdminScreen extends Component {
             />
           </View>
         </Card>
-
+              <ScrollView>
         <View style={styles.fixToText}>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
@@ -88,6 +94,21 @@ export default class AdminScreen extends Component {
           >
             <Text style={styles.clickText}>Show Feedback</Text>
         </TouchableHighlight>    
+        <View style={styles.fixToText}>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("SignUp")}
+          >
+            <Text style={styles.clickText}>Sign Up</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.handleLogout()}
+          >
+            <Text style={styles.clickText}>Logout</Text>
+          </TouchableHighlight>
+        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
