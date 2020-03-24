@@ -86,12 +86,7 @@ export default class AdminScreen extends Component {
           </TouchableHighlight>
         </View>
         <Separator />
-        <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("ShowFeedback")}
-          >
-            <Text style={styles.clickText}>Show Feedback</Text>
-        </TouchableHighlight>    
+            
         <View style={styles.fixToText}>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}

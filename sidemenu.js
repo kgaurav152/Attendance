@@ -67,9 +67,18 @@ class SideMenu extends Component {
               <Ionicons name="md-heart-empty" size={25} />
               <TouchableHighlight
                 style={[styles.buttonContainerText]}
-                onPress={() => this.props.navigation.navigate("ShowFeedback")}
+                onPress={() => this.props.navigation.navigate("KEC_Katihar")}
               >
                 <Text style={styles.clickText}>About College</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.fixIcon}>
+              <Ionicons name="md-heart" size={25} />
+              <TouchableHighlight
+                style={[styles.buttonContainerText]}
+                onPress={() => this.props.navigation.navigate("AboutApp")}
+              >
+                <Text style={styles.clickText}>About App</Text>
               </TouchableHighlight>
             </View>
             <View style={styles.fixIcon}>

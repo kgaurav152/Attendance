@@ -552,48 +552,78 @@ const Attendance_StackNavigator = createStackNavigator({
 
 const DeveloperScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  Developers: {
-    screen: DeveloperScreen,
+  Developers:{
+    screen:DeveloperScreen,
     navigationOptions: ({ navigation }) => ({
+      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor:'#09C5F7'
+        
       },
-      headerTintColor: "#fff"
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
     })
-  }
+  },
 });
 const CollegeScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  KEC_Katihar: {
-    screen: CollegeScreen,
+  KEC_Katihar:{
+    screen:CollegeScreen,
     navigationOptions: ({ navigation }) => ({
+      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor:'#09C5F7'
+        
       },
-      headerTintColor: "#fff"
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
     })
-  }
+  },
 });
 const AboutAppScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  AboutApp: {
-    screen: AboutAppScreen,
+  AboutApp:{
+    screen:AboutAppScreen,
     navigationOptions: ({ navigation }) => ({
+      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor:'#09C5F7'
+        
       },
-      headerTintColor: "#fff"
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
     })
-  }
+  },
 });
 const FeedbackScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
