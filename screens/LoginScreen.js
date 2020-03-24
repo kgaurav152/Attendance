@@ -212,7 +212,7 @@ export default class LoginScreen extends Component {
       this.gotToFacultyDetails();
       this.setState({ loading: false });
     } else if (role == "admin") {
-      this.props.navigation.navigate("AdminWelcome", {
+      this.props.navigation.navigate("Admin", {
         email: this.state.email
       });
       this.setState({ loading: false });

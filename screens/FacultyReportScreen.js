@@ -152,7 +152,7 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
       //horizontal={true}>
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
-          Welcome to Online Attendance System
+          Attendance Report
         </Text>
         <Card
           titleStyle={{
@@ -180,8 +180,8 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
           </View>
         </Card>
         <View style={styles.fixDate}>
-          <Text style={styles.paragraph1}>Date</Text>
-          <Text style={styles.paragraph}>Attendance List </Text>
+          <Text style={styles.paragraph1}></Text>
+          <Text style={styles.paragraph}>Registration No </Text>
         </View>
         <View style = { styles.gridContainer}>
         <ScrollView>     
@@ -205,7 +205,7 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
 const styles = StyleSheet.create({
   
   gridContainer : {
-    marginTop: 20,
+    marginTop: 5,
     flex: 1,
   },
   
