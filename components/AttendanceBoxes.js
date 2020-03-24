@@ -40,7 +40,6 @@ class AttendanceBoxes extends React.Component {
     const { attendanceList } = this.state;
     const { studentList } = this.state;
     attendanceList[regNo] = true;
-
     this.setState(
       {
         attendanceList: attendanceList
@@ -145,25 +144,31 @@ class AttendanceBoxes extends React.Component {
             }
           });
       } else {
+        
         let attendanceObj = {
           attendanceList: this.state.attendanceList,
           department: this.state.department,
           date: this.state.date,
           subject: this.state.subject,
           semester: this.state.semester
-        };
+        }; 
         AsyncStorage.getItem("attendanceList").then(val => {
+          let attendanceArray = []
           if (val != null && val != "") {
-            let attendanceArray = JSON.parse(val);
+            attendanceArray = JSON.parse(val);
             attendanceArray.push(attendanceObj);
             AsyncStorage.setItem(
               "attendanceList",
               JSON.stringify(attendanceArray)
             ); 
           }
+          else{
+            attendanceArray.push(attendanceObj );
+            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceArray)); 
+          }
         }).catch( error => {
             console.log(" Error : " + error );
-            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceObj)); 
+            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceArray )); 
         });
         this.setState({
           loading: false

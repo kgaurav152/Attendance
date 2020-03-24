@@ -20,7 +20,6 @@ function Separator() {
 export default class FacultyWelcomeScreen extends Component {
     
   componentDidMount(){
-    console.log("Persisting offline attendance.");
     AsyncStorage.getItem('attendanceList').then( list => {
       let attendances = JSON.parse(list);
       for(var i = attendances.length -1; i >= 0 ; i--){
@@ -31,7 +30,6 @@ export default class FacultyWelcomeScreen extends Component {
         .push(obj)
       .then( res=> {
           attendances.splice(i,1);
-          console.log(" Followint object has been persisted into the firebase. " + obj);
           list = attendances;
           if(attendances.length <= 0){
             AsyncStorage.removeItem("attendanceList");
@@ -42,8 +40,9 @@ export default class FacultyWelcomeScreen extends Component {
                list = attendances      
         });
    }
-})
-
+}).catch( error => {
+  console.log("Error " + error );
+})  
 }
 
   render() {
