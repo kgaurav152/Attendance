@@ -19,7 +19,8 @@ function Separator() {
 
 export default class FacultyWelcomeScreen extends Component {
     
-  componentDidMount(){
+  
+  clearPendingAttendance = () => {
     AsyncStorage.getItem('attendanceList').then( list => {
       let attendances = JSON.parse(list);
       for(var i = attendances.length -1; i >= 0 ; i--){
@@ -39,10 +40,23 @@ export default class FacultyWelcomeScreen extends Component {
                console.log("FacultyWelcome Screen " + error ); 
                list = attendances      
         });
-   }
-}).catch( error => {
-  console.log("Error " + error );
-})  
+       }
+    }).catch( error => {
+              console.log("Error " + error );
+    })  
+}
+componentDidMount(){
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+        this.clearPendingAttendance();
+    });
+    
+}
+
+componentWillUnmount() {
+  // Remove the event listener
+  this.focusListener.remove();
 }
 
   render() {
