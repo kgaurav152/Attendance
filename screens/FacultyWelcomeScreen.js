@@ -55,6 +55,7 @@ export default class FacultyWelcomeScreen extends Component {
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
+    const facultyDepartment =navigation.getParam("facultyDepartment")
       return (
       
       <SafeAreaView style={styles.container}>
@@ -77,6 +78,7 @@ export default class FacultyWelcomeScreen extends Component {
             
               <Text style={styles.paragraph}>Assistant Prof.</Text>
               <Text style={styles.paragraph}>{department}</Text>
+              <Text style={styles.paragraph}>{facultyDepartment}</Text>
               <Text style={styles.paragraph}>{mobile}</Text>
               <Text style={styles.paragraph}>{email}</Text>
             </View>
@@ -101,7 +103,13 @@ export default class FacultyWelcomeScreen extends Component {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("Attendance")}
+              onPress={() => this.props.navigation.navigate("Attendance",{
+                email,
+                department,
+                name,
+                mobile,
+                imageUrl
+              })}
             >
               <Text style={styles.clickText}>Attendance</Text>
             </TouchableHighlight>

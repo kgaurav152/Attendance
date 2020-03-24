@@ -24,7 +24,12 @@ class AttendanceBoxes extends React.Component {
       subject: this.props.sub,
       semester: this.props.sem,
       date: this.props.date,
-      loading: false
+      loading: false,
+      facultyDepartment:this.props.facultyDepartment,
+      mobile:this.props.mobile,
+      imageUrl:this.props.imageUrl,
+      name:this.props.name,
+      email:this.props.email
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -71,91 +76,107 @@ class AttendanceBoxes extends React.Component {
         console.log(this.state.attendanceList);
       }
     );
-   NetInfo.isConnected.fetch().done((isConnected) => {
-     if(isConnected){
-   
-    Firebase.database()
-      .ref("attendance")
-      .once("value")
-      .then(snapshot => {
-        const attendanceInfo = snapshot.val();
-        let uid = "";
+    NetInfo.isConnected.fetch().done(isConnected => {
+      if (isConnected) {
+        Firebase.database()
+          .ref("attendance")
+          .once("value")
+          .then(snapshot => {
+            const attendanceInfo = snapshot.val();
+            let uid = "";
 
-        for (var attributes in attendanceInfo) {
-          db_department = attendanceInfo[attributes].department;
-          db_semester = attendanceInfo[attributes].semester;
-          db_subject = attendanceInfo[attributes].subject;
-          db_date = attendanceInfo[attributes].date;
-          if (db_department === this.state.department) {
-            if (db_semester === this.state.semester) {
-              if (db_subject === this.state.subject) {
-                if (db_date === this.state.date) {
-                  uid = attributes;
+            for (var attributes in attendanceInfo) {
+              db_department = attendanceInfo[attributes].department;
+              db_semester = attendanceInfo[attributes].semester;
+              db_subject = attendanceInfo[attributes].subject;
+              db_date = attendanceInfo[attributes].date;
+              if (db_department === this.state.department) {
+                if (db_semester === this.state.semester) {
+                  if (db_subject === this.state.subject) {
+                    if (db_date === this.state.date) {
+                      uid = attributes;
+                    }
+                  }
                 }
               }
             }
-          }
-        }
-        
-        if (uid == null || uid == "" || uid == undefined) {
-            let attendanceObj = {
-            attendanceList: this.state.attendanceList,
-            department: this.state.department,
-            date: this.state.date,
-            subject: this.state.subject,
-            semester: this.state.semester
-          };
+            if (uid == null || uid == "" || uid == undefined) {
+              let attendanceObj = {
+                attendanceList: this.state.attendanceList,
+                department: this.state.department,
+                date: this.state.date,
+                subject: this.state.subject,
+                semester: this.state.semester
+              };
 
-          Firebase.database()
-            .ref("attendance/")
-            .push(attendanceObj);
-          this.setState({
-            loading: false
-          });
-          this.props.navigation.navigate("FacultyWelcome");
-        } else {
-          Firebase.database()
-            .ref("attendance")
-            .child(uid)
-            .update({
-              date: this.state.date,
-              attendanceList: this.state.attendanceList
-            });
-          this.setState({
-            loading: false
-          });
-
-          this.props.navigation.navigate("FacultyWelcome");
-        }
-      });
-     }
-     else{
-      let attendanceObj = {
-        attendanceList: this.state.attendanceList,
-        department: this.state.department,
-        date: this.state.date,
-        subject: this.state.subject,
-        semester: this.state.semester
-      };
-       AsyncStorage.getItem("attendanceList").then( val => {
-           if(val != null && val != ""){
-              let attendanceArray = JSON.parse( val );
-              attendanceArray.push( attendanceObj );
-              AsyncStorage.setItem("attendanceList",
-                JSON.stringify( attendanceArray ));
-                this.setState({
-                  loading: false 
+              Firebase.database()
+                .ref("attendance/")
+                .push(attendanceObj);
+             
+              this.setState({
+                loading: false
+              });
+              this.props.navigation.navigate("FacultyWelcome",{
+                name:this.state.name,
+                facultyDepartment:this.state.facultyDepartment,
+                email:this.state.email,
+                imageUrl:this.state.imageUrl,
+                mobile:this.state.mobile
+              })
+            } else {
+              Firebase.database()
+                .ref("attendance")
+                .child(uid)
+                .update({
+                  date: this.state.date,
+                  attendanceList: this.state.attendanceList
                 });
-                this.props.navigation.navigate("FacultyWelcome");
-           }
+              this.setState({
+                loading: false
+              });
+
+              this.props.navigation.navigate("FacultyWelcome",{
+                name:this.state.name,
+                facultyDepartment:this.state.facultyDepartment,
+                email:this.state.email,
+                imageUrl:this.state.imageUrl,
+                mobile:this.state.mobile
+              });
+            }
+          });
+      } else {
+        let attendanceObj = {
+          attendanceList: this.state.attendanceList,
+          department: this.state.department,
+          date: this.state.date,
+          subject: this.state.subject,
+          semester: this.state.semester
+        };
+        AsyncStorage.getItem("attendanceList").then(val => {
+          if (val != null && val != "") {
+            let attendanceArray = JSON.parse(val);
+            attendanceArray.push(attendanceObj);
+            AsyncStorage.setItem(
+              "attendanceList",
+              JSON.stringify(attendanceArray)
+            ); 
+          }
         }).catch( error => {
-            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceObj ));
+            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceObj));
         });
-        
+        this.setState({
+          loading: false
+        });
+        this.props.navigation.navigate("FacultyWelcome",{
+          name:this.state.name,
+            facultyDepartment:this.state.facultyDepartment,
+            email:this.state.email,
+            imageUrl:this.state.imageUrl,
+            mobile:this.state.mobile
+        });
       }
-    }
-   )}
-  
+    });
+  };
 
   render() {
     return (
