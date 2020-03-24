@@ -22,6 +22,7 @@ import LoginScreen from "../screens/LoginScreen";
 import AboutAppScreen from "../screens/AboutAppScreen";
 import CollegeScreen from "../screens/CollegeScreen";
 import DeveloperScreen from "../screens/DeveloperScreen";
+import FeedbackScreen from "../screens/FeedbackScreen";
 import {LinearGradient} from 'expo-linear-gradient'
 import AdminScreen from '../screens/AdminScreen'
 import SideMenu from "../sidemenu";
@@ -45,6 +46,7 @@ import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
 import  SearchStudentScreen from "../screens/SearchStudentScreen";
 import StudentProfileScreen from "../screens/StudentProfileScreen";
 import StudentDetailScreen from "../screens/StudentDetailScreen";
+import ShowFeedbackScreen from "../screens/ShowFeedbackScreen";
 
 
 class NavigationDrawerStructure extends Component {
@@ -163,6 +165,18 @@ const Admin_StackNavigator = createStackNavigator({
   },
   AssignSubject: {
     screen: AssignSubjectScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  ShowFeedback: {
+    screen: ShowFeedbackScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -581,6 +595,21 @@ const AboutAppScreen_StackNavigator = createStackNavigator({
     })
   }
 });
+const FeedbackScreen_StackNavigator = createStackNavigator({
+  //All the screen from the Third Option will be indexed here
+  Feedback: {
+    screen: FeedbackScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7"
+      },
+      headerTintColor: "#fff"
+    })
+  }
+});
 
 const SignUp_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
@@ -619,7 +648,8 @@ const Drawer = createDrawerNavigator(
     NavScreen7: { screen: Attendance_StackNavigator },
     NavScreen8:{screen:Student_StackNavigator},
     NavScreen9: {screen: Faculty_StackNavigator},
-    NavScreen10: {screen: Admin_StackNavigator}
+    NavScreen10: {screen: Admin_StackNavigator},
+    NavScreen11: {screen:FeedbackScreen_StackNavigator}
   },
   {
     contentComponent: SideMenu,

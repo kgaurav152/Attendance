@@ -4,13 +4,13 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
+  TouchableHighlight,
   ImageBackground,
 } from 'react-native';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 
-export default class ProfileView extends Component {
+export default class CollegeScreen extends Component {
 
   render() {
     return (
@@ -27,9 +27,12 @@ export default class ProfileView extends Component {
 
           <ScrollView style={styles.body}>
             <View style={styles.bodyContent}>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Click Here to visit website</Text>  
-              </TouchableOpacity> 
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.loginButton]}
+                onPress={() => this.props.navigation.navigate("HomeScreen")}
+              >
+                <Text style={styles.loginText}>Click Here to visit Website</Text>
+              </TouchableHighlight> 
               
                 
               <Text style={styles.description}>
@@ -52,8 +55,7 @@ export default class ProfileView extends Component {
                            of the college. Student of the college have exhibited their skill at different
                             platform and gathered many awards from premium institutes.
                              It is situated 3 km from Katihar Railway Station and there is a good transportation
-                              facility available from there. Currently, the own campus for the college is 
-                              under-construction in Hajipur, Katihar near NH 31. It is expected to complete soon</Text>
+                              facility available from there. </Text>
             </View>
         </ScrollView>
       </View>

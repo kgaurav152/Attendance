@@ -9,12 +9,14 @@ import {
   ScrollView
 } from "react-native";
 import { Card } from "react-native-elements";
+import Firebase from "../components/config";
 import { Button } from "react-native-elements";
 import Firebase from "../components/config"
 function Separator() {
   return <View style={styles.separator} />;
 }
 export default class AdminScreen extends Component {
+  
   handleLogout = () => {
     Firebase.auth().signOut();
 
@@ -85,6 +87,13 @@ export default class AdminScreen extends Component {
             <Text style={styles.clickText}>Generate Report</Text>
           </TouchableHighlight>
         </View>
+        <Separator />
+        <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("ShowFeedback")}
+          >
+            <Text style={styles.clickText}>Show Feedback</Text>
+        </TouchableHighlight>    
         <View style={styles.fixToText}>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}

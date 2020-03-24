@@ -4,14 +4,13 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
+  TouchableHighlight,
   ImageBackground,
 } from 'react-native';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
-import { FlatList } from 'react-native-gesture-handler';
 
-export default class ProfileView extends Component {
+export default class AboutAppScreen extends Component {
 
   render() {
     return (
@@ -19,7 +18,7 @@ export default class ProfileView extends Component {
           <View style={styles.header}>
             <View style={styles.headerContent}>
                 
-                <Image style={styles.avatar} source={require('../images/reactnative.png')}/>
+                <Image style={styles.avatar} source={require('../images/logo.jpg')}/>
                 
             </View>
           </View>
@@ -28,17 +27,35 @@ export default class ProfileView extends Component {
 
           <ScrollView style={styles.body}>
             <View style={styles.bodyContent}>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text>Click Here to visit Developer's page</Text>  
-              </TouchableOpacity> 
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.loginButton]}
+                onPress={() => this.props.navigation.navigate("Feedback")}
+              >
+                <Text style={styles.loginText}>Feedback</Text>
+              </TouchableHighlight> 
               
                 
               <Text style={styles.description}>
-                The App uses the following technologies:</Text>
-                
-                <Text style={{}}>{'\u2022'}React-Native</Text>
-                
-                
+                With the advent of technology and the emergence of notable education
+                   in our society, had decided to adapt the prevailing need of light.
+                    In the mission to achieve the eminence in the field, the establishment 
+                    of Katihar Engineering College was laid in the year 2016.
+                     The college is enriched with a pollyannaish environment, 
+                     highly motivated and enthusiastic students guided 
+                     by well qualified professional from different prestigious colleges of our country.
+                      The college was established with three branches- Civil Engineering,
+                       Mechanical Engineering and Computer Science and Engineering. 
+                       Each branch has a number of renowned professors with high qualifications
+                        and experience in teaching or their respective industries. 
+                        The college consists of a central library, Computer Labs, 
+                        Training and Placement Cell, Programmer's Club etc,
+                         with the exceptional support staffs and infrastructure.
+                          All the labs and other infrastructure is in highly conditional states
+                           serving at their best to provide the best facilities to all the members 
+                           of the college. Student of the college have exhibited their skill at different
+                            platform and gathered many awards from premium institutes.
+                             It is situated 3 km from Katihar Railway Station and there is a good transportation
+                              facility available from there. </Text>
             </View>
         </ScrollView>
       </View>
