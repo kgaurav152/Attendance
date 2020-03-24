@@ -23,7 +23,7 @@ function Separator() {
 }
 
 export default class ShowFeedbackScreen extends Component {
-  state = { nameList:"", feedbackList: [], emailList: [] };
+  state = { nameList:[], feedbackList: [], emailList: [] };
 
   componentWillMount() {
     var db_nameList = [];

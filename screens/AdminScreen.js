@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { Card } from "react-native-elements";
 import Firebase from "../components/config";
-
 function Separator() {
   return <View style={styles.separator} />;
 }
