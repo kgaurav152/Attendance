@@ -23,83 +23,39 @@ function Separator() {
 }
 
 export default class ShowFeedbackScreen extends Component {
-  state = { nameList: [], feedbackList: [], emailList: [] };
+  state = { nameList:"", feedbackList: [], emailList: [] };
 
-  componentDidMount() {
-    
-    
-      var db_nameList = [];
-      var db_feedbackList = [];
-      var db_emailList = [];
-        Firebase.database()
-          .ref("Feedback/")
-          .once("value")
-          .then(snapshot => {
-            var feedbackInfo = snapshot.val();
-            var db_name = "";
-            var db_feedback = "";
-            var db_email = "";
-            for (var attributes in feedbackInfo) {
-              db_name = feedbackInfo[attributes].name;
-              db_feedback = feedbackInfo[attributes].feedback;
-              db_email = feedbackInfo[attributes].email;
-              db_nameList.push(db_name)
-              db_feedbackList.push(db_feedback);
-              db_emailList.push(db_email);
-            }
-          });
-          this.setState({
-            nameList: db_nameList,
-            feedbackList: db_feedbackList,
-            emailList: db_emailList
-          });
-          
-  
-  
-  }
-
-  
-
-      
-
-         
-  
-  
-      
-  render() {
-    
-    const nameList = this.state.nameList;
-    const feedbackList = this.state.feedbackList;
-    const emailList = this.state.emailList;
-    let keys = null;
-    let array = null;
-    let countList = [];
-      
+  componentWillMount() {
     var db_nameList = [];
     var db_feedbackList = [];
     var db_emailList = [];
     Firebase.database()
-    .ref("Feedback/")
-    .once("value")
-    .then(snapshot => {
-      var feedbackInfo = snapshot.val();
-      var db_name = "";
-      var db_feedback = "";
-      var db_email = "";
-      for (var attributes in feedbackInfo) {
-        db_name = feedbackInfo[attributes].name;
-        db_feedback = feedbackInfo[attributes].feedback;
-        db_email = feedbackInfo[attributes].email;
-        db_nameList.push(db_name)
-        db_feedbackList.push(db_feedback);
-        db_emailList.push(db_email);
-      }
-    });
-    this.setState({
-      nameList: db_nameList,
-      feedbackList: db_feedbackList,
-      emailList: db_emailList
-    });
+      .ref("Feedback/")
+      .once("value")
+      .then(snapshot => {
+        var feedbackInfo = snapshot.val();
+        var db_name = "";
+        var db_feedback = "";
+        var db_email = "";
+        for (var attributes in feedbackInfo) {
+          db_name = feedbackInfo[attributes].name;
+          db_feedback = feedbackInfo[attributes].feedback;
+          db_email = feedbackInfo[attributes].email;
+          db_nameList.push(db_name);
+          db_feedbackList.push(db_feedback);
+          db_emailList.push(db_email);
+        }
+        this.setState({
+          nameList: db_nameList,
+          feedbackList: db_feedbackList,
+          emailList: db_emailList
+        });
+      });
+    
+  }
+
+  render() {
+    
     return (
       //<ScrollView
       //horizontal={true}>
@@ -116,23 +72,14 @@ export default class ShowFeedbackScreen extends Component {
 
             fontWeight: "800"
           }}
-        >
-          
-        </Card>
-        
-        <View style = { styles.gridContainer}>
-        <ScrollView>     
-        <FlatList
-            
-            data={nameList} 
-            
-            keyExtractor={(item, index) => index.toString()}
-            
-            renderItem = {({ item }) => <Item title={item} />}
-        />
-      </ScrollView>
-      </View>
-      <Separator />
+        ></Card>
+
+        <View style={styles.gridContainer}>
+          <ScrollView>
+            <Text>{this.state.nameList}</Text>
+          </ScrollView>
+        </View>
+        <Separator />
       </SafeAreaView>
       //</ScrollView>
     );
@@ -140,23 +87,22 @@ export default class ShowFeedbackScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  
-  gridContainer : {
+  gridContainer: {
     marginTop: 20,
-    flex: 1,
+    flex: 1
   },
-  
-  row:{
+
+  row: {
     flex: 1,
     padding: 15,
     marginBottom: 5,
-    flexDirection: 'column'
+    flexDirection: "column"
   },
-  countRow:{
+  countRow: {
     flex: 1,
     padding: 15,
     marginBottom: 5,
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   column: {
     //flex: 1
@@ -165,9 +111,9 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    alignItems:'center', 
-    justifyContent:'center',  
-},
+    alignItems: "center",
+    justifyContent: "center"
+  },
 
   container: {
     flex: 1
@@ -194,16 +140,15 @@ const styles = StyleSheet.create({
     margin: 1.5,
     fontSize: 14,
     fontWeight: "700",
-    
-    color: "#008b8b",
-    
+
+    color: "#008b8b"
   },
   paragraph: {
     margin: 1.5,
     marginRight: "25%",
     fontSize: 14,
     fontWeight: "700",
-    
+
     color: "#008b8b"
   },
   welcomeUser: {
@@ -252,15 +197,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: "#f9c2ff",
     padding: 20,
-    marginVertical: 8,
+    marginVertical: 8
   },
   header: {
     fontSize: 32,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff"
   },
   title: {
-    fontSize: 24,
-  },
+    fontSize: 24
+  }
 });
