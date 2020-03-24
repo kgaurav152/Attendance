@@ -26,7 +26,6 @@ export default class FacultyWelcomeScreen extends Component {
       for(var i = attendances.length -1; i >= 0 ; i--){
 
         let obj = attendances[i];
-        //obj = JSON.parse(obj);
         Firebase.database()
         .ref("attendance/")
         .push(obj)

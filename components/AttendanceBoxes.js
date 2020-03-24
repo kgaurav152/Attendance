@@ -162,7 +162,8 @@ class AttendanceBoxes extends React.Component {
             ); 
           }
         }).catch( error => {
-            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceObj));
+            console.log(" Error : " + error );
+            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceObj)); 
         });
         this.setState({
           loading: false
