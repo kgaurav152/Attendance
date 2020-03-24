@@ -18,8 +18,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import Firebase from "./components/config";
 
 class SideMenu extends Component {
-  
-
   handleLogout = () => {
     Firebase.auth().signOut();
 
@@ -75,18 +73,16 @@ class SideMenu extends Component {
               </TouchableHighlight>
             </View>
             <View style={styles.fixIcon}>
-            <Ionicons name="md-log-out" size={35} />
-            <TouchableHighlight
-              style={[styles.buttonContainer, styles.logoutButton]}
-              onPress={() => this.handleLogout()}
-            >
-              <Text style={styles.logoutText}>Logout</Text>
-            </TouchableHighlight>
+              <Ionicons name="md-log-out" size={35} />
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.logoutButton]}
+                onPress={() => this.handleLogout()}
+              >
+                <Text style={styles.logoutText}>Logout</Text>
+              </TouchableHighlight>
             </View>
           </ScrollView>
-          <View style={styles.footerContainer}>
-            
-          </View>
+          <View style={styles.footerContainer}></View>
         </View>
       </LinearGradient>
     );
