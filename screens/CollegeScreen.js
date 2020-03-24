@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,30 +6,25 @@ import {
   Image,
   TouchableHighlight,
   ImageBackground,
+  Linking,
 } from 'react-native';
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 
 export default class CollegeScreen extends Component {
+  
+
 
   render() {
     return (
       <View style={styles.container}>
-          <View style={styles.header}>
-            <View style={styles.headerContent}>
-                
-                <Image style={styles.avatar} source={require('../images/logo.jpg')}/>
-                
-            </View>
-          </View>
-
 
 
           <ScrollView style={styles.body}>
             <View style={styles.bodyContent}>
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.props.navigation.navigate("HomeScreen")}
+                onPress={() => Linking.openURL('http://www.keck.ac.in')}
               >
                 <Text style={styles.loginText}>Click Here to visit Website</Text>
               </TouchableHighlight> 
