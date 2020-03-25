@@ -17,14 +17,14 @@ function Separator() {
 
 export default class StudentWelcomeScreen extends Component {
   render() {
-   {/* const { navigation } = this.props;
+    const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
     const reg_no = navigation.getParam("reg_no");
     const mobile = navigation.getParam("mobile");
     const department = navigation.getParam("department");
     const imageUrl = navigation.getParam("imageUrl");
-  const sem = navigation.getParam("sem");*/}
+  const sem = navigation.getParam("sem");
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
@@ -42,7 +42,7 @@ export default class StudentWelcomeScreen extends Component {
           }}
         >
           <View style={styles.fixImage}>
-           {/* <View>
+            <View>
               <Text style={styles.paragraph}>
                 Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}
               </Text>
@@ -54,9 +54,9 @@ export default class StudentWelcomeScreen extends Component {
               </Text>
               <Text style={styles.paragraph}>
                 {JSON.stringify(email).replace(/\"/g, "")}
-           </Text>*
-           </View>*/}
-            {/*<Image
+           </Text>
+           </View>
+            <Image
               source={{ uri: imageUrl }}
               style={{
                 width: 105,
@@ -64,7 +64,7 @@ export default class StudentWelcomeScreen extends Component {
                 marginLeft: 5,
                 borderRadius: 100 / 2
               }}
-            />*/}
+            />
           </View>
         </Card>
 

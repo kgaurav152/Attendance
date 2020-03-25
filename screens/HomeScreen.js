@@ -77,7 +77,7 @@ export default class Homescreen extends Component {
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.clickButton]}
                 onPress={() =>
-                  this.props.navigation.navigate("StudentAttendance")
+                  this.props.navigation.navigate("Login")
                 }
               >
                 <Text style={styles.clickText}>Login</Text>
