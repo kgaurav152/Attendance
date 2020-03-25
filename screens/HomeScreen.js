@@ -19,10 +19,12 @@ function Separator() {
 }
 
 export default class Homescreen extends Component {
-  state={token:''}
+  state={notification:''}
+ 
 
   componentDidMount() {
     this.registerForPushNotificationsAsync();
+    
   }
   registerForPushNotificationsAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -106,6 +108,7 @@ export default class Homescreen extends Component {
             </View>
             <Separator />
           </View>
+          
           <Text style={styles.footer}>{"\u00A9"} 2020 KEC Katihar</Text>
         </LinearGradient>
       </SafeAreaView>
