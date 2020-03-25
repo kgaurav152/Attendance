@@ -21,7 +21,6 @@ export default class LoginScreen extends Component {
   state = { date: "", email: "", password: "", language: "", errorMessage: "" };
   constructor(props) {
     super(props);
-
     this.state = {
       loading: false
     };

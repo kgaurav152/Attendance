@@ -47,6 +47,7 @@ import  SearchStudentScreen from "../screens/SearchStudentScreen";
 import StudentProfileScreen from "../screens/StudentProfileScreen";
 import StudentDetailScreen from "../screens/StudentDetailScreen";
 import ShowFeedbackScreen from "../screens/ShowFeedbackScreen";
+import NotificationScreen from "../screens/NotificationScreen";
 
 
 class NavigationDrawerStructure extends Component {
@@ -177,6 +178,18 @@ const Admin_StackNavigator = createStackNavigator({
   },
   ShowFeedback: {
     screen: ShowFeedbackScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTintColor: "black"
+    })
+  },
+  Notification: {
+    screen: NotificationScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,

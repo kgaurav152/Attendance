@@ -96,9 +96,9 @@ export default class AdminScreen extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.handleLogout()}
+            onPress={() => this.props.navigation.navigate("Notification")}
           >
-            <Text style={styles.clickText}>Logout</Text>
+            <Text style={styles.clickText}>Send Notification</Text>
           </TouchableHighlight>
         </View>
         </ScrollView>

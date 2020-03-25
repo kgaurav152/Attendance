@@ -19,42 +19,44 @@ function Separator() {
 }
 
 export default class Homescreen extends Component {
-  state = { tokenInfo: {} };
+  state={token:''}
+
   componentDidMount() {
     this.registerForPushNotificationsAsync();
   }
-
   registerForPushNotificationsAsync = async () => {
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-
     if (status !== "granted") {
       alert("No notification permissions!");
       return;
     }
-
     let token = await Notifications.getExpoPushTokenAsync();
-    
+    this.setState({
+      token:token
+    })
+    let db_token=[]
     Firebase.database()
       .ref("Token")
-      .push({
-        ExpoToken: token
+      .orderByChild("ExpoToken")
+      .equalTo(this.state.token)
+      .once("value")
+      .then(snapshot=>{
+        let tokenInfo=snapshot.val();
+        for(var attributes in tokenInfo){
+          db_token.push(tokenInfo[attributes].ExpoToken)
+        }
+        if(db_token==token){
+          console.log("Token Already Persisted")
+        }
+        else{
+          Firebase.database().ref('Token').push({
+            ExpoToken:token
+          });
+        }
       });
+     
   };
-  sendPushNotification=()=>{
-let response =fetch('https://exp.host/--/api/v2/push/send',{
-  method:'POST',
-  headers:{
-    Accept:'application/json',
-    'Content-type':'application/json',
-  },
-  body:JSON.stringify({
-    to:'ExponentPushToken[_-SbviJVGktK3Ky4N6bbSv]',
-    sound:'default',
-    title:'Demo',
-    body:'Demo Notification'
-  })
-})
-  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -97,7 +99,7 @@ let response =fetch('https://exp.host/--/api/v2/push/send',{
               </TouchableHighlight>
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.clickButton]}
-                onPress={() => this.sendPushNotification()}
+                onPress={() => this.props.navigation.navigate("Admin")}
               >
                 <Text style={styles.clickText}>About</Text>
               </TouchableHighlight>
