@@ -37,7 +37,7 @@ export default class ShowAttendanceScreen extends Component {
 
     const department = navigation.getParam("department");
 
-    const sem = navigation.getParam("sem");
+    const sem = navigation.getParam("semester");
 
     return (
       <SafeAreaView style={styles.container}>

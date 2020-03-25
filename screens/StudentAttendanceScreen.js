@@ -21,23 +21,29 @@ function Separator() {
 }
 
 export default class StudentAttendanceScreen extends Component {
-  state = { startDate: "", subject: "", endDate: "", semester: "" };
+  state = {
+    startDate: "",
+    subject: "",
+    endDate: "",
+    semester: "",
+    department: "",
+    
+  };
   updateSubject = subject => {
     this.setState({ subject: subject });
   };
   constructor(props) {
     super(props);
 
-    this.state = { selectedSubject: "",
-    subjectList: [] };
+    this.state = { selectedSubject: "", subjectList: [] };
   }
   handleAttendance = () => {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
     const reg_no = navigation.getParam("reg_no");
-    const department = navigation.getParam("department");
-    const sem = navigation.getParam("sem");
+    const department = this.state.department;
+    const semester = this.state.semester;
 
     const Reg_no = reg_no.substring(8, reg_no.length);
 
@@ -74,7 +80,7 @@ export default class StudentAttendanceScreen extends Component {
             db_date = attendanceInfo[attributes].date;
             db_subject = attendanceInfo[attributes].subject;
             if (db_department === department) {
-              if (db_semester === sem) {
+              if (db_semester === semester) {
                 if (db_date === dateSelected[date]) {
                   if (db_subject === this.state.selectedSubject) {
                     //const studentattnd = attendanceInfo[attributes].attendanceList
@@ -95,7 +101,7 @@ export default class StudentAttendanceScreen extends Component {
             name,
             reg_no,
             department,
-            sem,
+            semester,
             presentStatelist,
             dateSelected
           });
@@ -119,7 +125,6 @@ export default class StudentAttendanceScreen extends Component {
   };
   componentWillUpdate(nextProps, nextState) {
     if (
-      
       nextState.department != this.state.department ||
       nextState.semester != this.state.semester
     ) {
@@ -135,30 +140,28 @@ export default class StudentAttendanceScreen extends Component {
           for (var attributes in subjectInfo) {
             db_department = subjectInfo[attributes].department;
             db_semester = subjectInfo[attributes].semester;
-            if (db_department === department) {
-              if (db_semester === semester) {
+            if (db_department === this.state.department) {
+              if (db_semester === this.state.semester) {
                 var subjectData = subjectInfo[attributes].subjectName;
                 subjectList.push(subjectData);
               }
               console.log(subjectList);
-    
-            this.setState({
-              subjectList: subjectList
-            });
+
+              this.setState({
+                subjectList: subjectList
+              });
             }
           }
         });
     }
   }
 
-
   render() {
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
     const reg_no = navigation.getParam("reg_no");
-    const department = navigation.getParam("department");
-    const sem = navigation.getParam("sem");
+
     const { showAlert } = this.state;
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
@@ -192,6 +195,55 @@ export default class StudentAttendanceScreen extends Component {
             />
           </View>
         </View>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={require("../images/department.jpg")}
+          />
+
+          <Picker
+            selectedValue={this.state.department}
+            style={{ height: 50, width: 180, marginLeft: "5%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ department: itemValue })
+            }
+          >
+            <Picker.Item label="Department" value="1" />
+            <Picker.Item label="Civil Engineering" value="Civil Engineering" />
+            <Picker.Item
+              label="Mechanical Engineering"
+              value="Mechanical Engineering"
+            />
+            <Picker.Item
+              label="Computer Sc. & Engineering"
+              value="Computer Sc. & Engineering"
+            />
+          </Picker>
+        </View>
+        <View style={styles.inputContainer}>
+          <Image
+            style={styles.inputIcon}
+            source={require("../images/semester.png")}
+          />
+          <Picker
+            selectedValue={this.state.semester}
+            style={{ height: 50, width: 180, marginLeft: "5%" }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ semester: itemValue })
+            } 
+          >
+            <Picker.Item label="Select Semester" value="1" />
+            <Picker.Item label="1st" value="1st" />
+            <Picker.Item label="2nd" value="2nd" />
+            <Picker.Item label="3rd" value="3rd" />
+            <Picker.Item label="4th" value="4th" />
+            <Picker.Item label="5th" value="5th" />
+            <Picker.Item label="6th" value="6th" />
+            <Picker.Item label="7th" value="7th" />
+            <Picker.Item label="8th" value="8th" />
+          </Picker>
+        </View>
+
         <View
           style={{
             justifyContent: "center",
@@ -201,17 +253,16 @@ export default class StudentAttendanceScreen extends Component {
             paddingRight: "20%"
           }}
         >
-        <Picker
-        selectedValue={this.state.selectedSubject}
-        
-        onValueChange={subjectLists =>
-          this.setState({ selectedSubject: subjectLists })
-        }
-      >
-        <Picker.Item label="Choose Subject" value="1" />
+          <Picker
+            selectedValue={this.state.selectedSubject}
+            onValueChange={subjectLists =>
+              this.setState({ selectedSubject: subjectLists })
+            }
+          >
+            <Picker.Item label="Choose Subject" value="1" />
 
-        {subjectItems}
-      </Picker>
+            {subjectItems}
+          </Picker>
         </View>
         <View>
           <TouchableHighlight
@@ -313,5 +364,22 @@ const styles = StyleSheet.create({
     marginVertical: "3%",
     borderBottomColor: "#737373",
     borderBottomWidth: StyleSheet.hairlineWidth
+  },
+  inputIcon: {
+    width: 30,
+    height: 30,
+    marginLeft: 15,
+    justifyContent: "center"
+  },
+  inputContainer: {
+    borderBottomColor: "#fff8dc",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    width: 250,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center"
   }
 });
