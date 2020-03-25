@@ -31,7 +31,7 @@ export default class ShowAttendanceScreen extends Component {
   }
   render() {
     const { navigation } = this.props;
-    const email = navigation.getParam("email");
+   // const email = navigation.getParam("email");
     //const name = navigation.getParam("name");
     const reg_no = navigation.getParam("reg_no");
 
@@ -63,9 +63,9 @@ export default class ShowAttendanceScreen extends Component {
                 {JSON.stringify(department).replace(/\"/g, "")}
               </Text>
 
-              <Text style={styles.paragraph}>
+              {/*<Text style={styles.paragraph}>
                 {JSON.stringify(email).replace(/\"/g, "")}
-              </Text>
+        </Text>*/}
             </View>
           </View>
         </Card>
@@ -83,6 +83,8 @@ export default class ShowAttendanceScreen extends Component {
 
           <FlatList
             data={this.state.presentStateList}
+            initialNumToRender={10}
+            windowSize={5}
             renderItem={({ item }) => (
               <Text style={styles.paragraph}>
                 {JSON.stringify(item).replace(/\"/g, "")}

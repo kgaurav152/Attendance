@@ -39,9 +39,10 @@ export default class StudentAttendanceScreen extends Component {
   }
   handleAttendance = () => {
     const { navigation } = this.props;
-    const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const reg_no = navigation.getParam("reg_no");
+   // const email = navigation.getParam("email");
+    //const name = navigation.getParam("name");
+    //const reg_no = navigation.getParam("reg_no");
+    const reg_no="16105129009"
     const department = this.state.department;
     const semester = this.state.semester;
 
@@ -85,8 +86,7 @@ export default class StudentAttendanceScreen extends Component {
                   if (db_subject === this.state.selectedSubject) {
                     //const studentattnd = attendanceInfo[attributes].attendanceList
 
-                    var presentState =
-                      attendanceInfo[attributes].attendanceList[Reg_no];
+                    var presentState = attendanceInfo[attributes].attendanceList[Reg_no];
                     presentStatelist.push(presentState);
                   }
                 }
@@ -97,8 +97,8 @@ export default class StudentAttendanceScreen extends Component {
 
         if (presentState) {
           this.props.navigation.navigate("ShowAttendance", {
-            email,
-            name,
+            //email,
+            //name,
             reg_no,
             department,
             semester,
@@ -158,9 +158,9 @@ export default class StudentAttendanceScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const reg_no = navigation.getParam("reg_no");
+   // const email = navigation.getParam("email");
+    //const name = navigation.getParam("name");
+    //const reg_no = navigation.getParam("reg_no");
 
     const { showAlert } = this.state;
     let subjectItems = this.state.subjectList.map((s, i) => {

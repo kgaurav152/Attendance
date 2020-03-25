@@ -1,7 +1,17 @@
 import React, { Component } from "react";
-import { StyleSheet, View, SafeAreaView, Text, Alert,TouchableHighlight,ScrollView} from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Text,
+  Alert,
+  TouchableHighlight,
+  ScrollView
+} from "react-native";
+import { Notifications } from "expo";
+import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
-
+import Firebase from "../components/config";
 import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 function Separator() {
@@ -9,6 +19,42 @@ function Separator() {
 }
 
 export default class Homescreen extends Component {
+  state = { tokenInfo: {} };
+  componentDidMount() {
+    this.registerForPushNotificationsAsync();
+  }
+
+  registerForPushNotificationsAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+
+    if (status !== "granted") {
+      alert("No notification permissions!");
+      return;
+    }
+
+    let token = await Notifications.getExpoPushTokenAsync();
+    
+    Firebase.database()
+      .ref("Token")
+      .push({
+        ExpoToken: token
+      });
+  };
+  sendPushNotification=()=>{
+let response =fetch('https://exp.host/--/api/v2/push/send',{
+  method:'POST',
+  headers:{
+    Accept:'application/json',
+    'Content-type':'application/json',
+  },
+  body:JSON.stringify({
+    to:'ExponentPushToken[_-SbviJVGktK3Ky4N6bbSv]',
+    sound:'default',
+    title:'Demo',
+    body:'Demo Notification'
+  })
+})
+  }
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -21,44 +67,44 @@ export default class Homescreen extends Component {
             top: 0,
             height: "100%"
           }}
-          start={{ x: 0, y: 1}}
-          end={{ x: 1, y: 1}}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 1 }}
         >
-        <View style={styles.Home}>
-        <View style={styles.fixToText}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("Login")}
-          >
-            <Text style={styles.clickText}>Login</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("KEC_Katihar")}
-          >
-            <Text style={styles.clickText}>KEC Katihar</Text>
-          </TouchableHighlight>
-        </View>
-        <Separator />
-        <View style={styles.fixToText}>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("Developers")}
-          >
-            <Text style={styles.clickText}>Developers</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AboutApp")}
-          >
-            <Text style={styles.clickText}>About</Text>
-          </TouchableHighlight>
-        </View>
-        <Separator />
-        
-        </View>
-        <Text style={styles.footer}>{"\u00A9"} 2020 KEC Katihar</Text>
-
+          <View style={styles.Home}>
+            <View style={styles.fixToText}>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.clickButton]}
+                onPress={() =>
+                  this.props.navigation.navigate("StudentAttendance")
+                }
+              >
+                <Text style={styles.clickText}>Login</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.clickButton]}
+                onPress={() => this.props.navigation.navigate("KEC_Katihar")}
+              >
+                <Text style={styles.clickText}>KEC Katihar</Text>
+              </TouchableHighlight>
+            </View>
+            <Separator />
+            <View style={styles.fixToText}>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.clickButton]}
+                onPress={() => this.props.navigation.navigate("Developers")}
+              >
+                <Text style={styles.clickText}>Developers</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.clickButton]}
+                onPress={() => this.sendPushNotification()}
+              >
+                <Text style={styles.clickText}>About</Text>
+              </TouchableHighlight>
+            </View>
+            <Separator />
+          </View>
+          <Text style={styles.footer}>{"\u00A9"} 2020 KEC Katihar</Text>
         </LinearGradient>
       </SafeAreaView>
     );
@@ -68,9 +114,9 @@ export default class Homescreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:'center',
-    justifyContent:"center",
-    alignContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center"
   },
   footer: {
     fontWeight: "900",
@@ -79,10 +125,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 40
   },
-  Home:{
-    justifyContent:'center',
-    alignContent:"center",
-    marginTop:"30%"
+  Home: {
+    justifyContent: "center",
+    alignContent: "center",
+    marginTop: "30%"
   },
   separator: {
     marginVertical: "3%",
@@ -113,14 +159,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginTop: 20,
     marginRight: 15,
-    marginLeft:"5%"
+    marginLeft: "5%"
   },
   clickButton: {
     backgroundColor: "#09C5F7"
   },
   clickText: {
     color: "white",
-    fontSize:20,
+    fontSize: 20,
     fontWeight: "800"
   },
   fixToText: {
@@ -130,5 +176,5 @@ const styles = StyleSheet.create({
     width: 300,
     textAlign: "center",
     marginLeft: 15
-  },
+  }
 });
