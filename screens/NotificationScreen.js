@@ -17,10 +17,18 @@ import * as Permissions from "expo-permissions";
 import Firebase from "../components/config";
 import { LinearGradient } from "expo-linear-gradient";
 import AwesomeAlert from "react-native-awesome-alerts";
+import { FlatList } from "react-native-gesture-handler";
 export default class NotificationScreen extends Component {
-  state = { bodyText: "", titleText: "", token: [], loading: false };
+  state = { bodyText: "", titleText: "", token: [], loading: false, notification: [] };
 
+    _handleNotification=(notification)=>{
+      this.setState({
+        notification:notification
+      })
+    }
   componentDidMount = () => {
+    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+
     let token = [];
     Firebase.database()
       .ref("Token")
@@ -63,7 +71,10 @@ export default class NotificationScreen extends Component {
         to: this.state.token,
         sound: "default",
         title: this.state.titleText,
-        body: this.state.bodyText
+        body: this.state.bodyText,
+        data: { message: `  ${this.state.bodyText}` },
+
+
       })
     });
 
@@ -112,7 +123,9 @@ export default class NotificationScreen extends Component {
       >
         <View style={styles.container}>
           <View>
+          
             <View style={styles.inputContainer}>
+
               <TextInput
                 ref={input => {
                   this.textTitleInput = input;
@@ -146,6 +159,12 @@ export default class NotificationScreen extends Component {
             >
               <Text style={styles.loginText}>Send Notification</Text>
             </TouchableHighlight>
+            {this.state.notification ? (
+              <View>
+                <Text style={styles.text}>Last Notification:</Text>
+                <Text style={styles.text}>{JSON.stringify(this.state.notification.data)}</Text>
+              </View>
+            ) : null}
           </View>
           <AwesomeAlert
             show={sendNotificationAlert}
