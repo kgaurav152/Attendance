@@ -45,13 +45,14 @@ export default class StudentAttendanceScreen extends Component {
     //const reg_no="16105129009"
     const department = this.state.department;
     const semester = this.state.semester;
-
+    
     const Reg_no = reg_no.substring(8, reg_no.length);
 
     var db_department = "";
     var db_semester = "";
     var db_date = "";
     var db_subject = "";
+    let subjectName = this.state.selectedSubject;
     Firebase.database()
       .ref("attendance")
       .orderByChild("date")
@@ -59,43 +60,22 @@ export default class StudentAttendanceScreen extends Component {
       .endAt(this.state.endDate)
       .once("value")
       .then(snapshot => {
-        const attendanceInfo = snapshot.val();
-        const dateSelected = [];
+        const attendanceInfos = snapshot.val();
+        const studAttendenceIno = [];
         const presentStatelist = [];
-        for (var attributes in attendanceInfo) {
-          var dateDb = attendanceInfo[attributes].date;
-          var flag = 1;
-          for (var date in dateSelected) {
-            if (dateSelected[date] === dateDb) {
-              flag = 0;
-            }
-          }
-          if (flag === 1) {
-            dateSelected.push(dateDb);
-          }
-        }
-        for (var date in dateSelected) {
-          for (var attributes in attendanceInfo) {
-            db_department = attendanceInfo[attributes].department;
-            db_semester = attendanceInfo[attributes].semester;
-            db_date = attendanceInfo[attributes].date;
-            db_subject = attendanceInfo[attributes].subject;
-            if (db_department === department) {
-              if (db_semester === semester) {
-                if (db_date === dateSelected[date]) {
-                  if (db_subject === this.state.selectedSubject) {
-                    //const studentattnd = attendanceInfo[attributes].attendanceList
 
-                    var presentState = attendanceInfo[attributes].attendanceList[Reg_no];
-                    presentStatelist.push(presentState);
-                  }
-                }
-              }
+        for( attendanceInfo in attendanceInfos){
+          if(department == attendanceInfos[attendanceInfo]["department"]
+            && subjectName == attendanceInfos[attendanceInfo]["subject"]
+            && semester == attendanceInfos[attendanceInfo]["semester"] ){
+                let obj = {};
+                obj.date = attendanceInfos[attendanceInfo]["date"];
+                obj.presenceState = attendanceInfos[attendanceInfo]["attendanceList"][Reg_no];
+                studAttendenceIno.push(obj)
             }
-          }
         }
-
-        if (presentState) {
+                
+        if (studAttendenceIno.length > 0) {
           this.props.navigation.navigate("ShowAttendance", {
             email,
             name,
@@ -103,7 +83,7 @@ export default class StudentAttendanceScreen extends Component {
             department,
             semester,
             presentStatelist,
-            dateSelected
+            studAttendenceIno
           });
         }
         this.showAlert();
