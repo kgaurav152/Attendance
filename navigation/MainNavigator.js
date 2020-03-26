@@ -17,6 +17,7 @@ import {
   Dimensions,
   Button
 } from "react-native";
+
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import AboutAppScreen from "../screens/AboutAppScreen";
@@ -68,6 +69,7 @@ class NavigationDrawerStructure extends Component {
     );
   }
 }
+
 const GradientHeader = props => (
   <View style={{ backgroundColor: '#eee' }}>
       <LinearGradient
@@ -193,13 +195,36 @@ const Admin_StackNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
+      headerRight:<ActionBarImage/>,
       headerStyle: {
         backgroundColor: "#fff"
       },
       headerTintColor: "black"
     })
-  }
+  },
+  AddSubject:{
+    screen:AddSubjectScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+
+  },
 })
 const Faculty_StackNavigator = createStackNavigator({
   FacultyWelcome: {
@@ -258,29 +283,7 @@ const Faculty_StackNavigator = createStackNavigator({
     })
 
   },
-  AddSubject:{
-    screen:AddSubjectScreen,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-
-  },
+  
   Attendance: {
     screen: AttendanceScreen,
     navigationOptions: ({ navigation }) => ({
@@ -696,8 +699,11 @@ const Drawer = createDrawerNavigator(
   },
   {
     contentComponent: SideMenu,
+    drawerPosition:'left',
     drawerWidth: Dimensions.get("window").width - 120
-  }
+  },
+  
 );
+
 
 export default createAppContainer(Drawer);

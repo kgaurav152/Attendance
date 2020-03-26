@@ -17,14 +17,20 @@ import * as Permissions from "expo-permissions";
 import Firebase from "../components/config";
 import { LinearGradient } from "expo-linear-gradient";
 import AwesomeAlert from "react-native-awesome-alerts";
-import { FlatList } from "react-native-gesture-handler";
+import {Card} from 'react-native-elements'
+
 export default class NotificationScreen extends Component {
   state = { bodyText: "", titleText: "", token: [], loading: false, notification: [] };
-
+  
     _handleNotification=(notification)=>{
-      this.setState({
-        notification:notification
-      })
+  const a =notification.data;
+  Object.keys(a).forEach((key) => {
+    console.log(key, a[key]);
+    this.setState({
+      notification:a[key]
+    })
+});
+      
     }
   componentDidMount = () => {
     this._notificationSubscription = Notifications.addListener(this._handleNotification);
@@ -72,12 +78,10 @@ export default class NotificationScreen extends Component {
         sound: "default",
         title: this.state.titleText,
         body: this.state.bodyText,
-        data: { message: `  ${this.state.bodyText}` },
-
-
+        data: { message: [this.state.bodyText] },
       })
     });
-
+//{JSON.stringify(this.state.notification).replace(/[\[\]"]+/g,"")}
     this.sendNotificationAlert();
   };
   sendNotificationAlert = () => {
@@ -122,7 +126,27 @@ export default class NotificationScreen extends Component {
         end={{ x: 1, y: 1 }}
       >
         <View style={styles.container}>
+        
           <View>
+          
+         
+          <Card
+          title="Latest Notification"
+          titleStyle={{
+            color: "#3498db",
+            textAlign: "center",
+            paddingLeft: 10,
+            fontSize: 15,
+            marginBottom:25,
+            fontWeight: "800"
+          }}
+          style={styles.card}
+          >
+          <Text style ={styles.paragraph}>{JSON.stringify(this.state.notification).replace(/[\[\]"]+/g,"")} </Text>
+          </Card>
+          
+      
+
           
             <View style={styles.inputContainer}>
 
@@ -159,12 +183,9 @@ export default class NotificationScreen extends Component {
             >
               <Text style={styles.loginText}>Send Notification</Text>
             </TouchableHighlight>
-            {this.state.notification ? (
-              <View>
-                <Text style={styles.text}>Last Notification:</Text>
-                <Text style={styles.text}>{JSON.stringify(this.state.notification.data)}</Text>
-              </View>
-            ) : null}
+            
+            
+            
           </View>
           <AwesomeAlert
             show={sendNotificationAlert}
@@ -251,7 +272,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: 250,
     height: 45,
-    marginBottom: 20,
+    
+    marginTop:20,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -272,7 +294,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
+    marginTop:20,
     width: 250,
     borderRadius: 30
   },
@@ -308,5 +330,15 @@ const styles = StyleSheet.create({
   },
   forgotText: {
     fontWeight: "800"
+  },
+  paragraph: {
+    margin: 1.5,
+    fontSize: 14,
+    fontWeight: "700",
+    paddingLeft: 12,
+    color: "#008b8b"
+  },
+  card:{
+    marginBottom:20
   }
 });

@@ -10,6 +10,7 @@ import {
   TouchableHighlight
 } from "react-native";
 import Firebase from "../components/config";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 export default class AddFacultyScreen extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class AddFacultyScreen extends Component {
       subjectCode: "",
       subjectName: "",
       department: "",
-      semester:"",
+      semester: "",
       errorMessage: null
     };
   }
@@ -31,8 +32,81 @@ export default class AddFacultyScreen extends Component {
         SubjectCode: this.state.subjectCode,
         semester: this.state.semester
       });
+    this.confirmAlert();
+  };
+  confirmAlert = () => {
+    this.setState({
+      confirmAlert: true
+    });
+  };
+  departmentAlert=()=>{
+    this.setState({
+        departmentAlert:true
+    });
+  };
+semAlert=()=>{
+  this.setState({
+    semAlert:true
+  });
+};
+subjectNameAlert=()=>{
+  this.setState({
+    subjectNameAlert:true
+  });
+};
+subjectCodeAlert=()=>{
+  this.setState({
+    subjectCodeAlert:true
+  });
+};
+  hideAlert = () => {
+    this.setState({
+      confirmAlert: false,
+      departmentAlert:false,
+      semAlert:false,
+      subjectNameAlert:false,
+      subjectCodeAlert:false,
+      department:'department',
+      semester:'semester',
+      subjectCode:'',
+      subjectName:''
+
+    });
+  };
+  checkCondition = () => {
+    if (
+      this.state.department == null ||
+      this.state.department == undefined ||
+      this.state.department == "" ||
+      this.state.department == "department"
+    ) {
+      this.departmentAlert();
+    } else if (
+      this.state.semester == null ||
+      this.state.semester == undefined ||
+      this.state.semester == "" ||
+      this.state.semester == "semester"
+    ) {
+      this.semAlert();
+    } else if (
+      this.state.subjectName == "" ||
+      this.state.subjectName == null ||
+      this.state.subjectName == undefined
+    ) {
+      this.subjectNameAlert();
+    } else if (
+      this.state.subjectCode == "" ||
+      this.state.subjectCode == null ||
+      this.state.subjectCode == undefined
+    ) {
+      this.subjectCodeAlert();
+    }
+    else{
+      this.writeSubjectData();
+    }
   };
   render() {
+    const { confirmAlert, departmentAlert,semAlert,subjectNameAlert,subjectCodeAlert } = this.state;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -76,7 +150,7 @@ export default class AddFacultyScreen extends Component {
                 this.setState({ semester: itemValue })
               }
             >
-              <Picker.Item label="Select Semester" value="Select Semester" />
+              <Picker.Item label="Select Semester" value="semester" />
               <Picker.Item label="1st" value="1st" />
               <Picker.Item label="2nd" value="2nd" />
               <Picker.Item label="3rd" value="3rd" />
@@ -88,10 +162,7 @@ export default class AddFacultyScreen extends Component {
             </Picker>
           </View>
           <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={require("../images/name.png")}
-            />
+           
             <TextInput
               style={styles.inputs}
               placeholder="Subject Name"
@@ -103,11 +174,7 @@ export default class AddFacultyScreen extends Component {
           </View>
 
           <View style={styles.inputContainer}>
-            <Image
-              style={styles.inputIcon}
-              source={require("../assets/mailIcon.jpg")}
-            />
-            <TextInput
+                        <TextInput
               style={styles.inputs}
               placeholder="Subject Code"
               keyboardType="numeric"
@@ -118,10 +185,120 @@ export default class AddFacultyScreen extends Component {
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.writeSubjectData()}
+            onPress={() => this.checkCondition()}
           >
             <Text style={styles.clickText}>Add Subject</Text>
           </TouchableHighlight>
+          <AwesomeAlert
+            show={confirmAlert}
+            showProgress={false}
+            title="Alert !"
+            message="Subject Added Successfully."
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            //cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={departmentAlert}
+            showProgress={false}
+            title="Ooops !"
+            message="Please Choose Department."
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            //cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={semAlert}
+            showProgress={false}
+            title="Ooops !"
+            message="Please Choose Semester."
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            //cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={subjectNameAlert}
+            showProgress={false}
+            title="Ooops !"
+            message="Subject Name can't be Empty."
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            //cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={subjectCodeAlert}
+            showProgress={false}
+            title="Ooops !"
+            message="Subject Code can't be Empty."
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            //cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
         </ScrollView>
       </View>
     );
