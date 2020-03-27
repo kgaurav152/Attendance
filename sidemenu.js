@@ -55,6 +55,15 @@ class SideMenu extends Component {
               </TouchableHighlight>
             </View>
             <View style={styles.fixIcon}>
+              <Ionicons name="md-notifications" size={25} />
+              <TouchableHighlight
+                style={[styles.buttonContainerText]}
+                onPress={() => this.props.navigation.navigate("RcvNotification")}
+              >
+                <Text style={styles.clickText}>Your Notifications</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.fixIcon}>
               <Ionicons name="md-people" size={25} />
               <TouchableHighlight
                 style={[styles.buttonContainerText]}

@@ -17,9 +17,11 @@
     "notification": {
       "icon": "./assets/download.png"
     },
+   
 
     "android": {
-      "package": "com.keckatihar.attendance"
+      "package": "com.keckatihar.attendance",
+      "permissions":["NOTIFICATIONS"]
     },
     "updates": {
       "fallbackToCacheTimeout": 0

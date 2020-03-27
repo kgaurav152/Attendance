@@ -20,19 +20,9 @@ import AwesomeAlert from "react-native-awesome-alerts";
 import {Card} from 'react-native-elements'
 
 export default class NotificationScreen extends Component {
-  state = { bodyText: "", titleText: "", token: [], loading: false, notification: [], delete:'' };
+  state = { bodyText: "", titleText: "", token: [], loading: false};
   
-    _handleNotification=(notification)=>{
-  const a =notification.data;
-  Object.keys(a).forEach((key) => {
-    console.log(key, a[key]);
-    this.setState({
-      notification:a[key],
-      delete:'Delete'
-    })
-});
-      
-    }
+   
   componentDidMount = () => {
     this._notificationSubscription = Notifications.addListener(this._handleNotification);
 
@@ -50,12 +40,7 @@ export default class NotificationScreen extends Component {
       token: token
     });
   };
-  deleteNotification=()=>{
-    this.setState({
-      notification:'',
-      delete:''
-    })
-  }
+ 
   checkCondition = () => {
     if (
       this.state.bodyText == "" ||
@@ -134,25 +119,7 @@ export default class NotificationScreen extends Component {
       >
         <View style={styles.container}>
         
-          <View>
-          {this.state.delete==='Delete'?(
-         <View>
-          <Card
-          style={styles.card}
-          >
-          <Text style ={styles.paragraph}>{JSON.stringify(this.state.notification).replace(/[\[\]"]+/g,"")} </Text>
-          </Card>
-          </View>
-          ):null}
-          {this.state.delete ==='Delete'?(
-          <TouchableHighlight
-              style={[styles.buttonContainer, styles.loginButton]}
-              onPress={() => this.deleteNotification()}
-            >
-              <Text style={styles.loginText}>{this.state.delete}</Text>
-            </TouchableHighlight>
-          ):null}
-      
+          <View>     
 
           
             <View style={styles.inputContainer}>
