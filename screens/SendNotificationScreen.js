@@ -24,7 +24,7 @@ export default class NotificationScreen extends Component {
   
    
   componentDidMount = () => {
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    
 
     let token = [];
     Firebase.database()
@@ -73,7 +73,7 @@ export default class NotificationScreen extends Component {
         data: { message: [this.state.bodyText] },
       })
     });
-//{JSON.stringify(this.state.notification).replace(/[\[\]"]+/g,"")}
+
     this.sendNotificationAlert();
   };
   sendNotificationAlert = () => {

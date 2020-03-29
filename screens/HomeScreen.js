@@ -140,7 +140,7 @@ export default class Homescreen extends Component {
         >
           {this.state.delete === "Delete" ? (
             <View>
-              <Text style={styles.paragraphNotify}>Latest Notification </Text>
+              
               
               <Swipeout right={swipeBtns} left={swipeBtns}>
                 <Text style={styles.paragraph}>

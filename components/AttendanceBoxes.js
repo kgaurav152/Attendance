@@ -13,6 +13,7 @@ import AttendanceBox from "./AttendanceBox";
 import { ScrollView } from "react-native-gesture-handler";
 import Firebase from "../components/config";
 import moment from "moment";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 class AttendanceBoxes extends React.Component {
   constructor(props) {
@@ -25,11 +26,13 @@ class AttendanceBoxes extends React.Component {
       semester: this.props.sem,
       date: this.props.date,
       loading: false,
-      facultyDepartment:this.props.facultyDepartment,
-      mobile:this.props.mobile,
-      imageUrl:this.props.imageUrl,
-      name:this.props.name,
-      email:this.props.email
+      facultyDepartment: this.props.facultyDepartment,
+      mobile: this.props.mobile,
+      imageUrl: this.props.imageUrl,
+      name: this.props.name,
+      email: this.props.email,
+      countStudentList: "",
+      countAttendanceList: ""
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -49,6 +52,34 @@ class AttendanceBoxes extends React.Component {
       }
     );
   }
+  countStudent = () => {
+    let studentList = this.state.studentList;
+    let countStudentList = studentList.length;
+
+    let attendanceList = this.state.attendanceList;
+    let presentRegNo = [];
+
+    Object.keys(attendanceList).forEach(key => {
+      const count = key;
+      presentRegNo.push(count);
+    });
+    let countPresentRegNo = presentRegNo.length;
+    this.setState({
+      countAttendanceList: countPresentRegNo,
+      countStudentList: countStudentList
+    });
+    this.showAlert();
+  };
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
   submitHandler = () => {
     this.setState({
       loading: true
@@ -111,17 +142,17 @@ class AttendanceBoxes extends React.Component {
               Firebase.database()
                 .ref("attendance/")
                 .push(attendanceObj);
-             
+
               this.setState({
                 loading: false
               });
-              this.props.navigation.navigate("FacultyWelcome",{
-                name:this.state.name,
-                facultyDepartment:this.state.facultyDepartment,
-                email:this.state.email,
-                imageUrl:this.state.imageUrl,
-                mobile:this.state.mobile
-              })
+              this.props.navigation.navigate("FacultyWelcome", {
+                name: this.state.name,
+                facultyDepartment: this.state.facultyDepartment,
+                email: this.state.email,
+                imageUrl: this.state.imageUrl,
+                mobile: this.state.mobile
+              });
             } else {
               Firebase.database()
                 .ref("attendance")
@@ -134,57 +165,64 @@ class AttendanceBoxes extends React.Component {
                 loading: false
               });
 
-              this.props.navigation.navigate("FacultyWelcome",{
-                name:this.state.name,
-                facultyDepartment:this.state.facultyDepartment,
-                email:this.state.email,
-                imageUrl:this.state.imageUrl,
-                mobile:this.state.mobile
+              this.props.navigation.navigate("FacultyWelcome", {
+                name: this.state.name,
+                facultyDepartment: this.state.facultyDepartment,
+                email: this.state.email,
+                imageUrl: this.state.imageUrl,
+                mobile: this.state.mobile
               });
             }
           });
       } else {
-        
         let attendanceObj = {
           attendanceList: this.state.attendanceList,
           department: this.state.department,
           date: this.state.date,
           subject: this.state.subject,
           semester: this.state.semester
-        }; 
-        AsyncStorage.getItem("attendanceList").then(val => {
-          let attendanceArray = []
-          if (val != null && val != "") {
-            attendanceArray = JSON.parse(val);
-            attendanceArray.push(attendanceObj);
+        };
+        AsyncStorage.getItem("attendanceList")
+          .then(val => {
+            let attendanceArray = [];
+            if (val != null && val != "") {
+              attendanceArray = JSON.parse(val);
+              attendanceArray.push(attendanceObj);
+              AsyncStorage.setItem(
+                "attendanceList",
+                JSON.stringify(attendanceArray)
+              );
+            } else {
+              attendanceArray.push(attendanceObj);
+              AsyncStorage.setItem(
+                "attendanceList",
+                JSON.stringify(attendanceArray)
+              );
+            }
+          })
+          .catch(error => {
+            console.log(" Error : " + error);
             AsyncStorage.setItem(
               "attendanceList",
               JSON.stringify(attendanceArray)
-            ); 
-          }
-          else{
-            attendanceArray.push(attendanceObj );
-            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceArray)); 
-          }
-        }).catch( error => {
-            console.log(" Error : " + error );
-            AsyncStorage.setItem("attendanceList", JSON.stringify( attendanceArray )); 
-        });
+            );
+          });
         this.setState({
           loading: false
         });
-        this.props.navigation.navigate("FacultyWelcome",{
-          name:this.state.name,
-            facultyDepartment:this.state.facultyDepartment,
-            email:this.state.email,
-            imageUrl:this.state.imageUrl,
-            mobile:this.state.mobile
+        this.props.navigation.navigate("FacultyWelcome", {
+          name: this.state.name,
+          facultyDepartment: this.state.facultyDepartment,
+          email: this.state.email,
+          imageUrl: this.state.imageUrl,
+          mobile: this.state.mobile
         });
       }
     });
   };
 
   render() {
+    const { showAlert } = this.state;
     return (
       <ScrollView>
         {this.state.loading === false ? (
@@ -202,10 +240,34 @@ class AttendanceBoxes extends React.Component {
 
             <TouchableHighlight
               style={[styles.buttonContainer, styles.clickButton]}
-              onPress={() => this.submitHandler()}
+              onPress={() => this.countStudent()}
             >
               <Text style={styles.clickText}>Submit</Text>
             </TouchableHighlight>
+            <AwesomeAlert
+              show={showAlert}
+              showProgress={false}
+              title={"Present Student - " + this.state.countAttendanceList}
+              message={"Total Student - " + this.state.countStudentList}
+              closeOnTouchOutside={true}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={true}
+              cancelText="No, cancel"
+              confirmText="Confirm"
+              contentContainerStyle={{
+                backgroundColor: "white",
+                width: "120%",
+                height: "100%"
+              }}
+              confirmButtonColor="#10356c"
+              onCancelPressed={() => {
+                this.hideAlert();
+              }}
+              onConfirmPressed={() => {
+                this.submitHandler();
+              }}
+            />
           </View>
         ) : (
           <ActivityIndicator size="large" />
