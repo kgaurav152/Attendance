@@ -7,7 +7,8 @@ import {
   ScrollView,
   Picker,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  KeyboardAvoidingView
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
@@ -31,6 +32,78 @@ export default class AddStudent extends Component {
       reg_no: ""
     };
   }
+  checkCondition = () => {
+    if (
+      this.state.name == null ||
+      this.state.name == "" ||
+      this.state.name == undefined
+    ) {
+      this.nameAlert();
+    } else if (
+      this.state.reg_no == null ||
+      this.state.reg_no == "" ||
+      this.state.reg_no == undefined
+    ) {
+      this.reg_noAlert();
+    } else if (
+      this.state.department == null ||
+      this.state.department == "" ||
+      this.state.department == undefined
+    ) {
+      this.departmentAlert();
+    } else if (
+      this.state.semester == null ||
+      this.state.semester == "" ||
+      this.state.semester == undefined
+    ) {
+      this.semAlert();
+    } else if (
+      this.state.email == null ||
+      this.state.email == "" ||
+      this.state.email == undefined
+    ) {
+      this.emailAlert();
+    } else if (
+      this.state.mobile == null ||
+      this.state.mobile == undefined ||
+      this.state.mobile == ""
+    ) {
+      this.mobileAlert();
+    } else {
+      this.showAlert();
+    }
+  };
+
+  nameAlert = () => {
+    this.setState({
+      nameAlert: true
+    });
+  };
+  reg_noAlert = () => {
+    this.setState({
+      reg_noAlert: true
+    });
+  };
+  departmentAlert = () => {
+    this.setState({
+      departmentAlert: true
+    });
+  };
+  semAlert = () => {
+    this.setState({
+      semAlert: true
+    });
+  };
+  emailAlert = () => {
+    this.setState({
+      emailAlert: true
+    });
+  };
+  mobileAlert = () => {
+    this.setState({
+      mobileAlert: true
+    });
+  };
   showAlert = () => {
     this.setState({
       showAlert: true
@@ -38,16 +111,49 @@ export default class AddStudent extends Component {
   };
   hideAlert = () => {
     this.setState({
-      showAlert: false
+      showAlert: false,
+      nameAlert: false,
+      reg_noAlert: false,
+      departmentAlert: false,
+      semAlert: false,
+      emailAlert: false,
+      mobileAlert: false
     });
   };
+  confirmationAlert = () => {
+    this.setState({
+      confirmationAlert: true
+    });
+  };
+  hideConfirmationAlert=()=>{
+    this.setState({
+      confirmationAlert:false
+    });
+  };
+  hideErrorAlert=()=>{
+    this.setState({
+      errorAlert:false
+    })
+  }
+  errorAlert=()=>{
+    this.setState({
+      errorAlert:true
+    })
+  }
   writeStudentData = () => {
+    this.setState({
+      showAlert:false
+    })
     Firebase.database()
       .ref("students/")
       .orderByChild("email")
       .equalTo(this.state.email)
       .once("value")
       .then(res => {
+        var value = res.val();
+        if(value==null || value==undefined || value ==""){
+          this.errorAlert();
+        } else{
         res.forEach(record => {
           Firebase.database()
             .ref("students/" + record.key)
@@ -61,11 +167,8 @@ export default class AddStudent extends Component {
               year: this.state.year,
               registration_num: this.state.reg_no,
               email: this.state.email
-            })
-            .catch(function(error) {
-              console.log("Wrong Choice");
-              console.log(error);
             });
+          this.confirmationAlert();
           this.setState({
             email: "",
             name: "",
@@ -77,17 +180,32 @@ export default class AddStudent extends Component {
             year: "",
             mobile: "",
             reg_no: "",
-            showAlert:false
+            showAlert: false
           });
+        
         });
+      }
       });
   };
   render() {
-    let { image, showAlert } = this.state;
+    let {
+      image,
+      confirmationAlert,
+      showAlert,
+      nameAlert,
+      reg_noAlert,
+      departmentAlert,
+      semAlert,
+      emailAlert,
+      mobileAlert,
+      errorAlert
+    } = this.state;
 
     return (
       <View style={styles.container}>
+      
         <ScrollView>
+        
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
@@ -116,6 +234,7 @@ export default class AddStudent extends Component {
               value={this.state.reg_no}
             />
           </View>
+          <View>
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
@@ -202,7 +321,7 @@ export default class AddStudent extends Component {
               style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
-              autoCapitalize='none'
+              autoCapitalize="none"
               underlineColorAndroid="transparent"
               onChangeText={email => this.setState({ email })}
               value={this.state.email}
@@ -221,6 +340,8 @@ export default class AddStudent extends Component {
               onChangeText={mobile => this.setState({ mobile })}
               value={this.state.mobile}
             />
+          </View>
+          
           </View>
           <View
             style={{
@@ -252,10 +373,34 @@ export default class AddStudent extends Component {
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.showAlert()}
+            onPress={() => this.checkCondition()}
           >
             <Text style={styles.clickText}>Add Student</Text>
           </TouchableHighlight>
+          <AwesomeAlert
+            show={confirmationAlert}
+            showProgress={false}
+            title={"A Student"}
+            message={"added Successfully !"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideConfirmationAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideConfirmationAlert();
+            }}
+          />
           <AwesomeAlert
             show={showAlert}
             showProgress={false}
@@ -280,7 +425,176 @@ export default class AddStudent extends Component {
               this.writeStudentData();
             }}
           />
+          <AwesomeAlert
+            show={nameAlert}
+            showProgress={false}
+            title={"Oops!"}
+            message={"Name can't be empty"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            // cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={reg_noAlert}
+            showProgress={false}
+            title={"Oops!"}
+            message={"Reg No can't be empty"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            // cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={departmentAlert}
+            showProgress={false}
+            title={"Oops!"}
+            message={"Please Choose department"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            // cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={semAlert}
+            showProgress={false}
+            title={"Oops!"}
+            message={"Please Choose semester"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            // cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={emailAlert}
+            showProgress={false}
+            title={"Oops!"}
+            message={"Email can't be empty"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            // cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={mobileAlert}
+            showProgress={false}
+            title={"Oops!"}
+            message={"Mobile No. can't be empty"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            // cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+          <AwesomeAlert
+            show={errorAlert}
+            showProgress={false}
+            title={"Oops!"}
+            message={"Email Should be match with a valid user !"}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            // cancelText="No, cancel"
+            confirmText="OK !"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "150%",
+              height: "60%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideErrorAlert();
+            }}
+            onConfirmPressed={() => {
+              this.hideErrorAlert();
+            }}
+          />
         </ScrollView>
+        
       </View>
     );
   }
