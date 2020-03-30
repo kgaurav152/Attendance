@@ -269,8 +269,8 @@ export default class AddStudent extends Component {
             confirmText="Confirm"
             contentContainerStyle={{
               backgroundColor: "white",
-              width: "120%",
-              height: "100%"
+              width: "150%",
+              height: "60%"
             }}
             confirmButtonColor="#10356c"
             onCancelPressed={() => {
