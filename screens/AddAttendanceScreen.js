@@ -63,10 +63,15 @@ export default class AddAttendanceScreen extends React.Component {
             }
           }
         }
+        let sortedRegNoList = regNoList.sort((a,b)=>{
+          return a-b;
+        });
+        
+
 
         AsyncStorage.setItem( department + semester + "regNo", JSON.stringify(regNoList)); 
         this.setState({
-          regNoList: regNoList,
+          regNoList: sortedRegNoList,
           semester: semester,
           subject: subject,
           department: department,

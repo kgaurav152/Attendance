@@ -22,7 +22,7 @@ export default class FacultyWelcomeScreen extends Component {
   
   clearPendingAttendance = () => {
     AsyncStorage.getItem('attendanceList').then( list => {
-      let attendances = JSON.parse(list);
+      let attendances = JSON.parse(list);   
       for(var i = attendances.length -1; i >= 0 ; i--){
 
         let obj = attendances[i];

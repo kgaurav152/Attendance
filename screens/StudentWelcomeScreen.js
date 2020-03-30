@@ -84,7 +84,7 @@ export default class StudentWelcomeScreen extends Component {
           </TouchableHighlight>
          {/* <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={()=>this.props.navigation.navigate("StudentProfile",{
+          onPress={()=>this.props.navigation.navigate("StudentProfile",{
               email,
               name,
               mobile,
