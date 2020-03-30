@@ -31,7 +31,7 @@ export default class StudentWelcomeScreen extends Component {
           Welcome to Online Attendance System
         </Text>
         <Card
-          title="name"
+          title={name}
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -82,7 +82,7 @@ export default class StudentWelcomeScreen extends Component {
           >
             <Text style={styles.clickText}>Attendance</Text>
           </TouchableHighlight>
-          <TouchableHighlight
+         {/* <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
             onPress={()=>this.props.navigation.navigate("StudentProfile",{
               email,
@@ -95,7 +95,7 @@ export default class StudentWelcomeScreen extends Component {
             })}
           >
             <Text style={styles.clickText}>My Profile</Text>
-          </TouchableHighlight>
+          </TouchableHighlight>*/}
         </View>
         <Separator />
       </SafeAreaView>

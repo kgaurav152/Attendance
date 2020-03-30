@@ -51,6 +51,7 @@ export default class EditStudentProfile extends Component {
               mobile: this.state.mobile,
               year: this.state.year,
               registration_num: this.state.reg_no,
+              email:this.state.email
               
             })
             .catch(function(error) {
