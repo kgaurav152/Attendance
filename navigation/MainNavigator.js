@@ -247,6 +247,7 @@ const Admin_StackNavigator = createStackNavigator({
     })
 
   },
+  
 })
 const Faculty_StackNavigator = createStackNavigator({
   FacultyWelcome: {

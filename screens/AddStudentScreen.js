@@ -7,12 +7,13 @@ import {
   ScrollView,
   Picker,
   Image,
-  TouchableHighlight,
+  TouchableHighlight
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 import Firebase from "../components/config";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 export default class AddStudent extends Component {
   constructor(props) {
@@ -30,18 +31,26 @@ export default class AddStudent extends Component {
       reg_no: ""
     };
   }
-  
-  writeStudentData=()=> {
-    
-      Firebase.database()
-        .ref("students/")
-        .orderByChild("email")
-        .equalTo(this.state.email)
-        .once("value")
-        .then(res=>{
-          res.forEach(record=>{
-            Firebase.database()
-            .ref("students/"+record.key)
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
+  writeStudentData = () => {
+    Firebase.database()
+      .ref("students/")
+      .orderByChild("email")
+      .equalTo(this.state.email)
+      .once("value")
+      .then(res => {
+        res.forEach(record => {
+          Firebase.database()
+            .ref("students/" + record.key)
             .set({
               name: this.state.name,
               department: this.state.department,
@@ -57,16 +66,24 @@ export default class AddStudent extends Component {
               console.log("Wrong Choice");
               console.log(error);
             });
-            this.uploadToFirebase();          })
-        })
-       
-        
-    
-      
-    
-  }
+          this.setState({
+            email: "",
+            name: "",
+            department: "",
+            errorMessage: null,
+            image: null,
+            semester: "",
+            session: "",
+            year: "",
+            mobile: "",
+            reg_no: "",
+            showAlert:false
+          });
+        });
+      });
+  };
   render() {
-    let { image } = this.state;
+    let { image, showAlert } = this.state;
 
     return (
       <View style={styles.container}>
@@ -93,7 +110,7 @@ export default class AddStudent extends Component {
             <TextInput
               style={styles.inputs}
               placeholder="Registration no."
-              keyboardType='default'
+              keyboardType="default"
               underlineColorAndroid="transparent"
               onChangeText={reg_no => this.setState({ reg_no })}
               value={this.state.reg_no}
@@ -104,42 +121,51 @@ export default class AddStudent extends Component {
               style={styles.inputIcon}
               source={require("../images/department.jpg")}
             />
-            
+
             <Picker
-          selectedValue={this.state.department}
-          style={{ height: 50, width: 180, marginLeft:"5%"}}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ department: itemValue })
-          }
-        >
-          <Picker.Item label="Select Department" value="department" />
-          <Picker.Item label="Civil Engineering" value="Civil Engineering" />
-          <Picker.Item label="Mechanical Engineering" value="Mechanical Engineering" />
-          <Picker.Item label="Computer Sc. & Engineering" value="Computer Sc. & Engineering" />
-        </Picker>  
-        </View>       
+              selectedValue={this.state.department}
+              style={{ height: 50, width: 180, marginLeft: "5%" }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ department: itemValue })
+              }
+            >
+              <Picker.Item label="Select Department" value="department" />
+              <Picker.Item
+                label="Civil Engineering"
+                value="Civil Engineering"
+              />
+              <Picker.Item
+                label="Mechanical Engineering"
+                value="Mechanical Engineering"
+              />
+              <Picker.Item
+                label="Computer Sc. & Engineering"
+                value="Computer Sc. & Engineering"
+              />
+            </Picker>
+          </View>
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
               source={require("../images/semester.png")}
             />
             <Picker
-            selectedValue={this.state.semester}
-            style={{ height: 50, width: 180, marginLeft:"5%"}}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ semester: itemValue })
-            }
-          >
-            <Picker.Item label="Select Semester" value="semester" />
-            <Picker.Item label="1st" value="1st" />
-            <Picker.Item label="2nd" value="2nd" />
-            <Picker.Item label="3rd" value="3rd" />
-            <Picker.Item label="4th" value="4th" />
-            <Picker.Item label="5th" value="5th" />            
-            <Picker.Item label="6th" value="6th" />            
-            <Picker.Item label="7th" value="7th" />
-            <Picker.Item label="8th" value="8th" />            
-          </Picker>
+              selectedValue={this.state.semester}
+              style={{ height: 50, width: 180, marginLeft: "5%" }}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setState({ semester: itemValue })
+              }
+            >
+              <Picker.Item label="Select Semester" value="semester" />
+              <Picker.Item label="1st" value="1st" />
+              <Picker.Item label="2nd" value="2nd" />
+              <Picker.Item label="3rd" value="3rd" />
+              <Picker.Item label="4th" value="4th" />
+              <Picker.Item label="5th" value="5th" />
+              <Picker.Item label="6th" value="6th" />
+              <Picker.Item label="7th" value="7th" />
+              <Picker.Item label="8th" value="8th" />
+            </Picker>
           </View>
           <View style={styles.inputContainer}>
             <Image
@@ -176,6 +202,7 @@ export default class AddStudent extends Component {
               style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
+              autoCapitalize='none'
               underlineColorAndroid="transparent"
               onChangeText={email => this.setState({ email })}
               value={this.state.email}
@@ -189,7 +216,7 @@ export default class AddStudent extends Component {
             <TextInput
               style={styles.inputs}
               placeholder="Mobile"
-              keyboardType='numeric'
+              keyboardType="numeric"
               underlineColorAndroid="transparent"
               onChangeText={mobile => this.setState({ mobile })}
               value={this.state.mobile}
@@ -225,10 +252,34 @@ export default class AddStudent extends Component {
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.writeStudentData()}
+            onPress={() => this.showAlert()}
           >
             <Text style={styles.clickText}>Add Student</Text>
           </TouchableHighlight>
+          <AwesomeAlert
+            show={showAlert}
+            showProgress={false}
+            title={"Email - " + this.state.email}
+            message={"Reg. No- " + this.state.reg_no}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={true}
+            showConfirmButton={true}
+            cancelText="No, cancel"
+            confirmText="Confirm"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              width: "120%",
+              height: "100%"
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideAlert();
+            }}
+            onConfirmPressed={() => {
+              this.writeStudentData();
+            }}
+          />
         </ScrollView>
       </View>
     );
