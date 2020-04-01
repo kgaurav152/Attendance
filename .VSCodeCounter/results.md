@@ -1,30 +1,31 @@
 # Summary
 
-Date : 2020-01-27 14:51:54
+Date : 2020-03-31 12:21:52
 
 Directory e:\Attendance
 
-Total : 41 files,  12829 codes, 44 comments, 282 blanks, all 13155 lines
+Total : 55 files,  17755 codes, 76 comments, 592 blanks, all 18423 lines
 
 [details](details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| JSON | 4 | 9,096 | 7 | 3 | 9,106 |
-| JavaScript | 37 | 3,733 | 37 | 279 | 4,049 |
+| JavaScript | 49 | 8,889 | 70 | 584 | 9,543 |
+| JSON | 5 | 8,862 | 6 | 7 | 8,875 |
+| Log | 1 | 4 | 0 | 1 | 5 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 41 | 12,829 | 44 | 282 | 13,155 |
+| . | 55 | 17,755 | 76 | 592 | 18,423 |
+| .expo-shared | 1 | 25 | 0 | 1 | 26 |
 | actions | 2 | 107 | 1 | 11 | 119 |
-| components | 7 | 326 | 0 | 48 | 374 |
-| config | 1 | 2 | 16 | 0 | 18 |
+| components | 7 | 521 | 0 | 52 | 573 |
 | constants | 1 | 4 | 0 | 2 | 6 |
 | models | 1 | 9 | 0 | 3 | 12 |
-| navigation | 1 | 324 | 6 | 18 | 348 |
+| navigation | 1 | 662 | 7 | 64 | 733 |
 | reducers | 2 | 49 | 0 | 7 | 56 |
-| screens | 18 | 2,772 | 10 | 169 | 2,951 |
+| screens | 31 | 7,319 | 61 | 426 | 7,806 |
 
 [details](details.md)

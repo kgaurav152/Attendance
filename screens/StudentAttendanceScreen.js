@@ -258,7 +258,7 @@ export default class StudentAttendanceScreen extends Component {
           show={showAlert}
           showProgress={false}
           title="Oops !"
-          message="You are not attend any class between these date."
+          message="You have not attended any class."
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showCancelButton={false}

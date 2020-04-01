@@ -180,7 +180,7 @@ export default class Homescreen extends Component {
               </TouchableHighlight>
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.clickButton]}
-                onPress={() => this.props.navigation.navigate("Admin")}
+                onPress={() => this.props.navigation.navigate("AboutApp")}
               >
                 <Text style={styles.clickText}>About</Text>
               </TouchableHighlight>

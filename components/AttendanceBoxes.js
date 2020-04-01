@@ -257,8 +257,9 @@ class AttendanceBoxes extends React.Component {
               confirmText="Confirm"
               contentContainerStyle={{
                 backgroundColor: "white",
-                width: "120%",
-                height: "100%"
+                width: "80%",
+                height: "35%",
+                marginTop:'30%'
               }}
               confirmButtonColor="#10356c"
               onCancelPressed={() => {
