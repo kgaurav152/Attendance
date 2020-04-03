@@ -214,10 +214,17 @@ export default class LoginScreen extends Component {
       this.props.navigation.navigate("Admin", {
         email: this.state.email
       });
-      this.setState({ loading: false });
-    } else {
+      
+    } else if(role == "principal"){
+      this.props.navigation.navigate("Principal",{
+        email: this.state.email
+      });
+    }
+    
+    else {
       this.goToStudentsDetails();
     }
+    this.setState({ loading: false });
   };
   handleOfflineLogin = (userInfo) => {
     let role = null;

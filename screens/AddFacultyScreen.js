@@ -23,7 +23,8 @@ export default class AddFacultyScreen extends Component {
       department: "",
       errorMessage: null,
       image: null,
-      
+      CL:"",
+      DL:"",
       mobile: "",
       
     };
@@ -44,7 +45,9 @@ export default class AddFacultyScreen extends Component {
               department: this.state.department,
               image: this.state.image,
               mobile: this.state.mobile,
-              email: this.state.email
+              email: this.state.email,
+              CL: this.state.CL,
+              DL: this.state.DL
             })
             .catch(function(error) {
               console.log("Wrong Choice");
@@ -96,7 +99,28 @@ export default class AddFacultyScreen extends Component {
           <Picker.Item label="Computer Sc. & Engineering" value="Computer Sc. & Engineering" />
         </Picker>  
         </View>       
-          
+        <View style={styles.inputContainer}>
+            
+            <TextInput
+              style={styles.inputs}
+              placeholder="Casual Leave"
+              
+              underlineColorAndroid="transparent"
+              onChangeText={CL => this.setState({ CL })}
+              value={this.state.CL}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            
+            <TextInput
+              style={styles.inputs}
+              placeholder="Duty Leave"
+              
+              underlineColorAndroid="transparent"
+              onChangeText={DL => this.setState({ DL })}
+              value={this.state.DL}
+            />
+          </View>
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}

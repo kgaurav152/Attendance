@@ -22,7 +22,7 @@ export default class FacultyWelcomeScreen extends Component {
   
   clearPendingAttendance = () => {
     AsyncStorage.getItem('attendanceList').then( list => {
-      let attendances = JSON.parse(list);   
+      let attendances = JSON.parse(list);
       for(var i = attendances.length -1; i >= 0 ; i--){
 
         let obj = attendances[i];
@@ -170,6 +170,26 @@ componentWillUnmount() {
           </TouchableHighlight>
           </LinearGradient>
         </View>
+        <Separator />
+        <View style={styles.fixToText}>
+          <LinearGradient
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
+          >
+            <TouchableHighlight onPress={() => this.props.navigation.navigate("RequestLeave",{
+                email,
+                department,
+                name,
+                mobile,
+                imageUrl
+              })}>
+              <Text style={styles.clickText}>Request Leave</Text>
+            </TouchableHighlight>
+          </LinearGradient>
+         </View> 
       </SafeAreaView>
     );
   }
