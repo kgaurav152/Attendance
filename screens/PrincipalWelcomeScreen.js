@@ -20,7 +20,42 @@ function Separator() {
 
 export default class PrincipalWelcomeScreen extends Component {
 
-  state = { date: "", leaveType: "", status: "" }
+  componentDidMount() {
+
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("didFocus", () => {
+      this.fetchLeaveRequests();
+    });
+
+  }
+
+  fetchLeaveRequests = async () => {
+    leaveRequestInfo = [];
+    Firebase.database().ref("Request").once("value").then(snapshot => {
+      const requestInfo = snapshot.val();
+      for (let id in requestInfo) {
+        let obj = {};
+        obj.name = requestInfo[id].name;
+        obj.leaveType = requestInfo[id].leaveType;
+        obj.date = requestInfo[id].date;
+        obj.leaveId = id;
+        leaveRequestInfo.push(obj);
+      }
+      this.setState({ leaveRequests: leaveRequestInfo })
+
+      return leaveRequestInfo;
+
+    });
+
+
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
+  state = { date: "", leaveType: "", status: "", leaveRequests: [] }
   handleApproval = (item) => {
     this.state.status = "Approved"
     this.setState({
@@ -31,32 +66,32 @@ export default class PrincipalWelcomeScreen extends Component {
       date: item.date,
       status: this.state.status
     })
-    
-    
+
+
     const leaveRequest = Firebase.database().ref("Request/").child(item.leaveId);
     Firebase.database().ref("Faculty").orderByChild("name").equalTo(item.name).once("value").then(snapshot => {
       facultyInfo = snapshot.val();
-      
-      for (let fid in facultyInfo) {
-        
-          let facultyId = fid;
-          let casualLeave = facultyInfo[fid].CL;
-          let dutyLeave = facultyInfo[fid].DL;
-          if(item.leaveType == "CL"){
-            casualLeave = casualLeave - 1;
-          } else if(item.leaveType == "DL"){
-            dutyLeave = dutyLeave - 1;
-          }
 
-          Firebase.database().ref("Faculty/").child(facultyId).update({
-            CL: casualLeave,
-            DL: dutyLeave
-      })
+      for (let fid in facultyInfo) {
+
+        let facultyId = fid;
+        let casualLeave = facultyInfo[fid].CL;
+        let dutyLeave = facultyInfo[fid].DL;
+        if (item.leaveType == "CL") {
+          casualLeave = casualLeave - 1;
+        } else if (item.leaveType == "DL") {
+          dutyLeave = dutyLeave - 1;
+        }
+
+        Firebase.database().ref("Faculty/").child(facultyId).update({
+          CL: casualLeave,
+          DL: dutyLeave
+        })
         Firebase.database().ref("Faculty").child(fid).push(leaveRequest);
-        
-       
+
+
       }
-      
+
 
     })
     Firebase.database().ref("Request/").child(item.leaveId).remove();
@@ -71,40 +106,23 @@ export default class PrincipalWelcomeScreen extends Component {
       date: item.date,
       status: this.state.status
     })
-    
+
     Firebase.database().ref("Request").child(item.leaveId).remove();
   }
-  renderRequest = (item) => {
-
-    return (
-
-
-      <View style={styles.fixDate}><Text style={styles.paragraph1}>
+  renderRequest = ({item}) => (
+      <View><Text>
         {item.name}
       </Text>
-        <Text style={styles.paragraph1}>
+        <Text >
           {item.leaveType}
         </Text>
-        <Text style={styles.paragraph1}>
+        <Text >
           {item.date}
-        </Text>
-
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.approveButton]}
-          onPress={() => this.handleApproval(item)}
-        >
-          <Text style={styles.loginText}>Approve</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.rejectButton]}
-          onPress={() => this.handleRejection(item)}
-        >
-          <Text style={styles.loginText}>Reject</Text>
-        </TouchableHighlight>
+        </Text>        
       </View>
-
     )
-  }
+
+
   render() {
 
     const { navigation } = this.props;
@@ -114,18 +132,7 @@ export default class PrincipalWelcomeScreen extends Component {
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
     let leaveRequestInfo = [];
-    Firebase.database().ref("Request").once("value").then(snapshot => {
-      const requestInfo = snapshot.val();
-      for (let id in requestInfo) {
-        let obj = {};
-        obj.name = requestInfo[id].name;
-        obj.leaveType = requestInfo[id].leaveType;
-        obj.date = requestInfo[id].date;
-        obj.leaveId = id;
-        leaveRequestInfo.push(obj);
-      }
 
-    });
     return (
 
       <SafeAreaView style={styles.container}>
@@ -174,11 +181,11 @@ export default class PrincipalWelcomeScreen extends Component {
 
           <FlatList
             horizontal
-            data={leaveRequestInfo}
+            data={this.state.leaveRequests}
             initialNumToRender={5}
             windowSize={5}
             style={styles.paragraph1}
-            renderItem={({ item }) => this.renderRequest(item)}
+            renderItem={this.renderRequest}
             keyExtractor={item => item.leaveId}
           />
 
@@ -257,7 +264,7 @@ const styles = StyleSheet.create({
     width: 300,
     textAlign: "center",
     marginLeft: 15,
-    
+
   },
   fixDate: {
     flexDirection: "row",
