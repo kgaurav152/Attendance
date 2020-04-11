@@ -25,7 +25,7 @@ export default class ShowLeaveRequest extends Component {
   state = { startDate: "",endDate:"", leaveType: "", status: "", leaveRequests: [],loading: false}
   constructor(props) {
     super(props);
-    this.state = { showAlert: false };
+    this.state = { showApprovalAlert: false, showRejectionAlert:false };
   };
   
   componentDidMount() {
@@ -36,14 +36,24 @@ export default class ShowLeaveRequest extends Component {
     });
 
   }
-  showAlert = () => {
+  showApprovalAlert = () => {
     this.setState({
-      showAlert: true
+      showApprovalAlert: true
     });
   };
-  hideAlert = () => {
+  hideApprovalAlert = () => {
     this.setState({
-      showAlert: false
+      showApprovalAlert: false
+    });
+  };
+  showRejectionAlert = () => {
+    this.setState({
+      showRejectionAlert: true
+    });
+  };
+  hideRejectionAlert = () => {
+    this.setState({
+      showRejectionAlert: false
     });
   };
   
@@ -58,6 +68,7 @@ export default class ShowLeaveRequest extends Component {
         obj.leaveType = requestInfo[id].leaveType;
         obj.startDate = requestInfo[id].startDate;
         obj.endDate = requestInfo[id].endDate;
+        obj.requestDate = requestInfo[id].requestDate
         obj.casualLeaveLeft = requestInfo[id].casualLeaveLeft;
         obj.dutyLeaveLeft = requestInfo[id].dutyLeaveLeft;
         obj.leaveId = id;
@@ -66,7 +77,7 @@ export default class ShowLeaveRequest extends Component {
         
         let numOfDays = endDate.diff(startDate,"days");
         obj.numOfDays = numOfDays + 1
-         
+        
         leaveRequestInfo.push(obj);
       }
       this.setState({ leaveRequests: leaveRequestInfo })
@@ -148,9 +159,10 @@ export default class ShowLeaveRequest extends Component {
     this.props.navigation.navigate("Principal");
   }
   
-  renderRequest = (item) =>{
-    const {showAlert} = this.state;
-   return(
+  renderRequest = ({item})=>{
+    const {showApprovalAlert} = this.state;
+    const {showRejectionAlert} = this.state;
+  return(
     
     <View style={styles.container}>
     <Text style={styles.desk}>Leave Request</Text>
@@ -173,65 +185,56 @@ export default class ShowLeaveRequest extends Component {
             <Text style={styles.label}>Leave Type:</Text>
             <Text style={styles.label}>Start Date:</Text>
             <Text style={styles.label}>End Date:</Text>
+            <Text style={styles.label}>Request Date:</Text>
             <Text style={styles.label}>Leave Balance:</Text>
             <Text style={styles.label}>No. of Days:</Text>
-           
-            <View style={styles.rejectButtonStyle}> 
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.rejectButton]}
-          onPress={() => {
-            this.showAlert();
-          }}
-        >
-          <Text style={styles.loginText}>Reject</Text>
-        </TouchableHighlight>
-        <AwesomeAlert
-              show={showAlert}
-              showProgress={false}
-              title={"Reject Leave Request"}
-              message={"Please press Reject to Confirm"}
-              closeOnTouchOutside={true}
-              closeOnHardwareBackPress={false}
-              showCancelButton={true}
-              showConfirmButton={true}
-              cancelText="Cancel"
-              confirmText="Reject"
-              contentContainerStyle={{
-                backgroundColor: "white",
-                width: "80%",
-                height: "35%",
-                marginTop:'30%'
-              }}
-              confirmButtonColor="#10356c"
-              onCancelPressed={() => {
-                this.hideAlert();
-              }}
-              onConfirmPressed={() => {
-                this.handleRejection(item);
-              }}
-            />
-            </View>  
-          </View>
-          <View style={styles.dynamicContent}>
-            <Text style={styles.paragraph}>{item.leaveType}</Text>
-            <Text style={styles.paragraph}>{item.startDate}</Text>
-            <Text style={styles.paragraph}>{item.endDate}</Text>
-            {item.leaveType == "CL"? <Text style={styles.paragraph}>{item.casualLeaveLeft}</Text>:<Text style={styles.paragraph}>{item.dutyLeaveLeft}</Text> }
-            <Text style={styles.paragraph}>{item.numOfDays}</Text>
-          
-            
-          <View style={styles.approveButtonStyle}>
+            <View style={styles.approveButtonStyle}>
             <TouchableHighlight
           style={[styles.buttonContainer, styles.approveButton]}
           onPress={() => {
-            this.showAlert();
+            this.showApprovalAlert();
           }}
         >
           <Text style={styles.loginText}>Approve</Text>
           
         </TouchableHighlight>
-        <AwesomeAlert
-              show={showAlert}
+        
+        </View>
+           
+          </View>
+          <View style={styles.dynamicContent}>
+            <Text style={styles.paragraph}>{item.leaveType}</Text>
+            <Text style={styles.paragraph}>{item.startDate}</Text>
+            <Text style={styles.paragraph}>{item.endDate}</Text>
+            <Text style={styles.paragraph}>{item.requestDate}</Text>
+            {item.leaveType == "CL"? <Text style={styles.paragraph}>{item.casualLeaveLeft}</Text>:<Text style={styles.paragraph}>{item.dutyLeaveLeft}</Text> }
+            <Text style={styles.paragraph}>{item.numOfDays}</Text>
+          
+            
+          
+        <View style={styles.rejectButtonStyle}> 
+        <TouchableHighlight
+          style={[styles.buttonContainer, styles.rejectButton]}
+          onPress={() => {
+            this.showRejectionAlert();
+          }}
+        >
+          <Text style={styles.loginText}>Reject</Text>
+        </TouchableHighlight>
+        
+            </View>  
+        
+          
+            </View>     
+            
+        
+          
+          
+        </View>
+      </Card>
+      </ScrollView>
+      <AwesomeAlert
+              show={showApprovalAlert}
               showProgress={false}
               title={"Approve Leave Request"}
               message={"Confirm to approve Leave"}
@@ -249,38 +252,53 @@ export default class ShowLeaveRequest extends Component {
               }}
               confirmButtonColor="#10356c"
               onCancelPressed={() => {
-                this.hideAlert();
+                this.hideApprovalAlert();
               }}
               onConfirmPressed={() => {
                 this.handleApproval(item);
               }}
             />
-        </View>
-        
-          
-            </View>     
-            
-        
-          
-          
-        </View>
-      </Card>
-      </ScrollView>
+            <AwesomeAlert
+              show={showRejectionAlert}
+              showProgress={false}
+              title={"Reject Leave Request"}
+              message={"Please press Reject to Confirm"}
+              closeOnTouchOutside={true}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={true}
+              cancelText="Cancel"
+              confirmText="Reject"
+              contentContainerStyle={{
+                backgroundColor: "white",
+                width: "80%",
+                height: "35%",
+                marginTop:'30%'
+              }}
+              confirmButtonColor="#10356c"
+              onCancelPressed={() => {
+                this.hideRejectionAlert();
+              }}
+              onConfirmPressed={() => {
+                this.handleRejection(item);
+              }}
+            />
       </View>
 
     )
-            }      
+        }
+                  
 
 
   render() {
-    
+   
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
-    let leaveRequestInfo = [];
+    let leaveRequestData = this.fetchLeaveRequests();
 
     return (
 
@@ -329,11 +347,12 @@ export default class ShowLeaveRequest extends Component {
             initialNumToRender={5}
             windowSize={5}
             style={styles.paragraph1}
-            renderItem={({item})=>this.renderRequest(item)}
+            renderItem={this.renderRequest}
             keyExtractor={item => item.leaveId}
           />
 
         </View>
+        
 
       </SafeAreaView>
     );

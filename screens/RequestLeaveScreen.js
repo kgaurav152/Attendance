@@ -14,6 +14,7 @@ import {
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
+import moment from "moment";
 import DatePicker from "react-native-datepicker";
 function Separator() {
   return <View style={styles.separator} />;
@@ -26,11 +27,13 @@ export default class RequestLeaveScreen extends Component {
     this.setState({ leaveType: leaveType });
   };
   requestLeave = (startDate,endDate,leaveType,name,casualLeave,dutyLeave) => {
+    var currentDate = moment().format("YYYY-MM-DD")
       Firebase.database().ref("Request/").push({
           startDate: startDate,
           endDate: endDate,
           leaveType: leaveType,
           name: name,
+          requestDate: currentDate,
           casualLeaveLeft: casualLeave,
           dutyLeaveLeft: dutyLeave
       })
