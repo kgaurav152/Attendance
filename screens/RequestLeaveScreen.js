@@ -21,15 +21,18 @@ function Separator() {
 
 export default class RequestLeaveScreen extends Component {
     
-  state ={date:"",leaveType:""}
+  state ={startdate:"",leaveType:"",endDate:""}
   updateleaveType = leaveType => {
     this.setState({ leaveType: leaveType });
   };
-  requestLeave = (date,leaveType,name) => {
+  requestLeave = (startDate,endDate,leaveType,name,casualLeave,dutyLeave) => {
       Firebase.database().ref("Request/").push({
-          date: date,
+          startDate: startDate,
+          endDate: endDate,
           leaveType: leaveType,
-          name: name
+          name: name,
+          casualLeaveLeft: casualLeave,
+          dutyLeaveLeft: dutyLeave
       })
       this.props.navigation.goBack();
   }
@@ -43,6 +46,8 @@ export default class RequestLeaveScreen extends Component {
     const name = navigation.getParam("name");
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
+    const casualLeave = navigation.getParam("casualLeave");
+    const dutyLeave = navigation.getParam("dutyLeave")
     const imageUrl = navigation.getParam("imageUrl");
     
       return (
@@ -84,37 +89,25 @@ export default class RequestLeaveScreen extends Component {
         </Card>
 
         <View style={styles.container}>
+        <View style={styles.fixDate}>
         <View style={styles.fixSize}>
           <DatePicker
-            style={{ width: 200 }}
-            date={this.state.date} //initial date from state
-            mode="date" //The enum of date, datetime and time
-            placeholder="Select Date"
             format="YYYY-MM-DD"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            
-            customStyles={{
-              dateIcon: {
-                position: "absolute",
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-                marginTop: 4.2,
-                marginBottom: 25
-              },
-              dateInput: {
-                marginLeft: 36,
-                marginTop: 25,
-                marginBottom: 20,
-                fontWeight: "700",
-                marginRight: 10
-              }
-            }}
-            onDateChange={date => {
-              this.setState({ date: date });
+            date={this.state.startDate}
+            onDateChange={startDate => {
+              this.setState({ startDate: startDate });
             }}
           />
+        </View>
+        <View style={styles.fixSize}>
+          <DatePicker
+            format="YYYY-MM-DD"
+            date={this.state.endDate}
+            onDateChange={endDate => {
+              this.setState({ endDate: endDate });
+            }}
+          />
+        </View>
         </View>
         <View>
           <Picker
@@ -133,7 +126,7 @@ export default class RequestLeaveScreen extends Component {
         </View>
         <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.requestLeave(this.state.date,this.state.leaveType,name)}
+                onPress={() => this.requestLeave(this.state.startDate,this.state.endDate,this.state.leaveType,name,casualLeave,dutyLeave)}
               >
                 <Text style={styles.loginText}>Request Leave</Text>
               </TouchableHighlight>
@@ -165,7 +158,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#09C5F7"
   },
-  
+  fixSize: {
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+ 
   clickButton: {
     backgroundColor: "#09C5F7"
   },

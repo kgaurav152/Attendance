@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableHighlight,
   Image,
+  TextInput,
   FlatList,
   ScrollView,
   AsyncStorage
@@ -20,8 +21,8 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-export default class PrincipalWelcomeScreen extends Component {
-
+export default class FindFacultyScreen extends Component {
+    state ={email:""}
   componentDidMount() {
 
     
@@ -30,8 +31,7 @@ export default class PrincipalWelcomeScreen extends Component {
   
   render() {
 
-    const { navigation } = this.props;
-    const email = navigation.getParam("email");
+   
     
     
 
@@ -41,53 +41,25 @@ export default class PrincipalWelcomeScreen extends Component {
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
-        <Card
-          title="Ranjana Kumari"
-          titleStyle={{
-            color: "#3498db",
-            textAlign: "left",
-            paddingLeft: 10,
-            fontSize: 15,
-
-            fontWeight: "800"
-          }}
-        >
-          <View style={styles.fixImage}>
-            <View>
-
-              <Text style={styles.paragraph}>Associate Prof.</Text>
-              <Text style={styles.paragraph}>Principal</Text>
-
-              <Text style={styles.paragraph}>9576977097</Text>
-              <Text style={styles.paragraph}>principal@keck.ac.in</Text>
-            </View>
-            <Image
-              source={require("../images/principal.jpg")}
-              style={{
-                width: 105,
-                height: 105,
-                marginLeft: 35,
-                borderRadius: 100 / 2
-              }}
-            />
-          </View>
-        </Card>
-        
-        <View style={styles.fixToText}>
-          <LinearGradient
-            colors={["#a13388", "#10356c"]}
-            style={{ flex: 1 }}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 1, y: 0 }}
-            style={[styles.buttonContainer]}
-          >
-            <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("ShowLeaveRequest")}
-            >
-              <Text style={styles.clickText}>Show Requests</Text>
+        <View>
+              <View style={styles.inputContainer}>
+                
+                <TextInput
+                  style={styles.inputs}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  underlineColorAndroid="transparent"
+                  onChangeText={email => this.setState({ email })}
+                />
+              </View>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.loginButton]}
+                onPress={() => this.props.navigation.navigate("AddLeaveToFaculty",{email:this.state.email})}
+              >
+                <Text style={styles.loginText}>Find Faculty</Text>
             </TouchableHighlight>
-            </LinearGradient>
-        </View>    
+             </View> 
       </SafeAreaView>
     );
   }
@@ -97,6 +69,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 1
+  },
+  inputContainer: {
+    borderBottomColor: "#fff8dc",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    width: 250,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center"
   },
   grid: {
     flex: 1,
@@ -208,15 +191,16 @@ const styles = StyleSheet.create({
     marginLeft: 15
   },
   buttonContainer: {
-    height: 65,
+    height: 45,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    width: 150,
-    borderRadius: 20,
-    marginTop: 20,
-    marginRight: 15
+    width: 250,
+    borderRadius: 30
+  },
+  loginButton: {
+    backgroundColor: "#00b5ec"
   },
   approveButton: {
     backgroundColor: "green",

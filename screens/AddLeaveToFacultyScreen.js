@@ -6,6 +6,8 @@ import {
   View,
   SafeAreaView,
   TouchableHighlight,
+  Picker,
+  TextInput,
   Image,
   FlatList,
   ScrollView,
@@ -20,13 +22,27 @@ function Separator() {
   return <View style={styles.separator} />;
 }
 
-export default class PrincipalWelcomeScreen extends Component {
+export default class AddLeaveToFacultyScreen extends Component {
+state = { leaveType:"", compL:""}
 
   componentDidMount() {
 
     
   }
+  handleCompLeave = (email) =>{
 
+    Firebase.database().ref("Faculty").orderByChild("email").equalTo(email).once("value").then(snapshot =>{
+      facultyInfo = snapshot.val()
+      
+      for(let id in facultyInfo){
+       let facultyId = id
+       Firebase.database().ref("Faculty/"+facultyId).update({
+        compL:this.state.compL
+      })
+      }
+    })
+    
+  }
   
   render() {
 
@@ -41,53 +57,36 @@ export default class PrincipalWelcomeScreen extends Component {
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
-        <Card
-          title="Ranjana Kumari"
-          titleStyle={{
-            color: "#3498db",
-            textAlign: "left",
-            paddingLeft: 10,
-            fontSize: 15,
-
-            fontWeight: "800"
-          }}
-        >
-          <View style={styles.fixImage}>
-            <View>
-
-              <Text style={styles.paragraph}>Associate Prof.</Text>
-              <Text style={styles.paragraph}>Principal</Text>
-
-              <Text style={styles.paragraph}>9576977097</Text>
-              <Text style={styles.paragraph}>principal@keck.ac.in</Text>
-            </View>
-            <Image
-              source={require("../images/principal.jpg")}
-              style={{
-                width: 105,
-                height: 105,
-                marginLeft: 35,
-                borderRadius: 100 / 2
-              }}
-            />
-          </View>
-        </Card>
-        
-        <View style={styles.fixToText}>
-          <LinearGradient
-            colors={["#a13388", "#10356c"]}
-            style={{ flex: 1 }}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 1, y: 0 }}
-            style={[styles.buttonContainer]}
+        <View>
+          <Picker
+            selectedValue={this.state.leaveType}
+            style={{ height: 50, width: 220, marginLeft: "24%" }}
+            onValueChange={this.updateLeaveType}
           >
-            <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("ShowLeaveRequest")}
-            >
-              <Text style={styles.clickText}>Show Requests</Text>
-            </TouchableHighlight>
-            </LinearGradient>
-        </View>    
+            <Picker.Item label="Select Leave Type" value="1" />
+            <Picker.Item label="Compensative Leave" value="Compensative Leave" />
+          </Picker>
+        </View>  
+        <View style={styles.inputContainer}>
+                
+                <TextInput
+                  style={styles.inputs}
+                  placeholder="No. of Leave"
+                 
+                  autoCapitalize="none"
+                  underlineColorAndroid="transparent"
+                  onChangeText={compL => this.setState({ compL })}
+                />
+              </View>
+              <View>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.loginButton]}
+                onPress={() => this.handleCompLeave(email)}
+              >
+                <Text style={styles.loginText}>Add Leave</Text>
+              </TouchableHighlight>
+              </View>
+              
       </SafeAreaView>
     );
   }
@@ -97,6 +96,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 1
+  },
+  inputContainer: {
+    borderBottomColor: "#fff8dc",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    width: 250,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  loginButton: {
+    backgroundColor: "#00b5ec"
+  },
+  inputs: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: "#FFFFFF",
+    flex: 1
   },
   grid: {
     flex: 1,

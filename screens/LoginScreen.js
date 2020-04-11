@@ -132,7 +132,7 @@ export default class LoginScreen extends Component {
 
   gotToFacultyDetails = () => {
     
-    let name = "",  department = "",  mobile = "";
+    let name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="";
     NetInfo.isConnected.fetch().done((isConnected) => {
       if(isConnected){
         let promise = firebase
@@ -148,6 +148,8 @@ export default class LoginScreen extends Component {
           name = facultyInfo[attributes].name;
           department = facultyInfo[attributes].department;
           mobile = facultyInfo[attributes].mobile;
+          casualLeave = facultyInfo[attributes].CL;
+          dutyLeave = facultyInfo[attributes].DL;
           imageUrl = facultyInfo[attributes].image;
         }
         this.setState({
@@ -155,6 +157,8 @@ export default class LoginScreen extends Component {
           department: department,
           mobile: mobile,
           imageUrl: imageUrl,
+          casualLeave: casualLeave,
+          dutyLeave: dutyLeave,
           loading: false
         });
 
@@ -167,6 +171,8 @@ export default class LoginScreen extends Component {
           name,
           department,
           mobile,
+          casualLeave,
+          dutyLeave,
           imageUrl
         });
       })
