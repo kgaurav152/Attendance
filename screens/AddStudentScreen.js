@@ -24,7 +24,7 @@ export default class AddStudent extends Component {
       name: "",
       department: "",
       errorMessage: null,
-      image: null,
+      imageUrl: null,
       semester: "",
       session: "",
       year: "",
@@ -32,6 +32,7 @@ export default class AddStudent extends Component {
       reg_no: ""
     };
   }
+
   checkCondition = () => {
     if (
       this.state.name == null ||
@@ -343,35 +344,7 @@ export default class AddStudent extends Component {
           </View>
           
           </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between"
-            }}
-          >
-            <TouchableHighlight
-              style={[
-                styles.imageChooseButtonContainer,
-                styles.imageChooseclickButton
-              ]}
-              onPress={this._pickImage}
-            >
-              <Text style={styles.clickText}>Choose Photo</Text>
-            </TouchableHighlight>
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{
-                  width: 100,
-                  height: 100,
-                  marginLeft: 50,
-                  borderRadius: 100 / 2
-                }}
-              />
-            )}
-          </View>
-          <TouchableHighlight
+                  <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
             onPress={() => this.checkCondition()}
           >
@@ -598,34 +571,7 @@ export default class AddStudent extends Component {
       </View>
     );
   }
-  componentDidMount() {
-    this.getPermissionAsync();
-    console.log("hi");
-  }
-
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  };
-
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
-  };
+  
 }
 
 const styles = StyleSheet.create({

@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import 'firebase/storage';
+import AwesomeAlert from "react-native-awesome-alerts";
 
 function Separator() {
   return <View style={styles.separator} />;
@@ -79,12 +80,23 @@ export default class FacultyWelcomeScreen extends Component {
      let image = await uploadGalleryImage("profileImage/", email);
      let imagePath = image;
      this.setState({
-       imageUrl: imagePath
+       imageUrl: imagePath,
+       imageAlert:false
      })
+  }
+  hideImageAlert=()=>{
+    this.setState({
+      imageAlert:false
+    })
+  }
+  showImageAlert=()=>{
+    this.setState({
+      imageAlert:true
+    })
   }
 
   render() {
-
+    const {imageAlert}=this.state;
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
@@ -93,6 +105,7 @@ export default class FacultyWelcomeScreen extends Component {
     const imageUrl = navigation.getParam("imageUrl");
     const facultyDepartment = navigation.getParam("facultyDepartment")
     return (
+    
 
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
@@ -118,6 +131,23 @@ export default class FacultyWelcomeScreen extends Component {
               <Text style={styles.paragraph}>{mobile}</Text>
               <Text style={styles.paragraph}>{email}</Text>
             </View>
+            {this.state.imageUrl=="" ? (
+              
+            <TouchableHighlight onPress={() => this.showImageAlert()}>
+            
+            <Image
+              source={require("../images/people.png")}
+              style={{
+                width: 105,
+                height: 105,
+                marginLeft: 5,
+                borderRadius: 100 / 2,
+                
+              }}
+            />
+          </TouchableHighlight>
+              ):
+            <TouchableHighlight onPress={() => this.showImageAlert()}>
             <Image
               source={{ uri: this.state.imageUrl }}
               style={{
@@ -127,7 +157,33 @@ export default class FacultyWelcomeScreen extends Component {
                 borderRadius: 100 / 2
               }}
             />
+            </TouchableHighlight>
+            }
+            <AwesomeAlert
+            show={imageAlert}
+            showProgress={false}
+            title="Upload"
+            message=" Profile Photo"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={true}
+            showCancelButton={true}
+            showConfirmButton={true}
+             cancelText="No, cancel"
+            confirmText="Choose Photo"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideImageAlert();
+            }}
+            onConfirmPressed={() => {
+              this.uploadImage(email);
+            }}
+          />
           </View>
+          
         </Card>
 
         <View style={styles.fixToText}>
@@ -188,12 +244,14 @@ export default class FacultyWelcomeScreen extends Component {
           >
             <TouchableHighlight
 
-              onPress={() => this.uploadImage(email)} //this.props.navigation.navigate("SearchStudent") }
+              onPress={() => this.props.navigation.navigate("SearchStudent") }
             >
               <Text style={styles.clickText}>Student Detail</Text>
             </TouchableHighlight>
           </LinearGradient>
+          
         </View>
+        
       </SafeAreaView>
     );
   }

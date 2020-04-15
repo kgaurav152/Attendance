@@ -11,12 +11,57 @@ import {
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import Firebase from "../components/config";
+import AwesomeAlert from "react-native-awesome-alerts";
+import {downLoadProfileImage, uploadGalleryImage } from '../utils/UploadImage';
 function Separator() {
   return <View style={styles.separator} />;
 }
 
 export default class StudentWelcomeScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageUrl: ""
+    }
+    
+  }
+  componentDidMount() {
+
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    this.focusListener = navigation.addListener("didFocus", () => {
+      downLoadProfileImage(email).then( uri => 
+        this.setState({ imageUrl:uri }));
+    });
+
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
+  uploadImage = async (email) => {    
+     let image = await uploadGalleryImage("profileImage/", email);
+     let imagePath = image;
+     this.setState({
+       imageUrl: imagePath,
+       imageAlert:false
+     })
+  }
+  hideImageAlert=()=>{
+    this.setState({
+      imageAlert:false
+    })
+  }
+  showImageAlert=()=>{
+    this.setState({
+      imageAlert:true
+    })
+  }
+
   render() {
+    const {imageAlert}=this.state;
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
@@ -56,8 +101,10 @@ export default class StudentWelcomeScreen extends Component {
                 {JSON.stringify(email).replace(/\"/g, "")}
            </Text>
            </View>
+           {this.state.imageUrl=="" ? (
+            <TouchableHighlight onPress={() => this.showImageAlert()}>
             <Image
-              source={{ uri: imageUrl }}
+              source={require("../images/people.png")}
               style={{
                 width: 105,
                 height: 105,
@@ -65,6 +112,43 @@ export default class StudentWelcomeScreen extends Component {
                 borderRadius: 100 / 2
               }}
             />
+          </TouchableHighlight>
+              ):
+            <TouchableHighlight onPress={() => this.showImageAlert()}>
+            <Image
+              source={{ uri: this.state.imageUrl }}
+              style={{
+                width: 105,
+                height: 105,
+                marginLeft: 5,
+                borderRadius: 100 / 2
+              }}
+            />
+            </TouchableHighlight>
+            }
+            <AwesomeAlert
+            show={imageAlert}
+            showProgress={false}
+            title="Upload"
+            message=" Profile Photo"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={true}
+            showCancelButton={true}
+            showConfirmButton={true}
+             cancelText="No, cancel"
+            confirmText="Choose Photo"
+            contentContainerStyle={{
+              backgroundColor: "white",
+              
+            }}
+            confirmButtonColor="#10356c"
+            onCancelPressed={() => {
+              this.hideImageAlert();
+            }}
+            onConfirmPressed={() => {
+              this.uploadImage(email);
+            }}
+          />
           </View>
         </Card>
 
