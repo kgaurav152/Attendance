@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Firebase from '../components/config'
+import Firebase from '../components/config';
+import {downLoadProfileImage, uploadGalleryImage } from '../utils/UploadImage';
 import {
   StyleSheet,
   Text,
@@ -7,69 +8,92 @@ import {
   SafeAreaView,
   TouchableHighlight,
   Image,
-  ScrollView,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
+import 'firebase/storage';
+
 function Separator() {
   return <View style={styles.separator} />;
 }
 
 export default class FacultyWelcomeScreen extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      imageUrl: ""
+    }
     
-  
+  }
+
   clearPendingAttendance = () => {
-    AsyncStorage.getItem('attendanceList').then( list => {
-      let attendances = JSON.parse(list);   
-      for(var i = attendances.length -1; i >= 0 ; i--){
+    AsyncStorage.getItem('attendanceList').then(list => {
+      let attendances = JSON.parse(list);
+      for (var i = attendances.length - 1; i >= 0; i--) {
 
         let obj = attendances[i];
         Firebase.database()
-        .ref("attendance/")
-        .push(obj)
-      .then( res=> {
-          attendances.splice(i,1);
-          list = attendances;
-          if(attendances.length <= 0){
-            AsyncStorage.removeItem("attendanceList");
-          }
-        })
-        .catch( error => {
-               console.log("FacultyWelcome Screen " + error ); 
-               list = attendances      
-        });
-       }
-    }).catch( error => {
-              console.log("Error " + error );
-    })  
-}
-componentDidMount(){
+          .ref("attendance/")
+          .push(obj)
+          .then(res => {
+            attendances.splice(i, 1);
+            list = attendances;
+            if (attendances.length <= 0) {
+              AsyncStorage.removeItem("attendanceList");
+            }
+          })
+          .catch(error => {
+            console.log("FacultyWelcome Screen " + error);
+            list = attendances
+          });
+      }
+    }).catch(error => {
+      console.log("Error " + error);
+    })
+  }
+
+  
+  componentDidMount() {
 
     const { navigation } = this.props;
+    const email = navigation.getParam("email");
     this.focusListener = navigation.addListener("didFocus", () => {
-        this.clearPendingAttendance();
+      this.clearPendingAttendance();
+      downLoadProfileImage(email).then( uri => 
+        this.setState({ imageUrl:uri }));
     });
-    
-}
 
-componentWillUnmount() {
-  // Remove the event listener
-  this.focusListener.remove();
-}
+  }
+
+  componentWillUnmount() {
+    // Remove the event listener
+    this.focusListener.remove();
+  }
+
+  uploadImage = async (email) => {    
+     let image = await uploadGalleryImage("profileImage/", email);
+     let imagePath = image;
+     this.setState({
+       imageUrl: imagePath
+     })
+  }
 
   render() {
-   
+
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
-    const facultyDepartment =navigation.getParam("facultyDepartment")
-      return (
-      
+    const facultyDepartment = navigation.getParam("facultyDepartment")
+    return (
+
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
@@ -87,7 +111,7 @@ componentWillUnmount() {
         >
           <View style={styles.fixImage}>
             <View>
-            
+
               <Text style={styles.paragraph}>Assistant Prof.</Text>
               <Text style={styles.paragraph}>{department}</Text>
               <Text style={styles.paragraph}>{facultyDepartment}</Text>
@@ -95,7 +119,7 @@ componentWillUnmount() {
               <Text style={styles.paragraph}>{email}</Text>
             </View>
             <Image
-              source={{uri:imageUrl}}
+              source={{ uri: this.state.imageUrl }}
               style={{
                 width: 105,
                 height: 105,
@@ -115,7 +139,7 @@ componentWillUnmount() {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("Attendance",{
+              onPress={() => this.props.navigation.navigate("Attendance", {
                 email,
                 department,
                 name,
@@ -125,8 +149,8 @@ componentWillUnmount() {
             >
               <Text style={styles.clickText}>Attendance</Text>
             </TouchableHighlight>
-            </LinearGradient>
-            <LinearGradient
+          </LinearGradient>
+          <LinearGradient
             colors={["#a13388", "#10356c"]}
             style={{ flex: 1 }}
             start={{ x: 0, y: 1 }}
@@ -134,13 +158,13 @@ componentWillUnmount() {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight
-              
+
               onPress={() => this.props.navigation.navigate("AddStudents")}
             >
               <Text style={styles.clickText}>Student</Text>
             </TouchableHighlight>
-            </LinearGradient>
-          
+          </LinearGradient>
+
         </View>
         <Separator />
         <View style={styles.fixToText}>
@@ -156,18 +180,18 @@ componentWillUnmount() {
             </TouchableHighlight>
           </LinearGradient>
           <LinearGradient
-          colors={["#a13388", "#10356c"]}
-          style={{ flex: 1 }}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 1, y: 0 }}
-          style={[styles.buttonContainer]}
-        >
-          <TouchableHighlight
-            
-            onPress={() => this.props.navigation.navigate("SearchStudent") }
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
           >
-            <Text style={styles.clickText}>Student Detail</Text>
-          </TouchableHighlight>
+            <TouchableHighlight
+
+              onPress={() => this.uploadImage(email)} //this.props.navigation.navigate("SearchStudent") }
+            >
+              <Text style={styles.clickText}>Student Detail</Text>
+            </TouchableHighlight>
           </LinearGradient>
         </View>
       </SafeAreaView>

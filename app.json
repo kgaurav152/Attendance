@@ -21,7 +21,14 @@
 
     "android": {
       "package": "com.keckatihar.attendance",
-      "permissions":["NOTIFICATIONS"]
+      "permissions":[
+        "NOTIFICATIONS",
+        "CAMERA",
+        "CAMERA_ROLL",
+        "READ_INTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "updates": {
       "fallbackToCacheTimeout": 0
