@@ -127,6 +127,8 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
     const sub = navigation.getParam("subject")
     const startDate =navigation.getParam("startDate");
     const endDate =navigation.getParam("endDate");
+    const facultyName=navigation.getParam("facultyName");
+    const facultyEmail =navigation.getParam("facultyEmail");
     const attendanceList = this.state.attendanceList;
     const dateList = this.state.dateList;
     let keys = null;
@@ -199,7 +201,7 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
       </ScrollView>
       <TouchableHighlight
             style={[styles.buttonContainer, styles.loginButton]}
-            onPress={() => axios.get('http://www.keck.ac.in/rn',{
+            onPress={() => axios.get('http://localhost/rn',{
               startDate:startDate,
               endDate:endDate,
               department:department,

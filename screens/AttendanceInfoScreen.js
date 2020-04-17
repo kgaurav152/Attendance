@@ -133,15 +133,17 @@ class AttendanceInfoScreen extends Component {
         });
     }
   }
-
-  render() {
-    const { navigation } = this.props;
+componentDidMount(){
+  const { navigation } = this.props;
     const facultyName = navigation.getParam("facultyName");
     const facultyEmail=navigation.getParam("facultyEmail");
     this.setState({
       facultyEmail:facultyEmail,
       facultyName:facultyName
     })
+}
+  render() {
+    
     
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
@@ -149,7 +151,7 @@ class AttendanceInfoScreen extends Component {
     return (
       <View style={styles.container}>
       <View style={styles.fixDate}>
-      <Text>{this.state.facultyEmail}</Text>
+      
         <View style={styles.fixSize}>
           <DatePicker
             format="YYYY-MM-DD"
