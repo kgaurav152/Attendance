@@ -231,7 +231,10 @@ export default class FacultyWelcomeScreen extends Component {
             end={{ x: 1, y: 0 }}
             style={[styles.buttonContainer]}
           >
-            <TouchableHighlight onPress={() => this.props.navigation.navigate("AttendanceInfo")}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate("AttendanceInfo",{
+              facultyName:name,
+              facultyEmail:email
+            })}>
               <Text style={styles.clickText}>Report</Text>
             </TouchableHighlight>
           </LinearGradient>

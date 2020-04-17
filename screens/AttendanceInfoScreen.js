@@ -32,13 +32,11 @@ class AttendanceInfoScreen extends Component {
     super(props);
 
     this.state = { startDate: "", endDate: "",selectedSubject: "",
-    subjectList: [] };
+    subjectList: [], facultyName:"",facultyEmail:"" };
   }
   attendanceInfo = () => {
     const department = this.state.department;
     const sem = this.state.semester;
-    
-
     var db_department = "";
     var db_semester = "";
     var db_date = "";
@@ -94,7 +92,11 @@ class AttendanceInfoScreen extends Component {
           semester: this.state.semester,
           subject: this.state.selectedSubject,
           dateList,
-          attendanceList
+          attendanceList,
+          startDate:this.state.startDate,
+          endDate:this.state.endDate,
+          facultyEmail:this.state.facultyEmail,
+          facultyName:this.state.facultyEmail
         });
       });
   };
@@ -133,12 +135,21 @@ class AttendanceInfoScreen extends Component {
   }
 
   render() {
+    const { navigation } = this.props;
+    const facultyName = navigation.getParam("facultyName");
+    const facultyEmail=navigation.getParam("facultyEmail");
+    this.setState({
+      facultyEmail:facultyEmail,
+      facultyName:facultyName
+    })
+    
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
     return (
       <View style={styles.container}>
       <View style={styles.fixDate}>
+      <Text>{this.state.facultyEmail}</Text>
         <View style={styles.fixSize}>
           <DatePicker
             format="YYYY-MM-DD"

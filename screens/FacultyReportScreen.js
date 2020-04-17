@@ -17,6 +17,7 @@ import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import Firebase from "../components/config";
 import { Col, Row, Grid } from "react-native-easy-grid";
+import axios from 'axios';
 
 function Separator() {
   return <View style={styles.separator} />;
@@ -124,6 +125,8 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
     const department = navigation.getParam("department");
     const sem = navigation.getParam("semester");
     const sub = navigation.getParam("subject")
+    const startDate =navigation.getParam("startDate");
+    const endDate =navigation.getParam("endDate");
     const attendanceList = this.state.attendanceList;
     const dateList = this.state.dateList;
     let keys = null;
@@ -194,6 +197,20 @@ constructGridHeader = (array, keys, countList, keysindex, index) =>{
             renderItem = {this.constructGrid.bind(this,attendanceList, array, keys, countList, this)}
         />
       </ScrollView>
+      <TouchableHighlight
+            style={[styles.buttonContainer, styles.loginButton]}
+            onPress={() => axios.get('http://www.keck.ac.in/rn',{
+              startDate:startDate,
+              endDate:endDate,
+              department:department,
+              semester:sem,
+              subject:sub,
+              facultyName:facultyName,
+              facultyEmail:facultyEmail
+            })} 
+          >
+            <Text style={styles.loginText}>Reset</Text>
+          </TouchableHighlight>
       </View>
       <Separator />
       </SafeAreaView>

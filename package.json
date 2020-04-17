@@ -10,6 +10,7 @@
   "dependencies": {
     "@expo/vector-icons": "^10.0.3",
     "assert": "^2.0.0",
+    "axios": "^0.19.2",
     "expo": "^34.0.0",
     "expo-constants": "~6.0.0",
     "expo-firebase-storage": "^2.0.0",
