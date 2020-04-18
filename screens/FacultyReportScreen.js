@@ -216,14 +216,15 @@ export default class FacultyReportScreen extends Component {
               renderItem={this.constructGrid.bind(this, attendanceList,array, keys, countList, this)}
             />
           </ScrollView>
-          <TouchableHighlight
-            style={[styles.buttonContainer, styles.loginButton]}
-            onPress={() => axios.get('http://www.keck.ac.in/rn?params=' + encodeURIComponent(reportDetails)  )} 
-          >
-            <Text style={styles.loginText}>Print</Text>
-          </TouchableHighlight>
+          
           
         </View>
+        <TouchableHighlight
+            style={[styles.buttonContainer, styles.printButton]}
+            onPress={() => axios.get('http://www.keck.ac.in/rn?params=' + encodeURIComponent(reportDetails)  )} 
+          >
+            <Text style={styles.printText}>Print</Text>
+          </TouchableHighlight>
         <Separator />
       </SafeAreaView>
       //</ScrollView>
@@ -322,10 +323,12 @@ const styles = StyleSheet.create({
     width: 150,
     borderRadius: 20,
     marginTop: 20,
-    marginRight: 15
+    marginRight: 15,
+    marginLeft:"40%"
   },
   clickButton: {
-    backgroundColor: "#09C5F7"
+    backgroundColor: "#f4a460",
+    marginLeft:'40%'
   },
   clickText: {
     color: "white",
@@ -370,12 +373,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: 125,
-    borderRadius: 30
+    borderRadius: 30,
+    marginLeft:'35%'
   },
-  loginButton: {
-    backgroundColor: "#00b5ec"
+  printButton: {
+    backgroundColor: "#09C5F7"
   },
-  loginText: {
+  printText: {
     color: "white"
   },
 });
