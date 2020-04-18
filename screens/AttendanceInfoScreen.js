@@ -96,7 +96,7 @@ class AttendanceInfoScreen extends Component {
           startDate:this.state.startDate,
           endDate:this.state.endDate,
           facultyEmail:this.state.facultyEmail,
-          facultyName:this.state.facultyEmail
+          facultyName:this.state.facultyName
         });
       });
   };

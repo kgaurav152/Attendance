@@ -118,7 +118,13 @@ export default class FacultyReportScreen extends Component {
     return <View key={index} style={rowStyle}>{cols}</View>
 
   }
-
+  renderDate=(item)=>{
+        return(
+          <View style ={styles.dat}>
+          <Text>{item}</Text>
+          </View>
+        )
+  }
   render() {
     const { navigation } = this.props;
     const department = navigation.getParam("department");
@@ -133,7 +139,7 @@ export default class FacultyReportScreen extends Component {
     const reportDetails = JSON.stringify({
       startDate: startDate,
       endDate: endDate,
-      //department: department,
+      dept: department,
       semester: sem,
       subject: sub,
       facultyName: facultyName,
@@ -196,21 +202,25 @@ export default class FacultyReportScreen extends Component {
           <Text style={styles.paragraph}>Registration No </Text>
         </View>
         <View style={styles.gridContainer}>
-          <ScrollView>
+          <ScrollView contentContainerStyle={styles.fixGrid}>
+          <FlatList
+          data={this.state.dateList}
+          renderItem={({item})=>this.renderDate(item)}
+          />
             <FlatList
               horizontal
               data={keys}
               windowSize={5}
               keyExtractor={(item, index) => index.toString()}
               initialNumToRender={5}
-              renderItem={this.constructGrid.bind(this, attendanceList, array, keys, countList, this)}
+              renderItem={this.constructGrid.bind(this, attendanceList,array, keys, countList, this)}
             />
           </ScrollView>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.loginButton]}
-            onPress={() => axios.get('http://192.168.43.7/rn?params=' + reportDetails )} 
+            onPress={() => axios.get('http://www.keck.ac.in/rn?params=' + encodeURIComponent(reportDetails)  )} 
           >
-            <Text style={styles.loginText}>Reset</Text>
+            <Text style={styles.loginText}>Print</Text>
           </TouchableHighlight>
           
         </View>
@@ -227,7 +237,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
     flex: 1,
   },
-
+  fixGrid:{
+    flexDirection:'row',
+    justifyContent:'space-between'
+  },
   row: {
     flex: 1,
     padding: 15,
@@ -242,6 +255,11 @@ const styles = StyleSheet.create({
   },
   column: {
     //flex: 1
+  },
+  dat:{
+    paddingTop:15,
+  //marginBottom:5,
+    marginRight:'20%'
   },
   CircleShapeView: {
     width: 30,
@@ -344,5 +362,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+  },
+  buttonContainer: {
+    height: 25,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 125,
+    borderRadius: 30
+  },
+  loginButton: {
+    backgroundColor: "#00b5ec"
+  },
+  loginText: {
+    color: "white"
   },
 });
