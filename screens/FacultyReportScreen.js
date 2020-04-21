@@ -56,7 +56,7 @@ export default class FacultyReportScreen extends Component {
   constructGridRow = (attendanceList, array, keys, item, countList, keysindex, index) => {
     let displayText;
     if (array.length - 1 == index) {
-      displayText = countList[keysindex];
+     displayText = countList[keysindex];
     }
     else {
       displayText = attendanceList[index][keys[keysindex]] ? "P" : "A";
@@ -94,7 +94,7 @@ export default class FacultyReportScreen extends Component {
     return (
       <View key={keysindex.toString() + index.toString()} style={{ height: 30 }}>
         <Text
-          style={styles.column}>{displayText}
+          style={styles.column}>
         </Text>
       </View>
     )
@@ -120,7 +120,7 @@ export default class FacultyReportScreen extends Component {
   }
   renderDate=(item)=>{
         return(
-          <View style ={styles.dat}>
+          <View style ={[styles.dat, styles.column]}>
           <Text>{item}</Text>
           </View>
         )
@@ -258,9 +258,9 @@ const styles = StyleSheet.create({
     //flex: 1
   },
   dat:{
-    paddingTop:15,
+    paddingTop:12,
   //marginBottom:5,
-    marginRight:'20%'
+    marginRight:'15%'
   },
   CircleShapeView: {
     width: 30,
