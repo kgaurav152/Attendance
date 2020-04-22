@@ -123,7 +123,7 @@ class AttendanceInfoScreen extends Component {
                 var subjectData = subjectInfo[attributes].subjectName;
                 subjectList.push(subjectData);
               }
-              console.log(subjectList);
+             // console.log(subjectList);
     
             this.setState({
               subjectList: subjectList
