@@ -15,6 +15,7 @@ import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
+import axios from 'axios';
 import DatePicker from "react-native-datepicker";
 function Separator() {
   return <View style={styles.separator} />;
@@ -22,12 +23,15 @@ function Separator() {
 
 export default class RequestLeaveScreen extends Component {
     
-  state ={startdate:"",leaveType:"",endDate:""}
+  state ={startDate:"",leaveType:"",endDate:"",currentDate:""}
   updateleaveType = leaveType => {
     this.setState({ leaveType: leaveType });
   };
-  requestLeave = (startDate,endDate,leaveType,name,casualLeave,dutyLeave) => {
-    var currentDate = moment().format("YYYY-MM-DD")
+  componentDidMount(){
+    
+  }
+  requestLeave = (startDate,endDate,currentDate,leaveType,name,casualLeave,dutyLeave,leaveDetails) => {
+    
       Firebase.database().ref("Request/").push({
           startDate: startDate,
           endDate: endDate,
@@ -36,6 +40,13 @@ export default class RequestLeaveScreen extends Component {
           requestDate: currentDate,
           casualLeaveLeft: casualLeave,
           dutyLeaveLeft: dutyLeave
+      })
+      axios.get('http://192.168.43.143/rl?params=' + encodeURIComponent(leaveDetails) )
+      .then(function(response){
+        Alert.alert("Report Sent to your Email.")
+      })
+      .catch(function(error){
+        Alert.alert("Something Went Wrong !")
       })
       this.props.navigation.goBack();
   }
@@ -52,7 +63,17 @@ export default class RequestLeaveScreen extends Component {
     const casualLeave = navigation.getParam("casualLeave");
     const dutyLeave = navigation.getParam("dutyLeave")
     const imageUrl = navigation.getParam("imageUrl");
-    
+    const currentDate = moment().format("YYYY-MM-DD")
+   
+    const leaveDetails = JSON.stringify({
+      email: email,
+      department: department,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      requestDate: this.state.currentDate,
+      name: name,
+      leaveType: this.state.leaveType
+    })
       return (
       
       <SafeAreaView style={styles.container}>
@@ -98,7 +119,10 @@ export default class RequestLeaveScreen extends Component {
             format="YYYY-MM-DD"
             date={this.state.startDate}
             onDateChange={startDate => {
-              this.setState({ startDate: startDate });
+              this.setState({ 
+                startDate: startDate,
+                currentDate: currentDate
+              });
             }}
           />
         </View>
@@ -112,7 +136,7 @@ export default class RequestLeaveScreen extends Component {
           />
         </View>
         </View>
-        <View>
+        <View style={styles.pickerStyle}>
           <Picker
             selectedValue={this.state.leaveType}
             style={{ height: 50, width: 220, marginLeft: "24%" }}
@@ -129,7 +153,7 @@ export default class RequestLeaveScreen extends Component {
         </View>
         <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.requestLeave(this.state.startDate,this.state.endDate,this.state.leaveType,name,casualLeave,dutyLeave)}
+                onPress={() => this.requestLeave(this.state.startDate,this.state.endDate,this.state.currentDate,this.state.leaveType,name,casualLeave,dutyLeave,leaveDetails)}
               >
                 <Text style={styles.loginText}>Request Leave</Text>
               </TouchableHighlight>
@@ -163,7 +187,9 @@ const styles = StyleSheet.create({
   },
   fixSize: {
     justifyContent: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    marginTop: 25,
+    marginBottom: 25
   },
  
   clickButton: {
@@ -186,6 +212,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop:25,
     marginBottom: 20,
     width: 250,
     borderRadius: 30
@@ -195,6 +222,10 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white"
+  },
+  pickerStyle:{
+    marginTop: 25,
+    marginBottom: 25
   },
   headText: {
     fontWeight: "900",
