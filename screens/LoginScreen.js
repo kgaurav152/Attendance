@@ -132,7 +132,7 @@ export default class LoginScreen extends Component {
 
   gotToFacultyDetails = () => {
     
-    let name = "",  department = "",  mobile = "";
+    let name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="",compensativeLeave="",specialCasualLeave="";
     NetInfo.isConnected.fetch().done((isConnected) => {
       if(isConnected){
         let promise = firebase
@@ -148,6 +148,10 @@ export default class LoginScreen extends Component {
           name = facultyInfo[attributes].name;
           department = facultyInfo[attributes].department;
           mobile = facultyInfo[attributes].mobile;
+          casualLeave = facultyInfo[attributes].CL;
+          dutyLeave = facultyInfo[attributes].DL;
+          compensativeLeave = facultyInfo[attributes].compL;
+          specialCasualLeave = facultyInfo[attributes].SCL;
           imageUrl = facultyInfo[attributes].image;
         }
         this.setState({
@@ -155,6 +159,10 @@ export default class LoginScreen extends Component {
           department: department,
           mobile: mobile,
           imageUrl: imageUrl,
+          casualLeave: casualLeave,
+          dutyLeave: dutyLeave,
+          compensativeLeave: compensativeLeave,
+          specialCasualLeave:specialCasualLeave,
           loading: false
         });
 
@@ -167,6 +175,10 @@ export default class LoginScreen extends Component {
           name,
           department,
           mobile,
+          casualLeave,
+          dutyLeave,
+          compensativeLeave,
+          specialCasualLeave,
           imageUrl
         });
       })
@@ -214,10 +226,17 @@ export default class LoginScreen extends Component {
       this.props.navigation.navigate("Admin", {
         email: this.state.email
       });
-      this.setState({ loading: false });
-    } else {
+      
+    } else if(role == "principal"){
+      this.props.navigation.navigate("Principal",{
+        email: this.state.email
+      });
+    }
+    
+    else {
       this.goToStudentsDetails();
     }
+    this.setState({ loading: false });
   };
   handleOfflineLogin = (userInfo) => {
     let role = null;

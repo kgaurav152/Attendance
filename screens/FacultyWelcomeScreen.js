@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   TouchableHighlight,
   Image,
-  AsyncStorage,
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
@@ -29,7 +30,7 @@ export default class FacultyWelcomeScreen extends Component {
     this.state = {
       imageUrl: ""
     }
-    
+
   }
 
   clearPendingAttendance = () => {
@@ -58,14 +59,14 @@ export default class FacultyWelcomeScreen extends Component {
     })
   }
 
-  
+
   componentDidMount() {
 
     const { navigation } = this.props;
     const email = navigation.getParam("email");
     this.focusListener = navigation.addListener("didFocus", () => {
       this.clearPendingAttendance();
-      downLoadProfileImage(email).then( uri => 
+      downLoadProfileImage(email).then( uri =>
         this.setState({ imageUrl:uri }));
     });
 
@@ -76,7 +77,7 @@ export default class FacultyWelcomeScreen extends Component {
     this.focusListener.remove();
   }
 
-  uploadImage = async (email) => {    
+  uploadImage = async (email) => {
      let image = await uploadGalleryImage("profileImage/", email);
      let imagePath = image;
      this.setState({
@@ -103,10 +104,13 @@ export default class FacultyWelcomeScreen extends Component {
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
-    const facultyDepartment = navigation.getParam("facultyDepartment")
-    return (
-    
-
+    const casualLeave = navigation.getParam("casualLeave");
+    const dutyLeave = navigation.getParam("dutyLeave");
+    const compensativeLeave = navigation.getParam("compensativeLeave");
+    const specialCasualLeave = navigation.getParam("specialCasualLeave");
+    const facultyDepartment =navigation.getParam("facultyDepartment")
+      return (
+      
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
@@ -124,7 +128,7 @@ export default class FacultyWelcomeScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-
+            
               <Text style={styles.paragraph}>Assistant Prof.</Text>
               <Text style={styles.paragraph}>{department}</Text>
               <Text style={styles.paragraph}>{facultyDepartment}</Text>
@@ -132,9 +136,9 @@ export default class FacultyWelcomeScreen extends Component {
               <Text style={styles.paragraph}>{email}</Text>
             </View>
             {this.state.imageUrl=="" ? (
-              
+
             <TouchableHighlight onPress={() => this.showImageAlert()}>
-            
+
             <Image
               source={require("../images/people.png")}
               style={{
@@ -142,7 +146,7 @@ export default class FacultyWelcomeScreen extends Component {
                 height: 105,
                 marginLeft: 5,
                 borderRadius: 100 / 2,
-                
+
               }}
             />
           </TouchableHighlight>
@@ -172,7 +176,7 @@ export default class FacultyWelcomeScreen extends Component {
             confirmText="Choose Photo"
             contentContainerStyle={{
               backgroundColor: "white",
-              
+
             }}
             confirmButtonColor="#10356c"
             onCancelPressed={() => {
@@ -183,7 +187,6 @@ export default class FacultyWelcomeScreen extends Component {
             }}
           />
           </View>
-          
         </Card>
 
         <View style={styles.fixToText}>
@@ -195,7 +198,7 @@ export default class FacultyWelcomeScreen extends Component {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight
-              onPress={() => this.props.navigation.navigate("Attendance", {
+              onPress={() => this.props.navigation.navigate("Attendance",{
                 email,
                 department,
                 name,
@@ -205,8 +208,8 @@ export default class FacultyWelcomeScreen extends Component {
             >
               <Text style={styles.clickText}>Attendance</Text>
             </TouchableHighlight>
-          </LinearGradient>
-          <LinearGradient
+            </LinearGradient>
+            <LinearGradient
             colors={["#a13388", "#10356c"]}
             style={{ flex: 1 }}
             start={{ x: 0, y: 1 }}
@@ -214,13 +217,13 @@ export default class FacultyWelcomeScreen extends Component {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight
-
+              
               onPress={() => this.props.navigation.navigate("AddStudents")}
             >
               <Text style={styles.clickText}>Student</Text>
             </TouchableHighlight>
-          </LinearGradient>
-
+            </LinearGradient>
+          
         </View>
         <Separator />
         <View style={styles.fixToText}>
@@ -252,9 +255,45 @@ export default class FacultyWelcomeScreen extends Component {
               <Text style={styles.clickText}>Student Detail</Text>
             </TouchableHighlight>
           </LinearGradient>
-          
         </View>
-        
+        <Separator />
+        <View style={styles.fixToText}>
+          <LinearGradient
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
+          >
+            <TouchableHighlight onPress={() => this.props.navigation.navigate("RequestLeave",{
+                email,
+                department,
+                name,
+                mobile,
+                casualLeave,
+                dutyLeave,
+                compensativeLeave,
+                specialCasualLeave,
+                imageUrl
+              })}>
+              <Text style={styles.clickText}>Request Leave</Text>
+            </TouchableHighlight>
+          </LinearGradient>
+          <LinearGradient
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
+          >
+            <TouchableHighlight
+
+              onPress={() => this.props.navigation.navigate("LeaveRequestStatus",{email})}
+            >
+              <Text style={styles.clickText}>Leave Request Status</Text>
+            </TouchableHighlight>
+            </LinearGradient>
+         </View>
       </SafeAreaView>
     );
   }

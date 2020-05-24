@@ -101,6 +101,15 @@ export default class AdminScreen extends Component {
             <Text style={styles.clickText}>Send Notification</Text>
           </TouchableHighlight>
         </View>
+        <Separator />
+        <View style={styles.fixToText}>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("FindFaculty")}
+          >
+            <Text style={styles.clickText}>Add Leave</Text>
+          </TouchableHighlight>
+          </View>
         </ScrollView>
       </SafeAreaView>
     );

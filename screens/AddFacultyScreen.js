@@ -20,16 +20,30 @@ export default class AddFacultyScreen extends Component {
     this.state = {
       email: "",
       name: "",
+      gender:"",
       department: "",
       errorMessage: null,
       image: null,
-      
+      CL:"",
+      DL:"",
+      SCL:"",
+      compL:"",
       mobile: "",
       
     };
   }
-  writeFacultyData() {
-    
+  
+  writeFacultyData(gender,SCL) {
+    if(gender== "Female"){
+      this.setState({
+        SCL : SCL,
+      })
+    }
+    else{
+      this.setState({
+        SCL: "0",
+      })
+    }
       Firebase.database()
         .ref("Faculty/")
         .orderByChild("email")
@@ -44,7 +58,11 @@ export default class AddFacultyScreen extends Component {
               department: this.state.department,
               image: this.state.image,
               mobile: this.state.mobile,
-              email: this.state.email
+              email: this.state.email,
+              CL: this.state.CL,
+              DL: this.state.DL,
+              compL: this.state.compL,
+              SCL: this.state.SCL,
             })
             .catch(function(error) {
               console.log("Wrong Choice");
@@ -76,6 +94,22 @@ export default class AddFacultyScreen extends Component {
               value={this.state.name}
             />
           </View>
+          <View style={styles.inputContainer}>
+            
+            
+            <Picker
+          selectedValue={this.state.gender}
+          style={{ height: 50, width: 180, marginLeft:"5%"}}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState({ gender: itemValue })
+          }
+        >
+          <Picker.Item label="Gender" value="gender" />
+          <Picker.Item label="Male" value="Male" />
+          <Picker.Item label="Female" value="Female" />
+          
+        </Picker>  
+        </View>    
           
           <View style={styles.inputContainer}>
             <Image
@@ -96,7 +130,51 @@ export default class AddFacultyScreen extends Component {
           <Picker.Item label="Computer Sc. & Engineering" value="Computer Sc. & Engineering" />
         </Picker>  
         </View>       
-          
+        <View style={styles.inputContainer}>
+            
+            <TextInput
+              style={styles.inputs}
+              placeholder="Casual Leave"
+              
+              underlineColorAndroid="transparent"
+              onChangeText={CL => this.setState({ CL })}
+              value={this.state.CL}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            
+            <TextInput
+              style={styles.inputs}
+              placeholder="Duty Leave"
+              
+              underlineColorAndroid="transparent"
+              onChangeText={DL => this.setState({ DL })}
+              value={this.state.DL}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            
+            <TextInput
+              style={styles.inputs}
+              placeholder="Special Casual Leave"
+              
+              underlineColorAndroid="transparent"
+              
+              onChangeText={SCL => this.setState({SCL})}
+              value={this.state.SCL}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            
+            <TextInput
+              style={styles.inputs}
+              placeholder="Compensative Leave"
+              
+              underlineColorAndroid="transparent"
+              onChangeText={compL => this.setState({ compL })}
+              value={this.state.compL}
+            />
+          </View>
           <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
@@ -154,7 +232,7 @@ export default class AddFacultyScreen extends Component {
           </View>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.writeFacultyData()}
+            onPress={() => this.writeFacultyData(this.state.gender,this.state.SCL)}
           >
             <Text style={styles.clickText}>Add Faculty</Text>
           </TouchableHighlight>

@@ -134,6 +134,7 @@ export default class SignUp extends Component {
           <Picker.Item label="Admin" value="admin" />
           <Picker.Item label="Faculty" value="faculty" />
           <Picker.Item label="Student" value="student" />
+          <Picker.Item label="Principal" value="principal" />
         </Picker>
 
         <TouchableHighlight
