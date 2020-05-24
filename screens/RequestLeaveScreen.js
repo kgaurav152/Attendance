@@ -172,7 +172,7 @@ export default class RequestLeaveScreen extends Component {
         <View style={styles.inputContainer}>
         <TextInput
                   style={styles.inputs}
-                  placeholder="Email Subject"
+                  placeholder="Email Subject(Optional)"
                   keyboardType="default"
                   
                   underlineColorAndroid="transparent"
@@ -182,7 +182,7 @@ export default class RequestLeaveScreen extends Component {
         <View style={styles.inputContainer}>
         <TextInput
                   style={styles.inputs}
-                  placeholder="Email Body"
+                  placeholder="Email Body(Optional)"
                   keyboardType="default"
                   
                   underlineColorAndroid="transparent"

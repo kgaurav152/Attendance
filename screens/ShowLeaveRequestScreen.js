@@ -17,6 +17,7 @@ import { Card } from "react-native-elements";
 import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { Left } from "native-base";
+import axios from 'axios';
 function Separator() {
   return <View style={styles.separator} />;
 }
