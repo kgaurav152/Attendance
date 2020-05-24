@@ -22,7 +22,7 @@ function Separator() {
 }
 
 export default class ShowLeaveRequest extends Component {
-  state = { startDate: "",endDate:"", leaveType: "", status: "", leaveRequests: [],loading: false}
+  state = { startDate: "",endDate:"", leaveType: "", status: "", leaveRequests: [],loading: false,item:""}
   constructor(props) {
     super(props);
     this.state = { showApprovalAlert: false, showRejectionAlert:false };
@@ -71,6 +71,8 @@ export default class ShowLeaveRequest extends Component {
         obj.requestDate = requestInfo[id].requestDate
         obj.casualLeaveLeft = requestInfo[id].casualLeaveLeft;
         obj.dutyLeaveLeft = requestInfo[id].dutyLeaveLeft;
+        obj.compensativeLeaveLeft = requestInfo[id].compensativeLeaveLeft;
+        obj.specialCasualLeaveLeft = requestInfo[id].specialCasualLeaveLeft;
         obj.leaveId = id;
         let startDate = moment(requestInfo[id].startDate,"YYYY/MM/DD");
         let endDate = moment(requestInfo[id].endDate,"YYYY/MM/DD");
@@ -80,12 +82,15 @@ export default class ShowLeaveRequest extends Component {
         
         leaveRequestInfo.push(obj);
       }
-      this.setState({ leaveRequests: leaveRequestInfo })
+      this.setState({ 
+        leaveRequests: leaveRequestInfo,
+        
+      })
 
       return leaveRequestInfo;
 
     });
-
+    
 
   }
 
@@ -101,11 +106,13 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       status: this.state.status,
       loading:true
+      
     })
     Firebase.database().ref("LeaveRequestHistory").push({
       name: item.name,
       startDate: item.startDate,
       endDate:item.endDate,
+      leaveType: item.leaveType,
       status: this.state.status
     })
     Firebase.database().ref("Faculty").orderByChild("name").equalTo(item.name).once("value").then(snapshot => {
@@ -116,15 +123,25 @@ export default class ShowLeaveRequest extends Component {
         let facultyId = fid;
         let casualLeave = facultyInfo[fid].CL;
         let dutyLeave = facultyInfo[fid].DL;
-        if (item.leaveType == "CL") {
+        let compensativeLeave = facultyInfo[fid].compL;
+        let specialCasualLeave = facultyInfo[fid].SCL;
+        if (item.leaveType == "Casual Leave") {
           casualLeave = casualLeave - item.numOfDays;
-        } else if (item.leaveType == "DL") {
+        } else if (item.leaveType == "Duty Leave") {
           dutyLeave = dutyLeave - item.numOfDays;
+        }
+        else if (item.leaveType == "Compensative Leave") {
+          compensativeLeave = compensativeLeave - item.numOfDays;
+        }
+        else if(item.leaveType == "Special Casual Leave"){
+          specialCasualLeave = specialCasualLeave - item.numOfDays;
         }
 
         Firebase.database().ref("Faculty/").child(facultyId).update({
           CL: casualLeave,
-          DL: dutyLeave
+          DL: dutyLeave,
+          compL: compensativeLeave,
+          SCL: specialCasualLeave
         })
         
 
@@ -149,6 +166,7 @@ export default class ShowLeaveRequest extends Component {
       name: item.name,
       startDate: item.startDate,
       endDate: item.endDate,
+      leaveType: item.leaveType,
       status: this.state.status
     })
 
@@ -160,12 +178,13 @@ export default class ShowLeaveRequest extends Component {
   }
   
   renderRequest = ({item})=>{
-    const {showApprovalAlert} = this.state;
-    const {showRejectionAlert} = this.state;
+    this.setState({
+      item: item
+    })
   return(
     
     <View style={styles.container}>
-    <Text style={styles.desk}>Leave Request</Text>
+    
     <ScrollView>
       
       <Card
@@ -207,9 +226,16 @@ export default class ShowLeaveRequest extends Component {
             <Text style={styles.paragraph}>{item.startDate}</Text>
             <Text style={styles.paragraph}>{item.endDate}</Text>
             <Text style={styles.paragraph}>{item.requestDate}</Text>
-            {item.leaveType == "CL"? <Text style={styles.paragraph}>{item.casualLeaveLeft}</Text>:<Text style={styles.paragraph}>{item.dutyLeaveLeft}</Text> }
-            <Text style={styles.paragraph}>{item.numOfDays}</Text>
-          
+            {item.leaveType == "Casual Leave"? 
+              <Text style={styles.paragraph}>{item.casualLeaveLeft}</Text>:
+              item.leaveType == "Duty Leave"?
+              <Text style={styles.paragraph}>{item.dutyLeaveLeft}</Text>:
+              item.leaveType == "Compensative Leave"?
+              <Text style={styles.paragraph}>{item.compensativeLeaveLeft}</Text>:
+              item.leaveType == "Special Casual Leave"?
+            <Text style={styles.paragraph}>{item.specialCasualLeaveLeft}</Text>:
+            <Text style={styles.paragraph}>No Leave Left</Text>}
+           <Text style={styles.paragraph}>{item.numOfDays}</Text>
             
           
         <View style={styles.rejectButtonStyle}> 
@@ -233,7 +259,46 @@ export default class ShowLeaveRequest extends Component {
         </View>
       </Card>
       </ScrollView>
-      <AwesomeAlert
+      
+      </View>
+
+    )
+        }
+                  
+
+
+  render() {
+   
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const department = navigation.getParam("department");
+    const mobile = navigation.getParam("mobile");
+    const imageUrl = navigation.getParam("imageUrl");
+    let leaveRequestData = this.fetchLeaveRequests();
+    const {showApprovalAlert} = this.state;
+    const {showRejectionAlert} = this.state;
+    return (
+
+      <SafeAreaView style={styles.container}>
+        
+        <Text style={styles.desk}>Leave Requests</Text>
+        
+        <View style={styles.fixDate}>
+        
+
+          <FlatList
+            
+            data={this.state.leaveRequests}
+            initialNumToRender={5}
+            windowSize={5}
+            style={styles.paragraph1}
+            renderItem={this.renderRequest}
+            keyExtractor={item => item.leaveId}
+          />
+
+        </View>
+        <AwesomeAlert
               show={showApprovalAlert}
               showProgress={false}
               title={"Approve Leave Request"}
@@ -255,7 +320,7 @@ export default class ShowLeaveRequest extends Component {
                 this.hideApprovalAlert();
               }}
               onConfirmPressed={() => {
-                this.handleApproval(item);
+                this.handleApproval(this.state.item);
               }}
             />
             <AwesomeAlert
@@ -280,79 +345,9 @@ export default class ShowLeaveRequest extends Component {
                 this.hideRejectionAlert();
               }}
               onConfirmPressed={() => {
-                this.handleRejection(item);
+                this.handleRejection(this.state.item);
               }}
             />
-      </View>
-
-    )
-        }
-                  
-
-
-  render() {
-   
-    const { navigation } = this.props;
-    const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const department = navigation.getParam("department");
-    const mobile = navigation.getParam("mobile");
-    const imageUrl = navigation.getParam("imageUrl");
-    let leaveRequestData = this.fetchLeaveRequests();
-
-    return (
-
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.welcomeUser}>
-          Welcome to Online Attendance System
-        </Text>
-        <Card
-          title={name}
-          titleStyle={{
-            color: "#3498db",
-            textAlign: "left",
-            paddingLeft: 10,
-            fontSize: 15,
-
-            fontWeight: "800"
-          }}
-        >
-          <View style={styles.fixImage}>
-            <View>
-
-              <Text style={styles.paragraph}>Assistant Prof.</Text>
-              <Text style={styles.paragraph}>{department}</Text>
-
-              <Text style={styles.paragraph}>{mobile}</Text>
-              <Text style={styles.paragraph}>{email}</Text>
-            </View>
-            <Image
-              source={{ uri: imageUrl }}
-              style={{
-                width: 105,
-                height: 105,
-                marginLeft: 5,
-                borderRadius: 100 / 2
-              }}
-            />
-          </View>
-        </Card>
-        
-        <View style={styles.fixDate}>
-
-
-          <FlatList
-            
-            data={this.state.leaveRequests}
-            initialNumToRender={5}
-            windowSize={5}
-            style={styles.paragraph1}
-            renderItem={this.renderRequest}
-            keyExtractor={item => item.leaveId}
-          />
-
-        </View>
-        
 
       </SafeAreaView>
     );

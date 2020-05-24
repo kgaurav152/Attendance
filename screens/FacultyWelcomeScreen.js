@@ -69,6 +69,8 @@ componentWillUnmount() {
     const imageUrl = navigation.getParam("imageUrl");
     const casualLeave = navigation.getParam("casualLeave");
     const dutyLeave = navigation.getParam("dutyLeave");
+    const compensativeLeave = navigation.getParam("compensativeLeave");
+    const specialCasualLeave = navigation.getParam("specialCasualLeave");
     const facultyDepartment =navigation.getParam("facultyDepartment")
       return (
       
@@ -188,6 +190,8 @@ componentWillUnmount() {
                 mobile,
                 casualLeave,
                 dutyLeave,
+                compensativeLeave,
+                specialCasualLeave,
                 imageUrl
               })}>
               <Text style={styles.clickText}>Request Leave</Text>

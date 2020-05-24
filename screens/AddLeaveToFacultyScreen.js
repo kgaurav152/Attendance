@@ -23,25 +23,34 @@ function Separator() {
 }
 
 export default class AddLeaveToFacultyScreen extends Component {
-state = { leaveType:"", compL:""}
+state = { leaveType:"",noOfLeave:""}
 
   componentDidMount() {
 
     
   }
-  handleCompLeave = (email) =>{
+  addLeave = (email,noOfLeave,leaveType) =>{
 
     Firebase.database().ref("Faculty").orderByChild("email").equalTo(email).once("value").then(snapshot =>{
       facultyInfo = snapshot.val()
       
       for(let id in facultyInfo){
        let facultyId = id
+       let compL = 0;
+       let SCL = 0;
+       if(leaveType == "Compensative Leave"){
+         compL = compL + noOfLeave;
+       }
+       else if(leaveType == "Special Casual Leave"){
+         SCL = SCL + noOfLeave;
+       }
        Firebase.database().ref("Faculty/"+facultyId).update({
-        compL:this.state.compL
+        compL: compL,
+        SCL: SCL
       })
       }
     })
-    
+    this.props.navigation.navigate("Admin")
   }
   
   render() {
@@ -61,10 +70,12 @@ state = { leaveType:"", compL:""}
           <Picker
             selectedValue={this.state.leaveType}
             style={{ height: 50, width: 220, marginLeft: "24%" }}
-            onValueChange={this.updateLeaveType}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ leaveType: itemValue })}
           >
             <Picker.Item label="Select Leave Type" value="1" />
             <Picker.Item label="Compensative Leave" value="Compensative Leave" />
+            <Picker.Item label="Special Casual Leave" value="Special Casual Leave" />
           </Picker>
         </View>  
         <View style={styles.inputContainer}>
@@ -72,16 +83,16 @@ state = { leaveType:"", compL:""}
                 <TextInput
                   style={styles.inputs}
                   placeholder="No. of Leave"
-                 
+                  keyboardType="numeric"
                   autoCapitalize="none"
                   underlineColorAndroid="transparent"
-                  onChangeText={compL => this.setState({ compL })}
+                  onChangeText={noOfLeave => this.setState({ noOfLeave })}
                 />
               </View>
               <View>
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.handleCompLeave(email)}
+                onPress={() => this.addLeave(email,this.state.noOfLeave,this.state.leaveType)}
               >
                 <Text style={styles.loginText}>Add Leave</Text>
               </TouchableHighlight>

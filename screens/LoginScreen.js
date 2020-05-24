@@ -132,7 +132,7 @@ export default class LoginScreen extends Component {
 
   gotToFacultyDetails = () => {
     
-    let name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="";
+    let name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="",compensativeLeave="",specialCasualLeave="";
     NetInfo.isConnected.fetch().done((isConnected) => {
       if(isConnected){
         let promise = firebase
@@ -150,6 +150,8 @@ export default class LoginScreen extends Component {
           mobile = facultyInfo[attributes].mobile;
           casualLeave = facultyInfo[attributes].CL;
           dutyLeave = facultyInfo[attributes].DL;
+          compensativeLeave = facultyInfo[attributes].compL;
+          specialCasualLeave = facultyInfo[attributes].SCL;
           imageUrl = facultyInfo[attributes].image;
         }
         this.setState({
@@ -159,6 +161,8 @@ export default class LoginScreen extends Component {
           imageUrl: imageUrl,
           casualLeave: casualLeave,
           dutyLeave: dutyLeave,
+          compensativeLeave: compensativeLeave,
+          specialCasualLeave:specialCasualLeave,
           loading: false
         });
 
@@ -173,6 +177,8 @@ export default class LoginScreen extends Component {
           mobile,
           casualLeave,
           dutyLeave,
+          compensativeLeave,
+          specialCasualLeave,
           imageUrl
         });
       })
@@ -397,7 +403,7 @@ export default class LoginScreen extends Component {
 
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.handleLogin()}
+                onPress={() => this.props.navigation.navigate("Principal")}
               >
                 <Text style={styles.loginText}>Login</Text>
               </TouchableHighlight>

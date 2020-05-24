@@ -8,6 +8,7 @@ import {
   Picker,
   TouchableHighlight,
   Image,
+  TextInput,
   ScrollView,
   AsyncStorage
 } from "react-native";
@@ -23,15 +24,17 @@ function Separator() {
 
 export default class RequestLeaveScreen extends Component {
     
-  state ={startDate:"",leaveType:"",endDate:"",currentDate:""}
+  state ={startDate:"",leaveType:"",endDate:"",currentDate:"",subject:"",emailContent:""}
   updateleaveType = leaveType => {
     this.setState({ leaveType: leaveType });
   };
   componentDidMount(){
     
   }
-  requestLeave = (startDate,endDate,currentDate,leaveType,name,casualLeave,dutyLeave,leaveDetails) => {
-    
+  requestLeave = (startDate,endDate,currentDate,leaveType,name,casualLeave,dutyLeave,compensativeLeave,specialCasualLeave,leaveDetails) => {
+    if(leaveType == "SCL"){
+      endDate = startDate.add(1,'days');
+    }
       Firebase.database().ref("Request/").push({
           startDate: startDate,
           endDate: endDate,
@@ -39,7 +42,10 @@ export default class RequestLeaveScreen extends Component {
           name: name,
           requestDate: currentDate,
           casualLeaveLeft: casualLeave,
-          dutyLeaveLeft: dutyLeave
+          dutyLeaveLeft: dutyLeave,
+          compensativeLeaveLeft: compensativeLeave,
+          specialCasualLeaveLeft: specialCasualLeave
+          
       })
       axios.get('http://192.168.43.143/rl?params=' + encodeURIComponent(leaveDetails) )
       .then(function(response){
@@ -61,7 +67,9 @@ export default class RequestLeaveScreen extends Component {
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const casualLeave = navigation.getParam("casualLeave");
-    const dutyLeave = navigation.getParam("dutyLeave")
+    const dutyLeave = navigation.getParam("dutyLeave");
+    const compensativeLeave = navigation.getParam("compensativeLeave");
+    const specialCasualLeave = navigation.getParam("specialCasualLeave");
     const imageUrl = navigation.getParam("imageUrl");
     const currentDate = moment().format("YYYY-MM-DD")
    
@@ -72,7 +80,9 @@ export default class RequestLeaveScreen extends Component {
       endDate: this.state.endDate,
       requestDate: this.state.currentDate,
       name: name,
-      leaveType: this.state.leaveType
+      leaveType: this.state.leaveType,
+      subject: this.state.subject,
+      emailContent: this.state.emailContent
     })
       return (
       
@@ -111,13 +121,16 @@ export default class RequestLeaveScreen extends Component {
             />
           </View>
         </Card>
-
+      <ScrollView>
         <View style={styles.container}>
         <View style={styles.fixDate}>
+        
         <View style={styles.fixSize}>
+          <Text style={styles.dateText}>Start Date:</Text>
           <DatePicker
             format="YYYY-MM-DD"
             date={this.state.startDate}
+            style={styles.dateStyle}
             onDateChange={startDate => {
               this.setState({ 
                 startDate: startDate,
@@ -127,9 +140,11 @@ export default class RequestLeaveScreen extends Component {
           />
         </View>
         <View style={styles.fixSize}>
+        <Text style={styles.dateText}>End Date:</Text>
           <DatePicker
             format="YYYY-MM-DD"
             date={this.state.endDate}
+            style={styles.dateStyle}
             onDateChange={endDate => {
               this.setState({ endDate: endDate });
             }}
@@ -143,21 +158,47 @@ export default class RequestLeaveScreen extends Component {
             onValueChange={this.updateleaveType}
           >
             <Picker.Item label="Select type of leave" value="1" />
-            <Picker.Item label="Casual Leave" value="CL" />
+            <Picker.Item label="Casual Leave" value="Casual Leave" />
             <Picker.Item
               label="Duty Leave"
-              value="DL"
+              value="Duty Leave"
             />
+            <Picker.Item label="Compensative Leave" value="Compensative Leave" />
+            <Picker.Item label="Special Casual Leave" value="Special Casual Leave" />
             
           </Picker>
         </View>
+        <View style={styles.inputContainer}>
+        <TextInput
+                  style={styles.inputs}
+                  placeholder="Email Subject"
+                  keyboardType="default"
+                  
+                  underlineColorAndroid="transparent"
+                  onChangeText={subject=> this.setState({ subject})}
+                />
+        </View>
+        <View style={styles.inputContainer}>
+        <TextInput
+                  style={styles.inputs}
+                  placeholder="Email Body"
+                  keyboardType="default"
+                  
+                  underlineColorAndroid="transparent"
+                  onChangeText={emailContent=> this.setState({ emailContent})}
+                />
+        </View>
+        <View style={styles.leaveRequestButton}>
         <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.requestLeave(this.state.startDate,this.state.endDate,this.state.currentDate,this.state.leaveType,name,casualLeave,dutyLeave,leaveDetails)}
+                onPress={() => this.requestLeave(this.state.startDate,this.state.endDate,this.state.currentDate,this.state.leaveType,name,casualLeave,dutyLeave,compensativeLeave,specialCasualLeave,leaveDetails)}
               >
                 <Text style={styles.loginText}>Request Leave</Text>
               </TouchableHighlight>
         </View>
+        
+        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -178,6 +219,14 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     color: "#008b8b"
   },
+  dateText:{
+    justifyContent:"flex-start",
+    flexDirection:"row"
+  },
+  dateStyle:{
+    justifyContent:"flex-end",
+    flexDirection:"row"
+  },
   welcomeUser: {
     textAlign: "center",
     fontSize: 18,
@@ -185,13 +234,33 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#09C5F7"
   },
+  leaveRequestButton:{
+    justifyContent: "center",
+    flexDirection: "row",
+  },
   fixSize: {
     justifyContent: "center",
     flexDirection: "row",
     marginTop: 25,
     marginBottom: 25
   },
- 
+  inputContainer: {
+    borderBottomColor: "#fff8dc",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 30,
+    borderBottomWidth: 1,
+    width: 250,
+    height: 45,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  inputs: {
+    height: 45,
+    marginLeft: 16,
+    borderBottomColor: "#FFFFFF",
+    flex: 1
+  },
   clickButton: {
     backgroundColor: "#09C5F7"
   },
