@@ -188,7 +188,7 @@ export default class FacultyWelcomeScreen extends Component {
           />
           </View>
         </Card>
-
+            <ScrollView>
         <View style={styles.fixToText}>
           <LinearGradient
             colors={["#a13388", "#10356c"]}
@@ -294,6 +294,7 @@ export default class FacultyWelcomeScreen extends Component {
             </TouchableHighlight>
             </LinearGradient>
          </View>
+         </ScrollView>
       </SafeAreaView>
     );
   }
