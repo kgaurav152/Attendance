@@ -66,6 +66,7 @@ export default class ShowLeaveRequest extends Component {
         let obj = {};
         obj.name = requestInfo[id].name;
         obj.leaveType = requestInfo[id].leaveType;
+        obj.email = requestInfo[id].email;
         obj.startDate = requestInfo[id].startDate;
         obj.endDate = requestInfo[id].endDate;
         obj.requestDate = requestInfo[id].requestDate
@@ -100,7 +101,7 @@ export default class ShowLeaveRequest extends Component {
   }
 
   
-  handleApproval = (item) => {
+  handleApproval = (item,leaveDetails) => {
     
     this.state.status = "Approved"
     this.setState({
@@ -113,6 +114,8 @@ export default class ShowLeaveRequest extends Component {
       startDate: item.startDate,
       endDate:item.endDate,
       leaveType: item.leaveType,
+      email: item.email,
+      requestDate: item.requestDate,
       status: this.state.status
     })
     Firebase.database().ref("Faculty").orderByChild("name").equalTo(item.name).once("value").then(snapshot => {
@@ -154,9 +157,16 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       loading: false
     });
+    axios.get('http://keck.ac.in/rs?params=' + encodeURIComponent(leaveDetails) )
+      .then(function(response){
+        Alert.alert("Leave Application Sent to your Email.")
+      })
+      .catch(function(error){
+        Alert.alert("Something Went Wrong !")
+      })
     this.props.navigation.navigate("Principal");
   }
-  handleRejection = (item) => {
+  handleRejection = (item,leaveDetails) => {
     this.state.status = "Reject"
     this.setState({
       status: this.state.status,
@@ -166,6 +176,7 @@ export default class ShowLeaveRequest extends Component {
       name: item.name,
       startDate: item.startDate,
       endDate: item.endDate,
+      email: item.email,
       leaveType: item.leaveType,
       status: this.state.status
     })
@@ -174,6 +185,13 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       loading: false
     });
+    axios.get('http://keck.ac.in/rs?params=' + encodeURIComponent(leaveDetails) )
+      .then(function(response){
+        Alert.alert("Leave Application Response Sent to your Email.")
+      })
+      .catch(function(error){
+        Alert.alert("Something Went Wrong !")
+      })
     this.props.navigation.navigate("Principal");
   }
   
@@ -278,6 +296,9 @@ export default class ShowLeaveRequest extends Component {
     let leaveRequestData = this.fetchLeaveRequests();
     const {showApprovalAlert} = this.state;
     const {showRejectionAlert} = this.state;
+    const leaveDetails =JSON.stringify({
+      leaveDetails: this.state.leaveRequests
+    })
     return (
 
       <SafeAreaView style={styles.container}>
@@ -320,7 +341,7 @@ export default class ShowLeaveRequest extends Component {
                 this.hideApprovalAlert();
               }}
               onConfirmPressed={() => {
-                this.handleApproval(this.state.item);
+                this.handleApproval(this.state.item,leaveDetails);
               }}
             />
             <AwesomeAlert
@@ -345,7 +366,7 @@ export default class ShowLeaveRequest extends Component {
                 this.hideRejectionAlert();
               }}
               onConfirmPressed={() => {
-                this.handleRejection(this.state.item);
+                this.handleRejection(this.state.item,leaveDetails);
               }}
             />
 

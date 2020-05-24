@@ -31,11 +31,12 @@ export default class RequestLeaveScreen extends Component {
   componentDidMount(){
     
   }
-  requestLeave = (startDate,endDate,currentDate,leaveType,name,casualLeave,dutyLeave,compensativeLeave,specialCasualLeave,leaveDetails) => {
+  requestLeave = (email,startDate,endDate,currentDate,leaveType,name,casualLeave,dutyLeave,compensativeLeave,specialCasualLeave,leaveDetails) => {
     if(leaveType == "SCL"){
       endDate = startDate.add(1,'days');
     }
       Firebase.database().ref("Request/").push({
+          email:email,
           startDate: startDate,
           endDate: endDate,
           leaveType: leaveType,
@@ -47,9 +48,9 @@ export default class RequestLeaveScreen extends Component {
           specialCasualLeaveLeft: specialCasualLeave
           
       })
-      axios.get('http://192.168.43.143/rl?params=' + encodeURIComponent(leaveDetails) )
+      axios.get('http://keck.ac.in/rl?params=' + encodeURIComponent(leaveDetails) )
       .then(function(response){
-        Alert.alert("Report Sent to your Email.")
+        Alert.alert("Leave Application Sent to your Email.")
       })
       .catch(function(error){
         Alert.alert("Something Went Wrong !")
@@ -191,7 +192,7 @@ export default class RequestLeaveScreen extends Component {
         <View style={styles.leaveRequestButton}>
         <TouchableHighlight
                 style={[styles.buttonContainer, styles.loginButton]}
-                onPress={() => this.requestLeave(this.state.startDate,this.state.endDate,this.state.currentDate,this.state.leaveType,name,casualLeave,dutyLeave,compensativeLeave,specialCasualLeave,leaveDetails)}
+                onPress={() => this.requestLeave(email,this.state.startDate,this.state.endDate,this.state.currentDate,this.state.leaveType,name,casualLeave,dutyLeave,compensativeLeave,specialCasualLeave,leaveDetails)}
               >
                 <Text style={styles.loginText}>Request Leave</Text>
               </TouchableHighlight>

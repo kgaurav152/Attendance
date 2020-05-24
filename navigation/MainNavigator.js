@@ -55,6 +55,7 @@ import PrincipalWelcomeScreen from "../screens/PrincipalWelcomeScreen";
 import ShowLeaveRequestScreen from "../screens/ShowLeaveRequestScreen";
 import FindFacultyScreen from "../screens/FindFacultyScreen";
 import AddLeaveToFacultyScreen from "../screens/AddLeaveToFacultyScreen";
+import LeaveRequestStatusScreen from "../screens/LeaveRequestStatusScreen";
 
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
@@ -404,7 +405,18 @@ const Faculty_StackNavigator = createStackNavigator({
       headerTintColor: "#fff"
     })
   },
-
+  LeaveRequestStatus: {
+    screen: LeaveRequestStatusScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7"
+      },
+      headerTintColor: "#fff"
+    })
+  },
   AttendanceInfo:{
     screen:AttendanceInfoScreen,
     navigationOptions: ({ navigation }) => ({
