@@ -9,7 +9,8 @@ import {
   Image,
   FlatList,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  
 } from "react-native";
 import moment from "moment";
 import AwesomeAlert from "react-native-awesome-alerts";
@@ -22,21 +23,25 @@ function Separator() {
 }
 
 export default class LeaveRequestStatus extends Component {
-  state = {  leaveRequestHistory: [],loading: false}
+  state = {  leaveRequestHistory: [],loading: false, email:''}
   
   constructor(props) {
     super(props);
     this.state = {  showDeleteAlert:false };
+    
   };
   
   componentDidMount() {
 
     const { navigation } = this.props;
     const email = navigation.getParam("email");
-    this.focusListener = navigation.addListener("didFocus", () => {
-      this.fetchLeaveRequestHistory(email);
+    this.setState({
+      email:email
+    })
+   this.focusListener = navigation.addListener("didFocus", () => {
+     this.fetchLeaveRequestHistory();
     });
-
+   
   }
  
   showDeleteAlert = () => {
@@ -50,10 +55,10 @@ export default class LeaveRequestStatus extends Component {
     });
   };
   
-  fetchLeaveRequestHistory = async (email) => {
+  fetchLeaveRequestHistory = () => {
     
     leaveRequestInfo = [];
-    Firebase.database().ref("LeaveRequestHistory").orderByChild("email").equalTo(email).once("value").then(snapshot => {
+    Firebase.database().ref("LeaveRequestHistory").orderByChild("email").equalTo(this.state.email).once("value").then(snapshot => {
       const requestInfo = snapshot.val();
       for (let id in requestInfo) {
         let obj = {};
@@ -62,6 +67,8 @@ export default class LeaveRequestStatus extends Component {
         obj.startDate = requestInfo[id].startDate;
         obj.endDate = requestInfo[id].endDate;
         obj.requestDate = requestInfo[id].requestDate;
+        obj.status= requestInfo[id].status;
+        obj.leaveId= requestInfo[id].leaveId
         
         leaveRequestInfo.push(obj);
       }
@@ -96,7 +103,7 @@ export default class LeaveRequestStatus extends Component {
   
   renderRequest = ({item})=>{
     this.setState({
-      item: item
+      item:item
     })
   return(
     
@@ -167,7 +174,7 @@ export default class LeaveRequestStatus extends Component {
    
     const { navigation } = this.props;
     const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
+    const name = navigation.getParam("  ");
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
@@ -188,6 +195,8 @@ export default class LeaveRequestStatus extends Component {
             data={this.state.leaveRequestHistory}
             initialNumToRender={5}
             windowSize={5}
+            keyExtractor={(item, index) => index.toString()}
+            // keyExtractor={item.leaveId}
             style={styles.paragraph1}
             renderItem={this.renderRequest}
            

@@ -117,7 +117,8 @@ export default class ShowLeaveRequest extends Component {
       leaveType: item.leaveType,
       email: item.email,
       requestDate: item.requestDate,
-      status: this.state.status
+      status: this.state.status,
+      leaveId:item.leaveId
     })
     Firebase.database().ref("Faculty").orderByChild("name").equalTo(item.name).once("value").then(snapshot => {
       facultyInfo = snapshot.val();
@@ -179,7 +180,10 @@ export default class ShowLeaveRequest extends Component {
       endDate: item.endDate,
       email: item.email,
       leaveType: item.leaveType,
-      status: this.state.status
+      status: this.state.status,
+      requestDate: item.requestDate,
+      leaveId:item.leaveId
+      
     })
 
     Firebase.database().ref("Request").child(item.leaveId).remove();
