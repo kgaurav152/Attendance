@@ -23,7 +23,7 @@ function Separator() {
 }
 
 export default class ShowLeaveRequest extends Component {
-  state = { startDate: "",endDate:"", leaveType: "", status: "", leaveRequests: [],loading: false,item:""}
+  state = { startDate: "",endDate:"", leaveType: "", status: "", leaveRequests: [],leaveDetails:[],loading: false,item:""}
   constructor(props) {
     super(props);
     this.state = { showApprovalAlert: false, showRejectionAlert:false };
@@ -102,14 +102,16 @@ export default class ShowLeaveRequest extends Component {
   }
 
   
-  handleApproval = (item,leaveDetails) => {
+  handleApproval = (item) => {
     
     this.state.status = "Approved"
+    
     this.setState({
       status: this.state.status,
-      loading:true
+      loading:true,
       
     })
+    const leaveRequestInfo = this.state.leaveDetails
     Firebase.database().ref("LeaveRequestHistory").push({
       name: item.name,
       startDate: item.startDate,
@@ -159,7 +161,7 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       loading: false
     });
-    axios.get('http://keck.ac.in/rs?params=' + encodeURIComponent(leaveDetails) )
+    axios.get('http://192.168.43.143/rs?params=' + encodeURIComponent(leaveDetails) )
       .then(function(response){
         Alert.alert("Leave Application Sent to your Email.")
       })
@@ -168,8 +170,9 @@ export default class ShowLeaveRequest extends Component {
       })
     this.props.navigation.navigate("Principal");
   }
-  handleRejection = (item,leaveDetails) => {
+  handleRejection = (item) => {
     this.state.status = "Reject"
+    this.state.leaveDetails.status = "Reject"
     this.setState({
       status: this.state.status,
       loading:true
@@ -190,7 +193,7 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       loading: false
     });
-    axios.get('http://keck.ac.in/rs?params=' + encodeURIComponent(leaveDetails) )
+    axios.get('http://192.168.43.143/rs?params=' + encodeURIComponent(leaveDetails) )
       .then(function(response){
         Alert.alert("Leave Application Response Sent to your Email.")
       })
@@ -201,8 +204,18 @@ export default class ShowLeaveRequest extends Component {
   }
   
   renderRequest = ({item})=>{
+    
+    const leaveDetails =JSON.stringify({
+      leaveType: item.leaveType,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      requestDate: item.requestDate,
+      
+    })
+    
     this.setState({
-      item: item
+      item: item,
+      leaveDetails: leaveDetails
     })
   return(
     
@@ -301,9 +314,7 @@ export default class ShowLeaveRequest extends Component {
     let leaveRequestData = this.fetchLeaveRequests();
     const {showApprovalAlert} = this.state;
     const {showRejectionAlert} = this.state;
-    const leaveDetails =JSON.stringify({
-      leaveDetails: this.state.leaveRequests
-    })
+    
     return (
 
       <SafeAreaView style={styles.container}>
@@ -346,7 +357,7 @@ export default class ShowLeaveRequest extends Component {
                 this.hideApprovalAlert();
               }}
               onConfirmPressed={() => {
-                this.handleApproval(this.state.item,leaveDetails);
+                this.handleApproval(this.state.item);
               }}
             />
             <AwesomeAlert
@@ -371,7 +382,7 @@ export default class ShowLeaveRequest extends Component {
                 this.hideRejectionAlert();
               }}
               onConfirmPressed={() => {
-                this.handleRejection(this.state.item,leaveDetails);
+                this.handleRejection(this.state.item);
               }}
             />
 

@@ -107,9 +107,10 @@ export default class RequestLeaveScreen extends Component {
             
               <Text style={styles.paragraph}>Assistant Prof.</Text>
               <Text style={styles.paragraph}>{department}</Text>
-              
               <Text style={styles.paragraph}>{mobile}</Text>
               <Text style={styles.paragraph}>{email}</Text>
+        <Text style={styles.paragraph}>CL:{casualLeave} DL:{dutyLeave} SCL:{specialCasualLeave}</Text>
+        <Text style={styles.paragraph}>Compensative Leave: {compensativeLeave}</Text>
             </View>
             <Image
               source={{uri:imageUrl}}
