@@ -131,8 +131,9 @@ export default class RequestLeaveScreen extends Component {
           <Text style={styles.dateText}>Start Date:</Text>
           <DatePicker
             format="YYYY-MM-DD"
+            mode="date"
+            placeholder="Select Start Date"
             date={this.state.startDate}
-            style={styles.dateStyle}
             onDateChange={startDate => {
               this.setState({ 
                 startDate: startDate,
@@ -145,8 +146,9 @@ export default class RequestLeaveScreen extends Component {
         <Text style={styles.dateText}>End Date:</Text>
           <DatePicker
             format="YYYY-MM-DD"
+            mode="date"
+            placeholder="Select End date"
             date={this.state.endDate}
-            style={styles.dateStyle}
             onDateChange={endDate => {
               this.setState({ endDate: endDate });
             }}
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
     flexDirection:"row"
   },
   dateStyle:{
-    justifyContent:"flex-end",
+    justifyContent:"space-between",
     flexDirection:"row"
   },
   welcomeUser: {
