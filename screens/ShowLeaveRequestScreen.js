@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   Image,
   FlatList,
+  PermissionsAndroid,
   ScrollView,
   AsyncStorage
 } from "react-native";
@@ -18,12 +19,15 @@ import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { Left } from "native-base";
 import axios from 'axios';
+import RNCalendarEvents from 'react-native-calendar-events';
+
+
 function Separator() {
   return <View style={styles.separator} />;
 }
 
 export default class ShowLeaveRequest extends Component {
-  state = { startDate: "",endDate:"", leaveType: "", status: "", leaveRequests: [],leaveDetails:[],loading: false,item:""}
+  state = { startDate: "",endDate:"", leaveType: "", status: "", leaveRequests: [],loading: false,item:"",leaveDetails:""}
   constructor(props) {
     super(props);
     this.state = { showApprovalAlert: false, showRejectionAlert:false };
@@ -32,11 +36,13 @@ export default class ShowLeaveRequest extends Component {
   componentDidMount() {
 
     const { navigation } = this.props;
+    
     this.focusListener = navigation.addListener("didFocus", () => {
       this.fetchLeaveRequests();
     });
-
+    
   }
+  
   showApprovalAlert = () => {
     this.setState({
       showApprovalAlert: true
@@ -100,18 +106,28 @@ export default class ShowLeaveRequest extends Component {
     // Remove the event listener
     this.focusListener.remove();
   }
-
   
   handleApproval = (item) => {
     
     this.state.status = "Approved"
-    
+   
     this.setState({
       status: this.state.status,
       loading:true,
       
     })
-    const leaveRequestInfo = this.state.leaveDetails
+    const leaveDetails = JSON.stringify({
+      leaveId: item.leaveId,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      leaveType: item.leaveType,
+      name: item.name,
+      email: item.email,
+      requestDate: item.requestDate,
+      status: this.state.status
+    })
+    const title = item.name + "is on Leave today"
+    
     Firebase.database().ref("LeaveRequestHistory").push({
       name: item.name,
       startDate: item.startDate,
@@ -150,9 +166,7 @@ export default class ShowLeaveRequest extends Component {
           compL: compensativeLeave,
           SCL: specialCasualLeave
         })
-        
-
-
+         
       }
 
 
@@ -161,21 +175,35 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       loading: false
     });
-    axios.get('http://192.168.43.143/rs?params=' + encodeURIComponent(leaveDetails) )
-      .then(function(response){
-        Alert.alert("Leave Application Sent to your Email.")
-      })
-      .catch(function(error){
-        Alert.alert("Something Went Wrong !")
-      })
+    axios.get('http://192.168.43.43/rs?params=' + encodeURIComponent(leaveDetails) )
+    .then(function(response){
+      Alert.alert("Leave Application Sent to your Email.")
+    })
+    .catch(function(error){
+      Alert.alert("Something Went Wrong !")
+    })
+    RNCalendarEvents.saveEvent(title,{
+      startDate: item.startDate,
+      endDate: item.endDate
+    })
     this.props.navigation.navigate("Principal");
   }
   handleRejection = (item) => {
     this.state.status = "Reject"
-    this.state.leaveDetails.status = "Reject"
+    
     this.setState({
       status: this.state.status,
       loading:true
+    })
+    const leaveDetails = JSON.stringify({
+      leaveId: item.leaveId,
+      startDate: item.startDate,
+      endDate: item.endDate,
+      leaveType: item.leaveType,
+      name: item.name,
+      email: item.email,
+      requestDate: item.requestDate,
+      status: this.state.status
     })
     Firebase.database().ref("LeaveRequestHistory").push({
       name: item.name,
@@ -193,29 +221,24 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       loading: false
     });
-    axios.get('http://192.168.43.143/rs?params=' + encodeURIComponent(leaveDetails) )
-      .then(function(response){
-        Alert.alert("Leave Application Response Sent to your Email.")
-      })
-      .catch(function(error){
-        Alert.alert("Something Went Wrong !")
-      })
+    axios.get('http://192.168.43.43/rs?params=' + encodeURIComponent(leaveDetails) )
+        .then(function(response){
+          Alert.alert("Leave Application Sent to your Email.")
+        })
+        .catch(function(error){
+          Alert.alert("Something Went Wrong !")
+        })  
+     
     this.props.navigation.navigate("Principal");
   }
   
   renderRequest = ({item})=>{
     
-    const leaveDetails =JSON.stringify({
-      leaveType: item.leaveType,
-      startDate: item.startDate,
-      endDate: item.endDate,
-      requestDate: item.requestDate,
-      
-    })
+    
     
     this.setState({
       item: item,
-      leaveDetails: leaveDetails
+      
     })
   return(
     
@@ -389,6 +412,7 @@ export default class ShowLeaveRequest extends Component {
       </SafeAreaView>
     );
   }
+  
 }
 
 const styles = StyleSheet.create({

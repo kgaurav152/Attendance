@@ -36,14 +36,22 @@ state = { leaveType:"",noOfLeave:""}
       
       for(let id in facultyInfo){
        let facultyId = id
-       let compL = 0;
-       let SCL = 0;
+       let compL = facultyInfo[id].compL
+       let SCL = facultyInfo[id].SCL
+       let CL = facultyInfo[id].CL
+       let DL = facultyInfo[id].DL
        if(leaveType == "Compensative Leave"){
          compL = compL + noOfLeave;
        }
        else if(leaveType == "Special Casual Leave"){
          SCL = SCL + noOfLeave;
        }
+       else if(leaveType == "Casual Leave"){
+        CL = CL + noOfLeave;
+      }
+      else if(leaveType == "Duty Leave"){
+        DL = DL + noOfLeave;
+      }
        Firebase.database().ref("Faculty/"+facultyId).update({
         compL: compL,
         SCL: SCL
@@ -76,6 +84,8 @@ state = { leaveType:"",noOfLeave:""}
             <Picker.Item label="Select Leave Type" value="1" />
             <Picker.Item label="Compensative Leave" value="Compensative Leave" />
             <Picker.Item label="Special Casual Leave" value="Special Casual Leave" />
+            <Picker.Item label="Casual Leave" value="Casual Leave" />
+            <Picker.Item label="Duty Leave" value="Duty Leave" />
           </Picker>
         </View>  
         <View style={styles.inputContainer}>
