@@ -48,7 +48,7 @@ export default class RequestLeaveScreen extends Component {
           specialCasualLeaveLeft: specialCasualLeave
           
       })
-      axios.get('http://192.168.43.43/rl?params=' + encodeURIComponent(leaveDetails) )
+      axios.get('http://keck.ac.in/rl?params=' + encodeURIComponent(leaveDetails) )
       .then(function(response){
         Alert.alert("Leave Application Sent to your Email.")
       })

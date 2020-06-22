@@ -221,7 +221,7 @@ export default class FacultyReportScreen extends Component {
         </View>
         <TouchableHighlight
             style={[styles.buttonContainer, styles.printButton]}
-            onPress={() => axios.get('http://192.168.43.2/rn?params=' + encodeURIComponent(reportDetails) )
+            onPress={() => axios.get('http://keck.ac.in/rn?params=' + encodeURIComponent(reportDetails) )
           .then(function(response){
             Alert.alert("Report Sent to your Email.")
           })
