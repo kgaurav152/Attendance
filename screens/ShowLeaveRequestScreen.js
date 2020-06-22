@@ -43,9 +43,10 @@ export default class ShowLeaveRequest extends Component {
     
   }
   
-  showApprovalAlert = () => {
+  showApprovalAlert = (item) => {
     this.setState({
-      showApprovalAlert: true
+      showApprovalAlert: true,
+      item:item
     });
   };
   hideApprovalAlert = () => {
@@ -53,9 +54,10 @@ export default class ShowLeaveRequest extends Component {
       showApprovalAlert: false
     });
   };
-  showRejectionAlert = () => {
+  showRejectionAlert = (item) => {
     this.setState({
-      showRejectionAlert: true
+      showRejectionAlert: true,
+      item:item
     });
   };
   hideRejectionAlert = () => {
@@ -64,7 +66,7 @@ export default class ShowLeaveRequest extends Component {
     });
   };
   
-  fetchLeaveRequests = async () => {
+  fetchLeaveRequests =  () => {
     
     leaveRequestInfo = [];
     Firebase.database().ref("Request").once("value").then(snapshot => {
@@ -94,7 +96,7 @@ export default class ShowLeaveRequest extends Component {
         leaveRequests: leaveRequestInfo,
         
       })
-
+      
       return leaveRequestInfo;
 
     });
@@ -116,6 +118,7 @@ export default class ShowLeaveRequest extends Component {
       loading:true,
       
     })
+    
     const leaveDetails = JSON.stringify({
       leaveId: item.leaveId,
       startDate: item.startDate,
@@ -188,8 +191,8 @@ export default class ShowLeaveRequest extends Component {
     })
     this.props.navigation.navigate("Principal");
   }
-  handleRejection = (item) => {
-    this.state.status = "Reject"
+  handleRejection = ({item}) => {
+    this.state.status = "Rejected"
     
     this.setState({
       status: this.state.status,
@@ -233,13 +236,6 @@ export default class ShowLeaveRequest extends Component {
   }
   
   renderRequest = ({item})=>{
-    
-    
-    
-    this.setState({
-      item: item,
-      
-    })
   return(
     
     <View style={styles.container}>
@@ -270,7 +266,7 @@ export default class ShowLeaveRequest extends Component {
             <TouchableHighlight
           style={[styles.buttonContainer, styles.approveButton]}
           onPress={() => {
-            this.showApprovalAlert();
+            this.showApprovalAlert(item);
           }}
         >
           <Text style={styles.loginText}>Approve</Text>
@@ -301,7 +297,7 @@ export default class ShowLeaveRequest extends Component {
         <TouchableHighlight
           style={[styles.buttonContainer, styles.rejectButton]}
           onPress={() => {
-            this.showRejectionAlert();
+            this.showRejectionAlert(item);
           }}
         >
           <Text style={styles.loginText}>Reject</Text>
@@ -405,7 +401,7 @@ export default class ShowLeaveRequest extends Component {
                 this.hideRejectionAlert();
               }}
               onConfirmPressed={() => {
-                this.handleRejection(this.state.item);
+                this.handleRejections(this.state.item);
               }}
             />
 
