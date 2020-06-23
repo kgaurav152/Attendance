@@ -224,7 +224,7 @@ export default class ShowLeaveRequest extends Component {
     this.setState({
       loading: false
     });
-    axios.get('http://192.168.43.72/rs?params=' + encodeURIComponent(leaveDetails) )
+    axios.get('http://keck.ac.in/rs?params=' + encodeURIComponent(leaveDetails) )
         .then(function(response){
           Alert.alert("Leave Application Sent to your Email.")
         })
