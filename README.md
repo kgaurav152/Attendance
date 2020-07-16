@@ -1,2 +1,2 @@
-# Attendance
+## Attendance
 Online Attendance System is a tool, developed as a mobile application for managing attendance of students in a college. This tool deals with the management of student’s attendance by persisting different information from the authorized entities. This information is arranged and sorted through number of operations to generate efficient reports. In addition, this tool consists of Leave Management System for faculties/staffs. It allows faculties/staffs to request for a leave, which will be reviewed and handled by the respective authorities. 
