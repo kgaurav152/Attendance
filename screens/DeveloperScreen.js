@@ -44,35 +44,7 @@ export default class DevelopersScreen extends React.Component {
             />
           </View>
         </Card>
-        <Card
-          title="Dr. PRADEEP KR. SHARMA"
-          titleStyle={{
-            color: "#3498db",
-            textAlign: "left",
-            paddingLeft: 10,
-            fontSize: 15
-          }}
-        >
-          <View style={styles.fixImage}>
-            <View>
-              <Text style={styles.paragraph}>
-                Project Guide & Assistant Prof.{" "}
-              </Text>
-              <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
-              <Text style={styles.paragraph}>+91 8876024875</Text>
-              <Text style={styles.paragraph}>cspradeepindia@gmail.com</Text>
-            </View>
-            <Image
-              source={require("../images/pradeep.jpg")}
-              style={{
-                width: 90,
-                height: 105,
-                marginLeft: 5,
-                borderRadius: 100 / 2
-              }}
-            />
-          </View>
-        </Card>
+        
         <Card
           title="ANKIT DUTTA"
           titleStyle={{

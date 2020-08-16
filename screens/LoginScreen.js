@@ -9,14 +9,14 @@ import {
   Alert,
   ActivityIndicator,
   AsyncStorage,
-  NetInfo
+  
 } from "react-native";
 import { YellowBox } from "react-native";
 import _ from "lodash";
 import firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
-
+import NetInfo from "@react-native-community/netinfo";
 export default class LoginScreen extends Component {
   state = { date: "", email: "", password: "", language: "", errorMessage: "" };
   constructor(props) {
@@ -45,7 +45,7 @@ export default class LoginScreen extends Component {
   goToStudentsDetails = () => {
     
     let name = "",  department = "",  mobile = "" ,sem="", reg_no="";
-    NetInfo.isConnected.fetch().done((isConnected) => {
+    NetInfo.fetch().done((isConnected) => {
       if(isConnected){
         let promise = firebase
       .database()
@@ -133,7 +133,7 @@ export default class LoginScreen extends Component {
   gotToFacultyDetails = () => {
     
     let name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="",compensativeLeave="",specialCasualLeave="";
-    NetInfo.isConnected.fetch().done((isConnected) => {
+    NetInfo.fetch().done((isConnected) => {
       if(isConnected){
         let promise = firebase
       .database()
@@ -321,7 +321,7 @@ export default class LoginScreen extends Component {
   handleLogin=()=>{
     
       
-        NetInfo.isConnected.fetch().done((isConnected)=>{
+        NetInfo.fetch().done((isConnected)=>{
           if(isConnected){
             this.handleOnlineLogin();
           }
