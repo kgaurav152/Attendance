@@ -103,7 +103,7 @@ export default class StudentAttendanceScreen extends Component {
       showAlert: true
     });
   };
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (
       nextState.department != this.state.department ||
       nextState.semester != this.state.semester

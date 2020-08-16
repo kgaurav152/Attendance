@@ -69,7 +69,7 @@ export default class AssignSubject extends Component {
   }
   
   };
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (
       nextState.email != this.state.email ||
       nextState.department != this.state.department ||

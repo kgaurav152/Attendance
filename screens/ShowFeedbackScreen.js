@@ -25,7 +25,7 @@ function Separator() {
 export default class ShowFeedbackScreen extends Component {
   state = { nameList:[], feedbackList: [], emailList: [] };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     var db_nameList = [];
     var db_feedbackList = [];
     var db_emailList = [];
