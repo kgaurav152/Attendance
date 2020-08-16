@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView, AsyncStorage,NetInfo } from "react-native";
+import { View, Text, StyleSheet, ScrollView, AsyncStorage } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { Card } from "react-native-elements";
 import AttendanceBoxes from "../components/AttendanceBoxes";
 import Firebase from "../components/config";
@@ -44,7 +45,7 @@ export default class AddAttendanceScreen extends React.Component {
       imageUrl:imageUrl
     })
    
-    NetInfo.isConnected.fetch().done((isConnected) => {
+    NetInfo.fetch().done((isConnected) => {
       if(isConnected){
     Firebase.database()
       .ref("students")

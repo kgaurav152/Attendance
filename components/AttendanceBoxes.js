@@ -6,9 +6,9 @@ import {
   FlatList,
   View,
   ActivityIndicator,
-  AsyncStorage,
-  NetInfo
+  AsyncStorage
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import AttendanceBox from "./AttendanceBox";
 import { ScrollView } from "react-native-gesture-handler";
 import Firebase from "../components/config";
@@ -106,7 +106,7 @@ class AttendanceBoxes extends React.Component {
         console.log(this.state.attendanceList);
       }
     );
-    NetInfo.isConnected.fetch().done(isConnected => {
+    NetInfo.fetch().done(isConnected => {
       if (isConnected) {
         Firebase.database()
           .ref("attendance")

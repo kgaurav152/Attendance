@@ -7,8 +7,9 @@ import {
   Alert,
   TouchableHighlight,
   AsyncStorage,
-  NetInfo
+  
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
 import moment from 'moment';
@@ -116,7 +117,7 @@ componentDidMount(){
       
       console.log("Component did mound is being callled...");
       var subjectList = [];
-     NetInfo.isConnected.fetch().done( (isconnected ) => {
+     NetInfo.fetch().done( (isconnected ) => {
          if(!isconnected){
           AsyncStorage.getItem(this.state.department 
             + this.state.semester + "subjectList").then( val => {
