@@ -84,6 +84,7 @@ export default class Homescreen extends Component {
       }
     }
     let token = await Notifications.getExpoPushTokenAsync();
+   // alert(token)
     this.setState({
       token: token
     });
@@ -106,6 +107,7 @@ export default class Homescreen extends Component {
             .push({
               ExpoToken: token
             });
+           // alert("token push")
         }
       });
   };
@@ -165,7 +167,7 @@ export default class Homescreen extends Component {
               </TouchableHighlight>
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.clickButton]}
-                onPress={() => this.props.navigation.navigate("KEC_Katihar")}
+                onPress={() => this.props.navigation.navigate("UpgradeScreen")}
               >
                 <Text style={styles.clickText}>KEC Katihar</Text>
               </TouchableHighlight>

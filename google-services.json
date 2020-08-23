@@ -1,0 +1,23 @@
+{
+    "project_info": {
+        "project_number": "892829055437",
+        "firebase_url": "https://online-attendance-7e3c3.firebaseio.com/",
+        "project_id": "online-attendance-7e3c3",
+        "storage_bucket": "online-attendance-7e3c3.appspot.com"
+      },
+      "client":[
+          {
+              "client_info":{
+                  "mobiledesk_app_id":"...",
+                  "android_client_info":{
+                      "package_name":"online attendance"
+                  }
+              },
+              "api_key":[
+                  {
+                    "current_key":"AIzaSyCg8Uid5MiewwVtFmjcTDCuUL6jU8Qsc34"
+                  }
+              ]
+          }
+      ]
+}
