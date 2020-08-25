@@ -108,7 +108,10 @@ export default class FacultyWelcomeScreen extends Component {
     const dutyLeave = navigation.getParam("dutyLeave");
     const compensativeLeave = navigation.getParam("compensativeLeave");
     const specialCasualLeave = navigation.getParam("specialCasualLeave");
-    const facultyDepartment =navigation.getParam("facultyDepartment")
+    const facultyDepartment =navigation.getParam("facultyDepartment");
+    const subjectInfo=navigation.getParam("subjectInfo");
+    
+    
       return (
       
       <SafeAreaView style={styles.container}>
@@ -203,7 +206,8 @@ export default class FacultyWelcomeScreen extends Component {
                 department,
                 name,
                 mobile,
-                imageUrl
+                imageUrl,
+                subjectInfo
               })}
             >
               <Text style={styles.clickText}>Attendance</Text>
@@ -293,7 +297,22 @@ export default class FacultyWelcomeScreen extends Component {
               <Text style={styles.clickText}>Leave Request Status</Text>
             </TouchableHighlight>
             </LinearGradient>
+            
          </View>
+         <LinearGradient
+            colors={["#a13388", "#10356c"]}
+            style={{ flex: 1 }}
+            start={{ x: 0, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={[styles.buttonContainer]}
+          >
+            <TouchableHighlight
+
+              onPress={() => this.props.navigation.navigate("UpgradeScreen")}
+            >
+              <Text style={styles.clickText}>Upgrade Sem</Text>
+            </TouchableHighlight>
+            </LinearGradient>
          </ScrollView>
       </SafeAreaView>
     );

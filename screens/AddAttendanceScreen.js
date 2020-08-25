@@ -57,10 +57,11 @@ export default class AddAttendanceScreen extends React.Component {
           db_department = studentInfo[attributes].department;
           db_semester = studentInfo[attributes].semester;
           if (db_department === department) {
-            if (db_semester === semester) {
+            if (db_semester == semester) {
               var regNo = studentInfo[attributes].registration_num;
               regNo = regNo.substring(8, regNo.length);
               regNoList.push(regNo);
+              console.log(regNoList)
             }
           }
         }

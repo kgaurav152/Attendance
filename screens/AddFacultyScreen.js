@@ -128,6 +128,8 @@ export default class AddFacultyScreen extends Component {
           <Picker.Item label="Civil Engineering" value="Civil Engineering" />
           <Picker.Item label="Mechanical Engineering" value="Mechanical Engineering" />
           <Picker.Item label="Computer Sc. & Engineering" value="Computer Sc. & Engineering" />
+          <Picker.Item label="Electrical & Electronics Engineering" value="Electrical & Electronics Engineering" />
+          <Picker.Item label="Applied Sc. & Humanity" value="Applied Sc. & Humanity" />
         </Picker>  
         </View>       
         <View style={styles.inputContainer}>

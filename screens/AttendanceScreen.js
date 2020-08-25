@@ -23,11 +23,14 @@ class AttendanceScreen extends Component {
     subject: "",
     date: "",
     selectedSubject: "",
+    selectedSem:"",
     subjectList: [],
     name:"",
     facultyDepartment:"",
     email:"",
-    imageUrl:""
+    imageUrl:"",
+    subjectSems:[],
+    subjectNames:[]
   };
   updateDepartment = department => {
     this.setState({ department: department });
@@ -69,24 +72,38 @@ class AttendanceScreen extends Component {
     });
   };
 componentDidMount(){
+  let subjectNames=[], subjectSems=[]
   const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
     const facultyDepartment = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
+    const subjectInfo=navigation.getParam("subjectInfo");
+    for(var attributes in subjectInfo){
+      var subjectName= subjectInfo[attributes].subjectName;
+       var subjectSem = subjectInfo[attributes].subjectSem
+       subjectNames.push(subjectName);
+       subjectSems.push(subjectSem)
+      
+    }
+    console.log(subjectNames + subjectSems)
     this.setState({
       name:name,
       email:email,
       facultyDepartment:facultyDepartment,
       mobile:mobile,
-      imageUrl:imageUrl
+      imageUrl:imageUrl,
+      subjectNames:subjectNames,
+      subjectSems:subjectSems
+      
     })
+    console.log(this.state.subjectNames)
 }
   attendanceHandler = () => {
     if (this.state.department == "" || this.state.department =='1') {
       this.departmentAlert();
-    } else if (this.state.semester == "" || this.state.semester=='1') {
+    } else if (this.state.selectedSem == "" || this.state.selectedSem=='1') {
       this.semAlert();
     } else if (this.state.selectedSubject == "" || this.state.selectedSubject=='1') {
       this.subjectAlert();
@@ -97,14 +114,15 @@ componentDidMount(){
     else {
       this.props.navigation.navigate("AddAttendance", {
         department: this.state.department,
-        semester: this.state.semester,
+        semester: this.state.selectedSem,
         subject: this.state.selectedSubject,
         date: this.state.date,
         name:this.state.name,
         email:this.state.email,
         facultyDepartment:this.state.facultyDepartment,
         imageUrl:this.state.imageUrl,
-        mobile:this.state.mobile
+        mobile:this.state.mobile,
+        
       });
     }
   };
@@ -164,7 +182,10 @@ componentDidMount(){
   }
 
   render() {
-    let subjectItems = this.state.subjectList.map((s, i) => {
+    let subjectItems = this.state.subjectNames.map((s, i) => {
+      return <Picker.Item key={i} value={s} label={s} />;
+    });
+    let sems = this.state.subjectSems.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
     
@@ -224,22 +245,17 @@ componentDidMount(){
         </View>
         <View>
           <Picker
-            selectedValue={this.state.semester}
+            selectedValue={this.state.selectedSem}
             style={{ height: 50, width: 220, marginLeft: "24%" }}
-            onValueChange={this.updateSemester}
+            onValueChange={semLists =>
+              this.setState({ selectedSem: semLists })
+            }
           >
-            <Picker.Item label="Select Semester" value="1" />
-            <Picker.Item label="1st" value="1st" />
-            <Picker.Item label="2nd" value="2nd" />
-            <Picker.Item label="3rd" value="3rd" />
-            <Picker.Item label="4th" value="4th" />
-            <Picker.Item label="5th" value="5th" />
-            <Picker.Item label="6th" value="6th" />
-            <Picker.Item label="7th" value="7th" />
-            <Picker.Item label="8th" value="8th" />
+            <Picker.Item label="Choose Semester" value="1" />
+
+            {sems}
           </Picker>
         </View>
-
         <View>
           <Picker
             selectedValue={this.state.selectedSubject}

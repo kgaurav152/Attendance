@@ -132,7 +132,7 @@ export default class LoginScreen extends Component {
 
   gotToFacultyDetails = () => {
     
-    let name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="",compensativeLeave="",specialCasualLeave="";
+    let subjectInfo="",name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="",compensativeLeave="",specialCasualLeave="",subjectName="",subjectSem="";
     NetInfo.fetch().done((isConnected) => {
       if(isConnected){
         let promise = firebase
@@ -153,6 +153,12 @@ export default class LoginScreen extends Component {
           compensativeLeave = facultyInfo[attributes].compL;
           specialCasualLeave = facultyInfo[attributes].SCL;
           imageUrl = facultyInfo[attributes].image;
+           subjectInfo = facultyInfo[attributes].Subject;
+          console.log(subjectInfo)
+          for(var attributes1 in subjectInfo){
+            subjectName = subjectInfo[attributes1].subjectName;
+            subjectSem = subjectInfo[attributes1].subjectSem;
+          }
         }
         this.setState({
           name: name,
@@ -163,6 +169,8 @@ export default class LoginScreen extends Component {
           dutyLeave: dutyLeave,
           compensativeLeave: compensativeLeave,
           specialCasualLeave:specialCasualLeave,
+          subjectName:subjectName,
+          subjectSem:subjectSem,
           loading: false
         });
 
@@ -179,7 +187,8 @@ export default class LoginScreen extends Component {
           dutyLeave,
           compensativeLeave,
           specialCasualLeave,
-          imageUrl
+          imageUrl,
+          subjectInfo
         });
       })
       .catch(error => {
@@ -195,12 +204,20 @@ export default class LoginScreen extends Component {
             department = facultyInfo[attributes].department;
             mobile = facultyInfo[attributes].mobile;
             imageUrl = facultyInfo[attributes].image;
+            let subjectInfo = facultyInfo[attributes].Subject;
+          console.log(subjectInfo)
+          for(var attributes1 in subjectInfo){
+            subjectName = subjectInfo[attributes1].subjectName;
+            subjectSem = subjectInfo[attributes1].subjectSem;
+          }
           }
           this.setState({
             name: name,
             department: department,
             mobile: mobile,
             imageUrl: imageUrl,
+            subjectName:subjectName,
+            subjectSem:subjectSem,
             loading: false
           });
 
@@ -209,7 +226,9 @@ export default class LoginScreen extends Component {
             name,
             department,
             mobile,
-            imageUrl
+            imageUrl,
+            subjectName,
+            subjectSem
           });
         });
       }
@@ -377,6 +396,8 @@ export default class LoginScreen extends Component {
                   source={require("../assets/mailIcon.jpg")}
                 />
                 <TextInput
+                caretHidden
+
                   style={styles.inputs}
                   placeholder="Email"
                   keyboardType="email-address"

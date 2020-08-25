@@ -8,7 +8,8 @@ import {
   TouchableHighlight,
   ScrollView,
   AsyncStorage,
-  Image
+  Image,
+  ActivityIndicator
 } from "react-native";
 import { Notifications } from "expo";
 import * as Permissions from "expo-permissions";
@@ -18,6 +19,8 @@ import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 import { Card } from "react-native-elements";
 import Swipeout from "react-native-swipeout";
+import * as Updates from 'expo-updates';
+import AwesomeAlert from "react-native-awesome-alerts";
 
 function Separator() {
   return <View style={styles.separator} />;
@@ -25,7 +28,12 @@ function Separator() {
 
 export default class Homescreen extends Component {
   state = { notification: [], delete: "" };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false
+    };
+  }
   _handleNotification = (notification) => {
     let a = notification.data;
     
@@ -68,10 +76,42 @@ export default class Homescreen extends Component {
       delete: ""
     });
   };
-  componentDidMount() {
-    this.registerForPushNotificationsAsync();
+  hideAlert = () => {
+    this.setState({
+     updateAlert:false,
+    });
+  };
+  updateAlert=()=>{
+  this.setState({
+  updateAlert:true
+})
+  }
+  updateAsync=async()=>{
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        this.updateAlert();
+        
+      }
+    } catch (e) {
+      // handle or log error
+    }
+  }
+  update = async()=>{
+    this.setState({
+      updateAlert:false,
+      
+    })
+    await Updates.fetchUpdateAsync();
+    await Updates.reloadAsync();
+    
+  }
+ componentDidMount() {
+  
+  this.updateAsync();
+   this.registerForPushNotificationsAsync();
     this._notificationSubscription = Notifications.addListener(
-      this._handleNotification
+    this._handleNotification
     );
   }
   registerForPushNotificationsAsync = async () => {
@@ -113,6 +153,7 @@ export default class Homescreen extends Component {
   };
 
   render() {
+    const {updateAlert}=this.state;
     let swipeBtns = [
       {
         marginTop: "10%",
@@ -157,6 +198,7 @@ export default class Homescreen extends Component {
               </TouchableHighlight>
             </View>
           ) : null}
+          
           <View style={styles.Home}>
             <View style={styles.fixToText}>
               <TouchableHighlight
@@ -167,7 +209,7 @@ export default class Homescreen extends Component {
               </TouchableHighlight>
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.clickButton]}
-                onPress={() => this.props.navigation.navigate("UpgradeScreen")}
+                onPress={() => this.props.navigation.navigate("KEC_Katihar")}
               >
                 <Text style={styles.clickText}>KEC Katihar</Text>
               </TouchableHighlight>
@@ -189,8 +231,30 @@ export default class Homescreen extends Component {
             </View>
             <Separator />
           </View>
-
+          
           <Text style={styles.footer}>{"\u00A9"} 2020 KEC Katihar</Text>
+          <AwesomeAlert
+          show={updateAlert}
+          showProgress={false}
+          title="Update Available !"
+          message="Click OK to Update"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.update();
+          }}
+        />
         </LinearGradient>
       </SafeAreaView>
     );

@@ -40,6 +40,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.keckatihar.attendance",
       "buildNumber": "1.0.0"
-    }
+    },
+    "description": ""
   }
 }
