@@ -25,6 +25,8 @@ export default class StudentDetailScreen extends Component {
     const department = navigation.getParam("department");
     const imageUrl = navigation.getParam("imageUrl");
     const sem = navigation.getParam("sem");
+    const session = navigation.getParam("session");
+    const year = navigation.getParam("year");
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
@@ -79,7 +81,9 @@ export default class StudentDetailScreen extends Component {
               imageUrl,
               reg_no,
               department,
-              sem
+              sem,
+              session,
+              year
             })}
           >
             <Text style={styles.clickText}>Edit Student Detail</Text>

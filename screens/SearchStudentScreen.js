@@ -28,6 +28,8 @@ export default class SearchStudentScreen extends Component {
           let reg_no = null;
           let imageUrl = null;
           let sem = null;
+          let session= null;
+          let year=null;
           for(attributes in studentInfo){
               name = studentInfo[attributes].name;
               department = studentInfo[attributes].department;
@@ -36,6 +38,8 @@ export default class SearchStudentScreen extends Component {
               reg_no= studentInfo[attributes].registration_num
               sem = studentInfo[attributes].semester
               imageUrl =studentInfo[attributes].image;
+              year =studentInfo[attributes].year;
+              session =studentInfo[attributes].session;
           }
           this.setState({
             name: name,
@@ -44,7 +48,9 @@ export default class SearchStudentScreen extends Component {
             email: email,
             reg_no: reg_no,
             imageUrl: imageUrl,
-            sem : sem
+            sem : sem,
+            session:session,
+            year:year
           });
           this.props.navigation.navigate("StudentDetail", {
             email:this.state.email,
@@ -53,7 +59,9 @@ export default class SearchStudentScreen extends Component {
             mobile:this.state.mobile,
             reg_no:this.state.reg_no,
             imageUrl:this.state.imageUrl,
-            sem:this.state.sem
+            sem:this.state.sem,
+            year:this.state.year,
+            session:this.state.session
           });
       }
         

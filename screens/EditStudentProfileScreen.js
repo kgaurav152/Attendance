@@ -15,9 +15,8 @@ import Constants from 'expo-constants';
 import Firebase from "../components/config";
 
 export default class EditStudentProfile extends Component {
-  constructor(props) {
-    super();
-    this.state = {
+  
+    state = {
       email: "",
       name: "",
       department: "",
@@ -27,9 +26,9 @@ export default class EditStudentProfile extends Component {
       session: "",
       year: "",
       mobile: "",
-      reg_no: ""
+      registration_num: ""
     };
-  }
+  
   
   writeStudentData=()=> {
     
@@ -42,7 +41,7 @@ export default class EditStudentProfile extends Component {
           res.forEach(record=>{
             Firebase.database()
             .ref("students/"+record.key)
-            .set({
+            .update({
               name: this.state.name,
               department: this.state.department,
               image: this.state.image,
@@ -50,7 +49,7 @@ export default class EditStudentProfile extends Component {
               semester: this.state.semester,
               mobile: this.state.mobile,
               year: this.state.year,
-              registration_num: this.state.reg_no,
+              registration_num: this.state.registration_num,
               email:this.state.email
               
             })
@@ -60,24 +59,28 @@ export default class EditStudentProfile extends Component {
             });
             this.props.navigation.navigate("FacultyWelcome")         })
         })
-       
-        componentDidMount=()=>{
-          const { navigation } = this.props;
-          const email = navigation.getParam("email");
-          const name = navigation.getParam("name");
-          const department = navigation.getParam("department");
-          const mobile = navigation.getParam("mobile");
-          const imageUrl = navigation.getParam("imageUrl");
-          this.setState({
-            email:email,
-            name:name,
-            department:department
-          })
-        }
-        
-    
-  
-    
+  }
+  componentDidMount(){
+    const { navigation } = this.props;
+    const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const department = navigation.getParam("department");
+    const mobile = navigation.getParam("mobile");
+    const imageUrl = navigation.getParam("imageUrl");
+    const semester = navigation.getParam("sem");
+    const registration_num = navigation.getParam("reg_no");
+    const session = navigation.getParam("session");
+    const year = navigation.getParam("year");
+    this.setState({
+      email:email,
+      name:name,
+      department:department,
+      mobile:mobile,
+      semester:semester,
+      registration_num:registration_num,
+      session:session,
+      year:year
+    })
   }
   render() {
     let { image } = this.state;
@@ -112,7 +115,7 @@ export default class EditStudentProfile extends Component {
               keyboardType='default'
               underlineColorAndroid="transparent"
               onChangeText={reg_no => this.setState({ reg_no })}
-              value={this.state.reg_no}
+              value={this.state.registration_num}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -212,72 +215,20 @@ export default class EditStudentProfile extends Component {
               value={this.state.mobile}
             />
           </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-between"
-            }}
-          >
-            <TouchableHighlight
-              style={[
-                styles.imageChooseButtonContainer,
-                styles.imageChooseclickButton
-              ]}
-              onPress={this._pickImage}
-            >
-              <Text style={styles.clickText}>Choose Photo</Text>
-            </TouchableHighlight>
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{
-                  width: 100,
-                  height: 100,
-                  marginLeft: 50,
-                  borderRadius: 100 / 2
-                }}
-              />
-            )}
-          </View>
+          
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
             onPress={() => this.writeStudentData()}
           >
-            <Text style={styles.clickText}>Add Student</Text>
+            <Text style={styles.clickText}>Update Student</Text>
           </TouchableHighlight>
         </ScrollView>
       </View>
     );
   }
-  componentDidMount() {
-    this.getPermissionAsync();
-    console.log("hi");
-  }
+  
 
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-      }
-    }
-  };
-
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
-  };
+  
 }
 
 const styles = StyleSheet.create({
