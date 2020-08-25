@@ -299,12 +299,13 @@ export default class FacultyWelcomeScreen extends Component {
             </LinearGradient>
             
          </View>
+         <Separator />
          <LinearGradient
             colors={["#a13388", "#10356c"]}
             style={{ flex: 1 }}
             start={{ x: 0, y: 1 }}
             end={{ x: 1, y: 0 }}
-            style={[styles.buttonContainer]}
+            style={[styles.buttonContainer1]}
           >
             <TouchableHighlight
 
@@ -351,6 +352,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
     marginRight: 15
+  },
+  buttonContainer1: {
+    height: 65,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    width: 150,
+    borderRadius: 20,
+    marginTop: 20,
+    marginLeft: "4%"
   },
   clickButton: {
     backgroundColor: "#09C5F7"

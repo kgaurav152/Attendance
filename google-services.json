@@ -1,23 +1,40 @@
 {
-    "project_info": {
-        "project_number": "892829055437",
-        "firebase_url": "https://online-attendance-7e3c3.firebaseio.com/",
-        "project_id": "online-attendance-7e3c3",
-        "storage_bucket": "online-attendance-7e3c3.appspot.com"
+  "project_info": {
+    "project_number": "892829055437",
+    "firebase_url": "https://online-attendance-7e3c3.firebaseio.com",
+    "project_id": "online-attendance-7e3c3",
+    "storage_bucket": "online-attendance-7e3c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892829055437:android:d3b7a32667b30827002c84",
+        "android_client_info": {
+          "package_name": "com.keckatihar.attendance"
+        }
       },
-      "client":[
-          {
-              "client_info":{
-                  "mobiledesk_app_id":"...",
-                  "android_client_info":{
-                      "package_name":"online attendance"
-                  }
-              },
-              "api_key":[
-                  {
-                    "current_key":"AIzaSyCg8Uid5MiewwVtFmjcTDCuUL6jU8Qsc34"
-                  }
-              ]
-          }
-      ]
+      "oauth_client": [
+        {
+          "client_id": "892829055437-03sh7vd8m6qo854810dgo5jdavac4t9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg8Uid5MiewwVtFmjcTDCuUL6jU8Qsc34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105052008544954518292",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }
