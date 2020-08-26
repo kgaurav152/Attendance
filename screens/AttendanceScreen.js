@@ -87,7 +87,7 @@ componentDidMount(){
        subjectSems.push(subjectSem)
       
     }
-    console.log(subjectNames + subjectSems)
+    
     this.setState({
       name:name,
       email:email,
@@ -133,7 +133,7 @@ componentDidMount(){
       nextState.semester != this.state.semester
     ) {
       
-      console.log("Component did mound is being callled...");
+      
       var subjectList = [];
      NetInfo.fetch().done( (isconnected ) => {
          if(!isconnected){
@@ -167,7 +167,7 @@ componentDidMount(){
                       + this.state.semester + "subjectList", JSON.stringify(subjectList)); 
                      
                 }
-                console.log(subjectList);
+                
               }
             }
           })
