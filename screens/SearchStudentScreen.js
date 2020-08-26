@@ -30,7 +30,7 @@ export default class SearchStudentScreen extends Component {
           let sem = null;
           let session= null;
           let year=null;
-          for(attributes in studentInfo){
+          for(var attributes in studentInfo){
               name = studentInfo[attributes].name;
               department = studentInfo[attributes].department;
               mobile = studentInfo[attributes].mobile;
@@ -68,16 +68,65 @@ export default class SearchStudentScreen extends Component {
         
         )
   }
-  
+  searchStudentEmail = () => {
+    Firebase.database().ref("students").orderByChild("email").equalTo(this.state.email).once("value").then(snapshot =>{
+        let studentInfo = snapshot.val();
+        let name = null;
+        let department = null;
+        let mobile = null;
+        let email = null;
+        let reg_no = null;
+        let imageUrl = null;
+        let sem = null;
+        let session= null;
+        let year=null;
+        for(var attributes in studentInfo){
+            name = studentInfo[attributes].name;
+            department = studentInfo[attributes].department;
+            mobile = studentInfo[attributes].mobile;
+            email = studentInfo[attributes].email;
+            reg_no= studentInfo[attributes].registration_num
+            sem = studentInfo[attributes].semester
+            imageUrl =studentInfo[attributes].image;
+            year =studentInfo[attributes].year;
+            session =studentInfo[attributes].session;
+        }
+        this.setState({
+          name: name,
+          department: department,
+          mobile: mobile,
+          email: email,
+          reg_no: reg_no,
+          imageUrl: imageUrl,
+          sem : sem,
+          session:session,
+          year:year
+        });
+        this.props.navigation.navigate("StudentDetail", {
+          email:this.state.email,
+          name:this.state.name,
+          department:this.state.department,
+          mobile:this.state.mobile,
+          reg_no:this.state.reg_no,
+          imageUrl:this.state.imageUrl,
+          sem:this.state.sem,
+          year:this.state.year,
+          session:this.state.session
+        });
+    }
+      
+      
+      )
+}
     render() {
     
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
-          Welcome to Online Attendance System
+          Search Student Detail
         </Text>
-               
-        <View style={styles.fixToText}>
+        
+          <View style={styles.fixToText}>
         <TextInput
                   style={styles.inputs}
                   placeholder="Reg No."
@@ -92,6 +141,24 @@ export default class SearchStudentScreen extends Component {
           </TouchableHighlight>
           
         </View>
+        <View style={styles.fixToText}>
+        <TextInput
+                  caretHidden
+                  style={styles.inputs}
+                  placeholder="Email "
+                  keyboardType="email-address"
+                  underlineColorAndroid="transparent"
+                  onChangeText={email=> this.setState({ email })}
+        />
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.searchStudentEmail()}
+          >
+            <Text style={styles.clickText}>Search</Text>
+          </TouchableHighlight>
+          
+        </View>
+        
         <Separator />
       </SafeAreaView>
     );
@@ -127,7 +194,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   buttonContainer: {
-    height: 65,
+    height: 35,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

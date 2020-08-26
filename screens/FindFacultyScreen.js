@@ -45,6 +45,7 @@ export default class FindFacultyScreen extends Component {
               <View style={styles.inputContainer}>
                 
                 <TextInput
+                caretHidden
                   style={styles.inputs}
                   placeholder="Email"
                   keyboardType="email-address"

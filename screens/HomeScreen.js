@@ -245,7 +245,8 @@ export default class Homescreen extends Component {
           cancelText="No, cancel"
           confirmText="OK !"
           contentContainerStyle={{
-            backgroundColor: "white"
+            backgroundColor: "white",
+            width:"150%"
           }}
           confirmButtonColor="#10356c"
           onCancelPressed={() => {

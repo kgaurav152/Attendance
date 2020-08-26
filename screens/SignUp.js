@@ -49,7 +49,6 @@ export default class SignUp extends Component {
               .ref("users/" + userId)
               .set({
                 email: this.state.email,
-                
                 role: this.state.role,
                 uid: userId
               });
@@ -98,6 +97,7 @@ export default class SignUp extends Component {
             source={require("../assets/mailIcon.jpg")}
           />
           <TextInput
+          caretHidden
             style={styles.inputs}
             placeholder="Email"
             keyboardType="email-address"

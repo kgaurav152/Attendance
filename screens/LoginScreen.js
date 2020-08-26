@@ -60,7 +60,7 @@ export default class LoginScreen extends Component {
           name = studentInfo[attributes].name;
           department = studentInfo[attributes].department;
           mobile = studentInfo[attributes].mobile;
-          imageUrl = studentInfo[attributes].image;
+          
           sem= studentInfo[attributes].sem,
           reg_no= studentInfo[attributes].registration_num
         }
@@ -68,7 +68,7 @@ export default class LoginScreen extends Component {
           name: name,
           department: department,
           mobile: mobile,
-          imageUrl: imageUrl,
+          
           sem:sem,
           reg_no:reg_no,
           loading: false
@@ -85,7 +85,7 @@ export default class LoginScreen extends Component {
           mobile,
           sem,
           reg_no,
-          imageUrl
+          
         });
       })
       .catch(error => {
@@ -99,7 +99,7 @@ export default class LoginScreen extends Component {
             name = studentInfo[attributes].name;
             department = studentInfo[attributes].department;
             mobile = studentInfo[attributes].mobile;
-            imageUrl = studentInfo[attributes].image;
+            
             sem=studentInfo[attributes].sem;
             reg_no=studentInfo[attributes].registration_num;
 
@@ -110,7 +110,7 @@ export default class LoginScreen extends Component {
             mobile: mobile,
             sem:sem,
             reg_no:reg_no,
-            imageUrl: imageUrl,
+            
             loading: false
           });
 
@@ -121,7 +121,7 @@ export default class LoginScreen extends Component {
             mobile,
             sem,
             reg_no,
-            imageUrl
+            
           });
         });
       }
@@ -152,7 +152,7 @@ export default class LoginScreen extends Component {
           dutyLeave = facultyInfo[attributes].DL;
           compensativeLeave = facultyInfo[attributes].compL;
           specialCasualLeave = facultyInfo[attributes].SCL;
-          imageUrl = facultyInfo[attributes].image;
+          
            subjectInfo = facultyInfo[attributes].Subject;
           console.log(subjectInfo)
           for(var attributes1 in subjectInfo){
@@ -164,7 +164,7 @@ export default class LoginScreen extends Component {
           name: name,
           department: department,
           mobile: mobile,
-          imageUrl: imageUrl,
+          
           casualLeave: casualLeave,
           dutyLeave: dutyLeave,
           compensativeLeave: compensativeLeave,
@@ -187,7 +187,7 @@ export default class LoginScreen extends Component {
           dutyLeave,
           compensativeLeave,
           specialCasualLeave,
-          imageUrl,
+          
           subjectInfo
         });
       })
@@ -203,7 +203,7 @@ export default class LoginScreen extends Component {
             name = facultyInfo[attributes].name;
             department = facultyInfo[attributes].department;
             mobile = facultyInfo[attributes].mobile;
-            imageUrl = facultyInfo[attributes].image;
+            
             let subjectInfo = facultyInfo[attributes].Subject;
           console.log(subjectInfo)
           for(var attributes1 in subjectInfo){
@@ -215,7 +215,7 @@ export default class LoginScreen extends Component {
             name: name,
             department: department,
             mobile: mobile,
-            imageUrl: imageUrl,
+            
             subjectName:subjectName,
             subjectSem:subjectSem,
             loading: false
@@ -226,7 +226,7 @@ export default class LoginScreen extends Component {
             name,
             department,
             mobile,
-            imageUrl,
+            
             subjectName,
             subjectSem
           });
@@ -301,6 +301,7 @@ export default class LoginScreen extends Component {
           .once("value")
           .then(snapshot => {
             let userInfo = snapshot.val();
+            console.log(userInfo)
             let role = null;
             for (var attributes in userInfo) {
               role = userInfo[attributes].role;

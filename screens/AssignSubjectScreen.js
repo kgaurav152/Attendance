@@ -112,6 +112,7 @@ export default class AssignSubject extends Component {
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput
+          caretHidden
             style={styles.inputs}
             placeholder="Email"
             keyboardType="email-address"

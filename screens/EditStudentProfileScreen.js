@@ -114,7 +114,7 @@ export default class EditStudentProfile extends Component {
               placeholder="Registration no."
               keyboardType='default'
               underlineColorAndroid="transparent"
-              onChangeText={reg_no => this.setState({ reg_no })}
+              onChangeText={registration_num => this.setState({ registration_num })}
               value={this.state.registration_num}
             />
           </View>
@@ -192,6 +192,7 @@ export default class EditStudentProfile extends Component {
               source={require("../assets/mailIcon.jpg")}
             />
             <TextInput
+            caretHidden
               style={styles.inputs}
               placeholder="email"
               keyboardType="email-address"

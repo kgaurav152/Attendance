@@ -24,12 +24,13 @@ export default class AddStudent extends Component {
       name: "",
       department: "",
       errorMessage: null,
-      imageUrl: null,
+      role:"student",
       semester: "",
       session: "",
       year: "",
       mobile: "",
-      reg_no: ""
+      reg_no: "",
+      password:"12345678"
     };
   }
 
@@ -118,7 +119,8 @@ export default class AddStudent extends Component {
       departmentAlert: false,
       semAlert: false,
       emailAlert: false,
-      mobileAlert: false
+      mobileAlert: false,
+      emailUsed:false
     });
   };
   confirmationAlert = () => {
@@ -136,32 +138,43 @@ export default class AddStudent extends Component {
       errorAlert:false
     })
   }
+  emailUsed = () => {
+    this.setState({
+      emailUsed: true
+    });
+  };
   errorAlert=()=>{
     this.setState({
       errorAlert:true
     })
   }
   writeStudentData = () => {
-    this.setState({
-      showAlert:false
-    })
-    Firebase.database()
-      .ref("students/")
-      .orderByChild("email")
-      .equalTo(this.state.email)
-      .once("value")
-      .then(res => {
-        var value = res.val();
-        if(value==null || value==undefined || value ==""){
-          this.errorAlert();
-        } else{
-        res.forEach(record => {
-          Firebase.database()
-            .ref("students/" + record.key)
+    Firebase.auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(()=> {
+        if (Firebase.auth().currentUser) {
+          userId = Firebase.auth().currentUser.uid;
+          console.log(userId)
+          if (userId) {
+            Firebase.database()
+              .ref("users/" + userId)
+              .set({
+                email: this.state.email,
+                role: this.state.role,
+                uid: userId
+              });
+          }
+          
+          this.showAlert();
+        }
+      })
+      .then(()=>{
+        Firebase.database()
+            .ref("students/"+userId)
             .set({
               name: this.state.name,
               department: this.state.department,
-              image: this.state.image,
+              
               session: this.state.session,
               semester: this.state.semester,
               mobile: this.state.mobile,
@@ -175,7 +188,7 @@ export default class AddStudent extends Component {
             name: "",
             department: "",
             errorMessage: null,
-            image: null,
+            
             semester: "",
             session: "",
             year: "",
@@ -183,14 +196,21 @@ export default class AddStudent extends Component {
             reg_no: "",
             showAlert: false
           });
-        
+      })
+      .catch(error => {
+        this.setState({
+          error: error.code
         });
-      }
+        if (this.state.error === "auth/email-already-in-use") {
+          this.emailUsed();
+        } else {
+        }
       });
   };
+  
   render() {
     let {
-      image,
+      
       confirmationAlert,
       showAlert,
       nameAlert,
@@ -199,7 +219,8 @@ export default class AddStudent extends Component {
       semAlert,
       emailAlert,
       mobileAlert,
-      errorAlert
+      errorAlert,
+      emailUsed
     } = this.state;
 
     return (
@@ -319,6 +340,7 @@ export default class AddStudent extends Component {
               source={require("../assets/mailIcon.jpg")}
             />
             <TextInput
+            caretHidden
               style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"
@@ -374,6 +396,29 @@ export default class AddStudent extends Component {
               this.hideConfirmationAlert();
             }}
           />
+          
+        <AwesomeAlert
+        show={emailUsed}
+        showProgress={false}
+        title="SignUp alert"
+        message="Email already in use"
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={true}
+        //cancelText="No, cancel"
+        confirmText="OK !"
+        contentContainerStyle={{
+          backgroundColor: "white"
+        }}
+        confirmButtonColor="#10356c"
+        onCancelPressed={() => {
+          this.hideAlert();
+        }}
+        onConfirmPressed={() => {
+          this.hideAlert();
+        }}
+      />
           <AwesomeAlert
             show={showAlert}
             showProgress={false}

@@ -183,6 +183,7 @@ export default class AddFacultyScreen extends Component {
               source={require("../assets/mailIcon.jpg")}
             />
             <TextInput
+            caretHidden
               style={styles.inputs}
               placeholder="Email"
               keyboardType="email-address"

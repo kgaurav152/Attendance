@@ -45,7 +45,7 @@ export default class AddStudent extends Component {
 
           db_sem = studentsInfo[attributes].semester;
           if (db_department === this.state.department) {
-            if (db_sem === this.state.currentSem) {
+            if (db_sem == this.state.currentSem) {
               var studentRegNo = studentsInfo[attributes].registration_num;
               
               studentRegNoList.push(studentRegNo);

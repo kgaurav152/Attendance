@@ -28,7 +28,7 @@ export default class FacultyWelcomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageUrl: ""
+      imageUrl: "",
     }
 
   }
@@ -69,6 +69,7 @@ export default class FacultyWelcomeScreen extends Component {
       downLoadProfileImage(email).then( uri =>
         this.setState({ imageUrl:uri }));
     });
+    this.setState({email:email})
 
   }
 
@@ -103,7 +104,7 @@ export default class FacultyWelcomeScreen extends Component {
     const name = navigation.getParam("name");
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
-    const imageUrl = navigation.getParam("imageUrl");
+    
     const casualLeave = navigation.getParam("casualLeave");
     const dutyLeave = navigation.getParam("dutyLeave");
     const compensativeLeave = navigation.getParam("compensativeLeave");
@@ -133,7 +134,7 @@ export default class FacultyWelcomeScreen extends Component {
             <View>
             
               <Text style={styles.paragraph}>Assistant Prof.</Text>
-              <Text style={styles.paragraph}>{department}</Text>
+              <Text style={styles.paragraph}>{email}</Text>
               <Text style={styles.paragraph}>{facultyDepartment}</Text>
               <Text style={styles.paragraph}>{mobile}</Text>
               <Text style={styles.paragraph}>{email}</Text>
@@ -206,7 +207,7 @@ export default class FacultyWelcomeScreen extends Component {
                 department,
                 name,
                 mobile,
-                imageUrl,
+                
                 subjectInfo
               })}
             >
