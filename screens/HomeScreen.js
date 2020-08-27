@@ -113,12 +113,10 @@ export default class Homescreen extends Component {
   this.updateAsync();
    this.registerForPushNotificationsAsync();
    Notifications.addNotificationReceivedListener(this._handleNotification);
-   Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
+   
 
   }
-  _handleNotificationResponse = response => {
-    console.log(response);
-    };
+  
   registerForPushNotificationsAsync = async () => {
     if (Constants.platform.ios || Constants.platform.android) {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -152,7 +150,7 @@ export default class Homescreen extends Component {
             .push({
               ExpoToken: token
             });
-           // alert("token push")
+           
         }
       });
   };

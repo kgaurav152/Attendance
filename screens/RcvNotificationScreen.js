@@ -27,7 +27,7 @@ export default class RcvNotificationScreen extends Component {
       }
       else{
         let a = notification;
-    console.log(a+"in recv screen")
+    
     this.setState({
       notification:a,
       notify:"Notify"

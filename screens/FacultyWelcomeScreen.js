@@ -104,7 +104,6 @@ export default class FacultyWelcomeScreen extends Component {
     const name = navigation.getParam("name");
     const department = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
-    
     const casualLeave = navigation.getParam("casualLeave");
     const dutyLeave = navigation.getParam("dutyLeave");
     const compensativeLeave = navigation.getParam("compensativeLeave");
@@ -134,10 +133,10 @@ export default class FacultyWelcomeScreen extends Component {
             <View>
             
               <Text style={styles.paragraph}>Assistant Prof.</Text>
-              <Text style={styles.paragraph}>{email}</Text>
-              <Text style={styles.paragraph}>{facultyDepartment}</Text>
               <Text style={styles.paragraph}>{mobile}</Text>
               <Text style={styles.paragraph}>{email}</Text>
+              <Text style={styles.paragraph}>{department}</Text>
+              <Text style={styles.paragraph}>{facultyDepartment}</Text>
             </View>
             {this.state.imageUrl=="" ? (
 
