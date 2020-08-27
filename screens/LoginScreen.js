@@ -180,13 +180,13 @@ export default class LoginScreen extends Component {
         );
         this.props.navigation.navigate("FacultyWelcome", {
           email: this.state.email,
-          name,
-          department,
-          mobile,
-          casualLeave,
-          dutyLeave,
-          compensativeLeave,
-          specialCasualLeave,
+          name:this.state.name,
+          department:this.state.department,
+          mobile:this.state.mobile,
+          casualLeave:this.state.casualLeave,
+          dutyLeave:this.state.dutyLeave,
+          compensativeLeave:this.state.compensativeLeave,
+          specialCasualLeave:this.state.specialCasualLeave,
           
           subjectInfo
         });

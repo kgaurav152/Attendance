@@ -18,6 +18,7 @@ function Separator() {
 }
 
 export default class StudentWelcomeScreen extends Component {
+  state={name:"",email:"",mobile:"",reg_no:"",sem:""}
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +30,20 @@ export default class StudentWelcomeScreen extends Component {
 
     const { navigation } = this.props;
     const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const reg_no = navigation.getParam("reg_no");
+    const mobile = navigation.getParam("mobile");
+    const sem = navigation.getParam("sem");
+    const department = navigation.getParam("department");
+    this.setState({
+      name:name,
+      email:email,
+      reg_no:reg_no,
+      mobile:mobile,
+      sem:sem,
+      department:department
+    })
+    
     this.focusListener = navigation.addListener("didFocus", () => {
       downLoadProfileImage(email).then( uri => 
         this.setState({ imageUrl:uri }));
@@ -62,21 +77,16 @@ export default class StudentWelcomeScreen extends Component {
 
   render() {
     const {imageAlert}=this.state;
-    const { navigation } = this.props;
-    const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const reg_no = navigation.getParam("reg_no");
-    const mobile = navigation.getParam("mobile");
-    const department = navigation.getParam("department");
     
-  const sem = navigation.getParam("sem");
+    
+  
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
         <Card
-          title={name}
+          title={<Text style={styles.paragraphName}>{this.state.name}</Text>}
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -89,16 +99,16 @@ export default class StudentWelcomeScreen extends Component {
           <View style={styles.fixImage}>
             <View>
               <Text style={styles.paragraph}>
-                Reg. No - {JSON.stringify(reg_no).replace(/\"/g, "")}
+                Reg. No - {this.state.reg_no}
               </Text>
               <Text style={styles.paragraph}>
-                {JSON.stringify(department).replace(/\"/g, "")}
+                {this.state.department}
               </Text>
               <Text style={styles.paragraph}>
-                {JSON.stringify(mobile).replace(/\"/g, "")}
+                {this.state.mobile}
               </Text>
               <Text style={styles.paragraph}>
-                {JSON.stringify(email).replace(/\"/g, "")}
+                {this.state.email}
            </Text>
            </View>
            {this.state.imageUrl=="" ? (
@@ -157,10 +167,10 @@ export default class StudentWelcomeScreen extends Component {
             style={[styles.buttonContainer, styles.clickButton]}
             onPress={() =>
               this.props.navigation.navigate("StudentAttendance", {
-                email,
-                reg_no,
-                department,
-                sem
+                email:this.state.email,
+                reg_no:this.state.reg_no,
+                department:this.state.department,
+                sem:this.state.sem
               })
             }
           >
@@ -169,13 +179,13 @@ export default class StudentWelcomeScreen extends Component {
          {/* <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
           onPress={()=>this.props.navigation.navigate("StudentProfile",{
-              email,
-              name,
-              mobile,
-              imageUrl,
-              reg_no,
-              department,
-              sem
+              email:this.state.email,
+              name:this.state.name,
+              mobile:this.state.mobile,
+              
+              reg_no:this.state.reg_no,
+              department:this.state.department,
+              sem:this.state.sem
             })}
           >
             <Text style={styles.clickText}>My Profile</Text>
@@ -201,6 +211,14 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     paddingLeft: 12,
     color: "#008b8b"
+  },
+  paragraphName: {
+    margin: 1.5,
+    fontSize: 14,
+    fontWeight: "700",
+    paddingLeft: 12,
+    color: "#008b8b",
+    marginLeft:"2%"
   },
   welcomeUser: {
     textAlign: "center",

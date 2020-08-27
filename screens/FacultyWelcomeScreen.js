@@ -19,19 +19,16 @@ import * as Permissions from "expo-permissions";
 import 'firebase/storage';
 import AwesomeAlert from "react-native-awesome-alerts";
 
+
+
+
 function Separator() {
   return <View style={styles.separator} />;
 }
 
 export default class FacultyWelcomeScreen extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      imageUrl: "",
-    }
-
-  }
+state={name:"",email:"",department:"",mobile:"",casualLeave:"",compensativeLeave:"",dutyLeave:"",specialCasualLeave:"",subjectInfo:"",imageUrl: ""}
+  
 
   clearPendingAttendance = () => {
     AsyncStorage.getItem('attendanceList').then(list => {
@@ -64,12 +61,31 @@ export default class FacultyWelcomeScreen extends Component {
 
     const { navigation } = this.props;
     const email = navigation.getParam("email");
+    const name = navigation.getParam("name");
+    const department = navigation.getParam("department");
+    const mobile = navigation.getParam("mobile");
+    const casualLeave = navigation.getParam("casualLeave");
+    const dutyLeave = navigation.getParam("dutyLeave");
+    const compensativeLeave = navigation.getParam("compensativeLeave");
+    const specialCasualLeave = navigation.getParam("specialCasualLeave");
+    const subjectInfo=navigation.getParam("subjectInfo");
+    this.setState({
+                  name:name,
+                  email:email,
+                  department:department,
+                  mobile:mobile,
+                  casualLeave:casualLeave,
+                  dutyLeave:dutyLeave,
+                  specialCasualLeave:specialCasualLeave,
+                  compensativeLeave:compensativeLeave,
+                  subjectInfo:subjectInfo
+    })
     this.focusListener = navigation.addListener("didFocus", () => {
       this.clearPendingAttendance();
       downLoadProfileImage(email).then( uri =>
         this.setState({ imageUrl:uri }));
     });
-    this.setState({email:email})
+    
 
   }
 
@@ -99,27 +115,18 @@ export default class FacultyWelcomeScreen extends Component {
 
   render() {
     const {imageAlert}=this.state;
-    const { navigation } = this.props;
-    const email = navigation.getParam("email");
-    const name = navigation.getParam("name");
-    const department = navigation.getParam("department");
-    const mobile = navigation.getParam("mobile");
-    const casualLeave = navigation.getParam("casualLeave");
-    const dutyLeave = navigation.getParam("dutyLeave");
-    const compensativeLeave = navigation.getParam("compensativeLeave");
-    const specialCasualLeave = navigation.getParam("specialCasualLeave");
-    const facultyDepartment =navigation.getParam("facultyDepartment");
-    const subjectInfo=navigation.getParam("subjectInfo");
+    
     
     
       return (
       
       <SafeAreaView style={styles.container}>
+      
         <Text style={styles.welcomeUser}>
           Welcome to Online Attendance System
         </Text>
         <Card
-          title={name}
+          title={<Text style={styles.paragraphName}>{this.state.name}</Text>}
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -133,10 +140,10 @@ export default class FacultyWelcomeScreen extends Component {
             <View>
             
               <Text style={styles.paragraph}>Assistant Prof.</Text>
-              <Text style={styles.paragraph}>{mobile}</Text>
-              <Text style={styles.paragraph}>{email}</Text>
-              <Text style={styles.paragraph}>{department}</Text>
-              <Text style={styles.paragraph}>{facultyDepartment}</Text>
+              <Text style={styles.paragraph}>{this.state.mobile}</Text>
+              <Text style={styles.paragraph}>{this.state.email}</Text>
+              <Text style={styles.paragraph}>{this.state.department}</Text>
+              
             </View>
             {this.state.imageUrl=="" ? (
 
@@ -202,12 +209,12 @@ export default class FacultyWelcomeScreen extends Component {
           >
             <TouchableHighlight
               onPress={() => this.props.navigation.navigate("Attendance",{
-                email,
-                department,
-                name,
-                mobile,
+                email:this.state.email,
+                department:this.state.department,
+                name:this.state.name,
+                mobile:this.state.mobile,
                 
-                subjectInfo
+                subjectInfo:this.state.subjectInfo
               })}
             >
               <Text style={styles.clickText}>Attendance</Text>
@@ -239,8 +246,8 @@ export default class FacultyWelcomeScreen extends Component {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight onPress={() => this.props.navigation.navigate("AttendanceInfo",{
-              facultyName:name,
-              facultyEmail:email
+              facultyName:this.state.name,
+              facultyEmail:this.state.email
             })}>
               <Text style={styles.clickText}>Report</Text>
             </TouchableHighlight>
@@ -270,15 +277,15 @@ export default class FacultyWelcomeScreen extends Component {
             style={[styles.buttonContainer]}
           >
             <TouchableHighlight onPress={() => this.props.navigation.navigate("RequestLeave",{
-                email,
-                department,
-                name,
-                mobile,
-                casualLeave,
-                dutyLeave,
-                compensativeLeave,
-                specialCasualLeave,
-                imageUrl
+                email:this.state.email,
+                department:this.state.department,
+                name:this.state.name,
+                mobile:this.state.mobile,
+                casualLeave:this.state.casualLeave,
+                dutyLeave:this.state.dutyLeave,
+                compensativeLeave:this.state.compensativeLeave,
+                specialCasualLeave:this.state.specialCasualLeave
+                
               })}>
               <Text style={styles.clickText}>Request Leave</Text>
             </TouchableHighlight>
@@ -300,21 +307,9 @@ export default class FacultyWelcomeScreen extends Component {
             
          </View>
          <Separator />
-         <LinearGradient
-            colors={["#a13388", "#10356c"]}
-            style={{ flex: 1 }}
-            start={{ x: 0, y: 1 }}
-            end={{ x: 1, y: 0 }}
-            style={[styles.buttonContainer1]}
-          >
-            <TouchableHighlight
-
-              onPress={() => this.props.navigation.navigate("UpgradeScreen")}
-            >
-              <Text style={styles.clickText}>Upgrade Sem</Text>
-            </TouchableHighlight>
-            </LinearGradient>
+         
          </ScrollView>
+         
       </SafeAreaView>
     );
   }
@@ -390,5 +385,13 @@ const styles = StyleSheet.create({
     marginVertical: "3%",
     borderBottomColor: "#737373",
     borderBottomWidth: StyleSheet.hairlineWidth
-  }
+  },
+  paragraphName: {
+    margin: 1.5,
+    fontSize: 14,
+    fontWeight: "700",
+    paddingLeft: 12,
+    color: "#008b8b",
+    marginLeft:"2%"
+  },
 });

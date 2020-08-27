@@ -160,7 +160,7 @@ export default class AddStudent extends Component {
           data={this.state.studentRegNoList}
           keyExtractor={({item}) => item}                
 
-          renderItem={({ item }) => this.renderRegNo(item)}
+          
         />
       </View>
     );
