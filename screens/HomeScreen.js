@@ -42,34 +42,34 @@ export default class Homescreen extends Component {
       delete: "Delete"
 
     })
-    console.log(notification.request.content.body+"Handle")
-    console.log(this.state.notification.request.content.body+"In State")
+    
     
    
     
-  //   AsyncStorage.getItem("notificationList").then(val => {
-  //     let notificationArray = [];
-  //     let message =this.state.notification[0];
-  //     if (val != null && val != "") {
-  //       notificationArray = JSON.parse(val);
-  //       console.log(this.state.notification);
+    AsyncStorage.getItem("notificationList").then(val => {
+      var notificationList = [];
+      var message =notification.request.content.body;
+      if (val != null && val != "") {
+        notificationArray = JSON.parse(val);
         
-  //       notificationArray.push(message);
-  //       AsyncStorage.setItem(
-  //         "notificationList",
-  //         JSON.stringify(notificationArray)
-  //       );
-  //     } else {
-  //       notificationArray.push(message);
-  //       AsyncStorage.setItem("notificationList", JSON.stringify(notificationArray));
-  //     }
+        
+        notificationList.push(message);
+        AsyncStorage.setItem(
+          "notificationList",
+          JSON.stringify(notificationList)
+        );
+      } else {
+        notificationList.push(message);
+        AsyncStorage.setItem("notificationList", JSON.stringify(notificationList));
+        
+      }
       
-  //   })
+    })
     
-  //   .catch(error => {
-  //     console.log(" Error : " + error);
-  //     AsyncStorage.setItem("notificationList", JSON.stringify(notificationArray));
-  //   });
+    .catch(error => {
+      console.log(" Error : " + error);
+      AsyncStorage.setItem("notificationList", JSON.stringify(notificationArray));
+    });
     
    };
   deleteNotification = () => {
@@ -195,6 +195,12 @@ export default class Homescreen extends Component {
                 {this.state.notification.request.content.body}
 
                 </Text>
+                <TouchableHighlight
+                style={[styles.buttonContainerDel, styles.delButton]}
+                onPress={() => this.props.navigation.navigate("RcvNotification")}
+              >
+                <Text style={styles.delText}>View All Notifications</Text>
+              </TouchableHighlight>
               </Swipeout>
               
             </View>

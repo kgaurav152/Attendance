@@ -20,15 +20,21 @@ export default class RcvNotificationScreen extends Component {
   getNotificationFromAsyncStorage = async () => {
     AsyncStorage.getItem("notificationList").then(list => {
       let notification = JSON.parse(list);
+      
       if(notification.length==0)
       {
-          console.log("Nothing in Async Storage")
+          
       }
       else{
-          this.setState({
-              notify:'Notify',
-              notification:notification
-          })
+        let a = notification;
+    console.log(a+"in recv screen")
+    this.setState({
+      notification:a,
+      notify:"Notify"
+    })
+    
+
+          
       }
       
     });
@@ -61,7 +67,7 @@ export default class RcvNotificationScreen extends Component {
   renderNotification = item => {
     return (
       <View>
-        <View style={styles.fixToText}>
+        <View >
           <TouchableHighlight>
             <Text style={styles.clickText}>{item}</Text>
           </TouchableHighlight>
@@ -151,7 +157,8 @@ const styles = StyleSheet.create({
   },
   clickText: {
     color: "#008b8b",
-    fontSize: 16
+    fontSize: 16,
+    
   },
   fixToText: {
     flexDirection: "row",
@@ -180,7 +187,7 @@ const styles = StyleSheet.create({
   inputIcon: {
     width: 30,
     height: 30,
-    marginLeft: 15,
+    marginLeft: "45%",
     justifyContent: "center"
   },
   card: {
