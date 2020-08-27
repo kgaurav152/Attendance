@@ -11,7 +11,8 @@ import {
   Image,
   ActivityIndicator
 } from "react-native";
-import { Notifications } from "expo";
+import * as Notifications from 'expo-notifications';
+
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import Firebase from "../components/config";
@@ -27,49 +28,50 @@ function Separator() {
 }
 
 export default class Homescreen extends Component {
-  state = { notification: [], delete: "" };
+  state = { notification: {}, delete: "" };
   constructor(props) {
     super(props);
     this.state = {
       loading: false
     };
   }
+  
   _handleNotification = (notification) => {
-    let a = notification.data;
-    
-    Object.keys(a).forEach(key => {
-      console.log(a[key]);
-      this.setState({
-        notification: a[key],
-        delete: "Delete"
-      });
-      
-    });
-    AsyncStorage.getItem("notificationList").then(val => {
-      let notificationArray = [];
-      let message =this.state.notification[0];
-      if (val != null && val != "") {
-        notificationArray = JSON.parse(val);
-        console.log(this.state.notification);
-        
-        notificationArray.push(message);
-        AsyncStorage.setItem(
-          "notificationList",
-          JSON.stringify(notificationArray)
-        );
-      } else {
-        notificationArray.push(message);
-        AsyncStorage.setItem("notificationList", JSON.stringify(notificationArray));
-      }
-      
+    this.setState({
+      notification:notification,
+      delete: "Delete"
+
     })
+    console.log(notification.request.content.body+"Handle")
+    console.log(this.state.notification.request.content.body+"In State")
     
-    .catch(error => {
-      console.log(" Error : " + error);
-      AsyncStorage.setItem("notificationList", JSON.stringify(notificationArray));
-    });
+   
     
-  };
+  //   AsyncStorage.getItem("notificationList").then(val => {
+  //     let notificationArray = [];
+  //     let message =this.state.notification[0];
+  //     if (val != null && val != "") {
+  //       notificationArray = JSON.parse(val);
+  //       console.log(this.state.notification);
+        
+  //       notificationArray.push(message);
+  //       AsyncStorage.setItem(
+  //         "notificationList",
+  //         JSON.stringify(notificationArray)
+  //       );
+  //     } else {
+  //       notificationArray.push(message);
+  //       AsyncStorage.setItem("notificationList", JSON.stringify(notificationArray));
+  //     }
+      
+  //   })
+    
+  //   .catch(error => {
+  //     console.log(" Error : " + error);
+  //     AsyncStorage.setItem("notificationList", JSON.stringify(notificationArray));
+  //   });
+    
+   };
   deleteNotification = () => {
     this.setState({
       notification: "",
@@ -110,10 +112,13 @@ export default class Homescreen extends Component {
   
   this.updateAsync();
    this.registerForPushNotificationsAsync();
-    this._notificationSubscription = Notifications.addListener(
-    this._handleNotification
-    );
+   Notifications.addNotificationReceivedListener(this._handleNotification);
+   Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
+
   }
+  _handleNotificationResponse = response => {
+    console.log(response);
+    };
   registerForPushNotificationsAsync = async () => {
     if (Constants.platform.ios || Constants.platform.android) {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
@@ -187,15 +192,11 @@ export default class Homescreen extends Component {
               
               <Swipeout right={swipeBtns} left={swipeBtns}>
                 <Text style={styles.paragraph}>
-                  {JSON.stringify(this.state.notification).replace( /[\[\]"]+/g,"")}{" "}
+                {this.state.notification.request.content.body}
+
                 </Text>
               </Swipeout>
-              <TouchableHighlight
-                style={[styles.buttonContainerDel, styles.delButton]}
-                onPress={() => this.props.navigation.navigate("RcvNotification")}
-              >
-                <Text style={styles.delText}>View All Notifications</Text>
-              </TouchableHighlight>
+              
             </View>
           ) : null}
           
@@ -237,13 +238,13 @@ export default class Homescreen extends Component {
           show={updateAlert}
           showProgress={false}
           title="Update Available !"
-          message="Click OK to Update"
+          message="Do you want to update ?"
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
           showCancelButton={true}
           showConfirmButton={true}
           cancelText="No, cancel"
-          confirmText="OK !"
+          confirmText="Yes !"
           contentContainerStyle={{
             backgroundColor: "white",
             width:"150%"
@@ -293,7 +294,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "700",
     paddingLeft: 12,
-    color: "#008b8b"
+    color: "#008b8b",
+    marginTop:"5%"
   },
   welcomeUser: {
     textAlign: "center",

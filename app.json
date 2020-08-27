@@ -20,7 +20,7 @@
       "icon": "./assets/download.png"
     },
     "android": {
-      "package": "com.keckatihar.attendance",
+      "package": "com.attendance.kec",
       "useNextNotificationsApi": true,
       "googleServicesFile": "./google-services.json",
       "permissions": [
@@ -40,7 +40,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.keckatihar.attendance",
+      "bundleIdentifier": "com.attendance.kec",
       "buildNumber": "1.0.0"
     },
     "description": ""
