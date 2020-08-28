@@ -119,7 +119,7 @@ export default class Allstudents extends Component {
           data={studentInfo}
           initialNumToRender={5}
           windowSize={5}
-          
+          contentContainerStyle={{ paddingBottom: "20%"}}
           renderItem={({ item }) => this.renderStudentInfo(item)}
         />
         <AwesomeAlert
