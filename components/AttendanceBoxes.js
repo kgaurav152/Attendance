@@ -106,8 +106,8 @@ class AttendanceBoxes extends React.Component {
         console.log(this.state.attendanceList);
       }
     );
-    NetInfo.fetch().done(isConnected => {
-      if (isConnected) {
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
         Firebase.database()
           .ref("attendance")
           .once("value")

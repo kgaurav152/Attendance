@@ -45,8 +45,9 @@ export default class LoginScreen extends Component {
   goToStudentsDetails = () => {
     
     let name = "",  department = "",  mobile = "" ,sem="", reg_no="";
-    NetInfo.fetch().done((isConnected) => {
-      if(isConnected){
+    
+    NetInfo.fetch().then((state) => {
+      if(state.isConnected==true){
         let promise = firebase
       .database()
       .ref("students")
@@ -133,8 +134,10 @@ export default class LoginScreen extends Component {
   gotToFacultyDetails = () => {
     
     let subjectInfo="",name = "",  department = "",  mobile = "",casualLeave="",dutyLeave="",compensativeLeave="",specialCasualLeave="",subjectName="",subjectSem="";
-    NetInfo.fetch().done((isConnected) => {
-      if(isConnected){
+    
+    NetInfo.fetch().then((state) => {
+      if(state.isConnected==true){
+        console.log(state.isConnected)
         let promise = firebase
       .database()
       .ref("Faculty")
@@ -152,8 +155,7 @@ export default class LoginScreen extends Component {
           dutyLeave = facultyInfo[attributes].DL;
           compensativeLeave = facultyInfo[attributes].compL;
           specialCasualLeave = facultyInfo[attributes].SCL;
-          
-           subjectInfo = facultyInfo[attributes].Subject;
+          subjectInfo = facultyInfo[attributes].Subject;
           console.log(subjectInfo)
           for(var attributes1 in subjectInfo){
             subjectName = subjectInfo[attributes1].subjectName;
@@ -341,8 +343,8 @@ export default class LoginScreen extends Component {
   handleLogin=()=>{
     
       
-        NetInfo.fetch().done((isConnected)=>{
-          if(isConnected){
+        NetInfo.fetch().then((state)=>{
+          if(state.isConnected==true){
             this.handleOnlineLogin();
           }
           else{

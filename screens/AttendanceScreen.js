@@ -135,8 +135,8 @@ componentDidMount(){
       
       
       var subjectList = [];
-     NetInfo.fetch().done( (isconnected ) => {
-         if(!isconnected){
+     NetInfo.fetch().then( (state ) => {
+         if(state.isConnected!=true){
           AsyncStorage.getItem(this.state.department 
             + this.state.semester + "subjectList").then( val => {
               if(val != null )

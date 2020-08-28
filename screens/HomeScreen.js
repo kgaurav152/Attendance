@@ -22,6 +22,7 @@ import { Card } from "react-native-elements";
 import Swipeout from "react-native-swipeout";
 import * as Updates from 'expo-updates';
 import AwesomeAlert from "react-native-awesome-alerts";
+import * as NetInfo from "@react-native-community/netinfo";
 
 function Separator() {
   return <View style={styles.separator} />;
@@ -35,7 +36,11 @@ export default class Homescreen extends Component {
       loading: false
     };
   }
-  
+  async componentWillMount() {
+    NetInfo.fetch().then(state => {
+      
+    });
+}
   _handleNotification = (notification) => {
     this.setState({
       notification:notification,
@@ -109,7 +114,7 @@ export default class Homescreen extends Component {
     
   }
  componentDidMount() {
-  
+ 
   this.updateAsync();
    this.registerForPushNotificationsAsync();
    Notifications.addNotificationReceivedListener(this._handleNotification);

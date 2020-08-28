@@ -45,8 +45,8 @@ export default class AddAttendanceScreen extends React.Component {
       imageUrl:imageUrl
     })
    
-    NetInfo.fetch().done((isConnected) => {
-      if(isConnected){
+    NetInfo.fetch().then((state) => {
+      if(state.isConnected==true){
     Firebase.database()
       .ref("students")
       .once("value")
