@@ -104,7 +104,7 @@ export default class SearchStudentScreen extends Component {
               this.setState({
                 studentInfo:studentInfo
               });
-              if(studentInfo.length===0){
+              if(studentInfo.keys().length==0){
                 alert("No student found for your search.")
               }
               else{

@@ -278,6 +278,95 @@ const Admin_StackNavigator = createStackNavigator({
     })
 
   },
+  AddFaculty:{
+    screen:AddFacultyScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+
+  },
+  AttendanceInfo:{
+    screen:AttendanceInfoScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+
+  },
+  FacultyReport:{
+    screen:FacultyReportScreen,
+    navigationOptions: ({ navigation }) => ({
+      
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor:'#09C5F7'
+        
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      ),
+    })
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7"
+      },
+      headerTintColor: "#fff",
+      headerBackground:(
+        <LinearGradient
+        colors={['#a13388', '#10356c']}
+        style={{ flex: 1 }}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 0}}
+      />
+      )
+    })
+  }
+
   
 })
 const Principal_StackNavigator = createStackNavigator({
@@ -358,30 +447,6 @@ const Faculty_StackNavigator = createStackNavigator({
       headerTintColor: "#fff"
     })
   },
-  AddFaculty:{
-    screen:AddFacultyScreen,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-
-  },
-  
   Attendance: {
     screen: AttendanceScreen,
     navigationOptions: ({ navigation }) => ({
@@ -691,34 +756,6 @@ const Student_StackNavigator = createStackNavigator({
     })
   },
 })
-const Attendance_StackNavigator = createStackNavigator({
-  //All the screen from the Third Option will be indexed here
-  FacultyWelcome: {
-    screen: FacultyWelcomeScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor: "#09C5F7"
-      },
-      headerTintColor: "#fff"
-    })
-  },
- 
-  AddAttendance: {
-    screen: AddAttendanceScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor: "#09C5F7"
-      },
-      headerTintColor: "#fff"
-    })
-  }
-});
 
 const DeveloperScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
@@ -844,8 +881,6 @@ const Drawer = createDrawerNavigator(
     NavScreen4: { screen: DeveloperScreen_StackNavigator },
     NavScreen5: { screen: CollegeScreen_StackNavigator },
     NavScreen6: { screen: AboutAppScreen_StackNavigator },
-
-    NavScreen7: { screen: Attendance_StackNavigator },
     NavScreen8:{screen:Student_StackNavigator},
     NavScreen9: {screen: Faculty_StackNavigator},
     NavScreen10: {screen: Admin_StackNavigator},

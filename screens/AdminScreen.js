@@ -27,7 +27,7 @@ export default class AdminScreen extends Component {
           Welcome to Online Attendance System
         </Text>
         <Card
-          title="Md TALIB AHMAD"
+          title="Admin"
           titleStyle={{
             color: "#3498db",
             textAlign: "left",
@@ -39,13 +39,13 @@ export default class AdminScreen extends Component {
         >
           <View style={styles.fixImage}>
             <View>
-              <Text style={styles.paragraph}>Assistant Prof.</Text>
-              <Text style={styles.paragraph}>Computer Sc. & Engg.</Text>
-              <Text style={styles.paragraph}>+91 9108006551</Text>
-              <Text style={styles.paragraph}>mdtalibahmad@gmail.com</Text>
+              <Text style={styles.paragraph}>onlineattendance@keck.ac.in</Text>
+              
+              
+              <Text style={styles.paragraph}>Katihar Engineering College{"\n"} Katihar</Text>
             </View>
             <Image
-              source={require("../assets/mta.jpg")}
+              source={require("../assets/download.png")}
               style={{
                 width: 105,
                 height: 105,

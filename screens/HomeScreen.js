@@ -118,8 +118,6 @@ export default class Homescreen extends Component {
   this.updateAsync();
    this.registerForPushNotificationsAsync();
    Notifications.addNotificationReceivedListener(this._handleNotification);
-   
-
   }
   
   registerForPushNotificationsAsync = async () => {

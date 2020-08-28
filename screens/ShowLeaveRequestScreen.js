@@ -191,7 +191,7 @@ export default class ShowLeaveRequest extends Component {
     })
     this.props.navigation.navigate("Principal");
   }
-  handleRejection = ({item}) => {
+  handleRejection = (item) => {
     this.state.status = "Rejected"
     
     this.setState({
@@ -401,7 +401,7 @@ export default class ShowLeaveRequest extends Component {
                 this.hideRejectionAlert();
               }}
               onConfirmPressed={() => {
-                this.handleRejections(this.state.item);
+                this.handleRejection(this.state.item);
               }}
             />
 
