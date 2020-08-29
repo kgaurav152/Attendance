@@ -25,16 +25,16 @@ export default class ShowAttendanceScreen extends Component {
   }
 
   renderAttendance = (item) => {
-    
+    let displayText = item.presenceState?"Present":"Absent"
     return (
       <View style = { (item.presenceState ) ? 
                     [styles.gridRow, {backgroundColor:"green" }]: 
                     [styles.gridRow,{ backgroundColor:"red"}] }>
-        <Text style={styles.gridItemText}>
+        <Text style={styles.gridItemDate}>
           {item.date}
         </Text>
         <Text style={styles.gridItemText}>
-          {item.presenceState.toString()}
+          {displayText}
         </Text>
       </View>
     )
@@ -51,7 +51,7 @@ export default class ShowAttendanceScreen extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.welcomeUser}>
-          Welcome to Online Attendance System
+          Attendance Report
         </Text>
         <Card
           titleStyle={{
@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
 
   grid: {
     flex: 1,
-    backgroundColor: '#E8E8E8'
+    
+    marginRight:"2%"
   },
 
   gridRow:{
@@ -119,8 +120,17 @@ const styles = StyleSheet.create({
   },
 
   gridItemText: {
-    marginTop: 5,
+    
     textAlign:'center',
+    fontWeight: "900",
+    borderRadius: 30,
+    padding: 5,
+    marginRight:"15%"
+    
+  },
+  gridItemDate: {
+    
+    marginRight:"25%",
     fontWeight: "900",
     borderRadius: 30,
     padding: 5
@@ -139,7 +149,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "700",
     paddingLeft: 12,
-    color: "#008b8b"
+    color: "#008b8b",
+    marginLeft:"10%"
   },
   paragraph1: {
     margin: 1.5,

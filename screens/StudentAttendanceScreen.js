@@ -85,8 +85,10 @@ export default class StudentAttendanceScreen extends Component {
             presentStatelist,
             studAttendenceIno
           });
+        }else{
+          this.showAlert(); 
         }
-        this.showAlert();
+        
       });
   };
   hideAlert = () => {

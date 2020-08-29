@@ -156,7 +156,7 @@ export default class StudentWelcomeScreen extends Component {
               this.hideImageAlert();
             }}
             onConfirmPressed={() => {
-              this.uploadImage(email);
+              this.uploadImage(this.state.email);
             }}
           />
           </View>

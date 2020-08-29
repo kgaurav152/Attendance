@@ -233,6 +233,7 @@ class AttendanceBoxes extends React.Component {
               initialNumToRender={7}
               numColumns={4}
               data={this.state.studentList}
+              
               renderItem={({ item }) => (
                 <AttendanceBox id={item} addRegNo={this.addPresentStudent} />
               )}

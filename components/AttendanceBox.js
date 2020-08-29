@@ -17,7 +17,7 @@ class AttendanceBox extends React.Component {
     this.attendanceHandler = this.attendanceHandler.bind( this );
   }
   attendanceHandler = ( id ) => {
-    state = { backgroundColor: "#fff" };
+   
     this.setState({
       backgroundColor: "green", 
       studentState : true
@@ -33,13 +33,12 @@ class AttendanceBox extends React.Component {
                     
   };
   longPressHandler = (  ) => {
-    state = { backgroundColor: "green" };
+    
     this.setState({
       backgroundColor: "#fff",
       studentState: false
     });
   
-    console.log(this.state);
   };
  
 

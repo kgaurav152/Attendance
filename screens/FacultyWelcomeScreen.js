@@ -100,11 +100,14 @@ export default class FacultyWelcomeScreen extends Component {
   }
 
   uploadImage = async (email) => {
+    this.setState({
+      imageAlert:false
+    })
     let image = await uploadGalleryImage("profileImage/", email);
     let imagePath = image;
     this.setState({
       imageUrl: imagePath,
-      imageAlert: false,
+      
     });
   };
   hideImageAlert = () => {
@@ -188,7 +191,7 @@ export default class FacultyWelcomeScreen extends Component {
                 this.hideImageAlert();
               }}
               onConfirmPressed={() => {
-                this.uploadImage(email);
+                this.uploadImage(this.state.email);
               }}
             />
           </View>
