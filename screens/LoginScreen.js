@@ -433,6 +433,14 @@ export default class LoginScreen extends Component {
               <TouchableHighlight
                 style={[styles.buttonContainer, styles.forgotButton]}
                 onPress={() =>
+                  this.props.navigation.navigate("RegisterUserScreen")
+                }
+              >
+                <Text style={styles.loginText}>New User! Register</Text>
+              </TouchableHighlight>
+              <TouchableHighlight
+                style={[styles.buttonContainer, styles.forgotButton]}
+                onPress={() =>
                   this.props.navigation.navigate("ForgotPasswordScreen")
                 }
               >

@@ -109,7 +109,15 @@ export default class AdminScreen extends Component {
           >
             <Text style={styles.clickText}>Add Leave</Text>
           </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.buttonContainer, styles.clickButton]}
+            onPress={() => this.props.navigation.navigate("HandleRegistration")}
+          >
+            <Text style={styles.clickText}>Handle Registration</Text>
+          </TouchableHighlight>
           </View>
+          <Separator />
+          
         </ScrollView>
       </SafeAreaView>
     );
