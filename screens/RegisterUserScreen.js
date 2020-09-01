@@ -23,13 +23,13 @@ export default class RegisterUserScreen extends Component {
           name: "",
           department: "",
           errorMessage: null,
-          role:"",
+          role:"student",
           semester: "",
           session: "",
           year: "",
           mobile: "",
           reg_no: "",
-          password:"",
+          password:"12345678",
           showAlert:false
         };
       }
@@ -82,7 +82,17 @@ export default class RegisterUserScreen extends Component {
   };
   confirmationAlert = () => {
     this.setState({
-      confirmationAlert: true
+      confirmationAlert: true,
+          email: undefined,
+          name: "",
+          department: "",
+          errorMessage: null,
+          semester: "",
+          session: "",
+          year: "",
+          mobile: "",
+          reg_no: "",
+
     });
   };
   hideConfirmationAlert=()=>{
@@ -148,6 +158,9 @@ export default class RegisterUserScreen extends Component {
   };
 
   sendForApproval = () => {
+    this.setState({
+      showAlert:false
+    })
       Firebase.database()
       .ref("HandleRegistration")
       .push({
@@ -196,20 +209,7 @@ export default class RegisterUserScreen extends Component {
       <ScrollView>
           <View style={styles.container}>
         
-        <View style={styles.inputContainer}> 
-        <Picker
-          selectedValue={this.state.role}
-          style={{ height: 50, width: 180 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ role: itemValue })
-          }
-        >
-          <Picker.Item label="Select Role" value="Role" />
-          
-          <Picker.Item label="Student" value="student" />
-          
-        </Picker>
-      </View>
+        
         <View style={styles.inputContainer}>
             <Image
               style={styles.inputIcon}
@@ -352,20 +352,7 @@ export default class RegisterUserScreen extends Component {
               </View>
 
 
-        <View style={styles.inputContainer}>
-          <Image
-            style={styles.inputIcon}
-            source={require("../assets/pwdIcon.png")}
-          />
-          <TextInput
-            style={styles.inputs}
-            placeholder="Password"
-            secureTextEntry={true}
-            underlineColorAndroid="transparent"
-            onChangeText={password => this.setState({ password })}
-            value={this.state.password}
-          />
-        </View>
+        
 
 
         <TouchableHighlight
@@ -376,7 +363,7 @@ export default class RegisterUserScreen extends Component {
         </TouchableHighlight>
         <TouchableHighlight
           style={[styles.buttonContainerLogin, styles.loginButton]}
-          onPress={() => this.props.navigation.navigate("Register")}
+          onPress={() => this.props.navigation.navigate("Login")}
         >
           <Text style={styles.loginText}>Have an Account ? Login Here</Text>
         </TouchableHighlight>
@@ -384,8 +371,8 @@ export default class RegisterUserScreen extends Component {
         <AwesomeAlert
             show={confirmationAlert}
             showProgress={false}
-            title={"A Student"}
-            message={"added Successfully !"}
+            title={"Contact your HOD"}
+            message={"Your registration is in Verification."}
             closeOnTouchOutside={true}
             closeOnHardwareBackPress={false}
             showCancelButton={false}
@@ -395,7 +382,7 @@ export default class RegisterUserScreen extends Component {
             contentContainerStyle={{
               backgroundColor: "white",
               width: "150%",
-              height: "60%"
+              height: "20%"
             }}
             confirmButtonColor="#10356c"
             onCancelPressed={() => {
@@ -442,7 +429,7 @@ export default class RegisterUserScreen extends Component {
             contentContainerStyle={{
               backgroundColor: "white",
               width: "150%",
-              height: "60%"
+              height: "20%"
             }}
             confirmButtonColor="#10356c"
             onCancelPressed={() => {

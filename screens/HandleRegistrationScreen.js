@@ -156,9 +156,16 @@ export default class HandleRegistrationScreen extends Component {
           }
           if (role == "student") {
             Firebase.database()
-              .ref("students/")
-              .push({
-                email: item.email
+              .ref("students/"+userId)
+              .set({
+                email: item.email,
+                name:item.name,
+                registration_num: item.reg_no,
+                department: item.department,
+                semester: item.semester,
+                session: item.session,
+                year:item.year,
+                mobile:item.mobile
               });
           }
           this.hideApprovalAlert();
