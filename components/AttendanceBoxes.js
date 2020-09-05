@@ -6,7 +6,7 @@ import {
   FlatList,
   View,
   ActivityIndicator,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import AttendanceBox from "./AttendanceBox";
@@ -32,7 +32,7 @@ class AttendanceBoxes extends React.Component {
       name: this.props.name,
       email: this.props.email,
       countStudentList: "",
-      countAttendanceList: ""
+      countAttendanceList: "",
     };
 
     this.addPresentStudent = this.addPresentStudent.bind(this);
@@ -42,47 +42,40 @@ class AttendanceBoxes extends React.Component {
     console.log("add Registration is being called.");
     const { attendanceList } = this.state;
     const { studentList } = this.state;
-    attendanceList[regNo] = true;
-    this.setState(
-      {
-        attendanceList: attendanceList
-      },
-      () => {
-        console.log(this.state.attendanceList);
-      }
-    );
+
+    attendanceList[regNo] = true; //Map Attendance
+
+    this.setState({ attendanceList: attendanceList });
   }
   countStudent = () => {
-    let studentList = this.state.studentList;
-    let countStudentList = studentList.length;
-
+    let countStudentList = Object.keys(this.state.studentList).length;
     let attendanceList = this.state.attendanceList;
     let presentRegNo = [];
 
-    Object.keys(attendanceList).forEach(key => {
+    Object.keys(attendanceList).forEach((key) => {
       const count = key;
       presentRegNo.push(count);
     });
     let countPresentRegNo = presentRegNo.length;
     this.setState({
       countAttendanceList: countPresentRegNo,
-      countStudentList: countStudentList
+      countStudentList: countStudentList,
     });
     this.showAlert();
   };
   showAlert = () => {
     this.setState({
-      showAlert: true
+      showAlert: true,
     });
   };
   hideAlert = () => {
     this.setState({
-      showAlert: false
+      showAlert: false,
     });
   };
   submitHandler = () => {
     this.setState({
-      loading: true
+      loading: true,
     });
 
     var db_department = "";
@@ -91,27 +84,28 @@ class AttendanceBoxes extends React.Component {
     var db_subject = "";
     let studentList = this.state.studentList;
     let attendanceList = this.state.attendanceList;
+
     for (var student in studentList) {
-      if (attendanceList[studentList[student]] === true) {
-        attendanceList[studentList[student]] = true;
+      if (attendanceList[studentList[student]["regNo"]] === true) {
+        attendanceList[studentList[student]["regNo"]] = true;
       } else {
-        attendanceList[studentList[student]] = false;
+        attendanceList[studentList[student]["regNo"]] = false;
       }
     }
     this.setState(
       {
-        attendanceList: attendanceList
+        attendanceList: attendanceList,
       },
       () => {
         console.log(this.state.attendanceList);
       }
     );
-    NetInfo.fetch().then(state => {
+    NetInfo.fetch().then((state) => {
       if (state.isConnected) {
         Firebase.database()
           .ref("attendance")
           .once("value")
-          .then(snapshot => {
+          .then((snapshot) => {
             const attendanceInfo = snapshot.val();
             let uid = "";
 
@@ -130,39 +124,35 @@ class AttendanceBoxes extends React.Component {
                 }
               }
             }
+
             if (uid == null || uid == "" || uid == undefined) {
               let attendanceObj = {
                 attendanceList: this.state.attendanceList,
                 department: this.state.department,
                 date: this.state.date,
                 subject: this.state.subject,
-                semester: this.state.semester
+                semester: this.state.semester,
               };
 
-              Firebase.database()
-                .ref("attendance/")
-                .push(attendanceObj);
+              Firebase.database().ref("attendance/").push(attendanceObj);
 
               this.setState({
-                loading: false
+                loading: false,
               });
               this.props.navigation.navigate("FacultyWelcome", {
                 name: this.state.name,
                 facultyDepartment: this.state.facultyDepartment,
                 email: this.state.email,
                 imageUrl: this.state.imageUrl,
-                mobile: this.state.mobile
+                mobile: this.state.mobile,
               });
             } else {
-              Firebase.database()
-                .ref("attendance")
-                .child(uid)
-                .update({
-                  date: this.state.date,
-                  attendanceList: this.state.attendanceList
-                });
+              Firebase.database().ref("attendance").child(uid).update({
+                date: this.state.date,
+                attendanceList: this.state.attendanceList,
+              });
               this.setState({
-                loading: false
+                loading: false,
               });
 
               this.props.navigation.navigate("FacultyWelcome", {
@@ -170,7 +160,7 @@ class AttendanceBoxes extends React.Component {
                 facultyDepartment: this.state.facultyDepartment,
                 email: this.state.email,
                 imageUrl: this.state.imageUrl,
-                mobile: this.state.mobile
+                mobile: this.state.mobile,
               });
             }
           });
@@ -180,10 +170,10 @@ class AttendanceBoxes extends React.Component {
           department: this.state.department,
           date: this.state.date,
           subject: this.state.subject,
-          semester: this.state.semester
+          semester: this.state.semester,
         };
         AsyncStorage.getItem("attendanceList")
-          .then(val => {
+          .then((val) => {
             let attendanceArray = [];
             if (val != null && val != "") {
               attendanceArray = JSON.parse(val);
@@ -200,7 +190,7 @@ class AttendanceBoxes extends React.Component {
               );
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(" Error : " + error);
             AsyncStorage.setItem(
               "attendanceList",
@@ -208,14 +198,14 @@ class AttendanceBoxes extends React.Component {
             );
           });
         this.setState({
-          loading: false
+          loading: false,
         });
         this.props.navigation.navigate("FacultyWelcome", {
           name: this.state.name,
           facultyDepartment: this.state.facultyDepartment,
           email: this.state.email,
           imageUrl: this.state.imageUrl,
-          mobile: this.state.mobile
+          mobile: this.state.mobile,
         });
       }
     });
@@ -233,7 +223,6 @@ class AttendanceBoxes extends React.Component {
               initialNumToRender={7}
               numColumns={4}
               data={this.state.studentList}
-              
               renderItem={({ item }) => (
                 <AttendanceBox id={item} addRegNo={this.addPresentStudent} />
               )}
@@ -260,7 +249,7 @@ class AttendanceBoxes extends React.Component {
                 backgroundColor: "white",
                 width: "80%",
                 height: "35%",
-                marginTop:'30%'
+                marginTop: "30%",
               }}
               confirmButtonColor="#10356c"
               onCancelPressed={() => {
@@ -289,15 +278,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
     marginRight: 15,
-    marginLeft: 40
+    marginLeft: 40,
   },
   clickButton: {
-    backgroundColor: "#00b5ec"
+    backgroundColor: "#00b5ec",
   },
   clickText: {
     color: "white",
-    fontWeight: "800"
-  }
+    fontWeight: "800",
+  },
 });
 
 export default AttendanceBoxes;

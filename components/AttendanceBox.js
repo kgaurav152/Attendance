@@ -13,30 +13,28 @@ import { Button } from "native-base";
 class AttendanceBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { studentState: false, backgroundColor: "" };
+    this.state = { studentState: false, backgroundColor: "",studentName:"" };
     this.attendanceHandler = this.attendanceHandler.bind( this );
   }
   attendanceHandler = ( id ) => {
    
     this.setState({
       backgroundColor: "green", 
-      studentState : true
+      studentState : true,
+      studentName:id.name
     });
 
-    this.setState({ studentState : true}, () =>{
-      console.log(this.state.backgroundColor)
-      console.log(this.state.studentState);
-      console.log( id );
-    })
+  
 
-    this.props.addRegNo( id );
+    this.props.addRegNo( id.regNo);
                     
   };
   longPressHandler = (  ) => {
     
     this.setState({
       backgroundColor: "#fff",
-      studentState: false
+      studentState: false,
+      studentName:""
     });
   
   };
@@ -67,8 +65,9 @@ class AttendanceBox extends React.Component {
         delayLongPress={400}
         
       >
-        <Text >{this.props.id}</Text>
-        
+      {this.state.studentName===""?(
+        <Text >{this.props.id.regNo}</Text>
+      ):<Text>{this.props.id.name}</Text>}
       </TouchableHighlight>
     );
   }

@@ -44,7 +44,7 @@ export default class AddAttendanceScreen extends React.Component {
       mobile:mobile,
       imageUrl:imageUrl
     })
-   
+
     NetInfo.fetch().then((state) => {
       if(state.isConnected==true){
     Firebase.database()
@@ -58,16 +58,19 @@ export default class AddAttendanceScreen extends React.Component {
           db_semester = studentInfo[attributes].semester;
           if (db_department === department) {
             if (db_semester == semester) {
-              var regNo = studentInfo[attributes].registration_num;
-              regNo = regNo.substring(8, regNo.length);
-              regNoList.push(regNo);
-              console.log(regNoList)
+              let obj={};
+              obj.regNo = studentInfo[attributes].registration_num;
+              obj.name = studentInfo[attributes].name;
+              obj.regNo = obj.regNo.substring(8, obj.regNo.length);
+              
+              regNoList.push(obj)
+              
             }
+           var sortedRegNoList= regNoList.sort((a,b) => (a.regNo > b.regNo) ? 1 : ((b.regNo > a.regNo) ? -1 : 0)); 
+          
           }
         }
-        let sortedRegNoList = regNoList.sort((a,b)=>{
-          return a-b;
-        });
+        
         
 
 
