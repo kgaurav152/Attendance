@@ -46,6 +46,7 @@ class AttendanceBoxes extends React.Component {
     attendanceList[regNo] = true; //Map Attendance
 
     this.setState({ attendanceList: attendanceList });
+
   }
   countStudent = () => {
     let countStudentList = Object.keys(this.state.studentList).length;

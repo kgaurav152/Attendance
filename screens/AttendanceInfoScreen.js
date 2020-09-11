@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
-
+import AwesomeAlert from "react-native-awesome-alerts";
 class AttendanceInfoScreen extends Component {
   state = {
     department: "",
@@ -33,6 +33,16 @@ class AttendanceInfoScreen extends Component {
 
     this.state = { startDate: "", endDate: "",selectedSubject: "",
     subjectList: [], facultyName:"",facultyEmail:"" };
+  }
+  showAlert=()=>{
+    this.setState({
+      showAlert:true
+    })
+  }
+  hideAlert=()=>{
+    this.setState({
+      showAlert:false
+    })
   }
   attendanceInfo = () => {
     const department = this.state.department;
@@ -86,18 +96,23 @@ class AttendanceInfoScreen extends Component {
             }
           }
         }
-
-        this.props.navigation.navigate("FacultyReport", {
-          department: this.state.department,
-          semester: this.state.semester,
-          subject: this.state.selectedSubject,
-          dateList,
-          attendanceList,
-          startDate:this.state.startDate,
-          endDate:this.state.endDate,
-          facultyEmail:this.state.facultyEmail,
-          facultyName:this.state.facultyName
-        });
+        if(attendanceList.length!=0){
+          this.props.navigation.navigate("FacultyReport", {
+            department: this.state.department,
+            semester: this.state.semester,
+            subject: this.state.selectedSubject,
+            dateList,
+            attendanceList,
+            startDate:this.state.startDate,
+            endDate:this.state.endDate,
+            facultyEmail:this.state.facultyEmail,
+            facultyName:this.state.facultyName
+          });}
+          else{
+            this.showAlert()
+          }
+        
+        
       });
   };
   UNSAFE_componentWillUpdate(nextProps, nextState) {
@@ -144,7 +159,7 @@ componentDidMount(){
 }
   render() {
     
-    
+    const {showAlert}=this.state;
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
@@ -241,6 +256,31 @@ componentDidMount(){
         >
           <Text style={styles.clickText}>Submit</Text>
         </TouchableHighlight>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title={"No Record found."}
+          //message={"for date" + this.state.date}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={true}
+          showCancelButton={false}
+          showConfirmButton={true}
+          cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white",
+            width: "80%",
+            height: "18%",
+            //marginTop: "30%",
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
       </View>
     );
   }

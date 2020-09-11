@@ -6,7 +6,7 @@ import {
   View,
   TouchableHighlight,
   Picker,
-  Image
+  Image,
 } from "react-native";
 import Firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
@@ -16,58 +16,65 @@ export default class AssignSubject extends Component {
     selectedSubject: "",
     subjectList: [],
     semester: "",
-    department: ""
+    department: "",
   };
   hideAlert = () => {
     this.setState({
       emailAlert: false,
-      departmentAlert:false
+      departmentAlert: false,
+      assignSubAlert: false,
     });
   };
   emailAlert = () => {
     this.setState({
       emailAlert: true,
-      
     });
   };
   departmentAlert = () => {
     this.setState({
       departmentAlert: true,
-      
     });
   };
-
+  assignSubAlert = () => {
+    this.setState({
+      assignSubAlert: true,
+    });
+  };
   assignSubject = () => {
-    if(this.state.email !=''){
-      if(this.state.department!='1'){
-      Firebase.database()
-      .ref("Faculty/")
-      .orderByChild("email")
-      .equalTo(this.state.email)
-      .once("value")
-      .then(res => {
-        res.forEach(record => {
-          Firebase.database()
-            .ref("Faculty/" + record.key + "/Subject/")
-            .push({
-              subjectName: this.state.selectedSubject,
-              subjectSem: this.state.semester
-            })
-            .catch(function(error) {
-              console.log("Wrong Choice");
-              console.log(error);
+    if (this.state.email != "") {
+      if (this.state.department != "1") {
+        Firebase.database()
+          .ref("Faculty/")
+          .orderByChild("email")
+          .equalTo(this.state.email)
+          .once("value")
+          .then((res) => {
+            res.forEach((record) => {
+              Firebase.database()
+                .ref("Faculty/" + record.key + "/Subject/")
+                .push({
+                  subjectName: this.state.selectedSubject,
+                  subjectSem: this.state.semester,
+                })
+                .catch(function (error) {
+                  console.log("Wrong Choice");
+                  console.log(error);
+                });
+              this.assignSubAlert();
+              this.setState({
+                selectedSubject: "",
+                department: "",
+                semester: "",
+                email: "",
+              });
             });
-        });
-      });
+          });
+      } else {
+        this.departmentAlert();
+      }
+    } else {
+      this.emailAlert();
     }
-    else{
-      this.departmentAlert();
-    }
-  }
-  else{
-    this.emailAlert();
-  }
-  
   };
   UNSAFE_componentWillUpdate(nextProps, nextState) {
     if (
@@ -80,7 +87,7 @@ export default class AssignSubject extends Component {
       Firebase.database()
         .ref("Subjects")
         .once("value")
-        .then(snapshot => {
+        .then((snapshot) => {
           var subjectInfo = snapshot.val();
           var db_department = "";
           var db_semester = "";
@@ -93,10 +100,10 @@ export default class AssignSubject extends Component {
                 subjectList.push(subjectData);
               }
               console.log(subjectList);
-    
-            this.setState({
-              subjectList: subjectList
-            });
+
+              this.setState({
+                subjectList: subjectList,
+              });
             }
           }
         });
@@ -107,17 +114,17 @@ export default class AssignSubject extends Component {
     let subjectItems = this.state.subjectList.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
-    const { emailAlert,departmentAlert } = this.state;
+    const { emailAlert, departmentAlert, assignSubAlert } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput
-          caretHidden
+            caretHidden
             style={styles.inputs}
             placeholder="Email"
             keyboardType="email-address"
             underlineColorAndroid="transparent"
-            onChangeText={email => this.setState({ email })}
+            onChangeText={(email) => this.setState({ email })}
             value={this.state.email}
             require
           />
@@ -175,7 +182,7 @@ export default class AssignSubject extends Component {
           <Picker
             selectedValue={this.state.selectedSubject}
             style={{ height: 50, width: 180, marginLeft: "10%" }}
-            onValueChange={subjectLists =>
+            onValueChange={(subjectLists) =>
               this.setState({ selectedSubject: subjectLists })
             }
           >
@@ -203,7 +210,29 @@ export default class AssignSubject extends Component {
           //cancelText="No, cancel"
           confirmText="OK !"
           contentContainerStyle={{
-            backgroundColor: "white"
+            backgroundColor: "white",
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={assignSubAlert}
+          showProgress={false}
+          title={this.state.email}
+          message="Subject Assigned."
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={true}
+          // cancelText="No, cancel"
+          confirmText="OK !"
+          contentContainerStyle={{
+            backgroundColor: "white",
           }}
           confirmButtonColor="#10356c"
           onCancelPressed={() => {
@@ -225,7 +254,7 @@ export default class AssignSubject extends Component {
           //cancelText="No, cancel"
           confirmText="OK !"
           contentContainerStyle={{
-            backgroundColor: "white"
+            backgroundColor: "white",
           }}
           confirmButtonColor="#10356c"
           onCancelPressed={() => {
@@ -243,7 +272,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   inputContainer: {
     borderBottomColor: "#fff8dc",
@@ -254,29 +283,29 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   inputs: {
     height: 45,
     marginLeft: 16,
     borderBottomColor: "#FFFFFF",
-    flex: 1
+    flex: 1,
   },
   fixTotext: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   text: {
     fontSize: 20,
     alignSelf: "center",
     color: "#87ceeb",
-    fontWeight: "800"
+    fontWeight: "800",
   },
   inputIcon: {
     width: 30,
     height: 30,
     marginLeft: 15,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   buttonContainer: {
     height: 45,
@@ -285,27 +314,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: 250,
-    borderRadius: 30
+    borderRadius: 30,
   },
   registerButton: {
     backgroundColor: "#00b5ec",
-    marginTop: 30
+    marginTop: 30,
   },
   registerText: {
-    color: "white"
+    color: "white",
   },
 
   loginButton: {
     marginLeft: 22,
     fontWeight: "900",
     color: "#D16713",
-    fontSize: 17
+    fontSize: 17,
   },
   loginText: {
     textAlign: "center",
     fontWeight: "900",
     color: "#D16713",
     fontSize: 17,
-    marginLeft: 12
-  }
+    marginLeft: 12,
+  },
 });

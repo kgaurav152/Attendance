@@ -4,7 +4,7 @@ import {
   createSwitchNavigator,
   createAppContainer,
   createDrawerNavigator,
-  createBottomTabNavigator
+  createBottomTabNavigator,
 } from "react-navigation";
 import {
   Text,
@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   YellowBox,
   Dimensions,
-  Button
+  Button,
 } from "react-native";
 
 import HomeScreen from "../screens/HomeScreen";
@@ -24,10 +24,10 @@ import AboutAppScreen from "../screens/AboutAppScreen";
 import CollegeScreen from "../screens/CollegeScreen";
 import DeveloperScreen from "../screens/DeveloperScreen";
 import FeedbackScreen from "../screens/FeedbackScreen";
-import {LinearGradient} from 'expo-linear-gradient'
-import AdminScreen from '../screens/AdminScreen'
+import { LinearGradient } from "expo-linear-gradient";
+import AdminScreen from "../screens/AdminScreen";
 import SideMenu from "../sidemenu";
-import StudentAttendanceScreen from '../screens/StudentAttendanceScreen'
+import StudentAttendanceScreen from "../screens/StudentAttendanceScreen";
 import SignUp from "../screens/SignUp";
 import ActionBarImage from "../components/ActionBarImage";
 import WelcomeUserScreen from "../screens/FacultyWelcomeScreen";
@@ -39,17 +39,17 @@ import AssignSubjectScreen from "../screens/AssignSubjectScreen";
 import StudentWelcomeScreen from "../screens/StudentWelcomeScreen";
 import AddFacultyScreen from "../screens/AddFacultyScreen";
 import AddSubjectScreen from "../screens/AddSubjectScreen";
-import ShowAttendanceScreen from "../screens/ShowAttendanceScreen"
+import ShowAttendanceScreen from "../screens/ShowAttendanceScreen";
 import AttendanceInfoScreen from "../screens/AttendanceInfoScreen";
 import FacultyReportScreen from "../screens/FacultyReportScreen";
-import ForgotPasswordScreen from "../screens/ForgotPasswordScreen"
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
-import  SearchStudentScreen from "../screens/SearchStudentScreen";
+import SearchStudentScreen from "../screens/SearchStudentScreen";
 import StudentProfileScreen from "../screens/StudentProfileScreen";
 import StudentDetailScreen from "../screens/StudentDetailScreen";
 import ShowFeedbackScreen from "../screens/ShowFeedbackScreen";
 import NotificationScreen from "../screens/SendNotificationScreen";
-import RcvNotificationScreen from "../screens/RcvNotificationScreen"
+import RcvNotificationScreen from "../screens/RcvNotificationScreen";
 import RequestLeaveScreen from "../screens/RequestLeaveScreen";
 import PrincipalWelcomeScreen from "../screens/PrincipalWelcomeScreen";
 import ShowLeaveRequestScreen from "../screens/ShowLeaveRequestScreen";
@@ -58,8 +58,9 @@ import AddLeaveToFacultyScreen from "../screens/AddLeaveToFacultyScreen";
 import LeaveRequestStatusScreen from "../screens/LeaveRequestStatusScreen";
 import RegisterUserScreen from "../screens/RegisterUserScreen";
 
-import Allstudents from "../screens/Allstudents"
+import Allstudents from "../screens/Allstudents";
 import HandleRegistrationScreen from "../screens/HandleRegistrationScreen";
+import EditAttendanceScreen from "../screens/EditAttendanceScreen";
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
@@ -79,61 +80,57 @@ class NavigationDrawerStructure extends Component {
   }
 }
 
-const GradientHeader = props => (
-  <View style={{ backgroundColor: '#eee' }}>
-      <LinearGradient
-        colors={['red', 'blue']}
-        style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
-      >
-        <Header {...props} />
-      </LinearGradient>
-    </View>
-  )
+const GradientHeader = (props) => (
+  <View style={{ backgroundColor: "#eee" }}>
+    <LinearGradient
+      colors={["red", "blue"]}
+      style={[StyleSheet.absoluteFill, { height: Header.HEIGHT }]}
+    >
+      <Header {...props} />
+    </LinearGradient>
+  </View>
+);
 const FirstActivity_StackNavigator = createStackNavigator({
   Home: {
-    screen:HomeScreen,
+    screen: HomeScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
   RcvNotification: {
-    screen:RcvNotificationScreen,
+    screen: RcvNotificationScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
-  }
+    }),
+  },
 });
 const LoginScreen_StackNavigator = createStackNavigator({
   Login: {
@@ -143,20 +140,20 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
-  
+
   ForgotPasswordScreen: {
     screen: ForgotPasswordScreen,
     navigationOptions: ({ navigation }) => ({
@@ -164,19 +161,18 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-      
-    })
+    }),
   },
   RegisterUserScreen: {
     screen: RegisterUserScreen,
@@ -185,25 +181,19 @@ const LoginScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-      
-    })
-  }
-  
-  
-  
-  
-
+    }),
+  },
 });
 const Admin_StackNavigator = createStackNavigator({
   Admin: {
@@ -213,10 +203,10 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
-      headerTintColor: "black"
-    })
+      headerTintColor: "black",
+    }),
   },
   HandleRegistration: {
     screen: HandleRegistrationScreen,
@@ -225,10 +215,10 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
-      headerTintColor: "black"
-    })
+      headerTintColor: "black",
+    }),
   },
   AssignSubject: {
     screen: AssignSubjectScreen,
@@ -237,10 +227,10 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
-      headerTintColor: "black"
-    })
+      headerTintColor: "black",
+    }),
   },
   ShowFeedback: {
     screen: ShowFeedbackScreen,
@@ -249,10 +239,10 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
-      headerTintColor: "black"
-    })
+      headerTintColor: "black",
+    }),
   },
   FindFaculty: {
     screen: FindFacultyScreen,
@@ -261,10 +251,10 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
-      headerTintColor: "black"
-    })
+      headerTintColor: "black",
+    }),
   },
   AddLeaveToFaculty: {
     screen: AddLeaveToFacultyScreen,
@@ -273,113 +263,102 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
-      headerTintColor: "black"
-    })
+      headerTintColor: "black",
+    }),
   },
   Notification: {
     screen: NotificationScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight:<ActionBarImage/>,
+      headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
       },
-      headerTintColor: "black"
-    })
+      headerTintColor: "black",
+    }),
   },
-  AddSubject:{
-    screen:AddSubjectScreen,
+  AddSubject: {
+    screen: AddSubjectScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
-
+    }),
   },
-  AddFaculty:{
-    screen:AddFacultyScreen,
+  AddFaculty: {
+    screen: AddFacultyScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
-
+    }),
   },
-  AttendanceInfo:{
-    screen:AttendanceInfoScreen,
+  AttendanceInfo: {
+    screen: AttendanceInfoScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
-
+    }),
   },
-  FacultyReport:{
-    screen:FacultyReportScreen,
+  FacultyReport: {
+    screen: FacultyReportScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
   SignUp: {
     screen: SignUp,
@@ -388,22 +367,20 @@ const Admin_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      )
-    })
-  }
-
-  
-})
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+});
 const Principal_StackNavigator = createStackNavigator({
   Principal: {
     screen: PrincipalWelcomeScreen,
@@ -412,19 +389,18 @@ const Principal_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-      
-    })
+    }),
   },
   ShowLeaveRequest: {
     screen: ShowLeaveRequestScreen,
@@ -433,21 +409,20 @@ const Principal_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-      
-    })
+    }),
   },
-})
+});
 const Faculty_StackNavigator = createStackNavigator({
   FacultyWelcome: {
     screen: FacultyWelcomeScreen,
@@ -456,19 +431,18 @@ const Faculty_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-      
-    })
+    }),
   },
   AddStudents: {
     screen: AddStudentScreen,
@@ -477,10 +451,10 @@ const Faculty_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
-      headerTintColor: "#fff"
-    })
+      headerTintColor: "#fff",
+    }),
   },
   Attendance: {
     screen: AttendanceScreen,
@@ -489,10 +463,10 @@ const Faculty_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
-      headerTintColor: "#fff"
-    })
+      headerTintColor: "#fff",
+    }),
   },
   AddAttendance: {
     screen: AddAttendanceScreen,
@@ -501,10 +475,10 @@ const Faculty_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
-      headerTintColor: "#fff"
-    })
+      headerTintColor: "#fff",
+    }),
   },
   LeaveRequestStatus: {
     screen: LeaveRequestStatusScreen,
@@ -513,358 +487,344 @@ const Faculty_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
-      headerTintColor: "#fff"
-    })
+      headerTintColor: "#fff",
+    }),
   },
-  AttendanceInfo:{
-    screen:AttendanceInfoScreen,
+  AttendanceInfo: {
+    screen: AttendanceInfoScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
+  },
+  EditAttendance: {
+    screen: EditAttendanceScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  SearchStudent: {
+    screen: SearchStudentScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  StudentDetail: {
+    screen: StudentDetailScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  EditStudentProfile: {
+    screen: EditStudentProfileScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  AllStudents: {
+    screen: Allstudents,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  RequestLeave: {
+    screen: RequestLeaveScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
 
-  },
-  SearchStudent:{
-    screen:SearchStudentScreen,
+  FacultyReport: {
+    screen: FacultyReportScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
-
+    }),
   },
-  StudentDetail:{
-    screen:StudentDetailScreen,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-
-  },
-  EditStudentProfile:{
-    screen:EditStudentProfileScreen,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-  },
-  AllStudents:{
-    screen:Allstudents,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-  },
-  RequestLeave:{
-    screen:RequestLeaveScreen,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-  },
-
-  FacultyReport:{
-    screen:FacultyReportScreen,
-    navigationOptions: ({ navigation }) => ({
-      
-      title: "Katihar Engg. College",
-      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-      headerRight: <ActionBarImage />,
-      headerStyle: {
-        backgroundColor:'#09C5F7'
-        
-      },
-      headerTintColor: "#fff",
-      headerBackground:(
-        <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      ),
-    })
-
-  }
-})
+});
 const Student_StackNavigator = createStackNavigator({
-  StudentWelcome:{
-    screen:StudentWelcomeScreen,
+  StudentWelcome: {
+    screen: StudentWelcomeScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
-  StudentAttendance:{
-    screen:StudentAttendanceScreen,
+  StudentAttendance: {
+    screen: StudentAttendanceScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
-  EditStudentProfile:{
-    screen:EditStudentProfileScreen,
+  EditStudentProfile: {
+    screen: EditStudentProfileScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
-  StudentProfile:{
-    screen:StudentProfileScreen,
+  StudentProfile: {
+    screen: StudentProfileScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
 
-  ShowAttendance:{
-    screen:ShowAttendanceScreen,
+  ShowAttendance: {
+    screen: ShowAttendanceScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
-})
+});
 
 const DeveloperScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  Developers:{
-    screen:DeveloperScreen,
+  Developers: {
+    screen: DeveloperScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
 });
 const CollegeScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  KEC_Katihar:{
-    screen:CollegeScreen,
+  KEC_Katihar: {
+    screen: CollegeScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
 });
 const AboutAppScreen_StackNavigator = createStackNavigator({
   //All the screen from the Third Option will be indexed here
-  AboutApp:{
-    screen:AboutAppScreen,
+  AboutApp: {
+    screen: AboutAppScreen,
     navigationOptions: ({ navigation }) => ({
-      
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor:'#09C5F7'
-        
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
       ),
-    })
+    }),
   },
 });
 const FeedbackScreen_StackNavigator = createStackNavigator({
@@ -876,11 +836,11 @@ const FeedbackScreen_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
-      headerTintColor: "#fff"
-    })
-  }
+      headerTintColor: "#fff",
+    }),
+  },
 });
 
 const SignUp_StackNavigator = createStackNavigator({
@@ -892,19 +852,19 @@ const SignUp_StackNavigator = createStackNavigator({
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
       headerRight: <ActionBarImage />,
       headerStyle: {
-        backgroundColor: "#09C5F7"
+        backgroundColor: "#09C5F7",
       },
       headerTintColor: "#fff",
-      headerBackground:(
+      headerBackground: (
         <LinearGradient
-        colors={['#a13388', '#10356c']}
-        style={{ flex: 1 }}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 0}}
-      />
-      )
-    })
-  }
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
 });
 
 const Drawer = createDrawerNavigator(
@@ -916,19 +876,17 @@ const Drawer = createDrawerNavigator(
     NavScreen4: { screen: DeveloperScreen_StackNavigator },
     NavScreen5: { screen: CollegeScreen_StackNavigator },
     NavScreen6: { screen: AboutAppScreen_StackNavigator },
-    NavScreen8:{screen:Student_StackNavigator},
-    NavScreen9: {screen: Faculty_StackNavigator},
-    NavScreen10: {screen: Admin_StackNavigator},
-    NavScreen11: {screen:FeedbackScreen_StackNavigator},
-    NavScreen12: {screen:Principal_StackNavigator}
+    NavScreen8: { screen: Student_StackNavigator },
+    NavScreen9: { screen: Faculty_StackNavigator },
+    NavScreen10: { screen: Admin_StackNavigator },
+    NavScreen11: { screen: FeedbackScreen_StackNavigator },
+    NavScreen12: { screen: Principal_StackNavigator },
   },
   {
     contentComponent: SideMenu,
-    drawerPosition:'left',
-    drawerWidth: Dimensions.get("window").width - 120
-  },
-  
+    drawerPosition: "left",
+    drawerWidth: Dimensions.get("window").width - 120,
+  }
 );
-
 
 export default createAppContainer(Drawer);

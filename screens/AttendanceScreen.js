@@ -7,13 +7,12 @@ import {
   Alert,
   TouchableHighlight,
   AsyncStorage,
-  
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import DatePicker from "react-native-datepicker";
 import Firebase from "../components/config";
-import moment from 'moment';
-import AwesomeAlert from 'react-native-awesome-alerts';
+import moment from "moment";
+import AwesomeAlert from "react-native-awesome-alerts";
 var currentDate = moment().format("YYYY-MM-DD");
 
 class AttendanceScreen extends Component {
@@ -23,106 +22,102 @@ class AttendanceScreen extends Component {
     subject: "",
     date: "",
     selectedSubject: "",
-    selectedSem:"",
+    selectedSem: "",
     subjectList: [],
-    name:"",
-    facultyDepartment:"",
-    email:"",
-    imageUrl:"",
-    subjectSems:[],
-    subjectNames:[]
+    name: "",
+    facultyDepartment: "",
+    email: "",
+    imageUrl: "",
+    subjectSems: [],
+    subjectNames: [],
   };
-  updateDepartment = department => {
+  updateDepartment = (department) => {
     this.setState({ department: department });
   };
-  updateSemester = semester => {
+  updateSemester = (semester) => {
     this.setState({ semester: semester });
   };
-  updateSubject = subject => {
+  updateSubject = (subject) => {
     this.setState({ subject: subject });
   };
   hideAlert = () => {
     this.setState({
-      semAlert:false,
-      departmentAlert:false,
-      subjectAlert:false,
-      dateAlert:false
+      semAlert: false,
+      departmentAlert: false,
+      subjectAlert: false,
+      dateAlert: false,
     });
   };
-  dateAlert=()=>{
+  dateAlert = () => {
     this.setState({
-      dateAlert:true
+      dateAlert: true,
     });
   };
   subjectAlert = () => {
     this.setState({
       subjectAlert: true,
-      
     });
   };
   departmentAlert = () => {
     this.setState({
       departmentAlert: true,
-      
     });
   };
-  semAlert=()=>{
+  semAlert = () => {
     this.setState({
-      semAlert:true
+      semAlert: true,
     });
   };
-componentDidMount(){
-  let subjectNames=[], subjectSems=[]
-  const { navigation } = this.props;
+  componentDidMount() {
+    let subjectNames = [],
+      subjectSems = [];
+    const { navigation } = this.props;
     const email = navigation.getParam("email");
     const name = navigation.getParam("name");
     const facultyDepartment = navigation.getParam("department");
     const mobile = navigation.getParam("mobile");
     const imageUrl = navigation.getParam("imageUrl");
-    const subjectInfo=navigation.getParam("subjectInfo");
-    for(var attributes in subjectInfo){
-      var subjectName= subjectInfo[attributes].subjectName;
-       var subjectSem = subjectInfo[attributes].subjectSem
-       subjectNames.push(subjectName);
-       subjectSems.push(subjectSem)
-      
+    const subjectInfo = navigation.getParam("subjectInfo");
+    for (var attributes in subjectInfo) {
+      var subjectName = subjectInfo[attributes].subjectName;
+      var subjectSem = subjectInfo[attributes].subjectSem;
+      subjectNames.push(subjectName);
+      subjectSems.push(subjectSem);
     }
-    
+
     this.setState({
-      name:name,
-      email:email,
-      facultyDepartment:facultyDepartment,
-      mobile:mobile,
-      imageUrl:imageUrl,
-      subjectNames:subjectNames,
-      subjectSems:subjectSems
-      
-    })
-    console.log(this.state.subjectNames)
-}
+      name: name,
+      email: email,
+      facultyDepartment: facultyDepartment,
+      mobile: mobile,
+      imageUrl: imageUrl,
+      subjectNames: subjectNames,
+      subjectSems: subjectSems,
+    });
+  }
   attendanceHandler = () => {
-    if (this.state.department == "" || this.state.department =='1') {
+    if (this.state.department == "" || this.state.department == "1") {
       this.departmentAlert();
-    } else if (this.state.selectedSem == "" || this.state.selectedSem=='1') {
+    } else if (this.state.selectedSem == "" || this.state.selectedSem == "1") {
       this.semAlert();
-    } else if (this.state.selectedSubject == "" || this.state.selectedSubject=='1') {
+    } else if (
+      this.state.selectedSubject == "" ||
+      this.state.selectedSubject == "1"
+    ) {
       this.subjectAlert();
-    } 
-    else if (this.state.date==""){
+    } else if (this.state.date == "") {
       this.dateAlert();
-    }
-    else {
+    } else {
       this.props.navigation.navigate("AddAttendance", {
         department: this.state.department,
         semester: this.state.selectedSem,
         subject: this.state.selectedSubject,
         date: this.state.date,
-        name:this.state.name,
-        email:this.state.email,
-        facultyDepartment:this.state.facultyDepartment,
-        imageUrl:this.state.imageUrl,
-        mobile:this.state.mobile,
-        
+        name: this.state.name,
+        email: this.state.email,
+        facultyDepartment: this.state.facultyDepartment,
+        imageUrl: this.state.imageUrl,
+        mobile: this.state.mobile,
       });
     }
   };
@@ -132,54 +127,94 @@ componentDidMount(){
       nextState.department != this.state.department ||
       nextState.semester != this.state.semester
     ) {
-      
-      
       var subjectList = [];
-     NetInfo.fetch().then( (state ) => {
-         if(state.isConnected!=true){
-          AsyncStorage.getItem(this.state.department 
-            + this.state.semester + "subjectList").then( val => {
-              if(val != null )
+      NetInfo.fetch().then((state) => {
+        if (state.isConnected != true) {
+          AsyncStorage.getItem(
+            this.state.department + this.state.semester + "subjectList"
+          ).then((val) => {
+            if (val != null)
               this.setState({
-                subjectList: JSON.parse(val)
+                subjectList: JSON.parse(val),
               });
-            });
-
-         }else{
-          Firebase.database()
-          .ref("Subjects")
-          .once("value")
-          .then(snapshot => {
-            var subjectInfo = snapshot.val();
-            var db_department = "";
-            var db_semester = "";
-            for (var attributes in subjectInfo) {
-              db_department = subjectInfo[attributes].department;
-              db_semester = subjectInfo[attributes].semester;
-              if (db_department === this.state.department) {
-                if (db_semester === this.state.semester) {
-                  var subjectData = subjectInfo[attributes].subjectName;
-                  subjectList.push(subjectData);
-                    this.setState({
-                      subjectList: subjectList
-                    });
-                    AsyncStorage.setItem( this.state.department 
-                      + this.state.semester + "subjectList", JSON.stringify(subjectList)); 
-                     
-                }
-                
-              }
-            }
-          })
-          .catch( error => {
-                     console.log( error );
           });
-    
-         }  
-     })
-     
+        } else {
+          Firebase.database()
+            .ref("Subjects")
+            .once("value")
+            .then((snapshot) => {
+              var subjectInfo = snapshot.val();
+              var db_department = "";
+              var db_semester = "";
+              for (var attributes in subjectInfo) {
+                db_department = subjectInfo[attributes].department;
+                db_semester = subjectInfo[attributes].semester;
+                if (db_department === this.state.department) {
+                  if (db_semester === this.state.semester) {
+                    var subjectData = subjectInfo[attributes].subjectName;
+                    subjectList.push(subjectData);
+                    this.setState({
+                      subjectList: subjectList,
+                    });
+                    AsyncStorage.setItem(
+                      this.state.department +
+                        this.state.semester +
+                        "subjectList",
+                      JSON.stringify(subjectList)
+                    );
+                  }
+                }
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
     }
   }
+  fetchAttendanceList = () => {
+    var db_department = "";
+    var db_semester = "";
+    var db_date = "";
+    var attendanceList = {};
+    var uid = "";
+    Firebase.database()
+      .ref("attendance")
+      .orderByChild("subject")
+      .equalTo(this.state.selectedSubject)
+      .once("value")
+      .then((snapshot) => {
+        const attendanceInfo = snapshot.val();
+
+        for (var attributes in attendanceInfo) {
+          db_department = attendanceInfo[attributes].department;
+          db_semester = attendanceInfo[attributes].semester;
+          db_date = attendanceInfo[attributes].date;
+          if (
+            db_department === this.state.department &&
+            db_semester == this.state.selectedSem &&
+            db_date === this.state.date
+          ) {
+            attendanceList = attendanceInfo[attributes].attendanceList;
+            uid = attributes;
+          }
+        }
+
+        if (Object.keys(attendanceList).length != 0) {
+          this.props.navigation.navigate("EditAttendance", {
+            attendanceList: attendanceList,
+            date: this.state.date,
+            semester: this.state.selectedSem,
+            subject: this.state.selectedSubject,
+            department: this.state.department,
+            uid: uid,
+          });
+        } else {
+          this.attendanceHandler();
+        }
+      });
+  };
 
   render() {
     let subjectItems = this.state.subjectNames.map((s, i) => {
@@ -188,8 +223,8 @@ componentDidMount(){
     let sems = this.state.subjectSems.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
     });
-    
-    const {departmentAlert,subjectAlert,semAlert,dateAlert } = this.state;
+
+    const { departmentAlert, subjectAlert, semAlert, dateAlert } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.fixSize}>
@@ -209,17 +244,17 @@ componentDidMount(){
                 top: 4,
                 marginLeft: 0,
                 marginTop: 4.2,
-                marginBottom: 25
+                marginBottom: 25,
               },
               dateInput: {
                 marginLeft: 36,
                 marginTop: 25,
                 marginBottom: 20,
                 fontWeight: "700",
-                marginRight: 10
-              }
+                marginRight: 10,
+              },
             }}
-            onDateChange={date => {
+            onDateChange={(date) => {
               this.setState({ date: date });
             }}
           />
@@ -247,7 +282,7 @@ componentDidMount(){
           <Picker
             selectedValue={this.state.selectedSem}
             style={{ height: 50, width: 220, marginLeft: "24%" }}
-            onValueChange={semLists =>
+            onValueChange={(semLists) =>
               this.setState({ selectedSem: semLists })
             }
           >
@@ -260,7 +295,7 @@ componentDidMount(){
           <Picker
             selectedValue={this.state.selectedSubject}
             style={{ height: 50, width: 220, marginLeft: "24%" }}
-            onValueChange={subjectLists =>
+            onValueChange={(subjectLists) =>
               this.setState({ selectedSubject: subjectLists })
             }
           >
@@ -269,9 +304,10 @@ componentDidMount(){
             {subjectItems}
           </Picker>
         </View>
+        
         <TouchableHighlight
           style={[styles.buttonContainer, styles.clickButton]}
-          onPress={() => this.attendanceHandler()}
+          onPress={() => this.fetchAttendanceList()}
         >
           <Text style={styles.clickText}>Submit</Text>
         </TouchableHighlight>
@@ -287,7 +323,7 @@ componentDidMount(){
           //cancelText="No, cancel"
           confirmText="OK !"
           contentContainerStyle={{
-            backgroundColor: "white"
+            backgroundColor: "white",
           }}
           confirmButtonColor="#10356c"
           onCancelPressed={() => {
@@ -309,7 +345,7 @@ componentDidMount(){
           //cancelText="No, cancel"
           confirmText="OK !"
           contentContainerStyle={{
-            backgroundColor: "white"
+            backgroundColor: "white",
           }}
           confirmButtonColor="#10356c"
           onCancelPressed={() => {
@@ -331,7 +367,7 @@ componentDidMount(){
           //cancelText="No, cancel"
           confirmText="OK !"
           contentContainerStyle={{
-            backgroundColor: "white"
+            backgroundColor: "white",
           }}
           confirmButtonColor="#10356c"
           onCancelPressed={() => {
@@ -341,7 +377,7 @@ componentDidMount(){
             this.hideAlert();
           }}
         />
- 
+
         <AwesomeAlert
           show={dateAlert}
           showProgress={false}
@@ -354,7 +390,7 @@ componentDidMount(){
           //cancelText="No, cancel"
           confirmText="OK !"
           contentContainerStyle={{
-            backgroundColor: "white"
+            backgroundColor: "white",
           }}
           confirmButtonColor="#10356c"
           onCancelPressed={() => {
@@ -364,7 +400,6 @@ componentDidMount(){
             this.hideAlert();
           }}
         />
- 
       </View>
     );
   }
@@ -375,13 +410,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    alignContent: "center"
+    alignContent: "center",
   },
   text: {
     fontSize: 20,
     alignSelf: "center",
     color: "#87ceeb",
-    fontWeight: "800"
+    fontWeight: "800",
   },
   headText: {
     fontWeight: "900",
@@ -389,11 +424,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 8,
     marginLeft: "5%",
-    marginBottom: "5%"
+    marginBottom: "5%",
   },
   fixSize: {
     justifyContent: "center",
-    flexDirection: "row"
+    flexDirection: "row",
   },
   buttonContainer: {
     height: 32,
@@ -405,13 +440,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
     marginRight: 15,
-    marginLeft: 60
+    marginLeft: 60,
   },
   clickButton: {
-    backgroundColor: "#00b5ec"
+    backgroundColor: "#00b5ec",
   },
   clickText: {
     color: "white",
-    fontWeight: "800"
-  }
+    fontWeight: "800",
+  },
 });
