@@ -16,6 +16,7 @@ import firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 import { LinearGradient } from "expo-linear-gradient";
 import NetInfo from "@react-native-community/netinfo";
+import { preventScreenCaptureAsync, allowScreenCaptureAsync } from 'expo-screen-capture';
 export default class LoginScreen extends Component {
   state = { date: "", email: "", password: "", language: "", errorMessage: "" };
   constructor(props) {
@@ -25,6 +26,7 @@ export default class LoginScreen extends Component {
     };
   }
   componentDidMount = () => {
+    preventScreenCaptureAsync(); 
     this.setState({
       loading: false,
     });

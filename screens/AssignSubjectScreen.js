@@ -4,12 +4,16 @@ import {
   Text,
   TextInput,
   View,
+  SafeAreaView,
   TouchableHighlight,
   Picker,
   Image,
 } from "react-native";
 import Firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
+function Separator() {
+  return <View style={styles.separator} />;
+}
 export default class AssignSubject extends Component {
   state = {
     email: "",
@@ -17,6 +21,8 @@ export default class AssignSubject extends Component {
     subjectList: [],
     semester: "",
     department: "",
+    assignView:false,
+    removeAssign:false
   };
   hideAlert = () => {
     this.setState({
@@ -40,6 +46,33 @@ export default class AssignSubject extends Component {
       assignSubAlert: true,
     });
   };
+  fetchSubject=()=>{
+    Firebase.database().ref("Faculty/").orderByChild("email").equalTo(this.state.email).once("value").then(res=>{
+      res.forEach(record=>{
+        Firebase.database().ref("Faculty/"+record.key+"/Subject/").once("value").then(snapshot=>{
+          var subjectInformation=snapshot.val();
+          var facultySubjectData=[]
+          for(var attributes in subjectInformation){
+            let obj ={};
+            obj.subjectName=subjectInformation[attributes].subjectName;
+            obj.subjectSem=subjectInformation[attributes].subjectSem;
+            obj.uid=attributes;
+            facultySubjectData.push(obj);
+          }
+          if(facultySubjectData.length!=0){
+            this.props.navigation.navigate("RemoveFacultySub",{
+              facultySubjectData:facultySubjectData,
+              email:this.state.email
+            })
+          }
+          else{
+            alert("No assigned subject found.")
+          }
+        })
+      })
+    })
+  
+  }
   assignSubject = () => {
     if (this.state.email != "") {
       if (this.state.department != "1") {
@@ -56,9 +89,8 @@ export default class AssignSubject extends Component {
                   subjectName: this.state.selectedSubject,
                   subjectSem: this.state.semester,
                 })
-                .catch(function (error) {
-                  console.log("Wrong Choice");
-                  console.log(error);
+                .catch((error) => {
+                 console.log(error.message)
                 });
               this.assignSubAlert();
               this.setState({
@@ -115,8 +147,32 @@ export default class AssignSubject extends Component {
       return <Picker.Item key={i} value={s} label={s} />;
     });
     const { emailAlert, departmentAlert, assignSubAlert } = this.state;
-    return (
-      <View style={styles.container}>
+    return (<View style={styles.container}>
+      <View style={styles.fixTotext}>
+      <TouchableHighlight
+      style={[styles.buttonContainer, styles.registerButton]}
+      onPress={() => this.setState({
+        assignView:true,
+        removeAssign:false
+      })}
+    >
+      <Text style={styles.registerText}>Assign Subject to Faculty</Text>
+    </TouchableHighlight>
+    <TouchableHighlight
+      style={[styles.buttonContainer, styles.registerButton]}
+      onPress={() => this.setState({
+        removeAssign:true,
+        assignView:false
+        
+      })}
+    >
+      <Text style={styles.registerText}>Remove Subject from Faculty</Text>
+    </TouchableHighlight>
+      </View>
+      <Separator/>
+      <Separator/>
+      {this.state.assignView===true?(
+      <View >
         <View style={styles.inputContainer}>
           <TextInput
             caretHidden
@@ -126,6 +182,7 @@ export default class AssignSubject extends Component {
             underlineColorAndroid="transparent"
             onChangeText={(email) => this.setState({ email })}
             value={this.state.email}
+            autoCapitalize="none"
             require
           />
         </View>
@@ -193,7 +250,7 @@ export default class AssignSubject extends Component {
         </View>
 
         <TouchableHighlight
-          style={[styles.buttonContainer, styles.registerButton]}
+          style={[styles.buttonContainerSearch, styles.registerButton]}
           onPress={() => this.assignSubject()}
         >
           <Text style={styles.registerText}>Assign</Text>
@@ -264,6 +321,33 @@ export default class AssignSubject extends Component {
             this.hideAlert();
           }}
         />
+      </View>):
+      null
+  }
+  {this.state.removeAssign===true?(<View>
+    <View style={styles.inputContainer}>
+          <TextInput
+            caretHidden
+            style={styles.inputs}
+            placeholder="Email"
+            keyboardType="email-address"
+            underlineColorAndroid="transparent"
+            onChangeText={(email) => this.setState({ email })}
+            value={this.state.email}
+            autoCapitalize="none"
+            require
+          />
+          
+        </View>
+        <TouchableHighlight
+          style={[styles.buttonContainerSearch, styles.registerButton]}
+          onPress={() => this.fetchSubject()}
+        >
+          <Text style={styles.registerText}>Search</Text>
+        </TouchableHighlight>
+  
+    </View>):null}
+    
       </View>
     );
   }
@@ -271,8 +355,9 @@ export default class AssignSubject extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    
     alignItems: "center",
+    
   },
   inputContainer: {
     borderBottomColor: "#fff8dc",
@@ -313,6 +398,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
+    marginRight:"1%",
+    width: "50%",
+    borderRadius: 10,
+  },
+  buttonContainerSearch: {
+    height: 45,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+    
     width: 250,
     borderRadius: 30,
   },
@@ -336,5 +432,10 @@ const styles = StyleSheet.create({
     color: "#D16713",
     fontSize: 17,
     marginLeft: 12,
+  },
+  separator: {
+    marginVertical: "5%",
+    borderBottomColor: "black",
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

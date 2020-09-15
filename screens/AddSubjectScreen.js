@@ -11,7 +11,9 @@ import {
 } from "react-native";
 import Firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
-
+function Separator() {
+  return <View style={styles.separator} />;
+}
 export default class AddFacultyScreen extends Component {
   constructor(props) {
     super();
@@ -189,6 +191,7 @@ subjectCodeAlert=()=>{
           >
             <Text style={styles.clickText}>Add Subject</Text>
           </TouchableHighlight>
+          <Separator/>
           <AwesomeAlert
             show={confirmAlert}
             showProgress={false}
@@ -310,7 +313,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "25%",
+    marginTop: "10%",
     marginLeft: 45,
     paddingBottom: 20
   },
@@ -375,5 +378,10 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     fontWeight: "600",
     color: "#d2691e"
-  }
+  },
+  separator: {
+    marginVertical: "3%",
+    borderBottomColor: "#737373",
+    borderBottomWidth: StyleSheet.hairlineWidth
+  },
 });

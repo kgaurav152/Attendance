@@ -30,6 +30,8 @@ class AttendanceScreen extends Component {
     imageUrl: "",
     subjectSems: [],
     subjectNames: [],
+    attendanceList:{},
+    uid:""
   };
   updateDepartment = (department) => {
     this.setState({ department: department });
@@ -46,6 +48,7 @@ class AttendanceScreen extends Component {
       departmentAlert: false,
       subjectAlert: false,
       dateAlert: false,
+      editAttendanceAlert:false
     });
   };
   dateAlert = () => {
@@ -200,22 +203,36 @@ class AttendanceScreen extends Component {
             uid = attributes;
           }
         }
-
+          this.setState({
+            attendanceList:attendanceList,
+            uid:uid
+          })
         if (Object.keys(attendanceList).length != 0) {
-          this.props.navigation.navigate("EditAttendance", {
-            attendanceList: attendanceList,
-            date: this.state.date,
-            semester: this.state.selectedSem,
-            subject: this.state.selectedSubject,
-            department: this.state.department,
-            uid: uid,
-          });
+          this.editAttendanceAlert();
+          
         } else {
           this.attendanceHandler();
         }
       });
   };
-
+editAttendanceAlert=()=>{
+  this.setState({
+    editAttendanceAlert:true
+  })
+}
+editAttendance=()=>{
+  this.props.navigation.navigate("EditAttendance", {
+    attendanceList: this.state.attendanceList,
+    date: this.state.date,
+    semester: this.state.selectedSem,
+    subject: this.state.selectedSubject,
+    department: this.state.department,
+    uid: this.state.uid,
+  });
+  this.setState({
+    editAttendanceAlert:false
+  })
+}
   render() {
     let subjectItems = this.state.subjectNames.map((s, i) => {
       return <Picker.Item key={i} value={s} label={s} />;
@@ -224,7 +241,7 @@ class AttendanceScreen extends Component {
       return <Picker.Item key={i} value={s} label={s} />;
     });
 
-    const { departmentAlert, subjectAlert, semAlert, dateAlert } = this.state;
+    const { departmentAlert, subjectAlert, semAlert, dateAlert,editAttendanceAlert } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.fixSize}>
@@ -331,6 +348,29 @@ class AttendanceScreen extends Component {
           }}
           onConfirmPressed={() => {
             this.hideAlert();
+          }}
+        />
+        <AwesomeAlert
+          show={editAttendanceAlert}
+          showProgress={false}
+          message="Do you want to update Attendance ?"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showCancelButton={true}
+          showConfirmButton={true}
+          cancelText="No, cancel"
+          confirmText="Yes!"
+          contentContainerStyle={{
+            backgroundColor: "white",
+            width:"100%",
+            height:"20%"
+          }}
+          confirmButtonColor="#10356c"
+          onCancelPressed={() => {
+            this.hideAlert();
+          }}
+          onConfirmPressed={() => {
+            this.editAttendance();
           }}
         />
         <AwesomeAlert

@@ -57,10 +57,12 @@ import FindFacultyScreen from "../screens/FindFacultyScreen";
 import AddLeaveToFacultyScreen from "../screens/AddLeaveToFacultyScreen";
 import LeaveRequestStatusScreen from "../screens/LeaveRequestStatusScreen";
 import RegisterUserScreen from "../screens/RegisterUserScreen";
-
 import Allstudents from "../screens/Allstudents";
 import HandleRegistrationScreen from "../screens/HandleRegistrationScreen";
 import EditAttendanceScreen from "../screens/EditAttendanceScreen";
+import SubjectScreen from "../screens/SubjectScreen";
+import RemoveSubjectScreen from "../screens/RemoveSubjectScreen";
+import RemoveFacultySubScreen from "../screens/RemoveFacultySubScreen";
 class NavigationDrawerStructure extends Component {
   toggleDrawer = () => {
     this.props.navigationProps.toggleDrawer();
@@ -282,6 +284,66 @@ const Admin_StackNavigator = createStackNavigator({
   },
   AddSubject: {
     screen: AddSubjectScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  Subject: {
+    screen: SubjectScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  RemoveSubject: {
+    screen: RemoveSubjectScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: "Katihar Engg. College",
+      headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+      headerRight: <ActionBarImage />,
+      headerStyle: {
+        backgroundColor: "#09C5F7",
+      },
+      headerTintColor: "#fff",
+      headerBackground: (
+        <LinearGradient
+          colors={["#a13388", "#10356c"]}
+          style={{ flex: 1 }}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+        />
+      ),
+    }),
+  },
+  RemoveFacultySub: {
+    screen: RemoveFacultySubScreen,
     navigationOptions: ({ navigation }) => ({
       title: "Katihar Engg. College",
       headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,

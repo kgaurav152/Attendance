@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import * as Notifications from 'expo-notifications';
 
+
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import Firebase from "../components/config";
@@ -113,8 +114,11 @@ export default class Homescreen extends Component {
     await Updates.reloadAsync();
     
   }
+  
  componentDidMount() {
- 
+  
+  
+
   this.updateAsync();
    this.registerForPushNotificationsAsync();
    Notifications.addNotificationReceivedListener(this._handleNotification);

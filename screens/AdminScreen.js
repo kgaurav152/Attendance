@@ -65,9 +65,9 @@ export default class AdminScreen extends Component {
           </TouchableHighlight>
           <TouchableHighlight
             style={[styles.buttonContainer, styles.clickButton]}
-            onPress={() => this.props.navigation.navigate("AddSubject")}
+            onPress={() => this.props.navigation.navigate("Subject")}
           >
-            <Text style={styles.clickText}>Add Subject</Text>
+            <Text style={styles.clickText}>Subject</Text>
           </TouchableHighlight>
         </View>
         <Separator />
