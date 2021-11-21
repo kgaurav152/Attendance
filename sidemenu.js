@@ -1,8 +1,6 @@
 /*Example of Navigation Drawer with Sectioned Menu*/
 
-import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { NavigationActions, createStackNavigator } from "react-navigation";
 import Home from "./screens/HomeScreen";
 import { Ionicons } from "@expo/vector-icons";
 

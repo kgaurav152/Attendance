@@ -4,13 +4,12 @@ import {
   Text,
   TextInput,
   View,
-  Button,
   Image,
   TouchableHighlight,
-  Picker,
-  Alert,
   ScrollView,
+    Picker,
 } from "react-native";
+//import {Picker as SelectPicker} from '@react-native-picker/picker';
 import Firebase from "../components/config";
 import AwesomeAlert from "react-native-awesome-alerts";
 
@@ -138,14 +137,13 @@ export default class RegisterUserScreen extends Component {
       this.semAlert();
     } else if (
       this.state.email == null ||
-      this.state.email == "" ||
-      this.state.email == undefined
+      this.state.email === "" ||
+      this.state.email === undefined
     ) {
       this.emailAlert();
     } else if (
       this.state.mobile == null ||
-      this.state.mobile == undefined ||
-      this.state.mobile == ""
+      this.state.mobile === ""
     ) {
       this.mobileAlert();
     } else {
@@ -228,27 +226,27 @@ export default class RegisterUserScreen extends Component {
               source={require("../images/department.jpg")}
             />
 
-            <Picker
+            <SelectPicker
               selectedValue={this.state.department}
               style={{ height: 50, width: 180, marginLeft: "5%" }}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ department: itemValue })
               }
             >
-              <Picker.Item label="Select Department" value="department" />
-              <Picker.Item
+              <SelectPicker.Item label="Select Department" value="department" />
+              <SelectPicker.Item
                 label="Civil Engineering"
                 value="Civil Engineering"
               />
-              <Picker.Item
+              <SelectPicker.Item
                 label="Mechanical Engineering"
                 value="Mechanical Engineering"
               />
-              <Picker.Item
+              <SelectPicker.Item
                 label="Computer Sc. & Engineering"
                 value="Computer Sc. & Engineering"
               />
-            </Picker>
+            </SelectPicker>
           </View>
 
           <View style={styles.inputContainer}>

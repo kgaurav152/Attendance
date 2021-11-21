@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import {
-  createStackNavigator,
-  createSwitchNavigator,
   createAppContainer,
-  createDrawerNavigator,
-  createBottomTabNavigator,
 } from "react-navigation";
+import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from "react-navigation-drawer"
 import {
   Text,
   View,
